@@ -129,6 +129,8 @@ namespace GOL
         (
             [ & ]( const Screen & s, int c )
             {
+                bool colors( this->_grid.colors() );
+                
                 ( void )s;
                 
                 if( c == 'q' )
@@ -155,33 +157,47 @@ namespace GOL
                 
                 if( c == 'n' )
                 {
-                    this->_grid   = Grid( this->_screen.width(), this->_screen.height() - 8, this->_screen );
+                    this->_grid   = Grid( this->_screen.width(), this->_screen.height() - 8, this->_screen, Grid::Type::Random );
                     this->_menu   = false;
                     this->_paused = false;
+                    
+                    this->_grid.colors( colors );
                 }
                 
                 if( c == '1' )
                 {
+                    this->_grid   = Grid( this->_screen.width(), this->_screen.height() - 8, this->_screen, Grid::Type::StillLife );
                     this->_menu   = false;
                     this->_paused = false;
+                    
+                    this->_grid.colors( colors );
                 }
                 
                 if( c == '2' )
                 {
+                    this->_grid   = Grid( this->_screen.width(), this->_screen.height() - 8, this->_screen, Grid::Type::Oscillators );
                     this->_menu   = false;
                     this->_paused = false;
+                    
+                    this->_grid.colors( colors );
                 }
                 
                 if( c == '3' )
                 {
+                    this->_grid   = Grid( this->_screen.width(), this->_screen.height() - 8, this->_screen, Grid::Type::Spaceships );
                     this->_menu   = false;
                     this->_paused = false;
+                    
+                    this->_grid.colors( colors );
                 }
                 
                 if( c == '4' )
                 {
+                    this->_grid   = Grid( this->_screen.width(), this->_screen.height() - 8, this->_screen, Grid::Type::GospersGuns );
                     this->_menu   = false;
                     this->_paused = false;
+                    
+                    this->_grid.colors( colors );
                 }
                 
                 if( c == '<' )
@@ -192,6 +208,14 @@ namespace GOL
                 if( c == '>' )
                 {
                     this->_screen.increaseSpeed();
+                }
+                
+                if( c == 'a' )
+                {
+                    this->_menu   = false;
+                    this->_paused = false;
+                    
+                    this->_grid.colors( ( this->_grid.colors() ) ? false : true );
                 }
             }
         );
@@ -261,7 +285,8 @@ namespace GOL
             "    [ 1 ]: Example Grid #1 - Still life",
             "    [ 2 ]: Example Grid #2 - Oscillators",
             "    [ 3 ]: Example Grid #3 - Spaceships",
-            "    [ 4 ]: Example Grid #4 - Guns",
+            "    [ 4 ]: Example Grid #4 - Gosper's Guns",
+            "    [ a ]: Toggle colors",
             "    [ c ]: Continue (exit menu)",
             "    [ q ]: Quit"
         };

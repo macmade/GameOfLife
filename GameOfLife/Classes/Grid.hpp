@@ -36,7 +36,16 @@ namespace GOL
     {
         public:
             
-            Grid( std::size_t width, std::size_t height, const Screen & screen );
+            enum class Type: int
+            {
+                Random,
+                StillLife,
+                Oscillators,
+                Spaceships,
+                GospersGuns
+            };
+            
+            Grid( std::size_t width, std::size_t height, const Screen & screen, Type type = Type::Random );
             Grid( const Grid & o );
             Grid( Grid && o ) noexcept;
             ~Grid( void );
@@ -47,6 +56,9 @@ namespace GOL
             uint64_t turns( void )      const;
             
             void resize( std::size_t width, std::size_t height );
+            
+            bool colors( void ) const;
+            void colors( bool value );
             
             void draw( std::size_t x, std::size_t y ) const;
             void next( void );

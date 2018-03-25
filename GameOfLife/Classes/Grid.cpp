@@ -37,7 +37,7 @@ namespace GOL
     {
         public:
             
-            IMPL( std::size_t width, std::size_t height, const Screen & screen );
+            IMPL( std::size_t width, std::size_t height, const Screen & screen, Type type );
             IMPL( const IMPL & o );
             
             OptionalReference< Cell >                     _cellAt( std::size_t x, std::size_t y );
@@ -45,15 +45,22 @@ namespace GOL
             std::size_t                                   _numberOfAdjacentLivingCells( std::size_t x, std::size_t y );
             std::size_t                                   _numberOfLivingCells( void );
             
+            void _setupRandomGrid( void );
+            void _setupStillLifeGrid( void );
+            void _setupOscillatorsGrid( void );
+            void _setupSpaceshipsGrid( void );
+            void _setupGospersGunsGrid( void );
+            
             const Screen                     & _screen;
             std::size_t                        _width;
             std::size_t                        _height;
+            bool                               _colors;
             uint64_t                           _turns;
             std::vector< std::vector< Cell > > _cells;
     };
     
-    Grid::Grid( std::size_t width, std::size_t height, const Screen & screen ):
-        impl( std::make_shared< IMPL >( width, height, screen ) )
+    Grid::Grid( std::size_t width, std::size_t height, const Screen & screen, Type type ):
+        impl( std::make_shared< IMPL >( width, height, screen, type ) )
     {}
     
     Grid::Grid( const Grid & o ):
@@ -92,6 +99,16 @@ namespace GOL
     uint64_t Grid::turns( void ) const
     {
         return this->impl->_turns;
+    }
+    
+    bool Grid::colors( void ) const
+    {
+        return this->impl->_colors;
+    }
+    
+    void Grid::colors( bool value )
+    {
+        this->impl->_colors = value;
     }
     
     void Grid::resize( std::size_t width, std::size_t height )
@@ -148,21 +165,21 @@ namespace GOL
                 
                 if( cell.value().isAlive() )
                 {
-                    if( this->impl->_screen.supportsColors() )
+                    if( this->impl->_colors && this->impl->_screen.supportsColors() )
                     {
                         ::attron( attr );
                     }
                     
                     ::printw( "o" );
                     
-                    if( this->impl->_screen.supportsColors() )
+                    if( this->impl->_colors && this->impl->_screen.supportsColors() )
                     {
                         ::attroff( attr );
                     }
                 }
                 else
                 {
-                    if( this->impl->_screen.supportsColors() )
+                    if( this->impl->_colors && this->impl->_screen.supportsColors() )
                     {
                         ::attroff( COLOR_PAIR( 1 ) );
                         ::attroff( COLOR_PAIR( 2 ) );
@@ -225,10 +242,11 @@ namespace GOL
         swap( o1.impl, o2.impl );
     }
     
-    Grid::IMPL::IMPL( std::size_t width, std::size_t height, const Screen & screen ):
+    Grid::IMPL::IMPL( std::size_t width, std::size_t height, const Screen & screen, Type type ):
         _screen( screen ),
         _width( width ),
         _height( height ),
+        _colors( true ),
         _turns( 0 )
     {
         this->_cells.resize( this->_height );
@@ -238,12 +256,25 @@ namespace GOL
             this->_cells[ i ].resize( this->_width );
         }
         
-        for( auto & row: this->_cells )
+        if( type == Type::Random )
         {
-            for( auto & cell: row )
-            {
-                cell.isAlive( arc4random() % 3 == 1 );
-            }
+            this->_setupRandomGrid();
+        }
+        else if( type == Type::StillLife )
+        {
+            this->_setupStillLifeGrid();
+        }
+        else if( type == Type::Oscillators )
+        {
+            this->_setupOscillatorsGrid();
+        }
+        else if( type == Type::Spaceships )
+        {
+            this->_setupSpaceshipsGrid();
+        }
+        else if( type == Type::GospersGuns )
+        {
+            this->_setupGospersGunsGrid();
         }
     }
     
@@ -252,6 +283,7 @@ namespace GOL
         _width( o._width ),
         _height( o._height ),
         _cells( o._cells ),
+        _colors( o._colors ),
         _turns( o._turns )
     {}
     
@@ -321,5 +353,71 @@ namespace GOL
         }
         
         return n;
+    }
+    
+    void Grid::IMPL::_setupRandomGrid( void )
+    {
+        for( auto & row: this->_cells )
+        {
+            for( auto & cell: row )
+            {
+                cell.isAlive( arc4random() % 3 == 1 );
+            }
+        }
+    }
+    
+    void Grid::IMPL::_setupStillLifeGrid( void )
+    {}
+    
+    void Grid::IMPL::_setupOscillatorsGrid( void )
+    {}
+    
+    void Grid::IMPL::_setupSpaceshipsGrid( void )
+    {}
+    
+    void Grid::IMPL::_setupGospersGunsGrid( void )
+    {
+        std::vector< std::vector< int > > c
+        {
+            {
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0 },
+                { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+            }
+        };
+        
+        if( this->_cells.size() < c.size() )
+        {
+            return;
+        }
+        
+        if( this->_cells[ 0 ].size() < c[ 0 ].size() )
+        {
+            return;
+        }
+        
+        for( std::size_t i = 0; i < c.size(); i++ )
+        {
+            for( std::size_t j = 0; j < this->_cells[ i ].size(); j += c[ i ].size() )
+            {
+                if( j + c[ i ].size() > this->_cells[ i ].size() )
+                {
+                    continue;
+                }
+                
+                for( std::size_t k = 0; k < c[ i ].size(); k++ )
+                {
+                    this->_cells[ i ][ j + k ].isAlive( c[ i ][ k ] == 1 );
+                }
+            }
+        }
     }
 }
