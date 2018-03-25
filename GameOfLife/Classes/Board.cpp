@@ -212,8 +212,7 @@ namespace GOL
                 
                 if( c == 'a' )
                 {
-                    this->_menu   = false;
-                    this->_paused = false;
+                    this->_menu = false;
                     
                     this->_grid.colors( ( this->_grid.colors() ) ? false : true );
                 }
