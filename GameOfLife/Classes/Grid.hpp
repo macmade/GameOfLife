@@ -22,63 +22,41 @@
  * THE SOFTWARE.
  ******************************************************************************/
 
-#include "Cell.hpp"
-#include <algorithm>
+#ifndef GOL_GRID_HPP
+#define GOL_GRID_HPP
+
+#include <cstdlib>
+#include <memory>
 
 namespace GOL
 {
-    Cell::Cell( void ):
-        _alive( false ),
-        _age( 0 )
-    {}
+    class Screen;
     
-    Cell::Cell( const Cell & o ):
-        _alive( o._alive ),
-        _age( o._age )
-    {}
-    
-    Cell::Cell( Cell && o ) noexcept:
-        _alive( o._alive ),
-        _age( o._age )
-    {}
-    
-    Cell::~Cell( void )
-    {}
-    
-    Cell & Cell::operator =( Cell o )
+    class Grid
     {
-        swap( *( this ), o );
-        
-        return *( this );
-    }
-    
-    bool Cell::isAlive( void ) const
-    {
-        return this->_alive;
-    }
-    
-    void Cell::isAlive( bool value )
-    {
-        this->_age   = ( value ) ? 1 : 0;
-        this->_alive = value;
-    }
-    
-    uint64_t Cell::age( void ) const
-    {
-        return this->_age;
-    }
-    
-    void Cell::age( uint64_t value )
-    {
-        this->_age = value;
-    }
-    
-    void swap( Cell & o1, Cell & o2 )
-    {
-        using std::swap;
-        
-        swap( o1._alive, o2._alive );
-        swap( o1._age,   o2._age );
-    }
+        public:
+            
+            Grid( std::size_t width, std::size_t height, const Screen & screen );
+            Grid( const Grid & o );
+            Grid( Grid && o ) noexcept;
+            ~Grid( void );
+            
+            Grid & operator =( Grid o );
+            
+            uint64_t population( void ) const;
+            uint64_t turns( void )      const;
+            
+            void draw( std::size_t x, std::size_t y ) const;
+            void next( void );
+            
+            friend void swap( Grid & o1, Grid & o2 );
+            
+        private:
+            
+            class IMPL;
+            
+            std::shared_ptr< IMPL > impl;
+    };
 }
 
+#endif /* GOL_GRID_HPP */

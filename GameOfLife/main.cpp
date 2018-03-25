@@ -33,29 +33,11 @@
 
 int main( void )
 {
-    int         c;
     GOL::Screen screen;
     GOL::Board  board( screen );
     
-    screen.update( [ & ] { board.draw(); } );
-    screen.update( [ & ] { board.next(); } );
-    
-    while( 1 )
-    {
-        c = getch();
-        
-        if( c == ' ' )
-        {
-            if( screen.isRunning() )
-            {
-                screen.pause();
-            }
-            else
-            {
-                screen.start();
-            }
-        }
-    }
+    screen.clear();
+    screen.run();
     
     return EXIT_SUCCESS;
 }

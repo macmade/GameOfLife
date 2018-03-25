@@ -30,7 +30,7 @@
 #include <thread>
 #include <chrono>
 #include <vector>
-#include <mutex>
+#include <poll.h>
 #include <condition_variable>
 
 namespace GOL
@@ -41,18 +41,16 @@ namespace GOL
             
             IMPL( void );
             IMPL( const IMPL & o );
-            IMPL( const IMPL & o, const std::lock_guard< std::recursive_mutex > & l );
             
-            void _run( void );
-            void _wait( void );
+            std::vector< std::function< void( const Screen & screen ) > >      _onResize;
+            std::vector< std::function< void( const Screen & screen, int ) > > _onKeyPress;
+            std::vector< std::function< void( const Screen & screen ) > >      _onUpdate;
             
-            std::vector< std::function< void( void ) > > _updates;
-            std::size_t                                  _width;
-            std::size_t                                  _height;
-            bool                                         _colors;
-            mutable std::recursive_mutex                 _rmtx;
-            std::condition_variable_any                  _cv;
-            bool                                         _running;
+            std::size_t  _width;
+            std::size_t  _height;
+            bool         _colors;
+            bool         _running;
+            unsigned int _speed;
     };
     
     Screen::Screen( void ):
@@ -60,22 +58,22 @@ namespace GOL
     {
         struct winsize s;
         
-        initscr();
+        ::initscr();
         
-        if( has_colors() )
+        if( ::has_colors() )
         {
             this->impl->_colors = true;
             
-            start_color();
+            ::start_color();
         }
         
-        clear();
-        noecho();
-        cbreak();
-        keypad( stdscr, true );
-        refresh();
-    
-        ioctl( STDOUT_FILENO, TIOCGWINSZ, &s );
+        this->clear();
+        ::noecho();
+        ::cbreak();
+        ::keypad( stdscr, true );
+        this->refresh();
+        
+        ::ioctl( STDOUT_FILENO, TIOCGWINSZ, &s );
         
         this->impl->_width  = s.ws_col;
         this->impl->_height = s.ws_row;
@@ -91,9 +89,9 @@ namespace GOL
     
     Screen::~Screen( void )
     {
-        clrtoeol();
+        ::clrtoeol();
         refresh();
-        endwin();
+        ::endwin();
     }
     
     Screen & Screen::operator =( Screen o )
@@ -105,142 +103,143 @@ namespace GOL
     
     std::size_t Screen::width( void ) const
     {
-        std::lock_guard< std::recursive_mutex > l( this->impl->_rmtx );
-        
         return this->impl->_width;
     }
     
     std::size_t Screen::height( void ) const
     {
-        std::lock_guard< std::recursive_mutex > l( this->impl->_rmtx );
-        
         return this->impl->_height;
+    }
+    
+    void Screen::increaseSpeed( void )
+    {
+        if( this->impl->_speed < 10 )
+        {
+            this->impl->_speed++;
+        }
+    }
+    
+    void Screen::decreaseSpeed( void )
+    {
+        if( this->impl->_speed != 0 )
+        {
+            this->impl->_speed--;
+        }
+    }
+    
+    unsigned int Screen::speed( void ) const
+    {
+        return this->impl->_speed;
     }
     
     bool Screen::supportsColors( void ) const
     {
-        std::lock_guard< std::recursive_mutex > l( this->impl->_rmtx );
-        
         return this->impl->_colors;
     }
     
     bool Screen::isRunning( void ) const
     {
-        std::lock_guard< std::recursive_mutex > l( this->impl->_rmtx );
-        
         return this->impl->_running;
     }
     
-    void Screen::update( const std::function< void( void ) > & f )
+    void Screen::run( void ) const
     {
-        std::lock_guard< std::recursive_mutex > l( this->impl->_rmtx );
-        
-        this->impl->_updates.push_back( f );
+        while( 1 )
+        {
+            struct winsize s;
+            
+            ::ioctl( STDOUT_FILENO, TIOCGWINSZ, &s );
+            
+            if( s.ws_col != this->impl->_width || s.ws_row != this->impl->_height )
+            {
+                this->impl->_width  = s.ws_col;
+                this->impl->_height = s.ws_row;
+                
+                for( const auto & f: this->impl->_onResize )
+                {
+                    f( *( this ) );
+                }
+            }
+            
+            {
+                static struct pollfd p;
+                int                  c;
+                
+                memset( &p, 0, sizeof( p ) );
+                
+                p.fd      = 0;
+                p.events  = POLLIN;
+                p.revents = 0;
+                
+                if( poll( &p, 1, 0 ) > 0 )
+                {
+                    c = getc( stdin );
+                    
+                    for( const auto & f: this->impl->_onKeyPress )
+                    {
+                        f( *( this ), c );
+                    }
+                }
+            }
+            
+            this->clear();
+            
+            for( const auto & f: this->impl->_onUpdate )
+            {
+                f( *( this ) );
+            }
+            
+            this->refresh();
+            
+            std::this_thread::sleep_for( std::chrono::milliseconds( 50 * ( 10 - this->impl->_speed ) ) );
+        }
     }
     
-    void Screen::start( void )
+    void Screen::clear( void ) const
     {
-        std::lock_guard< std::recursive_mutex > l( this->impl->_rmtx );
-        
-        if( this->impl->_running )
-        {
-            return;
-        }
-        
-        this->impl->_running = true;
-        
-        this->impl->_cv.notify_all();
+        ::clear();
     }
     
-    void Screen::pause( void )
+    void Screen::refresh( void ) const
     {
-        std::lock_guard< std::recursive_mutex > l( this->impl->_rmtx );
-        
-        if( this->impl->_running == false )
-        {
-            return;
-        }
-        
-        this->impl->_running = false;
-        
-        this->impl->_cv.notify_all();
+        ::refresh();
+    }
+    
+    void Screen::onResize( const std::function< void( const Screen & screen ) > & f )
+    {
+        this->impl->_onResize.push_back( f );
+    }
+    
+    void Screen::onKeyPress( const std::function< void( const Screen & screen, int key ) > & f )
+    {
+        this->impl->_onKeyPress.push_back( f );
+    }
+    
+    void Screen::onUpdate( const std::function< void( const Screen & screen ) > & f )
+    {
+        this->impl->_onUpdate.push_back( f );
     }
     
     void swap( Screen & o1, Screen & o2 )
     {
-        std::lock( o1.impl->_rmtx, o2.impl->_rmtx );
+        using std::swap;
         
-        {
-            std::lock_guard< std::recursive_mutex > l1( o1.impl->_rmtx, std::adopt_lock );
-            std::lock_guard< std::recursive_mutex > l2( o2.impl->_rmtx, std::adopt_lock );
-            
-            using std::swap;
-            
-            swap( o1.impl,  o2.impl );
-        }
+        swap( o1.impl,  o2.impl );
     }
     
     Screen::IMPL::IMPL( void ):
         _width( 0 ),
         _height( 0 ),
         _colors( false ),
-        _running( false )
-    {
-        this->_run();
-    }
+        _running( false ),
+        _speed( 5 )
+    {}
     
     Screen::IMPL::IMPL( const IMPL & o ):
-        IMPL( o, std::lock_guard< std::recursive_mutex >( o._rmtx ) )
-    {
-        this->_run();
-    }
-    
-    Screen::IMPL::IMPL( const IMPL & o, const std::lock_guard< std::recursive_mutex > & l ):
         _width( o._width ),
         _height( o._height ),
         _colors( o._colors ),
-        _running( o._running )
-    {
-        ( void )l;
-        
-        this->_run();
-    }
-    
-    void Screen::IMPL::_run( void )
-    {
-        std::thread
-        (
-            [ this ]
-            {
-                while( 1 )
-                {
-                    this->_wait();
-                    refresh();
-                    
-                    for( const auto & f: this->_updates )
-                    {
-                        refresh();
-                        f();
-                        refresh();
-                        this->_wait();
-                    }
-                    
-                    refresh();
-                    std::this_thread::sleep_for( std::chrono::milliseconds( 10 ) );
-                }
-            }
-        )
-        .detach();
-    }
-    
-    void Screen::IMPL::_wait( void )
-    {
-        std::unique_lock< std::recursive_mutex > l( this->_rmtx );
-        
-        this->_cv.wait
-        (
-            l,
-            [ this ] { return this->_running; }
-        );
-    }
+        _running( o._running ),
+        _speed( o._speed )
+    {}
 }

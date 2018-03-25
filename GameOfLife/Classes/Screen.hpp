@@ -45,12 +45,19 @@ namespace GOL
             std::size_t width( void )  const;
             std::size_t height( void ) const;
             
+            void increaseSpeed( void );
+            void decreaseSpeed( void );
+            
+            unsigned int speed( void )  const;
             bool supportsColors( void ) const;
             bool isRunning( void )      const;
+            void run( void )            const;
+            void clear( void )          const;
+            void refresh( void )        const;
             
-            void update( const std::function< void( void ) > & f );
-            void start( void );
-            void pause( void );
+            void onResize( const std::function<   void( const Screen & screen ) > & f );
+            void onKeyPress( const std::function< void( const Screen & screen, int key ) > & f );
+            void onUpdate( const std::function<   void( const Screen & screen ) > & f );
             
             friend void swap( Screen & o1, Screen & o2 );
             

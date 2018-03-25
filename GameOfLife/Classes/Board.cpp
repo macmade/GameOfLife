@@ -24,13 +24,12 @@
 
 #include "Board.hpp"
 #include "Screen.hpp"
-#include "Cell.hpp"
-#include "OptionalReference.hpp"
+#include "Grid.hpp"
 #include <algorithm>
 #include <ncurses.h>
 #include <vector>
 #include <cstdint>
-#include <mutex>
+#include <string>
 
 namespace GOL
 {
@@ -40,17 +39,15 @@ namespace GOL
             
             IMPL( Screen & screen );
             IMPL( const IMPL & o );
-            IMPL( const IMPL & o, const std::lock_guard< std::recursive_mutex > & l );
             
-            OptionalReference< Cell >                     _cellAt( std::size_t x, std::size_t y );
-            std::vector< std::reference_wrapper< Cell > > _adjacentCells( std::size_t x, std::size_t y );
-            std::size_t                                   _numberOfAdjacentLivingCells( std::size_t x, std::size_t y );
+            void _setup( void );
+            void _draw( void ) const;
+            void _drawMenu( void ) const;
             
-            Screen                           & _screen;
-            std::size_t                        _width;
-            std::size_t                        _height;
-            std::vector< std::vector< Cell > > _cells;
-            mutable std::recursive_mutex       _rmtx;
+            Grid     _grid;
+            Screen & _screen;
+            bool     _paused;
+            bool     _menu;
     };
     
     Board::Board( Screen & screen ):
@@ -75,196 +72,196 @@ namespace GOL
         return *( this );
     }
     
-    void Board::draw( void ) const
-    {
-        std::lock_guard< std::recursive_mutex > l( this->impl->_rmtx );
-        
-        if( this->impl->_screen.supportsColors() )
-        {
-            init_pair( 1, COLOR_WHITE, COLOR_RED );
-            init_pair( 2, COLOR_WHITE, COLOR_YELLOW );
-            init_pair( 3, COLOR_WHITE, COLOR_GREEN );
-            init_pair( 4, COLOR_WHITE, COLOR_CYAN );
-            init_pair( 5, COLOR_WHITE, COLOR_BLUE );
-            init_pair( 6, COLOR_WHITE, COLOR_MAGENTA );
-        }
-        
-        for( std::size_t i = 0; i < this->impl->_height; i++ )
-        {
-            for( std::size_t j = 0; j < this->impl->_width; j++ )
-            {
-                OptionalReference< Cell > cell( this->impl->_cellAt( j, i ) );
-                
-                if( cell == false )
-                {
-                    continue;
-                }
-                
-                if( this->impl->_screen.supportsColors() )
-                {
-                    attron( COLOR_PAIR( ( cell.value().age() <= 6 ) ? cell.value().age() : 6 ) );
-                }
-                
-                if( cell.value().isAlive() )
-                {
-                    if( this->impl->_screen.supportsColors() )
-                    {
-                       mvaddch( i, j, 32 );
-                    }
-                    else
-                    {
-                       mvaddch( i, j, '.' );
-                    }
-                }
-                else
-                {
-                    mvaddch( i, j, 10 );
-                }
-            }
-        }
-    }
-    
-    void Board::next( void )
-    {
-        std::lock_guard< std::recursive_mutex > l( this->impl->_rmtx );
-        auto                                    cells( this->impl->_cells );
-        
-        for( std::size_t i = 0; i < cells.size(); i++ )
-        {
-            for( std::size_t j = 0; j < cells[ i ].size(); j++ )
-            {
-                Cell &      cell( cells[ i ][ j ] );
-                bool        alive( cell.isAlive() );
-                std::size_t count( this->impl->_numberOfAdjacentLivingCells( j, i ) );
-                
-                if( alive && count < 2 )
-                {
-                    cell.isAlive( false );
-                }
-                else if( alive && count > 3 )
-                {
-                    cell.isAlive( false );
-                }
-                else if( alive == false && count == 3 )
-                {
-                    cell.isAlive( true );
-                }
-                
-                if( alive && cell.isAlive() && cell.age() < UINT64_MAX )
-                {
-                    cell.age( cell.age() + 1 );
-                }
-            }
-        }
-        
-        this->impl->_cells = cells;
-    }
-    
     void swap( Board & o1, Board & o2 )
     {
-        std::lock( o1.impl->_rmtx, o2.impl->_rmtx );
+        using std::swap;
         
-        {
-            std::lock_guard< std::recursive_mutex > l1( o1.impl->_rmtx, std::adopt_lock );
-            std::lock_guard< std::recursive_mutex > l2( o2.impl->_rmtx, std::adopt_lock );
-            
-            using std::swap;
-            
-            swap( o1.impl, o2.impl );
-        }
+        swap( o1.impl, o2.impl );
     }
     
     Board::IMPL::IMPL( Screen & screen ):
+        _grid( screen.width(), screen.height() - 8, screen ),
         _screen( screen ),
-        _width( 0 ),
-        _height( 0 )
+        _paused( false )
     {
-        this->_width  = 50;
-        this->_height = 50;
-        
-        this->_cells.resize( this->_height );
-        
-        for( std::size_t i = 0; i < this->_height; i++ )
-        {
-            this->_cells[ i ].resize( this->_width );
-        }
-        
-        for( auto & row: this->_cells )
-        {
-            for( auto & cell: row )
-            {
-                cell.isAlive( arc4random() % 3 == 1 );
-            }
-        }
+        this->_setup();
     }
     
     Board::IMPL::IMPL( const IMPL & o ):
-        IMPL( o, std::lock_guard< std::recursive_mutex >( o._rmtx ) )
-    {}
-    
-    Board::IMPL::IMPL( const IMPL & o, const std::lock_guard< std::recursive_mutex > & l ):
+        _grid( o._grid ),
         _screen( o._screen ),
-        _width( o._width ),
-        _height( o._height ),
-        _cells( o._cells )
+        _paused( o._paused )
     {
-        ( void )l;
+        this->_setup();
     }
     
-    OptionalReference< Cell > Board::IMPL::_cellAt( std::size_t x, std::size_t y )
+    void Board::IMPL::IMPL::_setup( void )
     {
-        std::lock_guard< std::recursive_mutex > l( this->_rmtx );
+        this->_screen.onUpdate
+        (
+            [ & ]( const Screen & s )
+            {
+                ( void )s;
+                
+                this->_draw();
+                
+                if( this->_menu == false )
+                {
+                    this->_grid.draw( 0, 5 );
+                }
+                
+                if( this->_paused == false )
+                {
+                    this->_grid.next();
+                }
+            }
+        );
         
-        if( y >= this->_cells.size() )
-        {
-            return {};
-        }
-        
-        if( x >= this->_cells[ y ].size() )
-        {
-            return {};
-        }
-        
-        return this->_cells[ y ][ x ];
+        this->_screen.onKeyPress
+        (
+            [ & ]( const Screen & s, int c )
+            {
+                ( void )s;
+                
+                if( c == 'q' )
+                {
+                    exit( 0 );
+                }
+                
+                if( c == ' ' )
+                {
+                    this->_paused = ( this->_paused ) ? false : true;
+                }
+                
+                if( c == 'm' )
+                {
+                    this->_paused = true;
+                    this->_menu   = true;
+                }
+                
+                if( c == 'c' )
+                {
+                    this->_paused = false;
+                    this->_menu   = false;
+                }
+                
+                if( c == 'n' )
+                {
+                    this->_grid   = Grid( this->_screen.width(), this->_screen.height() - 8, this->_screen );
+                    this->_menu   = false;
+                    this->_paused = false;
+                }
+                
+                if( c == '1' )
+                {
+                    this->_menu   = false;
+                    this->_paused = false;
+                }
+                
+                if( c == '2' )
+                {
+                    this->_menu   = false;
+                    this->_paused = false;
+                }
+                
+                if( c == '3' )
+                {
+                    this->_menu   = false;
+                    this->_paused = false;
+                }
+                
+                if( c == '4' )
+                {
+                    this->_menu   = false;
+                    this->_paused = false;
+                }
+                
+                if( c == '<' )
+                {
+                    this->_screen.decreaseSpeed();
+                }
+                
+                if( c == '>' )
+                {
+                    this->_screen.increaseSpeed();
+                }
+            }
+        );
     }
     
-    std::vector< std::reference_wrapper< Cell > > Board::IMPL::_adjacentCells( std::size_t x, std::size_t y )
+    void Board::IMPL::IMPL::_draw( void ) const
     {
-        std::lock_guard< std::recursive_mutex >       l( this->_rmtx );
-        std::vector< std::reference_wrapper< Cell > > ret;
-        std::vector< OptionalReference< Cell > >      cells
+        std::string title(     "< Game Of Life >" );
+        std::string copyright( "(c) XS-Labs 2018 - www.xs-labs.com" );
+        int         y( 0 );
+        
+        if( this->_paused )
         {
-            this->_cellAt( x - 1, y - 1 ),
-            this->_cellAt( x,     y - 1 ),
-            this->_cellAt( x + 1, y - 1 ),
-            this->_cellAt( x - 1, y ),
-            this->_cellAt( x + 1, y ),
-            this->_cellAt( x - 1, y + 1 ),
-            this->_cellAt( x,     y + 1 ),
-            this->_cellAt( x + 1, y + 1 ),
+            title += " - PAUSED";
+        }
+        
+        ::move( y++, 0 );
+        ::hline( '-', static_cast< int >( this->_screen.width() ) );
+        ::move( y++, static_cast< int >( ( this->_screen.width() - title.length() ) / 2 ) );
+        ::printw( title.c_str() );
+        ::move( y++, 0 );
+        ::hline( '-', static_cast< int >( this->_screen.width() ) );
+        
+        if( this->_menu )
+        {
+            this->_drawMenu();
+        }
+        else
+        {
+            std::string stats;
+            std::string menu;
+            
+            stats = "Population: "
+                  + std::to_string( this->_grid.population() )
+                  + " | Turns: "
+                  + std::to_string( this->_grid.turns() )
+                  + " | Speed: "
+                  + std::to_string( this->_screen.speed() );
+            menu  = "[space]: pause/resume | [<]: decrease speed | [>]: increase speed | [m]: menu | [q]: quit";
+            
+            ::move( y, 0 );
+            ::printw( stats.c_str() );
+            
+            ::move( y, static_cast< int >( this->_screen.width() - menu.length() ) );
+            ::printw( menu.c_str() );
+            
+            ::move( ++y, 0 );
+            ::hline( '-', static_cast< int >( this->_screen.width() ) );
+        }
+        
+        y = static_cast< int >( this->_screen.height() - 3 );
+        
+        ::move( y++, 0 );
+        ::hline( '-', static_cast< int >( this->_screen.width() ) );
+        ::move( y++, static_cast< int >( ( this->_screen.width() - copyright.length() ) / 2 ) );
+        ::printw( copyright.c_str() );
+        ::move( y++, 0 );
+        ::hline( '-', static_cast< int >( this->_screen.width() ) );
+    }
+    
+    void Board::IMPL::IMPL::_drawMenu( void ) const
+    {
+        int y( 4 );
+        std::vector< std::string > options
+        {
+            "    [ n ]: New random grid",
+            "    [ 1 ]: Example Grid #1 - Still life",
+            "    [ 2 ]: Example Grid #2 - Oscillators",
+            "    [ 3 ]: Example Grid #3 - Spaceships",
+            "    [ 4 ]: Example Grid #4 - Guns",
+            "    [ c ]: Continue (exit menu)",
+            "    [ q ]: Quit"
         };
         
-        for( const auto & cell: cells )
+        for( const auto & s: options )
         {
-            if( cell )
-            {
-                ret.push_back( cell.value() );
-            }
+            ::move( y++, 0 );
+            printw( s.c_str() );
         }
-        
-        return ret;
-    }
-    
-    std::size_t Board::IMPL::_numberOfAdjacentLivingCells( std::size_t x, std::size_t y )
-    {
-        std::lock_guard< std::recursive_mutex > l( this->_rmtx );
-        std::size_t                             n( 0 );
-        
-        for( const auto & cell: this->_adjacentCells( x, y ) )
-        {
-            n += ( cell.get().isAlive() ) ? 1 : 0;
-        }
-        
-        return n;
     }
 }

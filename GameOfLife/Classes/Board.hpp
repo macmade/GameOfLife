@@ -25,7 +25,6 @@
 #ifndef GOL_BOARD_HPP
 #define GOL_BOARD_HPP
 
-#include <cstdlib>
 #include <memory>
 
 namespace GOL
@@ -42,9 +41,6 @@ namespace GOL
             ~Board( void );
             
             Board & operator =( Board o );
-            
-            void draw( void ) const;
-            void next( void );
             
             friend void swap( Board & o1, Board & o2 );
             
