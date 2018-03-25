@@ -51,9 +51,11 @@ namespace GOL
             unsigned int speed( void )  const;
             bool supportsColors( void ) const;
             bool isRunning( void )      const;
-            void run( void )            const;
             void clear( void )          const;
             void refresh( void )        const;
+            
+            void start( void );
+            void stop( void );
             
             void onResize( const std::function<   void( const Screen & screen ) > & f );
             void onKeyPress( const std::function< void( const Screen & screen, int key ) > & f );

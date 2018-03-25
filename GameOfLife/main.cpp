@@ -37,7 +37,8 @@ int main( void )
     GOL::Board  board( screen );
     
     screen.clear();
-    screen.run();
+    screen.start();
+    screen.clear();
     
     return EXIT_SUCCESS;
 }

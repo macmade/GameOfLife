@@ -142,9 +142,26 @@ namespace GOL
         return this->impl->_running;
     }
     
-    void Screen::run( void ) const
+    void Screen::clear( void ) const
     {
-        while( 1 )
+        ::clear();
+    }
+    
+    void Screen::refresh( void ) const
+    {
+        ::refresh();
+    }
+    
+    void Screen::start( void )
+    {
+        if( this->impl->_running )
+        {
+            return;
+        }
+        
+        this->impl->_running = true;
+        
+        while( this->impl->_running )
         {
             struct winsize s;
             
@@ -195,14 +212,9 @@ namespace GOL
         }
     }
     
-    void Screen::clear( void ) const
+    void Screen::stop( void )
     {
-        ::clear();
-    }
-    
-    void Screen::refresh( void ) const
-    {
-        ::refresh();
+        this->impl->_running = false;
     }
     
     void Screen::onResize( const std::function< void( const Screen & screen ) > & f )

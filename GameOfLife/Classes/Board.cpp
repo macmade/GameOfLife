@@ -135,7 +135,7 @@ namespace GOL
                 
                 if( c == 'q' )
                 {
-                    exit( 0 );
+                    this->_screen.stop();
                 }
                 
                 if( c == ' ' )
