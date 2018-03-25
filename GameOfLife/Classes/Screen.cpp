@@ -232,7 +232,7 @@ namespace GOL
         _height( 0 ),
         _colors( false ),
         _running( false ),
-        _speed( 5 )
+        _speed( 8 )
     {}
     
     Screen::IMPL::IMPL( const IMPL & o ):
