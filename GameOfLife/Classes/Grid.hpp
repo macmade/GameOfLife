@@ -46,6 +46,8 @@ namespace GOL
             uint64_t population( void ) const;
             uint64_t turns( void )      const;
             
+            void resize( std::size_t width, std::size_t height );
+            
             void draw( std::size_t x, std::size_t y ) const;
             void next( void );
             

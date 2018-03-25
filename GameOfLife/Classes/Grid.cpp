@@ -94,6 +94,25 @@ namespace GOL
         return this->impl->_turns;
     }
     
+    void Grid::resize( std::size_t width, std::size_t height )
+    {
+        if( height > this->impl->_height )
+        {
+            this->impl->_cells.resize( height );
+        }
+        
+        if( width > this->impl->_width )
+        {
+            for( auto & row: this->impl->_cells )
+            {
+                row.resize( width );
+            }
+        }
+        
+        this->impl->_width  = width;
+        this->impl->_height = height;
+    }
+    
     void Grid::draw( std::size_t x, std::size_t y ) const
     {
         if( this->impl->_screen.supportsColors() )
@@ -111,7 +130,14 @@ namespace GOL
             for( std::size_t j = 0; j < this->impl->_width; j++ )
             {
                 OptionalReference< Cell > cell( this->impl->_cellAt( j, i ) );
-                unsigned long long        attr( COLOR_PAIR( ( cell.value().age() <= 6 ) ? cell.value().age() : 6 ) );
+                unsigned long long        attr;
+                
+                if( cell == false )
+                {
+                    continue;
+                }
+                
+                attr = ( COLOR_PAIR( ( cell.value().age() <= 6 ) ? cell.value().age() : 6 ) );
                 
                 if( cell == false )
                 {

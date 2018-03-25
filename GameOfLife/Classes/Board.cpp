@@ -117,6 +117,14 @@ namespace GOL
             }
         );
         
+        this->_screen.onResize
+        (
+            [ & ]( const Screen & s )
+            {
+                this->_grid.resize( s.width(), s.height() - 8 );
+            }
+        );
+        
         this->_screen.onKeyPress
         (
             [ & ]( const Screen & s, int c )
