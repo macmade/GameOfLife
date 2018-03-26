@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0529D8BE2068EA020072B1A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0529D8BD2068EA020072B1A5 /* Assets.xcassets */; };
+		0529D8C12068EA020072B1A5 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0529D8BF2068EA020072B1A5 /* MainMenu.xib */; };
+		0529D8CA2068EAE90072B1A5 /* ApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0529D8C92068EAE90072B1A5 /* ApplicationDelegate.swift */; };
 		05394948206673AC00C20FA3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05394947206673AC00C20FA3 /* main.cpp */; };
 		053949882066752C00C20FA3 /* libncurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 053949872066752C00C20FA3 /* libncurses.tbd */; };
 		0539498C20667A9F00C20FA3 /* Cell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0539498A20667A9F00C20FA3 /* Cell.cpp */; };
@@ -29,6 +32,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0529D8B92068EA020072B1A5 /* Game Of Life.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Game Of Life.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0529D8BD2068EA020072B1A5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0529D8C02068EA020072B1A5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		0529D8C22068EA020072B1A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0529D8C32068EA020072B1A5 /* GameOfLife.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GameOfLife.entitlements; sourceTree = "<group>"; };
+		0529D8C92068EAE90072B1A5 /* ApplicationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationDelegate.swift; sourceTree = "<group>"; };
 		05394944206673AC00C20FA3 /* GameOfLife */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GameOfLife; sourceTree = BUILT_PRODUCTS_DIR; };
 		05394947206673AC00C20FA3 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		0539494F2066741900C20FA3 /* Release - ccache.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Release - ccache.xcconfig"; sourceTree = "<group>"; };
@@ -88,6 +97,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0529D8B62068EA020072B1A5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		05394941206673AC00C20FA3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -100,13 +116,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0529D8BA2068EA020072B1A5 /* Game Of Life - App */ = {
+			isa = PBXGroup;
+			children = (
+				0529D8C82068EAC70072B1A5 /* Classes */,
+				0529D8C72068EAC70072B1A5 /* UI */,
+				0529D8BD2068EA020072B1A5 /* Assets.xcassets */,
+				0529D8C22068EA020072B1A5 /* Info.plist */,
+				0529D8C32068EA020072B1A5 /* GameOfLife.entitlements */,
+			);
+			path = "Game Of Life - App";
+			sourceTree = "<group>";
+		};
+		0529D8C72068EAC70072B1A5 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				0529D8BF2068EA020072B1A5 /* MainMenu.xib */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		0529D8C82068EAC70072B1A5 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				0529D8C92068EAE90072B1A5 /* ApplicationDelegate.swift */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
 		0539493B206673AC00C20FA3 = {
 			isa = PBXGroup;
 			children = (
 				053949C92066C53700C20FA3 /* LICENSE */,
 				053949C82066C53700C20FA3 /* README.md */,
 				0539494E2066741900C20FA3 /* xcconfig */,
-				05394946206673AC00C20FA3 /* GameOfLife */,
+				0529D8BA2068EA020072B1A5 /* Game Of Life - App */,
+				05394946206673AC00C20FA3 /* Game Of Life - CLI */,
 				05394945206673AC00C20FA3 /* Products */,
 				053949862066752C00C20FA3 /* Frameworks */,
 			);
@@ -116,17 +161,18 @@
 			isa = PBXGroup;
 			children = (
 				05394944206673AC00C20FA3 /* GameOfLife */,
+				0529D8B92068EA020072B1A5 /* Game Of Life.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		05394946206673AC00C20FA3 /* GameOfLife */ = {
+		05394946206673AC00C20FA3 /* Game Of Life - CLI */ = {
 			isa = PBXGroup;
 			children = (
 				0539498920667A9500C20FA3 /* Classes */,
 				05394947206673AC00C20FA3 /* main.cpp */,
 			);
-			path = GameOfLife;
+			path = "Game Of Life - CLI";
 			sourceTree = "<group>";
 		};
 		0539494E2066741900C20FA3 /* xcconfig */ = {
@@ -270,6 +316,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0529D8B82068EA020072B1A5 /* Game Of Life */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0529D8C62068EA020072B1A5 /* Build configuration list for PBXNativeTarget "Game Of Life" */;
+			buildPhases = (
+				0529D8B52068EA020072B1A5 /* Sources */,
+				0529D8B62068EA020072B1A5 /* Frameworks */,
+				0529D8B72068EA020072B1A5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Game Of Life";
+			productName = "Game Of Life";
+			productReference = 0529D8B92068EA020072B1A5 /* Game Of Life.app */;
+			productType = "com.apple.product-type.application";
+		};
 		05394943206673AC00C20FA3 /* GameOfLife */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0539494B206673AC00C20FA3 /* Build configuration list for PBXNativeTarget "GameOfLife" */;
@@ -293,9 +356,15 @@
 		0539493C206673AC00C20FA3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0920;
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "XS-Labs";
 				TargetAttributes = {
+					0529D8B82068EA020072B1A5 = {
+						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
+						ProvisioningStyle = Automatic;
+					};
 					05394943206673AC00C20FA3 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
@@ -308,6 +377,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 0539493B206673AC00C20FA3;
 			productRefGroup = 05394945206673AC00C20FA3 /* Products */;
@@ -315,11 +385,32 @@
 			projectRoot = "";
 			targets = (
 				05394943206673AC00C20FA3 /* GameOfLife */,
+				0529D8B82068EA020072B1A5 /* Game Of Life */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		0529D8B72068EA020072B1A5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0529D8BE2068EA020072B1A5 /* Assets.xcassets in Resources */,
+				0529D8C12068EA020072B1A5 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		0529D8B52068EA020072B1A5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0529D8CA2068EAE90072B1A5 /* ApplicationDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		05394940206673AC00C20FA3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -334,7 +425,53 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+		0529D8BF2068EA020072B1A5 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0529D8C02068EA020072B1A5 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		0529D8C42068EA020072B1A5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "Game Of Life - App/GameOfLife.entitlements";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 326Y53CJMD;
+				INFOPLIST_FILE = "Game Of Life - App/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.xs-labs.Game-Of-Life";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		0529D8C52068EA020072B1A5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "Game Of Life - App/GameOfLife.entitlements";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 326Y53CJMD;
+				INFOPLIST_FILE = "Game Of Life - App/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.xs-labs.Game-Of-Life";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 		05394949206673AC00C20FA3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 053949512066741900C20FA3 /* Debug - ccache.xcconfig */;
@@ -366,6 +503,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0529D8C62068EA020072B1A5 /* Build configuration list for PBXNativeTarget "Game Of Life" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0529D8C42068EA020072B1A5 /* Debug */,
+				0529D8C52068EA020072B1A5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		0539493F206673AC00C20FA3 /* Build configuration list for PBXProject "GameOfLife" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
