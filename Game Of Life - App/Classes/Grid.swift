@@ -26,11 +26,15 @@ import Foundation
 
 class Grid
 {
+    typealias Array  = Swift.ContiguousArray
+    typealias Row    = Array< Cell >
+    typealias Table  = Array< Row >
+    
     public private( set ) var colors: Bool   = true
     public private( set ) var turns:  UInt64 = 0
     public private( set ) var width:  size_t
     public private( set ) var height: size_t
-    public private( set ) var cells:  ContiguousArray< ContiguousArray< Cell > >
+    public private( set ) var cells:  Table
     
     enum Kind
     {
@@ -63,9 +67,9 @@ class Grid
     { 
         self.width  = width
         self.height = height
-        self.cells  = ContiguousArray< ContiguousArray< Cell > >()
+        self.cells  = Table()
         
-        self.cells.grow( height ) { ContiguousArray< Cell >() }
+        self.cells.grow( height ) { Row() }
         
         for i in 0 ..< height
         {
@@ -86,7 +90,7 @@ class Grid
     {
         if( height > self.height )
         {
-            self.cells.grow( height ) { ContiguousArray< Cell >() }
+            self.cells.grow( height ) { Row() }
         }
         
         if( width > self.width )
@@ -103,13 +107,13 @@ class Grid
     
     public func next()
     {
-        var cells = ContiguousArray< ContiguousArray< Cell > >()
+        var cells = Table()
         
         cells.reserveCapacity( self.cells.count )
         
         for i in 0 ..< self.cells.count
         {
-            cells.append( ContiguousArray< Cell >() )
+            cells.append( Row() )
             cells[ i ].reserveCapacity( self.cells[ i ].count )
             
             for j in 0 ..< self.cells[ i ].count
@@ -273,3 +277,4 @@ class Grid
         }
     }
 }
+

@@ -17,6 +17,7 @@
 		0535715B20697963002178E3 /* GOL.MainWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0535715920697963002178E3 /* GOL.MainWindowController.xib */; };
 		0535715E20697CF5002178E3 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0535715D20697CF5002178E3 /* GridView.swift */; };
 		0535716020698C81002178E3 /* NSColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0535715F20698C81002178E3 /* NSColor.swift */; };
+		05357169206A347C002178E3 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05357168206A347C002178E3 /* Array.swift */; };
 		05394948206673AC00C20FA3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05394947206673AC00C20FA3 /* main.cpp */; };
 		053949882066752C00C20FA3 /* libncurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 053949872066752C00C20FA3 /* libncurses.tbd */; };
 		0539498C20667A9F00C20FA3 /* Cell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0539498A20667A9F00C20FA3 /* Cell.cpp */; };
@@ -52,6 +53,7 @@
 		0535715A20697963002178E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GOL.MainWindowController.xib; sourceTree = "<group>"; };
 		0535715D20697CF5002178E3 /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
 		0535715F20698C81002178E3 /* NSColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSColor.swift; sourceTree = "<group>"; };
+		05357168206A347C002178E3 /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		05394944206673AC00C20FA3 /* GameOfLife */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GameOfLife; sourceTree = BUILT_PRODUCTS_DIR; };
 		05394947206673AC00C20FA3 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		0539494F2066741900C20FA3 /* Release - ccache.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Release - ccache.xcconfig"; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				0529D8C92068EAE90072B1A5 /* ApplicationDelegate.swift */,
+				05357168206A347C002178E3 /* Array.swift */,
 				0529D8CB2068EB7C0072B1A5 /* Cell.swift */,
 				05356FDA20692A3B002178E3 /* ContiguousArray.swift */,
 				0529D8CD2068EB8A0072B1A5 /* Grid.swift */,
@@ -435,6 +438,7 @@
 				0529D8CE2068EB8A0072B1A5 /* Grid.swift in Sources */,
 				05356FDB20692A3B002178E3 /* ContiguousArray.swift in Sources */,
 				0535716020698C81002178E3 /* NSColor.swift in Sources */,
+				05357169206A347C002178E3 /* Array.swift in Sources */,
 				0535715E20697CF5002178E3 /* GridView.swift in Sources */,
 				053571582069792A002178E3 /* MainWindowController.swift in Sources */,
 			);
