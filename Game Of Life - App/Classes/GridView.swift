@@ -26,10 +26,12 @@ import Cocoa
 
 class GridView: NSView
 {
+    @objc dynamic public var paused: Bool = true
+    
     public private( set ) var grid:       Grid           = Grid( width: 0, height: 0 )
     public private( set ) var cellSize:   CGFloat        = 5
-    private               var title:      NSString       = ""
-    private               var lastUpdate: CFAbsoluteTime = 0;
+    private               var speed:      UInt           = 10
+    private               var lastUpdate: CFAbsoluteTime = 0
     private               var timer:      Timer?
     
     override init( frame rect: NSRect )
@@ -43,7 +45,7 @@ class GridView: NSView
     {
         super.init( coder: decoder )
         
-        self.grid = Grid( width: size_t( self.frame.size.width / self.cellSize ), height: size_t( self.frame.size.height / self.cellSize ), kind: .GospersGuns )
+        self.grid = Grid( width: size_t( self.frame.size.width / self.cellSize ), height: size_t( self.frame.size.height / self.cellSize ), kind: .Random )
     }
     
     override func resize( withOldSuperviewSize size: NSSize )
@@ -57,16 +59,79 @@ class GridView: NSView
         return true
     }
     
-    public func start()
+    private func _startTimer()
     {
-        self.timer = Timer.scheduledTimer( timeInterval: 0, target: self, selector: #selector( next ), userInfo: nil, repeats: true )
+        let interval = ( 20 - TimeInterval( self.speed ) ) / 50
+        
+        self.timer = Timer.scheduledTimer( timeInterval: interval, target: self, selector: #selector( next ), userInfo: nil, repeats: true )
+    }
+    
+    private func _stopTimer()
+    {
+        self.timer?.invalidate()
+        
+        self.timer = nil
+    }
+    
+    private func _restartTimer()
+    {
+        self._stopTimer()
+        self._startTimer()
+    }
+    
+    @IBAction func resume( _ sender: Any? )
+    {
+        if( self.paused == false )
+        {
+            return
+        }
+        
+        self.paused = false
+        
+        self._startTimer()
+    }
+    
+    @IBAction func pause( _ sender: Any? )
+    {
+        if( self.paused == true )
+        {
+            return
+        }
+        
+        self._stopTimer()
+        
+        self.paused = true
+    }
+    
+    @IBAction func decreaseSpeed( _ sender: Any? )
+    {
+        if( self.speed == 0 )
+        {
+            return
+        }
+        
+        self.speed -= 1
+        
+        self._restartTimer()
+    }
+    
+    @IBAction func increaseSpeed( _ sender: Any? )
+    {
+        if( self.speed == 20 )
+        {
+            return
+        }
+        
+        self.speed += 1
+        
+        self._restartTimer()
     }
     
     @objc private func next()
     {
-        if( self.title.length == 0 )
+        if( self.paused )
         {
-            self.title = ( self.window?.title ?? "" ) as NSString
+            return
         }
         
         self.grid.next()
@@ -80,8 +145,6 @@ class GridView: NSView
         else
         {
             let end = CFAbsoluteTimeGetCurrent()
-            
-            self.window?.title = self.title as String + " | " + String( ( 1 / ( end - self.lastUpdate ) ).rounded() ) + " FPS"
             
             self.lastUpdate = end
         }
@@ -119,7 +182,7 @@ class GridView: NSView
     
     override func draw( _ rect: NSRect )
     {
-        NSColor( hex: 0x161A1D ).setFill()
+        NSColor.clear.setFill()
         NSRectFill( self.frame )
         
         for i in 0 ..< size_t( self.frame.size.height / self.cellSize )

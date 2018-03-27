@@ -35,6 +35,6 @@ class MainWindowController: NSWindowController
     
     override func windowDidLoad()
     {
-        self.gridView?.start()
+        self.gridView?.resume( nil )
     }
 }

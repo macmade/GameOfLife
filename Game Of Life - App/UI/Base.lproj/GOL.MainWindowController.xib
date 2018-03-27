@@ -13,26 +13,133 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <window title="Game Of Life" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="QvC-M9-y7g">
-            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+        <window title="Game Of Life" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="QvC-M9-y7g">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="800" height="600"/>
+            <rect key="contentRect" x="196" y="240" width="1000" height="600"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
+            <value key="minSize" type="size" width="400" height="200"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
+                <rect key="frame" x="0.0" y="0.0" width="1000" height="600"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="IpB-TD-xcu" customClass="GridView" customModule="GOL">
-                        <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
-                    </customView>
+                    <visualEffectView appearanceType="vibrantDark" blendingMode="behindWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="izn-PU-t0R">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="600"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="IpB-TD-xcu" customClass="GridView" customModule="GOL">
+                                <rect key="frame" x="20" y="20" width="960" height="560"/>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="qwa-mU-n7q">
+                                <rect key="frame" x="452" y="0.0" width="97" height="32"/>
+                                <subviews>
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="N1C-uC-XH3" userLabel="Back">
+                                        <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="32" id="TPg-PS-HM6"/>
+                                            <constraint firstAttribute="height" constant="32" id="kN5-8T-5oH"/>
+                                        </constraints>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarRewindTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="30C-FD-NMD">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="decreaseSpeed:" target="IpB-TD-xcu" id="Vhw-Xk-Vjn"/>
+                                        </connections>
+                                    </button>
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="UL5-sC-GxQ" userLabel="Resume">
+                                        <rect key="frame" x="34" y="0.0" width="32" height="32"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarPlayTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="eQM-mH-OpQ">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="resume:" target="IpB-TD-xcu" id="W6z-Aw-a4y"/>
+                                            <binding destination="-2" name="hidden" keyPath="self.gridView.paused" id="Zzd-8X-2rd">
+                                                <dictionary key="options">
+                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                </dictionary>
+                                            </binding>
+                                        </connections>
+                                    </button>
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="g3b-tn-6S3" userLabel="Pause">
+                                        <rect key="frame" x="34" y="0.0" width="32" height="32"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarPauseTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="POo-TK-gSf">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="pause:" target="IpB-TD-xcu" id="rZF-bB-OES"/>
+                                            <binding destination="-2" name="hidden" keyPath="self.gridView.paused" id="zeK-Es-S1T"/>
+                                        </connections>
+                                    </button>
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="rrM-RV-RZr" userLabel="Next">
+                                        <rect key="frame" x="65" y="0.0" width="32" height="32"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarFastForwardTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="XSZ-z8-HH1">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="increaseSpeed:" target="IpB-TD-xcu" id="zF6-31-6gc"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="UL5-sC-GxQ" firstAttribute="leading" secondItem="N1C-uC-XH3" secondAttribute="trailing" constant="2" id="0ZB-zX-tkH"/>
+                                    <constraint firstItem="g3b-tn-6S3" firstAttribute="height" secondItem="N1C-uC-XH3" secondAttribute="height" id="3Jm-CN-TjQ"/>
+                                    <constraint firstItem="UL5-sC-GxQ" firstAttribute="height" secondItem="N1C-uC-XH3" secondAttribute="height" id="6KD-pV-W1L"/>
+                                    <constraint firstItem="rrM-RV-RZr" firstAttribute="leading" secondItem="g3b-tn-6S3" secondAttribute="trailing" constant="-1" id="6nP-Gk-3hj"/>
+                                    <constraint firstItem="UL5-sC-GxQ" firstAttribute="centerY" secondItem="N1C-uC-XH3" secondAttribute="centerY" id="9rR-U5-vs7"/>
+                                    <constraint firstItem="g3b-tn-6S3" firstAttribute="width" secondItem="N1C-uC-XH3" secondAttribute="width" id="DAX-wB-pne"/>
+                                    <constraint firstItem="N1C-uC-XH3" firstAttribute="leading" secondItem="qwa-mU-n7q" secondAttribute="leading" id="EIF-Yi-gtE"/>
+                                    <constraint firstItem="N1C-uC-XH3" firstAttribute="top" secondItem="qwa-mU-n7q" secondAttribute="top" id="EaG-I6-7tV"/>
+                                    <constraint firstAttribute="bottom" secondItem="N1C-uC-XH3" secondAttribute="bottom" id="Hlq-f5-byI"/>
+                                    <constraint firstItem="rrM-RV-RZr" firstAttribute="width" secondItem="N1C-uC-XH3" secondAttribute="width" id="OPU-n1-lcL"/>
+                                    <constraint firstItem="rrM-RV-RZr" firstAttribute="centerY" secondItem="N1C-uC-XH3" secondAttribute="centerY" id="Pva-B9-LPZ"/>
+                                    <constraint firstItem="rrM-RV-RZr" firstAttribute="height" secondItem="N1C-uC-XH3" secondAttribute="height" id="cwT-e8-nBe"/>
+                                    <constraint firstItem="UL5-sC-GxQ" firstAttribute="width" secondItem="N1C-uC-XH3" secondAttribute="width" id="mbm-Kr-95c"/>
+                                    <constraint firstItem="g3b-tn-6S3" firstAttribute="centerY" secondItem="N1C-uC-XH3" secondAttribute="centerY" id="mzr-5o-LiD"/>
+                                    <constraint firstAttribute="trailing" secondItem="rrM-RV-RZr" secondAttribute="trailing" id="nrl-mQ-tTK"/>
+                                    <constraint firstItem="g3b-tn-6S3" firstAttribute="leading" secondItem="UL5-sC-GxQ" secondAttribute="trailing" constant="-32" id="rcV-s5-Eg0"/>
+                                </constraints>
+                            </customView>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="hXw-I3-eb4">
+                                <rect key="frame" x="974" y="574" width="16" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="16" id="9Ox-SM-Tgv"/>
+                                    <constraint firstAttribute="height" constant="16" id="E2s-CT-pZ7"/>
+                                </constraints>
+                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSActionTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="hSd-iS-i5Q">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="hXw-I3-eb4" firstAttribute="top" secondItem="izn-PU-t0R" secondAttribute="top" constant="10" id="5rr-5j-jAP"/>
+                            <constraint firstAttribute="bottom" secondItem="qwa-mU-n7q" secondAttribute="bottom" id="HMn-Vx-7jC"/>
+                            <constraint firstItem="qwa-mU-n7q" firstAttribute="centerX" secondItem="izn-PU-t0R" secondAttribute="centerX" id="QS7-hG-kir"/>
+                            <constraint firstItem="IpB-TD-xcu" firstAttribute="centerX" secondItem="izn-PU-t0R" secondAttribute="centerX" id="eiF-ZF-zEh"/>
+                            <constraint firstItem="IpB-TD-xcu" firstAttribute="centerY" secondItem="izn-PU-t0R" secondAttribute="centerY" id="fUe-pc-F7E"/>
+                            <constraint firstItem="IpB-TD-xcu" firstAttribute="width" secondItem="izn-PU-t0R" secondAttribute="width" constant="-40" id="jp6-jq-CRr"/>
+                            <constraint firstAttribute="trailing" secondItem="hXw-I3-eb4" secondAttribute="trailing" constant="10" id="yz9-L4-TVl"/>
+                            <constraint firstItem="IpB-TD-xcu" firstAttribute="height" secondItem="izn-PU-t0R" secondAttribute="height" constant="-40" id="zt8-pb-qYd"/>
+                        </constraints>
+                    </visualEffectView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="IpB-TD-xcu" firstAttribute="width" secondItem="EiT-Mj-1SZ" secondAttribute="width" id="2Tu-TP-w5q"/>
-                    <constraint firstItem="IpB-TD-xcu" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="c46-aa-dQr"/>
-                    <constraint firstItem="IpB-TD-xcu" firstAttribute="centerY" secondItem="EiT-Mj-1SZ" secondAttribute="centerY" id="fCC-ds-gXI"/>
-                    <constraint firstItem="IpB-TD-xcu" firstAttribute="height" secondItem="EiT-Mj-1SZ" secondAttribute="height" id="wfW-Nw-bla"/>
+                    <constraint firstItem="izn-PU-t0R" firstAttribute="width" secondItem="EiT-Mj-1SZ" secondAttribute="width" id="1XM-go-GWy"/>
+                    <constraint firstItem="izn-PU-t0R" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="9OR-si-orU"/>
+                    <constraint firstItem="izn-PU-t0R" firstAttribute="centerY" secondItem="EiT-Mj-1SZ" secondAttribute="centerY" id="SDq-Vp-rBR"/>
+                    <constraint firstItem="izn-PU-t0R" firstAttribute="height" secondItem="EiT-Mj-1SZ" secondAttribute="height" id="y1P-v9-uNa"/>
                 </constraints>
             </view>
         </window>
     </objects>
+    <resources>
+        <image name="NSActionTemplate" width="14" height="14"/>
+        <image name="NSTouchBarFastForwardTemplate" width="22" height="30"/>
+        <image name="NSTouchBarPauseTemplate" width="11" height="30"/>
+        <image name="NSTouchBarPlayTemplate" width="14" height="30"/>
+        <image name="NSTouchBarRewindTemplate" width="22" height="30"/>
+    </resources>
 </document>
