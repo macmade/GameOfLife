@@ -127,13 +127,52 @@ class Grid
             self.turns += 1
         }
         
-        for i in 0 ..< cells.count
+        var x: size_t = 0
+        var y: size_t = 0
+        
+        for row in cells
         {
-            for j in 0 ..< cells[ i ].count
+            x = 0
+            
+            for cell in row
             {
-                let cell  = cells[ i ][ j ]
-                let alive = cell.isAlive
-                let count = self.numberOfAdjacentLivingCells( x: j, y: i )
+                let alive: Bool   = cell.isAlive
+                var count: size_t = 0
+                
+                var c1: Cell? = nil
+                var c2: Cell? = nil
+                var c3: Cell? = nil
+                var c4: Cell? = nil
+                var c5: Cell? = nil
+                var c6: Cell? = nil
+                var c7: Cell? = nil
+                var c8: Cell? = nil
+                
+                if( y > 0 )
+                {
+                    c1 = ( x > 0 ) ? self.cells[ y - 1 ][ x - 1 ] : nil
+                    c2 = self.cells[ y - 1 ][ x ]
+                    c3 = ( x < self.cells[ y ].count - 1 ) ? self.cells[ y - 1 ][ x + 1 ] : nil
+                }
+                
+                c4 = ( x > 0 ) ? self.cells[ y  ][ x - 1 ] : nil
+                c5 = ( x < self.cells[ y ].count - 1 ) ? self.cells[ y ][ x + 1 ] : nil
+                
+                if( y < self.cells.count - 1 )
+                {
+                    c6 = ( x > 0 ) ? self.cells[ y + 1 ][ x - 1 ] : nil
+                    c7 = self.cells[ y + 1 ][ x ]
+                    c8 = ( x < self.cells[ y ].count - 1 ) ? self.cells[ y + 1 ][ x + 1 ] : nil
+                }
+                
+                if( c1?.isAlive ?? false ) { count += 1 }
+                if( c2?.isAlive ?? false ) { count += 1 }
+                if( c3?.isAlive ?? false ) { count += 1 }
+                if( c4?.isAlive ?? false ) { count += 1 }
+                if( c5?.isAlive ?? false ) { count += 1 }
+                if( c6?.isAlive ?? false ) { count += 1 }
+                if( c7?.isAlive ?? false ) { count += 1 }
+                if( c8?.isAlive ?? false ) { count += 1 }
                 
                 if( alive && count < 2 )
                 {
@@ -152,7 +191,11 @@ class Grid
                 {
                     cell.age = cell.age + 1
                 }
+                
+                x += 1
             }
+            
+            y += 1
         }
         
         self.cells = cells
@@ -171,46 +214,6 @@ class Grid
         }
         
         return self.cells[ y ][ x ];
-    }
-    
-    public func adjacentCells( x: size_t, y: size_t ) -> [ Cell ]
-    {
-        var ret:   [ Cell  ] = []
-        let cells: [ Cell? ] =
-        [
-            self.cellAt( x: x - 1, y: y - 1 ),
-            self.cellAt( x: x,     y: y - 1 ),
-            self.cellAt( x: x + 1, y: y - 1 ),
-            self.cellAt( x: x - 1, y: y ),
-            self.cellAt( x: x + 1, y: y ),
-            self.cellAt( x: x - 1, y: y + 1 ),
-            self.cellAt( x: x,     y: y + 1 ),
-            self.cellAt( x: x + 1, y: y + 1 )
-        ]
-        
-        for c in cells
-        {
-            guard let cell = c else
-            {
-                continue
-            }
-            
-            ret.append( cell )
-        }
-        
-        return ret
-    }
-    
-    public func numberOfAdjacentLivingCells( x: size_t, y: size_t ) -> size_t
-    {
-        var n: size_t = 0
-        
-        for cell in self.adjacentCells( x: x, y: y )
-        {
-            n += ( cell.isAlive ) ? 1 : 0
-        }
-        
-        return n
     }
     
     private func _setupRandomGrid()

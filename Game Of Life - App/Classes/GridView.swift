@@ -26,10 +26,11 @@ import Cocoa
 
 class GridView: NSView
 {
-    public private( set ) var grid:     Grid    = Grid( width: 0, height: 0 )
-    public private( set ) var cellSize: CGFloat = 5
-    
-    private var timer: Timer?
+    public private( set ) var grid:       Grid           = Grid( width: 0, height: 0 )
+    public private( set ) var cellSize:   CGFloat        = 5
+    private               var title:      NSString       = ""
+    private               var lastUpdate: CFAbsoluteTime = 0;
+    private               var timer:      Timer?
     
     override init( frame rect: NSRect )
     {
@@ -58,13 +59,32 @@ class GridView: NSView
     
     public func start()
     {
-        self.timer = Timer.scheduledTimer( timeInterval: 0.1, target: self, selector: #selector( next ), userInfo: nil, repeats: true )
+        self.timer = Timer.scheduledTimer( timeInterval: 0, target: self, selector: #selector( next ), userInfo: nil, repeats: true )
     }
     
     @objc private func next()
     {
+        if( self.title.length == 0 )
+        {
+            self.title = ( self.window?.title ?? "" ) as NSString
+        }
+        
         self.grid.next()
+        
         self.setNeedsDisplay( self.bounds )
+        
+        if( self.lastUpdate == 0 )
+        {
+            self.lastUpdate = CFAbsoluteTimeGetCurrent()
+        }
+        else
+        {
+            let end = CFAbsoluteTimeGetCurrent()
+            
+            self.window?.title = self.title as String + " | " + String( ( 1 / ( end - self.lastUpdate ) ).rounded() ) + " FPS"
+            
+            self.lastUpdate = end
+        }
     }
     
     public func colorForAge( _ age: UInt64 ) -> NSColor
