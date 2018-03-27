@@ -24,23 +24,17 @@
 
 import Cocoa
 
-@NSApplicationMain
-class ApplicationDelegate: NSObject, NSApplicationDelegate
+class MainWindowController: NSWindowController
 {
-    let mainWindowController = MainWindowController()
+    @IBOutlet private var gridView: GridView?
     
-    func applicationDidFinishLaunching( _ notification: Notification )
+    override var windowNibName: String?
     {
-        self.mainWindowController.window?.center()
-        self.mainWindowController.window?.makeKeyAndOrderFront( nil )
+        return NSStringFromClass( type( of: self ) )
     }
     
-    func applicationWillTerminate( _ notification: Notification )
-    {}
-    
-    func applicationShouldTerminateAfterLastWindowClosed( _ sender: NSApplication ) -> Bool
+    override func windowDidLoad()
     {
-        return true
+        self.gridView?.start()
     }
 }
-

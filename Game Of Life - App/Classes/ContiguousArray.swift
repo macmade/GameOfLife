@@ -22,25 +22,22 @@
  * THE SOFTWARE.
  ******************************************************************************/
 
-import Cocoa
+import Foundation
 
-@NSApplicationMain
-class ApplicationDelegate: NSObject, NSApplicationDelegate
+extension ContiguousArray
 {
-    let mainWindowController = MainWindowController()
-    
-    func applicationDidFinishLaunching( _ notification: Notification )
+    public mutating func grow( _ s: Int, newElement: () -> Element )
     {
-        self.mainWindowController.window?.center()
-        self.mainWindowController.window?.makeKeyAndOrderFront( nil )
-    }
-    
-    func applicationWillTerminate( _ notification: Notification )
-    {}
-    
-    func applicationShouldTerminateAfterLastWindowClosed( _ sender: NSApplication ) -> Bool
-    {
-        return true
+        if( s <= self.count )
+        {
+            return
+        }
+        
+        self.reserveCapacity( s )
+        
+        for _ in self.count ..< s
+        {
+            self.append( newElement() )
+        }
     }
 }
-

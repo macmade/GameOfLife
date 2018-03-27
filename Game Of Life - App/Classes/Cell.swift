@@ -22,25 +22,33 @@
  * THE SOFTWARE.
  ******************************************************************************/
 
-import Cocoa
+import Foundation
 
-@NSApplicationMain
-class ApplicationDelegate: NSObject, NSApplicationDelegate
+class Cell: NSCopying
 {
-    let mainWindowController = MainWindowController()
-    
-    func applicationDidFinishLaunching( _ notification: Notification )
+    public  var age:      UInt64 = 0
+    private var _isAlive: Bool = false
+    public  var isAlive:  Bool
     {
-        self.mainWindowController.window?.center()
-        self.mainWindowController.window?.makeKeyAndOrderFront( nil )
+        get
+        {
+            return self._isAlive;
+        }
+        
+        set
+        {
+            self.age      = ( newValue ) ? 1 : 0
+            self._isAlive = newValue
+        }
     }
     
-    func applicationWillTerminate( _ notification: Notification )
-    {}
-    
-    func applicationShouldTerminateAfterLastWindowClosed( _ sender: NSApplication ) -> Bool
+    func copy( with zone: NSZone? = nil ) -> Any
     {
-        return true
+        let copy = Cell()
+        
+        copy.isAlive = self.isAlive
+        copy.age     = self.age
+         
+        return copy
     }
 }
-

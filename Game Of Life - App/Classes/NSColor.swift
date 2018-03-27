@@ -24,23 +24,14 @@
 
 import Cocoa
 
-@NSApplicationMain
-class ApplicationDelegate: NSObject, NSApplicationDelegate
+extension NSColor
 {
-    let mainWindowController = MainWindowController()
-    
-    func applicationDidFinishLaunching( _ notification: Notification )
+    convenience init( hex: UInt64, alpha: CGFloat = 1.0 )
     {
-        self.mainWindowController.window?.center()
-        self.mainWindowController.window?.makeKeyAndOrderFront( nil )
-    }
-    
-    func applicationWillTerminate( _ notification: Notification )
-    {}
-    
-    func applicationShouldTerminateAfterLastWindowClosed( _ sender: NSApplication ) -> Bool
-    {
-        return true
+        let r: CGFloat = ( CGFloat( ( hex >> 16 ) & 0x0000FF ) ) / 255.0
+        let g: CGFloat = ( CGFloat( ( hex >>  8 ) & 0x0000FF ) ) / 255.0
+        let b: CGFloat = ( CGFloat( ( hex       ) & 0x0000FF ) ) / 255.0
+        
+        self.init( red: r, green: g, blue: b, alpha: alpha )
     }
 }
-

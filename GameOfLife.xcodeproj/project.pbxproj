@@ -10,6 +10,13 @@
 		0529D8BE2068EA020072B1A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0529D8BD2068EA020072B1A5 /* Assets.xcassets */; };
 		0529D8C12068EA020072B1A5 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0529D8BF2068EA020072B1A5 /* MainMenu.xib */; };
 		0529D8CA2068EAE90072B1A5 /* ApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0529D8C92068EAE90072B1A5 /* ApplicationDelegate.swift */; };
+		0529D8CC2068EB7C0072B1A5 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0529D8CB2068EB7C0072B1A5 /* Cell.swift */; };
+		0529D8CE2068EB8A0072B1A5 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0529D8CD2068EB8A0072B1A5 /* Grid.swift */; };
+		05356FDB20692A3B002178E3 /* ContiguousArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05356FDA20692A3B002178E3 /* ContiguousArray.swift */; };
+		053571582069792A002178E3 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053571572069792A002178E3 /* MainWindowController.swift */; };
+		0535715B20697963002178E3 /* GOL.MainWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0535715920697963002178E3 /* GOL.MainWindowController.xib */; };
+		0535715E20697CF5002178E3 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0535715D20697CF5002178E3 /* GridView.swift */; };
+		0535716020698C81002178E3 /* NSColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0535715F20698C81002178E3 /* NSColor.swift */; };
 		05394948206673AC00C20FA3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05394947206673AC00C20FA3 /* main.cpp */; };
 		053949882066752C00C20FA3 /* libncurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 053949872066752C00C20FA3 /* libncurses.tbd */; };
 		0539498C20667A9F00C20FA3 /* Cell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0539498A20667A9F00C20FA3 /* Cell.cpp */; };
@@ -38,6 +45,13 @@
 		0529D8C22068EA020072B1A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0529D8C32068EA020072B1A5 /* GameOfLife.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GameOfLife.entitlements; sourceTree = "<group>"; };
 		0529D8C92068EAE90072B1A5 /* ApplicationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationDelegate.swift; sourceTree = "<group>"; };
+		0529D8CB2068EB7C0072B1A5 /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
+		0529D8CD2068EB8A0072B1A5 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
+		05356FDA20692A3B002178E3 /* ContiguousArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContiguousArray.swift; sourceTree = "<group>"; };
+		053571572069792A002178E3 /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
+		0535715A20697963002178E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GOL.MainWindowController.xib; sourceTree = "<group>"; };
+		0535715D20697CF5002178E3 /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
+		0535715F20698C81002178E3 /* NSColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSColor.swift; sourceTree = "<group>"; };
 		05394944206673AC00C20FA3 /* GameOfLife */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GameOfLife; sourceTree = BUILT_PRODUCTS_DIR; };
 		05394947206673AC00C20FA3 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		0539494F2066741900C20FA3 /* Release - ccache.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Release - ccache.xcconfig"; sourceTree = "<group>"; };
@@ -132,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				0529D8BF2068EA020072B1A5 /* MainMenu.xib */,
+				0535715920697963002178E3 /* GOL.MainWindowController.xib */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -140,6 +155,12 @@
 			isa = PBXGroup;
 			children = (
 				0529D8C92068EAE90072B1A5 /* ApplicationDelegate.swift */,
+				0529D8CB2068EB7C0072B1A5 /* Cell.swift */,
+				05356FDA20692A3B002178E3 /* ContiguousArray.swift */,
+				0529D8CD2068EB8A0072B1A5 /* Grid.swift */,
+				0535715D20697CF5002178E3 /* GridView.swift */,
+				053571572069792A002178E3 /* MainWindowController.swift */,
+				0535715F20698C81002178E3 /* NSColor.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -367,6 +388,7 @@
 					};
 					05394943206673AC00C20FA3 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -396,6 +418,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0529D8BE2068EA020072B1A5 /* Assets.xcassets in Resources */,
+				0535715B20697963002178E3 /* GOL.MainWindowController.xib in Resources */,
 				0529D8C12068EA020072B1A5 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -408,6 +431,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				0529D8CA2068EAE90072B1A5 /* ApplicationDelegate.swift in Sources */,
+				0529D8CC2068EB7C0072B1A5 /* Cell.swift in Sources */,
+				0529D8CE2068EB8A0072B1A5 /* Grid.swift in Sources */,
+				05356FDB20692A3B002178E3 /* ContiguousArray.swift in Sources */,
+				0535716020698C81002178E3 /* NSColor.swift in Sources */,
+				0535715E20697CF5002178E3 /* GridView.swift in Sources */,
+				053571582069792A002178E3 /* MainWindowController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -434,6 +463,14 @@
 			name = MainMenu.xib;
 			sourceTree = "<group>";
 		};
+		0535715920697963002178E3 /* GOL.MainWindowController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0535715A20697963002178E3 /* Base */,
+			);
+			name = GOL.MainWindowController.xib;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -446,9 +483,11 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 326Y53CJMD;
+				IBC_MODULE = GOL;
 				INFOPLIST_FILE = "Game Of Life - App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xs-labs.Game-Of-Life";
+				PRODUCT_MODULE_NAME = GOL;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -464,9 +503,11 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 326Y53CJMD;
+				IBC_MODULE = GOL;
 				INFOPLIST_FILE = "Game Of Life - App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xs-labs.Game-Of-Life";
+				PRODUCT_MODULE_NAME = GOL;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -489,14 +530,21 @@
 		0539494C206673AC00C20FA3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		0539494D206673AC00C20FA3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

@@ -43,7 +43,6 @@ namespace GOL
             OptionalReference< Cell >                     _cellAt( std::size_t x, std::size_t y );
             std::vector< std::reference_wrapper< Cell > > _adjacentCells( std::size_t x, std::size_t y );
             std::size_t                                   _numberOfAdjacentLivingCells( std::size_t x, std::size_t y );
-            std::size_t                                   _numberOfLivingCells( void );
             
             void _setupRandomGrid( void );
             void _setupStillLifeGrid( void );
@@ -335,21 +334,6 @@ namespace GOL
         for( const auto & cell: this->_adjacentCells( x, y ) )
         {
             n += ( cell.get().isAlive() ) ? 1 : 0;
-        }
-        
-        return n;
-    }
-    
-    std::size_t Grid::IMPL::_numberOfLivingCells( void )
-    {
-        std::size_t n( 0 );
-        
-        for( const auto & row: this->_cells )
-        {
-            for( const auto & cell: row )
-            {
-                n += ( cell.isAlive() ) ? 1 : 0;
-            }
         }
         
         return n;
