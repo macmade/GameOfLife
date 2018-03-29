@@ -102,6 +102,18 @@ class MainWindowController: NSWindowController
         self.paused = true;
     }
     
+    @IBAction func pauseResume( _ sender: Any? )
+    {
+        if( self.paused )
+        {
+            self.resume( sender )
+        }
+        else
+        {
+            self.pause( sender )
+        }
+    }
+    
     @IBAction func decreaseSpeed( _ sender: Any? )
     {
         self.gridView?.decreaseSpeed( sender )

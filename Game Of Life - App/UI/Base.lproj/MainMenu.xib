@@ -641,9 +641,15 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="OBH-VB-ZzW"/>
-                            <menuItem title="Toggle colors" keyEquivalent="." id="Ipu-AN-MzL">
+                            <menuItem title="Pause / Resume" keyEquivalent=" " id="Ipu-AN-MzL">
+                                <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="toggleColors:" target="-1" id="BWM-Ow-Fek"/>
+                                    <action selector="pauseResume:" target="-1" id="pk4-ir-NQl"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Toggle colors" keyEquivalent="." id="1tW-Xx-xXo">
+                                <connections>
+                                    <action selector="toggleColors:" target="-1" id="McS-xW-8nd"/>
                                 </connections>
                             </menuItem>
                         </items>
