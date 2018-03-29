@@ -27,12 +27,21 @@ import Cocoa
 class GridView: NSView
 {
     @objc dynamic public var paused: Bool = true
+    @objc dynamic public var colors: Bool = true
     
-    public private( set ) var grid:       Grid           = Grid( width: 0, height: 0 )
-    public private( set ) var cellSize:   CGFloat        = 5
-    private               var speed:      UInt           = 10
-    private               var lastUpdate: CFAbsoluteTime = 0
-    private               var timer:      Timer?
+    public private( set ) var grid:          Grid           = Grid( width: 0, height: 0 )
+    public private( set ) var cellSize:      CGFloat        = 5
+    private               var speed:         UInt           = 10
+    private               var lastUpdate:    CFAbsoluteTime = 0
+    private               var mouseUpResume: Bool           = false
+    private               var timer:         Timer?
+    
+    init( frame rect: NSRect, kind: Grid.Kind )
+    {
+        super.init( frame: rect )
+        
+        self.grid = Grid( width: size_t( rect.size.width / self.cellSize ), height: size_t( rect.size.height / self.cellSize ), kind: kind )
+    }
     
     override init( frame rect: NSRect )
     {
@@ -45,7 +54,7 @@ class GridView: NSView
     {
         super.init( coder: decoder )
         
-        self.grid = Grid( width: size_t( self.frame.size.width / self.cellSize ), height: size_t( self.frame.size.height / self.cellSize ), kind: .Random )
+        self.grid = Grid( width: size_t( self.frame.size.width / self.cellSize ), height: size_t( self.frame.size.height / self.cellSize ) )
     }
     
     override func resize( withOldSuperviewSize size: NSSize )
@@ -152,6 +161,11 @@ class GridView: NSView
     
     public func colorForAge( _ age: UInt64 ) -> NSColor
     {
+        if( self.colors == false )
+        {
+            return NSColor.white
+        }
+        
         if( age == 0 )
         {
             return NSColor( hex: 0x000000, alpha: 0 )
@@ -178,6 +192,52 @@ class GridView: NSView
         }
         
         return NSColor( hex: 0xA082BD, alpha: 1 )
+    }
+    
+    override func mouseDown( with event: NSEvent )
+    {
+        self.mouseUpResume = self.paused == false
+        
+        self.pause( nil )
+        
+        guard let point = self.window?.contentView?.convert( event.locationInWindow, to: self ) else
+        {
+            return
+        }
+        
+        guard let cell = self.grid.cellAt( x: size_t( point.x / self.cellSize ), y: size_t( point.y / self.cellSize ) ) else
+        {
+            return
+        }
+        
+        cell.isAlive = ( cell.isAlive ) ? false : true
+        
+        self.setNeedsDisplay( self.bounds )
+    }
+    
+    override func mouseUp( with event: NSEvent )
+    {
+        if( self.mouseUpResume )
+        {
+            self.resume( nil )
+        }
+    }
+    
+    override func mouseDragged( with event: NSEvent )
+    {
+        guard let point = self.window?.contentView?.convert( event.locationInWindow, to: self ) else
+        {
+            return
+        }
+        
+        guard let cell = self.grid.cellAt( x: size_t( point.x / self.cellSize ), y: size_t( point.y / self.cellSize ) ) else
+        {
+            return
+        }
+        
+        cell.isAlive = true
+        
+        self.setNeedsDisplay( self.bounds )
     }
     
     override func draw( _ rect: NSRect )

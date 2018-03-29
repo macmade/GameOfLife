@@ -38,6 +38,7 @@ class Grid
     
     enum Kind
     {
+        case Blank
         case Random
         case StillLife
         case Oscillators
@@ -78,6 +79,7 @@ class Grid
         
         switch( kind )
         {
+            case .Blank:       self._setupBlankGrid()
             case .Random:      self._setupRandomGrid()
             case .StillLife:   self._setupStillLifeGrid()
             case .Oscillators: self._setupOscillatorsGrid()
@@ -95,14 +97,14 @@ class Grid
         
         if( width > self.width )
         {
-            for i in 0 ..< height
+            for i in 0 ..< max( self.height, height )
             {
                 self.cells[ i ].grow( width ) { Cell() }
             }
         }
         
-        self.width  = width
         self.height = height
+        self.width  = width
     }
     
     public func next()
@@ -215,6 +217,9 @@ class Grid
         
         return self.cells[ y ][ x ];
     }
+    
+    private func _setupBlankGrid()
+    {}
     
     private func _setupRandomGrid()
     {

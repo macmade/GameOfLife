@@ -7,7 +7,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="MainWindowController" customModule="GOL" customModuleProvider="target">
             <connections>
-                <outlet property="gridView" destination="IpB-TD-xcu" id="1Kf-Yf-igX"/>
+                <outlet property="gridViewContainer" destination="Saa-hd-fIb" id="I2b-pt-9yZ"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="CHT-06-6oS"/>
             </connections>
         </customObject>
@@ -26,8 +26,8 @@
                     <visualEffectView appearanceType="vibrantDark" blendingMode="behindWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="izn-PU-t0R">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="600"/>
                         <subviews>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="IpB-TD-xcu" customClass="GridView" customModule="GOL">
-                                <rect key="frame" x="20" y="20" width="960" height="560"/>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="Saa-hd-fIb">
+                                <rect key="frame" x="30" y="30" width="940" height="540"/>
                             </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="qwa-mU-n7q">
                                 <rect key="frame" x="452" y="0.0" width="97" height="32"/>
@@ -38,23 +38,23 @@
                                             <constraint firstAttribute="width" constant="32" id="TPg-PS-HM6"/>
                                             <constraint firstAttribute="height" constant="32" id="kN5-8T-5oH"/>
                                         </constraints>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarRewindTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="30C-FD-NMD">
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarRewindTemplate" imagePosition="only" alignment="center" continuous="YES" imageScaling="proportionallyUpOrDown" inset="2" id="30C-FD-NMD">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                         <connections>
-                                            <action selector="decreaseSpeed:" target="IpB-TD-xcu" id="Vhw-Xk-Vjn"/>
+                                            <action selector="decreaseSpeed:" target="-2" id="Zg3-VP-vk2"/>
                                         </connections>
                                     </button>
                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="UL5-sC-GxQ" userLabel="Resume">
                                         <rect key="frame" x="34" y="0.0" width="32" height="32"/>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarPlayTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="eQM-mH-OpQ">
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarPlayTemplate" imagePosition="only" alignment="center" continuous="YES" imageScaling="proportionallyUpOrDown" inset="2" id="eQM-mH-OpQ">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                         <connections>
-                                            <action selector="resume:" target="IpB-TD-xcu" id="W6z-Aw-a4y"/>
-                                            <binding destination="-2" name="hidden" keyPath="self.gridView.paused" id="Zzd-8X-2rd">
+                                            <action selector="resume:" target="-2" id="OG3-nL-fIk"/>
+                                            <binding destination="-2" name="hidden" keyPath="self.paused" id="yKr-lp-dsV">
                                                 <dictionary key="options">
                                                     <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                 </dictionary>
@@ -63,23 +63,23 @@
                                     </button>
                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="g3b-tn-6S3" userLabel="Pause">
                                         <rect key="frame" x="34" y="0.0" width="32" height="32"/>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarPauseTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="POo-TK-gSf">
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarPauseTemplate" imagePosition="only" alignment="center" continuous="YES" imageScaling="proportionallyUpOrDown" inset="2" id="POo-TK-gSf">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                         <connections>
-                                            <action selector="pause:" target="IpB-TD-xcu" id="rZF-bB-OES"/>
-                                            <binding destination="-2" name="hidden" keyPath="self.gridView.paused" id="zeK-Es-S1T"/>
+                                            <action selector="pause:" target="-2" id="o3P-MO-oqn"/>
+                                            <binding destination="-2" name="hidden" keyPath="self.paused" id="SSa-oV-qUh"/>
                                         </connections>
                                     </button>
                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="rrM-RV-RZr" userLabel="Next">
                                         <rect key="frame" x="65" y="0.0" width="32" height="32"/>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarFastForwardTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="XSZ-z8-HH1">
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarFastForwardTemplate" imagePosition="only" alignment="center" continuous="YES" imageScaling="proportionallyUpOrDown" inset="2" id="XSZ-z8-HH1">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
                                         <connections>
-                                            <action selector="increaseSpeed:" target="IpB-TD-xcu" id="zF6-31-6gc"/>
+                                            <action selector="increaseSpeed:" target="-2" id="O1X-sw-DGL"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -112,17 +112,21 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="showMenu:" target="-2" id="tkH-BL-xaj"/>
+                                    <outlet property="menu" destination="9w5-HG-jAW" id="52g-wu-3Ce"/>
+                                </connections>
                             </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="hXw-I3-eb4" firstAttribute="top" secondItem="izn-PU-t0R" secondAttribute="top" constant="10" id="5rr-5j-jAP"/>
+                            <constraint firstItem="Saa-hd-fIb" firstAttribute="centerY" secondItem="izn-PU-t0R" secondAttribute="centerY" id="CKN-A1-di8"/>
                             <constraint firstAttribute="bottom" secondItem="qwa-mU-n7q" secondAttribute="bottom" id="HMn-Vx-7jC"/>
+                            <constraint firstItem="Saa-hd-fIb" firstAttribute="width" secondItem="izn-PU-t0R" secondAttribute="width" constant="-60" id="INA-7Q-169"/>
                             <constraint firstItem="qwa-mU-n7q" firstAttribute="centerX" secondItem="izn-PU-t0R" secondAttribute="centerX" id="QS7-hG-kir"/>
-                            <constraint firstItem="IpB-TD-xcu" firstAttribute="centerX" secondItem="izn-PU-t0R" secondAttribute="centerX" id="eiF-ZF-zEh"/>
-                            <constraint firstItem="IpB-TD-xcu" firstAttribute="centerY" secondItem="izn-PU-t0R" secondAttribute="centerY" id="fUe-pc-F7E"/>
-                            <constraint firstItem="IpB-TD-xcu" firstAttribute="width" secondItem="izn-PU-t0R" secondAttribute="width" constant="-40" id="jp6-jq-CRr"/>
+                            <constraint firstItem="Saa-hd-fIb" firstAttribute="centerX" secondItem="izn-PU-t0R" secondAttribute="centerX" id="VXW-bj-UFp"/>
+                            <constraint firstItem="Saa-hd-fIb" firstAttribute="height" secondItem="izn-PU-t0R" secondAttribute="height" constant="-60" id="aBL-xS-gBh"/>
                             <constraint firstAttribute="trailing" secondItem="hXw-I3-eb4" secondAttribute="trailing" constant="10" id="yz9-L4-TVl"/>
-                            <constraint firstItem="IpB-TD-xcu" firstAttribute="height" secondItem="izn-PU-t0R" secondAttribute="height" constant="-40" id="zt8-pb-qYd"/>
                         </constraints>
                     </visualEffectView>
                 </subviews>
@@ -133,7 +137,49 @@
                     <constraint firstItem="izn-PU-t0R" firstAttribute="height" secondItem="EiT-Mj-1SZ" secondAttribute="height" id="y1P-v9-uNa"/>
                 </constraints>
             </view>
+            <point key="canvasLocation" x="130" y="-3"/>
         </window>
+        <menu id="9w5-HG-jAW">
+            <items>
+                <menuItem title="New Blank Grid" keyEquivalent="n" id="bxl-qx-SU4">
+                    <connections>
+                        <action selector="createRandomGrid:" target="-2" id="tBN-5w-o8G"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="New Random Grid" keyEquivalent="r" id="e5A-zv-3Su">
+                    <connections>
+                        <action selector="createRandomGrid:" target="-2" id="bJj-3S-Lok"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="09g-hb-cTb"/>
+                <menuItem title="Example Grid #1 - Still life" keyEquivalent="1" id="Aki-0m-Deb">
+                    <connections>
+                        <action selector="createExampleGrid1:" target="-2" id="Tat-wb-g9a"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Example Grid #2 - Oscillators" keyEquivalent="2" id="lfw-c5-tt5">
+                    <connections>
+                        <action selector="createExampleGrid2:" target="-2" id="y1T-eD-CJo"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Example Grid #3 - Spaceships" keyEquivalent="3" id="5eX-wF-5NO">
+                    <connections>
+                        <action selector="createExampleGrid3:" target="-2" id="w5H-ji-aw0"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Example Grid #4 - Gosper's Guns" keyEquivalent="4" id="U2W-hB-TKO">
+                    <connections>
+                        <action selector="createExampleGrid4:" target="-2" id="odi-tz-erH"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="E4A-wN-gIG"/>
+                <menuItem title="Toggle colors" keyEquivalent="." id="N2g-HH-1HJ">
+                    <connections>
+                        <action selector="toggleColors:" target="-2" id="Qfg-vh-MwP"/>
+                    </connections>
+                </menuItem>
+            </items>
+        </menu>
     </objects>
     <resources>
         <image name="NSActionTemplate" width="14" height="14"/>
