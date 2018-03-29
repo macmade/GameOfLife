@@ -24,38 +24,26 @@
 
 import Cocoa
 
-@NSApplicationMain
-class ApplicationDelegate: NSObject, NSApplicationDelegate
+@objc class AboutWindowController: NSWindowController
 {
-    private var mainWindowController:  MainWindowController?
-    private var aboutWindowController: AboutWindowController?
+    @objc private dynamic var name:      String?
+    @objc private dynamic var version:   String?
+    @objc private dynamic var copyright: String?
     
-    func applicationDidFinishLaunching( _ notification: Notification )
+    override var windowNibName: String?
     {
-        self.mainWindowController = MainWindowController()
-        
-        self.mainWindowController?.window?.center()
-        self.mainWindowController?.window?.makeKeyAndOrderFront( nil )
+        return NSStringFromClass( type( of: self ) )
     }
     
-    func applicationWillTerminate( _ notification: Notification )
-    {}
-    
-    func applicationShouldTerminateAfterLastWindowClosed( _ sender: NSApplication ) -> Bool
+    override func windowDidLoad()
     {
-        return true
-    }
-    
-    @IBAction func showAboutWindow( _ sender: Any? )
-    {
-        if( self.aboutWindowController == nil )
-        {
-            self.aboutWindowController = AboutWindowController()
-            
-            self.aboutWindowController?.window?.center()
-        }
+        super.windowDidLoad()
         
-        self.aboutWindowController?.window?.makeKeyAndOrderFront( nil )
+        self.window?.titlebarAppearsTransparent = true
+        self.window?.titleVisibility            = .hidden
+        
+        self.name      = Bundle.main.object( forInfoDictionaryKey: "CFBundleName"               ) as? String
+        self.version   = Bundle.main.object( forInfoDictionaryKey: "CFBundleShortVersionString" ) as? String
+        self.copyright = Bundle.main.object( forInfoDictionaryKey: "NSHumanReadableCopyright"   ) as? String
     }
 }
-
