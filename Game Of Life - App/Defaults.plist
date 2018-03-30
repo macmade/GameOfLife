@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>speed</key>
+	<integer>10</integer>
+	<key>colors</key>
+	<true/>
+	<key>color1RGB</key>
+	<integer>11763017</integer>
+	<key>color2RGB</key>
+	<integer>10722361</integer>
+	<key>color3RGB</key>
+	<integer>7112781</integer>
+	<key>color4RGB</key>
+	<integer>7319471</integer>
+	<key>color5RGB</key>
+	<integer>6786225</integer>
+	<key>color6RGB</key>
+	<integer>10519229</integer>
+</dict>
+</plist>

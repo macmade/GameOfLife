@@ -27,11 +27,10 @@ import Cocoa
 class GridView: NSView
 {
     @objc dynamic public var paused: Bool = true
-    @objc dynamic public var colors: Bool = true
+    @objc dynamic public var colors: Bool = Preferences.shared.colors
     
     public private( set ) var grid:          Grid           = Grid( width: 0, height: 0 )
     public private( set ) var cellSize:      CGFloat        = 5
-    private               var speed:         UInt           = 10
     private               var lastUpdate:    CFAbsoluteTime = 0
     private               var mouseUpResume: Bool           = false
     private               var timer:         Timer?
@@ -70,7 +69,7 @@ class GridView: NSView
     
     private func _startTimer()
     {
-        let interval = ( 20 - TimeInterval( self.speed ) ) / 50
+        let interval = ( 20 - TimeInterval( Preferences.shared.speed ) ) / 50
         
         self.timer = Timer.scheduledTimer( timeInterval: interval, target: self, selector: #selector( next ), userInfo: nil, repeats: true )
     }
@@ -114,26 +113,32 @@ class GridView: NSView
     
     @IBAction func decreaseSpeed( _ sender: Any? )
     {
-        if( self.speed == 0 )
+        if( Preferences.shared.speed == 0 )
         {
             return
         }
         
-        self.speed -= 1
+        Preferences.shared.speed -= 1
         
         self._restartTimer()
     }
     
     @IBAction func increaseSpeed( _ sender: Any? )
     {
-        if( self.speed == 20 )
+        if( Preferences.shared.speed == 20 )
         {
             return
         }
         
-        self.speed += 1
+        Preferences.shared.speed += 1
         
         self._restartTimer()
+    }
+    
+    @IBAction func toggleColors( _ sender: Any? )
+    {
+        self.colors               = ( self.colors ) ? false : true
+        Preferences.shared.colors = self.colors
     }
     
     @objc private func next()
@@ -168,30 +173,30 @@ class GridView: NSView
         
         if( age == 0 )
         {
-            return NSColor( hex: 0x000000, alpha: 0 )
+            return NSColor.black
         }
         else if( age == 1 )
         {
-            return NSColor( hex: 0xB37D49, alpha: 1 )
+            return Preferences.shared.color1()
         }
         else if( age == 2 )
         {
-            return NSColor( hex: 0xA39C39, alpha: 1 )
+            return Preferences.shared.color2()
         }
         else if( age == 3 )
         {
-            return NSColor( hex: 0x6C884D, alpha: 1 )
+            return Preferences.shared.color3()
         }
         else if( age == 4 )
         {
-            return NSColor( hex: 0x6FAFAF, alpha: 1 )
+            return Preferences.shared.color4()
         }
         else if( age == 5 )
         {
-            return NSColor( hex: 0x678CB1, alpha: 1 )
+            return Preferences.shared.color5()
         }
         
-        return NSColor( hex: 0xA082BD, alpha: 1 )
+        return Preferences.shared.color6()
     }
     
     override func mouseDown( with event: NSEvent )

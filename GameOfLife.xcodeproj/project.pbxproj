@@ -12,6 +12,12 @@
 		0529D8CA2068EAE90072B1A5 /* ApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0529D8C92068EAE90072B1A5 /* ApplicationDelegate.swift */; };
 		0529D8CC2068EB7C0072B1A5 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0529D8CB2068EB7C0072B1A5 /* Cell.swift */; };
 		0529D8CE2068EB8A0072B1A5 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0529D8CD2068EB8A0072B1A5 /* Grid.swift */; };
+		052B0725206D806E00935104 /* AboutWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052B0723206D806B00935104 /* AboutWindowController.swift */; };
+		052B0726206D816F00935104 /* GOL.AboutWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 052B0721206D805400935104 /* GOL.AboutWindowController.xib */; };
+		052B0732206D81E600935104 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052B0727206D81DC00935104 /* Preferences.swift */; };
+		052B0734206D829800935104 /* Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 052B0733206D829800935104 /* Defaults.plist */; };
+		052B0739206D885800935104 /* GOL.PreferencesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 052B0737206D885800935104 /* GOL.PreferencesWindowController.xib */; };
+		052B073B206D886700935104 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052B073A206D886700935104 /* PreferencesWindowController.swift */; };
 		05356FDB20692A3B002178E3 /* ContiguousArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05356FDA20692A3B002178E3 /* ContiguousArray.swift */; };
 		053571582069792A002178E3 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053571572069792A002178E3 /* MainWindowController.swift */; };
 		0535715B20697963002178E3 /* GOL.MainWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0535715920697963002178E3 /* GOL.MainWindowController.xib */; };
@@ -48,6 +54,12 @@
 		0529D8C92068EAE90072B1A5 /* ApplicationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationDelegate.swift; sourceTree = "<group>"; };
 		0529D8CB2068EB7C0072B1A5 /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		0529D8CD2068EB8A0072B1A5 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
+		052B0722206D805400935104 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GOL.AboutWindowController.xib; sourceTree = "<group>"; };
+		052B0723206D806B00935104 /* AboutWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutWindowController.swift; sourceTree = "<group>"; };
+		052B0727206D81DC00935104 /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		052B0733206D829800935104 /* Defaults.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Defaults.plist; sourceTree = "<group>"; };
+		052B0738206D885800935104 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GOL.PreferencesWindowController.xib; sourceTree = "<group>"; };
+		052B073A206D886700935104 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		05356FDA20692A3B002178E3 /* ContiguousArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContiguousArray.swift; sourceTree = "<group>"; };
 		053571572069792A002178E3 /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		0535715A20697963002178E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GOL.MainWindowController.xib; sourceTree = "<group>"; };
@@ -140,6 +152,7 @@
 				0529D8BD2068EA020072B1A5 /* Assets.xcassets */,
 				0529D8C22068EA020072B1A5 /* Info.plist */,
 				0529D8C32068EA020072B1A5 /* GameOfLife.entitlements */,
+				052B0733206D829800935104 /* Defaults.plist */,
 			);
 			path = "Game Of Life - App";
 			sourceTree = "<group>";
@@ -147,8 +160,10 @@
 		0529D8C72068EAC70072B1A5 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				0529D8BF2068EA020072B1A5 /* MainMenu.xib */,
+				052B0721206D805400935104 /* GOL.AboutWindowController.xib */,
 				0535715920697963002178E3 /* GOL.MainWindowController.xib */,
+				052B0737206D885800935104 /* GOL.PreferencesWindowController.xib */,
+				0529D8BF2068EA020072B1A5 /* MainMenu.xib */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -156,6 +171,7 @@
 		0529D8C82068EAC70072B1A5 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				052B0723206D806B00935104 /* AboutWindowController.swift */,
 				0529D8C92068EAE90072B1A5 /* ApplicationDelegate.swift */,
 				05357168206A347C002178E3 /* Array.swift */,
 				0529D8CB2068EB7C0072B1A5 /* Cell.swift */,
@@ -164,6 +180,8 @@
 				0535715D20697CF5002178E3 /* GridView.swift */,
 				053571572069792A002178E3 /* MainWindowController.swift */,
 				0535715F20698C81002178E3 /* NSColor.swift */,
+				052B0727206D81DC00935104 /* Preferences.swift */,
+				052B073A206D886700935104 /* PreferencesWindowController.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -421,6 +439,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				0529D8BE2068EA020072B1A5 /* Assets.xcassets in Resources */,
+				052B0726206D816F00935104 /* GOL.AboutWindowController.xib in Resources */,
+				052B0739206D885800935104 /* GOL.PreferencesWindowController.xib in Resources */,
+				052B0734206D829800935104 /* Defaults.plist in Resources */,
 				0535715B20697963002178E3 /* GOL.MainWindowController.xib in Resources */,
 				0529D8C12068EA020072B1A5 /* MainMenu.xib in Resources */,
 			);
@@ -434,11 +455,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				0529D8CA2068EAE90072B1A5 /* ApplicationDelegate.swift in Sources */,
+				052B073B206D886700935104 /* PreferencesWindowController.swift in Sources */,
 				0529D8CC2068EB7C0072B1A5 /* Cell.swift in Sources */,
+				052B0732206D81E600935104 /* Preferences.swift in Sources */,
 				0529D8CE2068EB8A0072B1A5 /* Grid.swift in Sources */,
 				05356FDB20692A3B002178E3 /* ContiguousArray.swift in Sources */,
 				0535716020698C81002178E3 /* NSColor.swift in Sources */,
 				05357169206A347C002178E3 /* Array.swift in Sources */,
+				052B0725206D806E00935104 /* AboutWindowController.swift in Sources */,
 				0535715E20697CF5002178E3 /* GridView.swift in Sources */,
 				053571582069792A002178E3 /* MainWindowController.swift in Sources */,
 			);
@@ -465,6 +489,22 @@
 				0529D8C02068EA020072B1A5 /* Base */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		052B0721206D805400935104 /* GOL.AboutWindowController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				052B0722206D805400935104 /* Base */,
+			);
+			name = GOL.AboutWindowController.xib;
+			sourceTree = "<group>";
+		};
+		052B0737206D885800935104 /* GOL.PreferencesWindowController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				052B0738206D885800935104 /* Base */,
+			);
+			name = GOL.PreferencesWindowController.xib;
 			sourceTree = "<group>";
 		};
 		0535715920697963002178E3 /* GOL.MainWindowController.xib */ = {

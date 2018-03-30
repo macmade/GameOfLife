@@ -156,11 +156,6 @@ class MainWindowController: NSWindowController
     
     @IBAction func toggleColors( _ sender: Any? )
     {
-        guard let gridView = self.gridView else
-        {
-            return
-        }
-        
-        gridView.colors = ( gridView.colors ) ? false : true
+        self.gridView?.toggleColors( sender )
     }
 }

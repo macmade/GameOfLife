@@ -27,15 +27,22 @@ import Cocoa
 @NSApplicationMain
 class ApplicationDelegate: NSObject, NSApplicationDelegate
 {
-    private var mainWindowController:  MainWindowController?
-    private var aboutWindowController: AboutWindowController?
+    private var mainWindowController:        MainWindowController?
+    private var aboutWindowController:       AboutWindowController?
+    private var preferencesWindowController: PreferencesWindowController?
     
     func applicationDidFinishLaunching( _ notification: Notification )
     {
         self.mainWindowController = MainWindowController()
         
-        self.mainWindowController?.window?.center()
+        if( Preferences.shared.lastStart == nil )
+        {
+            self.mainWindowController?.window?.center()
+        }
+        
         self.mainWindowController?.window?.makeKeyAndOrderFront( nil )
+        
+        Preferences.shared.lastStart = Date()
     }
     
     func applicationWillTerminate( _ notification: Notification )
@@ -56,6 +63,18 @@ class ApplicationDelegate: NSObject, NSApplicationDelegate
         }
         
         self.aboutWindowController?.window?.makeKeyAndOrderFront( nil )
+    }
+    
+    @IBAction func showPreferencesWindow( _ sender: Any? )
+    {
+        if( self.preferencesWindowController == nil )
+        {
+            self.preferencesWindowController = PreferencesWindowController()
+            
+            self.preferencesWindowController?.window?.center()
+        }
+        
+        self.preferencesWindowController?.window?.makeKeyAndOrderFront( nil )
     }
 }
 
