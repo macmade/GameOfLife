@@ -28,8 +28,8 @@ class MainWindowController: NSWindowController
 {
     @objc dynamic public var paused: Bool = false
     
-    @IBOutlet private var gridViewContainer: NSView?
-    @objc     private var gridView:          GridView?
+    @IBOutlet     private var gridViewContainer: NSView?
+    @objc dynamic private var gridView:          GridView?
     
     override var windowNibName: String?
     {

@@ -119,6 +119,141 @@
                                     <outlet property="menu" destination="9w5-HG-jAW" id="52g-wu-3Ce"/>
                                 </connections>
                             </button>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="17W-dc-adO">
+                                <rect key="frame" x="10" y="10" width="105" height="62"/>
+                                <subviews>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="p0W-Sb-y9a">
+                                        <rect key="frame" x="-2" y="48" width="63" height="14"/>
+                                        <shadow key="shadow" blurRadius="1">
+                                            <size key="offset" width="1" height="1"/>
+                                            <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        </shadow>
+                                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Population:" id="6eO-P4-bsY">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zur-Gs-mcQ">
+                                        <rect key="frame" x="74" y="48" width="33" height="14"/>
+                                        <shadow key="shadow" blurRadius="1">
+                                            <size key="offset" width="1" height="1"/>
+                                            <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        </shadow>
+                                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="wuE-3j-skN">
+                                            <numberFormatter key="formatter" formatterBehavior="default10_4" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="42" id="CCr-Xn-fkB"/>
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="gridView.grid.population" id="lxC-Bk-Q41"/>
+                                        </connections>
+                                    </textField>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="l6S-zy-zqA">
+                                        <rect key="frame" x="-2" y="32" width="37" height="14"/>
+                                        <shadow key="shadow" blurRadius="1">
+                                            <size key="offset" width="1" height="1"/>
+                                            <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        </shadow>
+                                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Turns:" id="EhJ-JD-sE7">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tpQ-IE-Rus">
+                                        <rect key="frame" x="74" y="32" width="33" height="14"/>
+                                        <shadow key="shadow" blurRadius="1">
+                                            <size key="offset" width="1" height="1"/>
+                                            <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        </shadow>
+                                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="3aP-MN-L3W">
+                                            <numberFormatter key="formatter" formatterBehavior="default10_4" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="42" id="6nN-14-z7R"/>
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="gridView.grid.turns" id="lZC-Sy-gmy"/>
+                                        </connections>
+                                    </textField>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="atG-Xo-C3s">
+                                        <rect key="frame" x="-2" y="16" width="41" height="14"/>
+                                        <shadow key="shadow" blurRadius="1">
+                                            <size key="offset" width="1" height="1"/>
+                                            <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        </shadow>
+                                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Speed:" id="dqF-9T-VSp">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JLM-3r-WHf">
+                                        <rect key="frame" x="74" y="16" width="33" height="14"/>
+                                        <shadow key="shadow" blurRadius="1">
+                                            <size key="offset" width="1" height="1"/>
+                                            <color key="color" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        </shadow>
+                                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="ns4-Qw-L4O">
+                                            <numberFormatter key="formatter" formatterBehavior="default10_4" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="42" id="oD5-Kj-uXf"/>
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="gridView.speed" id="job-LD-mhX"/>
+                                        </connections>
+                                    </textField>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="M6E-a8-Fdt">
+                                        <rect key="frame" x="-2" y="0.0" width="28" height="14"/>
+                                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="FPS:" id="bsN-I6-fxx">
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="26g-Qu-mQD">
+                                        <rect key="frame" x="74" y="0.0" width="33" height="14"/>
+                                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" id="jHT-8p-X96">
+                                            <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="lI8-Kh-kzd"/>
+                                            <font key="font" metaFont="smallSystem"/>
+                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="gridView.fps" id="AL7-3v-Jfm"/>
+                                        </connections>
+                                    </textField>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="tpQ-IE-Rus" firstAttribute="leading" secondItem="zur-Gs-mcQ" secondAttribute="leading" id="5Gq-uR-t6l"/>
+                                    <constraint firstAttribute="bottom" secondItem="M6E-a8-Fdt" secondAttribute="bottom" id="64r-uH-CXf"/>
+                                    <constraint firstItem="l6S-zy-zqA" firstAttribute="top" secondItem="p0W-Sb-y9a" secondAttribute="bottom" constant="2" id="6p1-PA-8Om"/>
+                                    <constraint firstItem="26g-Qu-mQD" firstAttribute="centerY" secondItem="M6E-a8-Fdt" secondAttribute="centerY" id="8RA-gL-33y"/>
+                                    <constraint firstItem="26g-Qu-mQD" firstAttribute="trailing" secondItem="JLM-3r-WHf" secondAttribute="trailing" id="95s-av-k12"/>
+                                    <constraint firstItem="atG-Xo-C3s" firstAttribute="top" secondItem="l6S-zy-zqA" secondAttribute="bottom" constant="2" id="AsP-bQ-3Ds"/>
+                                    <constraint firstItem="tpQ-IE-Rus" firstAttribute="centerY" secondItem="l6S-zy-zqA" secondAttribute="centerY" id="Dr0-IG-mjw"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="atG-Xo-C3s" secondAttribute="trailing" constant="20" symbolic="YES" id="Hfr-d2-t7Y"/>
+                                    <constraint firstAttribute="trailing" secondItem="zur-Gs-mcQ" secondAttribute="trailing" id="Kte-HS-r4D"/>
+                                    <constraint firstItem="JLM-3r-WHf" firstAttribute="centerY" secondItem="atG-Xo-C3s" secondAttribute="centerY" id="LPl-KB-luf"/>
+                                    <constraint firstItem="tpQ-IE-Rus" firstAttribute="trailing" secondItem="zur-Gs-mcQ" secondAttribute="trailing" id="PSq-oe-eek"/>
+                                    <constraint firstItem="atG-Xo-C3s" firstAttribute="leading" secondItem="l6S-zy-zqA" secondAttribute="leading" id="SQt-4c-EWe"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="M6E-a8-Fdt" secondAttribute="trailing" constant="20" symbolic="YES" id="THr-tB-xIp"/>
+                                    <constraint firstItem="M6E-a8-Fdt" firstAttribute="leading" secondItem="atG-Xo-C3s" secondAttribute="leading" id="dV5-nD-hip"/>
+                                    <constraint firstItem="JLM-3r-WHf" firstAttribute="trailing" secondItem="tpQ-IE-Rus" secondAttribute="trailing" id="e1v-Sj-KlN"/>
+                                    <constraint firstItem="p0W-Sb-y9a" firstAttribute="leading" secondItem="17W-dc-adO" secondAttribute="leading" id="fGT-XY-VFz"/>
+                                    <constraint firstItem="26g-Qu-mQD" firstAttribute="leading" secondItem="JLM-3r-WHf" secondAttribute="leading" id="fTw-b2-vX6"/>
+                                    <constraint firstItem="zur-Gs-mcQ" firstAttribute="leading" secondItem="p0W-Sb-y9a" secondAttribute="trailing" constant="17" id="gOM-Ye-e8x"/>
+                                    <constraint firstItem="M6E-a8-Fdt" firstAttribute="top" secondItem="atG-Xo-C3s" secondAttribute="bottom" constant="2" id="jLd-cI-lxU"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="l6S-zy-zqA" secondAttribute="trailing" constant="20" symbolic="YES" id="jTL-3p-uKp"/>
+                                    <constraint firstItem="p0W-Sb-y9a" firstAttribute="top" secondItem="17W-dc-adO" secondAttribute="top" id="n3e-Xn-YPJ"/>
+                                    <constraint firstItem="zur-Gs-mcQ" firstAttribute="centerY" secondItem="p0W-Sb-y9a" secondAttribute="centerY" id="szS-U9-LcR"/>
+                                    <constraint firstItem="JLM-3r-WHf" firstAttribute="leading" secondItem="tpQ-IE-Rus" secondAttribute="leading" id="vDT-RC-ND4"/>
+                                    <constraint firstItem="l6S-zy-zqA" firstAttribute="leading" secondItem="p0W-Sb-y9a" secondAttribute="leading" id="y3f-8D-bhH"/>
+                                </constraints>
+                            </customView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="hXw-I3-eb4" firstAttribute="top" secondItem="izn-PU-t0R" secondAttribute="top" constant="10" id="5rr-5j-jAP"/>
@@ -126,8 +261,10 @@
                             <constraint firstAttribute="bottom" secondItem="qwa-mU-n7q" secondAttribute="bottom" id="HMn-Vx-7jC"/>
                             <constraint firstItem="Saa-hd-fIb" firstAttribute="width" secondItem="izn-PU-t0R" secondAttribute="width" constant="-60" id="INA-7Q-169"/>
                             <constraint firstItem="qwa-mU-n7q" firstAttribute="centerX" secondItem="izn-PU-t0R" secondAttribute="centerX" id="QS7-hG-kir"/>
+                            <constraint firstItem="17W-dc-adO" firstAttribute="leading" secondItem="izn-PU-t0R" secondAttribute="leading" constant="10" id="SBS-VX-Rua"/>
                             <constraint firstItem="Saa-hd-fIb" firstAttribute="centerX" secondItem="izn-PU-t0R" secondAttribute="centerX" id="VXW-bj-UFp"/>
                             <constraint firstItem="Saa-hd-fIb" firstAttribute="height" secondItem="izn-PU-t0R" secondAttribute="height" constant="-60" id="aBL-xS-gBh"/>
+                            <constraint firstAttribute="bottom" secondItem="17W-dc-adO" secondAttribute="bottom" constant="10" id="bhg-7F-Vnn"/>
                             <constraint firstAttribute="trailing" secondItem="hXw-I3-eb4" secondAttribute="trailing" constant="10" id="yz9-L4-TVl"/>
                         </constraints>
                     </visualEffectView>

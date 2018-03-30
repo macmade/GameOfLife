@@ -29,7 +29,10 @@ class GridView: NSView
     @objc dynamic public var paused: Bool = true
     @objc dynamic public var colors: Bool = Preferences.shared.colors
     
-    public private( set ) var grid:          Grid           = Grid( width: 0, height: 0 )
+    @objc dynamic public private( set ) var speed: UInt    = Preferences.shared.speed
+    @objc dynamic public private( set ) var fps:   CGFloat = 0
+    @objc dynamic public private( set ) var grid:  Grid    = Grid( width: 0, height: 0 )
+    
     public private( set ) var cellSize:      CGFloat        = 5
     private               var lastUpdate:    CFAbsoluteTime = 0
     private               var mouseUpResume: Bool           = false
@@ -119,6 +122,7 @@ class GridView: NSView
         }
         
         Preferences.shared.speed -= 1
+        self.speed                = Preferences.shared.speed
         
         self._restartTimer()
     }
@@ -131,6 +135,7 @@ class GridView: NSView
         }
         
         Preferences.shared.speed += 1
+        self.speed                = Preferences.shared.speed
         
         self._restartTimer()
     }

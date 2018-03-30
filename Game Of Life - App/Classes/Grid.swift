@@ -24,14 +24,16 @@
 
 import Foundation
 
-class Grid
+class Grid: NSObject
 {
     typealias Array  = Swift.ContiguousArray
     typealias Row    = Array< Cell >
     typealias Table  = Array< Row >
     
+    @objc dynamic public private( set ) var turns:      UInt64 = 0
+    @objc dynamic public private( set ) var population: UInt64 = 0
+    
     public private( set ) var colors: Bool   = true
-    public private( set ) var turns:  UInt64 = 0
     public private( set ) var width:  size_t
     public private( set ) var height: size_t
     public private( set ) var cells:  Table
@@ -46,26 +48,8 @@ class Grid
         case GospersGuns
     }
     
-    public var population: UInt64
-    {
-        get
-        {
-            var n: UInt64 = 0
-            
-            for row in self.cells
-            {
-                for cell in row
-                {
-                    n += ( cell.isAlive ) ? 1 : 0
-                }
-            }
-            
-            return n
-        }
-    }
-    
     public init( width: size_t, height: size_t, kind: Kind = .Random )
-    { 
+    {
         self.width  = width
         self.height = height
         self.cells  = Table()
@@ -76,6 +60,8 @@ class Grid
         {
             self.cells[ i ].grow( width ) { Cell() }
         }
+        
+        super.init()
         
         switch( kind )
         {
@@ -131,6 +117,7 @@ class Grid
         
         var x: size_t = 0
         var y: size_t = 0
+        var n: UInt64 = 0
         
         for row in cells
         {
@@ -194,13 +181,15 @@ class Grid
                     cell.age = cell.age + 1
                 }
                 
+                n += ( cell.isAlive ) ? 1 : 0
                 x += 1
             }
             
             y += 1
         }
         
-        self.cells = cells
+        self.population = n
+        self.cells      = cells
     }
     
     public func cellAt( x: size_t, y: size_t ) -> Cell?
@@ -223,13 +212,18 @@ class Grid
     
     private func _setupRandomGrid()
     {
+        var n: UInt64 = 0
+        
         for row in self.cells
         {
             for cell in row
             {
                 cell.isAlive = arc4random() % 3 == 1
+                n           += ( cell.isAlive ) ? 1 : 0
             }
         }
+        
+        self.population = n
     }
     
     private func _setupStillLifeGrid()
@@ -243,6 +237,7 @@ class Grid
     
     private func _setupGospersGunsGrid()
     {
+        var n: UInt64                = 0
         let c: Array< Array< Int > > =
         [
                 [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
@@ -280,9 +275,12 @@ class Grid
                 for k in 0 ..< c[ i ].count
                 {
                     self.cells[ i ][ j + k ].isAlive = c[ i ][ k ] == 1;
+                    n                               += ( self.cells[ i ][ j + k ].isAlive ) ? 1 : 0
                 }
             }
         }
+        
+        self.population = n
     }
 }
 
