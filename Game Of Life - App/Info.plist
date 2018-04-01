@@ -11,6 +11,8 @@
 			<array>
 				<string>gol</string>
 			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>GOL-Save</string>
 			<key>CFBundleTypeName</key>
 			<string>GOL Save File</string>
 			<key>CFBundleTypeRole</key>
@@ -26,7 +28,7 @@
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIconFile</key>
-	<string></string>
+	<string>GOL.icns</string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -56,6 +58,8 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string>GOL Save File</string>
+			<key>UTTypeIconFile</key>
+			<string>GOL-Save</string>
 			<key>UTTypeIdentifier</key>
 			<string>com.xs-labs.gol.save</string>
 			<key>UTTypeTagSpecification</key>
