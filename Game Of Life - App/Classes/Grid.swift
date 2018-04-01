@@ -282,5 +282,24 @@ class Grid: NSObject
         
         self.population = n
     }
+    
+    public func data() -> Data
+    {
+        var data = Data()
+        
+        data.append( contentsOf: [ 71, 79, 76, 49 ] )
+        data.append( UInt64( self.width ) )
+        data.append( UInt64( self.height ) )
+        
+        for y in 0 ..< self.cells.count
+        {
+            for x in 0 ..< self.cells[ y ].count
+            {
+                data.append( UInt8( ( self.cells[ y ][ x ].isAlive ) ? 1 : 0 ) )
+            }
+        }
+        
+        return data
+    }
 }
 

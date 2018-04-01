@@ -158,4 +158,47 @@ class MainWindowController: NSWindowController
     {
         self.gridView?.toggleColors( sender )
     }
+    
+    @IBAction func saveDocumentAs( _ sender: Any? )
+    {
+        self.gridView?.pause( sender )
+        
+        let panel = NSSavePanel()
+        
+        panel.begin
+        {
+            r in
+            
+            if( r != NSModalResponseOK )
+            {
+                return
+            }
+            
+            guard let data = self.gridView?.grid.data() else
+            {
+                return
+            }
+            
+            guard let url = panel.url else
+            {
+                return
+            }
+            
+            let save = URL( fileURLWithPath: url.path.appending( ".gol" ) )
+            
+            do
+            {
+                try data.write( to: save )
+            }
+            catch let error as NSError
+            {
+                NSAlert( error: error ).runModal()
+            }
+        }
+        
+        if( self.paused == false )
+        {
+            self.gridView?.resume( nil )
+        }
+    }
 }

@@ -18,6 +18,7 @@
 		052B0734206D829800935104 /* Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 052B0733206D829800935104 /* Defaults.plist */; };
 		052B0739206D885800935104 /* GOL.PreferencesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 052B0737206D885800935104 /* GOL.PreferencesWindowController.xib */; };
 		052B073B206D886700935104 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052B073A206D886700935104 /* PreferencesWindowController.swift */; };
+		0532BC1F206EB60800807903 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0532BC1D206EB60400807903 /* Data.swift */; };
 		05356FDB20692A3B002178E3 /* ContiguousArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05356FDA20692A3B002178E3 /* ContiguousArray.swift */; };
 		053571582069792A002178E3 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053571572069792A002178E3 /* MainWindowController.swift */; };
 		0535715B20697963002178E3 /* GOL.MainWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0535715920697963002178E3 /* GOL.MainWindowController.xib */; };
@@ -50,7 +51,6 @@
 		0529D8BD2068EA020072B1A5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0529D8C02068EA020072B1A5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		0529D8C22068EA020072B1A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0529D8C32068EA020072B1A5 /* GameOfLife.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GameOfLife.entitlements; sourceTree = "<group>"; };
 		0529D8C92068EAE90072B1A5 /* ApplicationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationDelegate.swift; sourceTree = "<group>"; };
 		0529D8CB2068EB7C0072B1A5 /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		0529D8CD2068EB8A0072B1A5 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
@@ -60,6 +60,8 @@
 		052B0733206D829800935104 /* Defaults.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Defaults.plist; sourceTree = "<group>"; };
 		052B0738206D885800935104 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GOL.PreferencesWindowController.xib; sourceTree = "<group>"; };
 		052B073A206D886700935104 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
+		0532BC1C206EB35100807903 /* Game Of Life.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Game Of Life.entitlements"; sourceTree = "<group>"; };
+		0532BC1D206EB60400807903 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		05356FDA20692A3B002178E3 /* ContiguousArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContiguousArray.swift; sourceTree = "<group>"; };
 		053571572069792A002178E3 /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
 		0535715A20697963002178E3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GOL.MainWindowController.xib; sourceTree = "<group>"; };
@@ -151,7 +153,6 @@
 				0529D8C72068EAC70072B1A5 /* UI */,
 				0529D8BD2068EA020072B1A5 /* Assets.xcassets */,
 				0529D8C22068EA020072B1A5 /* Info.plist */,
-				0529D8C32068EA020072B1A5 /* GameOfLife.entitlements */,
 				052B0733206D829800935104 /* Defaults.plist */,
 			);
 			path = "Game Of Life - App";
@@ -177,6 +178,7 @@
 				0529D8CB2068EB7C0072B1A5 /* Cell.swift */,
 				05356FDA20692A3B002178E3 /* ContiguousArray.swift */,
 				0529D8CD2068EB8A0072B1A5 /* Grid.swift */,
+				0532BC1D206EB60400807903 /* Data.swift */,
 				0535715D20697CF5002178E3 /* GridView.swift */,
 				053571572069792A002178E3 /* MainWindowController.swift */,
 				0535715F20698C81002178E3 /* NSColor.swift */,
@@ -189,6 +191,7 @@
 		0539493B206673AC00C20FA3 = {
 			isa = PBXGroup;
 			children = (
+				0532BC1C206EB35100807903 /* Game Of Life.entitlements */,
 				053949C92066C53700C20FA3 /* LICENSE */,
 				053949C82066C53700C20FA3 /* README.md */,
 				0539494E2066741900C20FA3 /* xcconfig */,
@@ -406,6 +409,11 @@
 						CreatedOnToolsVersion = 9.2;
 						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
 					};
 					05394943206673AC00C20FA3 = {
 						CreatedOnToolsVersion = 9.2;
@@ -461,6 +469,7 @@
 				0529D8CE2068EB8A0072B1A5 /* Grid.swift in Sources */,
 				05356FDB20692A3B002178E3 /* ContiguousArray.swift in Sources */,
 				0535716020698C81002178E3 /* NSColor.swift in Sources */,
+				0532BC1F206EB60800807903 /* Data.swift in Sources */,
 				05357169206A347C002178E3 /* Array.swift in Sources */,
 				052B0725206D806E00935104 /* AboutWindowController.swift in Sources */,
 				0535715E20697CF5002178E3 /* GridView.swift in Sources */,
@@ -523,7 +532,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "Game Of Life - App/GameOfLife.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Game Of Life.entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 326Y53CJMD;
@@ -543,7 +552,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = "Game Of Life - App/GameOfLife.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Game Of Life.entitlements";
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 326Y53CJMD;
