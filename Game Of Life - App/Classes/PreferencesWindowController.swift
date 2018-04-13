@@ -26,13 +26,13 @@ import Cocoa
 
 @objc class PreferencesWindowController: NSWindowController
 {
-    @objc private dynamic var color1:       NSColor                   = NSColor.black
-    @objc private dynamic var color2:       NSColor                   = NSColor.black
-    @objc private dynamic var color3:       NSColor                   = NSColor.black
-    @objc private dynamic var color4:       NSColor                   = NSColor.black
-    @objc private dynamic var color5:       NSColor                   = NSColor.black
-    @objc private dynamic var color6:       NSColor                   = NSColor.black
-    @objc private dynamic var observations: [ NSKeyValueObservation ] = []
+    @IBOutlet private var colorsController: NSArrayController?
+    
+    @objc public dynamic var colors:    Bool    = Preferences.shared.colors
+    @objc public dynamic var speed:     UInt    = Preferences.shared.speed
+    @objc public dynamic var cellSize:  CGFloat = Preferences.shared.cellSize
+    
+    private var observations: [ NSKeyValueObservation ] = []
     
     override var windowNibName: String?
     {
@@ -43,43 +43,28 @@ import Cocoa
     {
         super.windowDidLoad()
         
-        self.color1 = Preferences.shared.color1()
-        self.color2 = Preferences.shared.color2()
-        self.color3 = Preferences.shared.color3()
-        self.color4 = Preferences.shared.color4()
-        self.color5 = Preferences.shared.color5()
-        self.color6 = Preferences.shared.color6()
-        
-        let o1 = self.observe( \.color1 )
+        let o1 = self.observe( \PreferencesWindowController.colors )
         {
-            ( o, c ) in Preferences.shared.color1( value: self.color1 )
+            ( o, c ) in Preferences.shared.colors = self.colors
         }
         
-        let o2 = self.observe( \.color2 )
+        let o2 = self.observe( \PreferencesWindowController.speed )
         {
-            ( o, c ) in Preferences.shared.color1( value: self.color1 )
+            ( o, c ) in Preferences.shared.speed = self.speed
         }
         
-        let o3 = self.observe( \.color3 )
+        let o3 = self.observe( \PreferencesWindowController.cellSize )
         {
-            ( o, c ) in Preferences.shared.color2( value: self.color2 )
+            ( o, c ) in Preferences.shared.cellSize = self.cellSize
         }
         
-        let o4 = self.observe( \.color4 )
-        {
-            ( o, c ) in Preferences.shared.color3( value: self.color3 )
-        }
+        self.observations.append( contentsOf: [ o1, o2, o3 ] )
         
-        let o5 = self.observe( \.color5 )
-        {
-            ( o, c ) in Preferences.shared.color4( value: self.color4 )
-        }
-        
-        let o6 = self.observe( \.color6 )
-        {
-            ( o, c ) in Preferences.shared.color5( value: self.color5 )
-        }
-        
-        self.observations.append( contentsOf: [ o1, o2, o3, o4, o5, o6 ] )
+        self.colorsController?.addObject( PreferencesColorItem( color: Preferences.shared.color1(), label: "Color 1" ) { c in Preferences.shared.color1( value: c ) } )
+        self.colorsController?.addObject( PreferencesColorItem( color: Preferences.shared.color2(), label: "Color 2" ) { c in Preferences.shared.color2( value: c ) } )
+        self.colorsController?.addObject( PreferencesColorItem( color: Preferences.shared.color3(), label: "Color 3" ) { c in Preferences.shared.color3( value: c ) } )
+        self.colorsController?.addObject( PreferencesColorItem( color: Preferences.shared.color4(), label: "Color 4" ) { c in Preferences.shared.color4( value: c ) } )
+        self.colorsController?.addObject( PreferencesColorItem( color: Preferences.shared.color5(), label: "Color 5" ) { c in Preferences.shared.color5( value: c ) } )
+        self.colorsController?.addObject( PreferencesColorItem( color: Preferences.shared.color6(), label: "Color 6" ) { c in Preferences.shared.color6( value: c ) } )
     }
 }

@@ -27,42 +27,47 @@ import Cocoa
 class GridView: NSView
 {
     @objc dynamic public var paused: Bool = true
-    @objc dynamic public var colors: Bool = Preferences.shared.colors
     
     @objc dynamic public private( set ) var speed: UInt    = Preferences.shared.speed
     @objc dynamic public private( set ) var fps:   CGFloat = 0
     @objc dynamic public private( set ) var grid:  Grid    = Grid( width: 0, height: 0 )
     
-    public private( set ) var cellSize:      CGFloat        = 5
-    private               var lastUpdate:    CFAbsoluteTime = 0
-    private               var mouseUpResume: Bool           = false
-    private               var timer:         Timer?
+    private var lastUpdate:    CFAbsoluteTime            = 0
+    private var mouseUpResume: Bool                      = false
+    private var observations:  [ NSKeyValueObservation ] = []
+    private var timer:         Timer?
     
     init( frame rect: NSRect, kind: Grid.Kind )
     {
         super.init( frame: rect )
         
-        self.grid = Grid( width: size_t( rect.size.width / self.cellSize ), height: size_t( rect.size.height / self.cellSize ), kind: kind )
+        self.grid = Grid( width: size_t( rect.size.width / Preferences.shared.cellSize ), height: size_t( rect.size.height / Preferences.shared.cellSize ), kind: kind )
+        
+        self.observations.append( Preferences.shared.observe( \Preferences.speed ) { ( c, o ) in self._restartTimer() } )
     }
     
     override init( frame rect: NSRect )
     {
         super.init( frame: rect )
         
-        self.grid = Grid( width: size_t( rect.size.width / self.cellSize ), height: size_t( rect.size.height / self.cellSize ) )
+        self.grid = Grid( width: size_t( rect.size.width / Preferences.shared.cellSize ), height: size_t( rect.size.height / Preferences.shared.cellSize ) )
+        
+        self.observations.append( Preferences.shared.observe( \Preferences.speed ) { ( c, o ) in self._restartTimer() } )
     }
     
     required init?( coder decoder: NSCoder )
     {
         super.init( coder: decoder )
         
-        self.grid = Grid( width: size_t( self.frame.size.width / self.cellSize ), height: size_t( self.frame.size.height / self.cellSize ) )
+        self.grid = Grid( width: size_t( self.frame.size.width / Preferences.shared.cellSize ), height: size_t( self.frame.size.height / Preferences.shared.cellSize ) )
+        
+        self.observations.append( Preferences.shared.observe( \Preferences.speed ) { ( c, o ) in self._restartTimer() } )
     }
     
     override func resize( withOldSuperviewSize size: NSSize )
     {
         super.resize( withOldSuperviewSize: size )
-        self.grid.resize( width: size_t( self.frame.size.width / self.cellSize ), height: size_t( self.frame.size.height / self.cellSize ) )
+        self.grid.resize( width: size_t( self.frame.size.width / Preferences.shared.cellSize ), height: size_t( self.frame.size.height / Preferences.shared.cellSize ) )
     }
     
     override var isFlipped: Bool
@@ -72,9 +77,9 @@ class GridView: NSView
     
     private func _startTimer()
     {
+        self.speed   = Preferences.shared.speed
         let interval = ( 20 - TimeInterval( Preferences.shared.speed ) ) / 50
-        
-        self.timer = Timer.scheduledTimer( timeInterval: interval, target: self, selector: #selector( next ), userInfo: nil, repeats: true )
+        self.timer   = Timer.scheduledTimer( timeInterval: interval, target: self, selector: #selector( next ), userInfo: nil, repeats: true )
     }
     
     private func _stopTimer()
@@ -140,12 +145,6 @@ class GridView: NSView
         self._restartTimer()
     }
     
-    @IBAction func toggleColors( _ sender: Any? )
-    {
-        self.colors               = ( self.colors ) ? false : true
-        Preferences.shared.colors = self.colors
-    }
-    
     @objc private func next()
     {
         if( self.paused )
@@ -171,7 +170,7 @@ class GridView: NSView
     
     public func colorForAge( _ age: UInt64 ) -> NSColor
     {
-        if( self.colors == false )
+        if( Preferences.shared.colors == false )
         {
             return NSColor.white
         }
@@ -215,7 +214,7 @@ class GridView: NSView
             return
         }
         
-        guard let cell = self.grid.cellAt( x: size_t( point.x / self.cellSize ), y: size_t( point.y / self.cellSize ) ) else
+        guard let cell = self.grid.cellAt( x: size_t( point.x / Preferences.shared.cellSize ), y: size_t( point.y / Preferences.shared.cellSize ) ) else
         {
             return
         }
@@ -240,7 +239,7 @@ class GridView: NSView
             return
         }
         
-        guard let cell = self.grid.cellAt( x: size_t( point.x / self.cellSize ), y: size_t( point.y / self.cellSize ) ) else
+        guard let cell = self.grid.cellAt( x: size_t( point.x / Preferences.shared.cellSize ), y: size_t( point.y / Preferences.shared.cellSize ) ) else
         {
             return
         }
@@ -255,9 +254,9 @@ class GridView: NSView
         NSColor.clear.setFill()
         NSRectFill( self.frame )
         
-        for i in 0 ..< size_t( self.frame.size.height / self.cellSize )
+        for i in 0 ..< size_t( self.frame.size.height / Preferences.shared.cellSize )
         {
-            for j in 0 ..< size_t( self.frame.size.width / self.cellSize )
+            for j in 0 ..< size_t( self.frame.size.width / Preferences.shared.cellSize )
             {
                 guard let cell = self.grid.cellAt( x: j, y: i ) else
                 {
@@ -267,7 +266,7 @@ class GridView: NSView
                 if( cell.isAlive )
                 {
                     self.colorForAge( cell.age ).setFill()
-                    NSRectFill( NSRect( x: self.cellSize * CGFloat( j ), y: self.cellSize * CGFloat( i ), width: self.cellSize, height: self.cellSize ) )
+                    NSRectFill( NSRect( x: Preferences.shared.cellSize * CGFloat( j ), y: Preferences.shared.cellSize * CGFloat( i ), width: Preferences.shared.cellSize, height: Preferences.shared.cellSize ) )
                 }
             }
         }

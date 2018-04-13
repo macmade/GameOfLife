@@ -4,6 +4,8 @@
 <dict>
 	<key>speed</key>
 	<integer>10</integer>
+	<key>cellSize</key>
+	<integer>5</integer>
 	<key>colors</key>
 	<true/>
 	<key>color1RGB</key>

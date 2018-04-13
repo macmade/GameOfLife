@@ -29,6 +29,7 @@ import Cocoa
     @objc public dynamic var lastStart: Date?
     @objc public dynamic var colors:    Bool    = true
     @objc public dynamic var speed:     UInt    = 10
+    @objc public dynamic var cellSize:  CGFloat = 10
     
     @objc private dynamic var color1RGB: UInt = 0xFFFFFF
     @objc private dynamic var color2RGB: UInt = 0xFFFFFF

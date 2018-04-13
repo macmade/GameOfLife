@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		051DB8B42072824500963D88 /* PreferencesColorItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051DB8B32072824500963D88 /* PreferencesColorItem.swift */; };
 		0529D8C12068EA020072B1A5 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0529D8BF2068EA020072B1A5 /* MainMenu.xib */; };
 		0529D8CA2068EAE90072B1A5 /* ApplicationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0529D8C92068EAE90072B1A5 /* ApplicationDelegate.swift */; };
 		0529D8CC2068EB7C0072B1A5 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0529D8CB2068EB7C0072B1A5 /* Cell.swift */; };
@@ -48,6 +49,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		051DB8B32072824500963D88 /* PreferencesColorItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesColorItem.swift; sourceTree = "<group>"; };
 		0529D8B92068EA020072B1A5 /* Game Of Life.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Game Of Life.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0529D8C02068EA020072B1A5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		0529D8C22068EA020072B1A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 				0535715F20698C81002178E3 /* NSColor.swift */,
 				052B0727206D81DC00935104 /* Preferences.swift */,
 				052B073A206D886700935104 /* PreferencesWindowController.swift */,
+				051DB8B32072824500963D88 /* PreferencesColorItem.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -499,6 +502,7 @@
 				05356FDB20692A3B002178E3 /* ContiguousArray.swift in Sources */,
 				0535716020698C81002178E3 /* NSColor.swift in Sources */,
 				0532BC1F206EB60800807903 /* Data.swift in Sources */,
+				051DB8B42072824500963D88 /* PreferencesColorItem.swift in Sources */,
 				05357169206A347C002178E3 /* Array.swift in Sources */,
 				052B0725206D806E00935104 /* AboutWindowController.swift in Sources */,
 				0535715E20697CF5002178E3 /* GridView.swift in Sources */,

@@ -156,7 +156,7 @@ class MainWindowController: NSWindowController
     
     @IBAction func toggleColors( _ sender: Any? )
     {
-        self.gridView?.toggleColors( sender )
+        Preferences.shared.colors = ( Preferences.shared.colors ) ? false : true
     }
     
     @IBAction func saveDocumentAs( _ sender: Any? )
