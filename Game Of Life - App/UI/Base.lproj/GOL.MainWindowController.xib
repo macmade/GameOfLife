@@ -110,7 +110,7 @@
                                     <constraint firstAttribute="width" constant="16" id="9Ox-SM-Tgv"/>
                                     <constraint firstAttribute="height" constant="16" id="E2s-CT-pZ7"/>
                                 </constraints>
-                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSActionTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="hSd-iS-i5Q">
+                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSActionTemplate" imagePosition="overlaps" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="hSd-iS-i5Q">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -291,27 +291,6 @@
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="09g-hb-cTb"/>
-                <menuItem title="Example Grid #1 - Still life" keyEquivalent="1" id="Aki-0m-Deb">
-                    <connections>
-                        <action selector="createExampleGrid1:" target="-2" id="Tat-wb-g9a"/>
-                    </connections>
-                </menuItem>
-                <menuItem title="Example Grid #2 - Oscillators" keyEquivalent="2" id="lfw-c5-tt5">
-                    <connections>
-                        <action selector="createExampleGrid2:" target="-2" id="y1T-eD-CJo"/>
-                    </connections>
-                </menuItem>
-                <menuItem title="Example Grid #3 - Spaceships" keyEquivalent="3" id="5eX-wF-5NO">
-                    <connections>
-                        <action selector="createExampleGrid3:" target="-2" id="w5H-ji-aw0"/>
-                    </connections>
-                </menuItem>
-                <menuItem title="Example Grid #4 - Gosper's Guns" keyEquivalent="4" id="U2W-hB-TKO">
-                    <connections>
-                        <action selector="createExampleGrid4:" target="-2" id="odi-tz-erH"/>
-                    </connections>
-                </menuItem>
-                <menuItem isSeparatorItem="YES" id="E4A-wN-gIG"/>
                 <menuItem title="Toggle colors" keyEquivalent="." id="N2g-HH-1HJ">
                     <connections>
                         <action selector="toggleColors:" target="-2" id="Qfg-vh-MwP"/>

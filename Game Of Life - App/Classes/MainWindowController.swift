@@ -134,26 +134,6 @@ class MainWindowController: NSWindowController
         self.createNewGridView( kind: .Random )
     }
     
-    @IBAction func createExampleGrid1( _ sender: Any? )
-    {
-        self.createNewGridView( kind: .StillLife )
-    }
-    
-    @IBAction func createExampleGrid2( _ sender: Any? )
-    {
-        self.createNewGridView( kind: .Oscillators )
-    }
-    
-    @IBAction func createExampleGrid3( _ sender: Any? )
-    {
-        self.createNewGridView( kind: .Spaceships )
-    }
-    
-    @IBAction func createExampleGrid4( _ sender: Any? )
-    {
-        self.createNewGridView( kind: .GospersGuns )
-    }
-    
     @IBAction func toggleColors( _ sender: Any? )
     {
         Preferences.shared.colors = ( Preferences.shared.colors ) ? false : true

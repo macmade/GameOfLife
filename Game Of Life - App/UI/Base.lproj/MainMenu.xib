@@ -78,27 +78,6 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="ixP-si-jEJ"/>
-                            <menuItem title="Example Grid #1 - Still life" keyEquivalent="1" id="qme-4e-K67">
-                                <connections>
-                                    <action selector="createExampleGrid1:" target="-1" id="GWt-iM-e9c"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Example Grid #2 - Oscillators" keyEquivalent="2" id="fOp-WK-bQk">
-                                <connections>
-                                    <action selector="createExampleGrid2:" target="-1" id="UkG-gS-kq4"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Example Grid #3 - Spaceships" keyEquivalent="3" id="H3z-Vi-WJ5">
-                                <connections>
-                                    <action selector="createExampleGrid3:" target="-1" id="sC9-cz-fFG"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Example Grid #4 - Gosper's Guns" keyEquivalent="4" id="npF-3w-0sw">
-                                <connections>
-                                    <action selector="createExampleGrid4:" target="-1" id="eRx-VO-1aD"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="m54-Is-iLE"/>
                             <menuItem title="Close" keyEquivalent="w" id="DVo-aG-piG">
                                 <connections>
                                     <action selector="performClose:" target="-1" id="HmO-Ls-i7Q"/>

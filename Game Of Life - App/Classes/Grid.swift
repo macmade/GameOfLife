@@ -42,10 +42,6 @@ class Grid: NSObject
     {
         case Blank
         case Random
-        case StillLife
-        case Oscillators
-        case Spaceships
-        case GospersGuns
     }
     
     public init( width: size_t, height: size_t, kind: Kind = .Random )
@@ -65,12 +61,8 @@ class Grid: NSObject
         
         switch( kind )
         {
-            case .Blank:       self._setupBlankGrid()
-            case .Random:      self._setupRandomGrid()
-            case .StillLife:   self._setupStillLifeGrid()
-            case .Oscillators: self._setupOscillatorsGrid()
-            case .Spaceships:  self._setupSpaceshipsGrid()
-            case .GospersGuns: self._setupGospersGunsGrid()
+            case .Blank:  self._setupBlankGrid()
+            case .Random: self._setupRandomGrid()
         }
     }
     
@@ -220,63 +212,6 @@ class Grid: NSObject
             {
                 cell.isAlive = arc4random() % 3 == 1
                 n           += ( cell.isAlive ) ? 1 : 0
-            }
-        }
-        
-        self.population = n
-    }
-    
-    private func _setupStillLifeGrid()
-    {}
-    
-    private func _setupOscillatorsGrid()
-    {}
-    
-    private func _setupSpaceshipsGrid()
-    {}
-    
-    private func _setupGospersGunsGrid()
-    {
-        var n: UInt64                = 0
-        let c: Array< Array< Int > > =
-        [
-                [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-                [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-                [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-                [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0 ],
-                [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0 ],
-                [ 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-                [ 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-                [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-                [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-                [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
-                [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]
-        ];
-        
-        if( self.cells.count < c.count )
-        {
-            return;
-        }
-        
-        if( self.cells[ 0 ].count < c[ 0 ].count )
-        {
-            return;
-        }
-        
-        for i in 0 ..< c.count
-        {
-            for j in stride( from: 0, to: self.cells[ i ].count, by: c[ i ].count )
-            {
-                if( j + c[ i ].count > self.cells[ i ].count )
-                {
-                    continue;
-                }
-                
-                for k in 0 ..< c[ i ].count
-                {
-                    self.cells[ i ][ j + k ].isAlive = c[ i ][ k ] == 1;
-                    n                               += ( self.cells[ i ][ j + k ].isAlive ) ? 1 : 0
-                }
             }
         }
         
