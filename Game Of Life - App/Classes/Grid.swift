@@ -195,16 +195,6 @@ class Grid: NSObject
         }
     }
     
-    public func ageAt( x: size_t, y: size_t ) -> UInt8
-    {
-        if( x < self.width && y < self.height )
-        {
-            return self.cells[ x + ( y * self.width ) ] >> 1
-        }
-        
-        return 0
-    }
-    
     private func _setupBlankGrid()
     {}
     

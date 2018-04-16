@@ -102,7 +102,7 @@ class GridView: NSView
     private func _startTimer()
     {
         self.speed   = Preferences.shared.speed
-        let interval = ( 20 - TimeInterval( Preferences.shared.speed ) ) / 50
+        let interval = ( ( 20 - TimeInterval( Preferences.shared.speed ) ) / 50 )
         self.timer   = Timer.scheduledTimer( timeInterval: interval, target: self, selector: #selector( next ), userInfo: nil, repeats: true )
     }
     
@@ -192,41 +192,6 @@ class GridView: NSView
         }
     }
     
-    public func colorForAge( _ age: UInt8 ) -> NSColor
-    {
-        if( Preferences.shared.colors == false )
-        {
-            return NSColor.white
-        }
-        
-        if( age == 0 )
-        {
-            return NSColor.black
-        }
-        else if( age == 1 )
-        {
-            return Preferences.shared.color1()
-        }
-        else if( age == 2 )
-        {
-            return Preferences.shared.color2()
-        }
-        else if( age == 3 )
-        {
-            return Preferences.shared.color3()
-        }
-        else if( age == 4 )
-        {
-            return Preferences.shared.color4()
-        }
-        else if( age == 5 )
-        {
-            return Preferences.shared.color5()
-        }
-        
-        return Preferences.shared.color6()
-    }
-    
     override func mouseDown( with event: NSEvent )
     {
         self.mouseUpResume = self.paused == false
@@ -277,15 +242,52 @@ class GridView: NSView
             return
         }
         
+        let cellSize  = Preferences.shared.cellSize
+        let hasColors = Preferences.shared.colors
+        let colors    = [
+                            Preferences.shared.color1(),
+                            Preferences.shared.color2(),
+                            Preferences.shared.color3(),
+                            Preferences.shared.color4(),
+                            Preferences.shared.color5(),
+                            Preferences.shared.color6()
+                        ]
+        
         for x in 0 ..< size_t( self.frame.size.width / Preferences.shared.cellSize )
         {
             for y in 0 ..< size_t( self.frame.size.height / Preferences.shared.cellSize )
             {
-                if( self.grid.isAliveAt( x: x, y: y ) )
+                if( x >= self.grid.width || y >= self.grid.height )
                 {
-                    self.colorForAge( self.grid.ageAt( x: x, y: y ) ).setFill()
-                    NSRect( x: Preferences.shared.cellSize * CGFloat( x ), y: Preferences.shared.cellSize * CGFloat( y ), width: Preferences.shared.cellSize, height: Preferences.shared.cellSize ).fill()
+                    continue
                 }
+                
+                let cell = self.grid.cells[ x + ( y * self.grid.width ) ]
+                
+                if( cell & 1 == 0 )
+                {
+                    continue
+                }
+                
+                if( hasColors )
+                {
+                    let age = cell >> 1
+                    
+                    if( age >= colors.count )
+                    {
+                        colors.last?.setFill()
+                    }
+                    else
+                    {
+                        colors[ size_t( age ) ].setFill()
+                    }
+                }
+                else
+                {
+                    NSColor.white.setFill()
+                }
+                
+                NSRect( x: cellSize * CGFloat( x ), y: cellSize * CGFloat( y ), width: cellSize, height: cellSize ).fill()
             }
         }
     }
