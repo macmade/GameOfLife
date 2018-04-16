@@ -31,9 +31,9 @@ class MainWindowController: NSWindowController
     @IBOutlet     private var gridViewContainer: NSView?
     @objc dynamic private var gridView:          GridView?
     
-    override var windowNibName: String?
+    override var windowNibName: NSNib.Name?
     {
-        return NSStringFromClass( type( of: self ) )
+        return NSNib.Name( NSStringFromClass( type( of: self ) ) )
     }
     
     override func windowDidLoad()
@@ -149,7 +149,7 @@ class MainWindowController: NSWindowController
         {
             r in
             
-            if( r != NSModalResponseOK )
+            if( r != .OK )
             {
                 return
             }

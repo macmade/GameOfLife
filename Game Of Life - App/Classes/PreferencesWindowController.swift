@@ -34,9 +34,9 @@ import Cocoa
     
     private var observations: [ NSKeyValueObservation ] = []
     
-    override var windowNibName: String?
+    override var windowNibName: NSNib.Name?
     {
-        return NSStringFromClass( type( of: self ) )
+        return NSNib.Name( NSStringFromClass( type( of: self ) ) )
     }
     
     override func windowDidLoad()

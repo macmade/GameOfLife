@@ -238,13 +238,10 @@ class GridView: NSView
             return
         }
         
-        guard let cell = self.grid.cellAt( x: size_t( point.x / Preferences.shared.cellSize ), y: size_t( point.y / Preferences.shared.cellSize ) ) else
-        {
-            return
-        }
+        let x = size_t( point.x / Preferences.shared.cellSize )
+        let y = size_t( point.y / Preferences.shared.cellSize )
         
-        cell.isAlive = ( cell.isAlive ) ? false : true
-        
+        self.grid.setAliveAt( x: x, y: y, value: self.grid.isAliveAt( x: x, y: y ) == false )
         self.setNeedsDisplay( self.bounds )
     }
     
@@ -263,20 +260,17 @@ class GridView: NSView
             return
         }
         
-        guard let cell = self.grid.cellAt( x: size_t( point.x / Preferences.shared.cellSize ), y: size_t( point.y / Preferences.shared.cellSize ) ) else
-        {
-            return
-        }
+        let x = size_t( point.x / Preferences.shared.cellSize )
+        let y = size_t( point.y / Preferences.shared.cellSize )
         
-        cell.isAlive = true
-        
+        self.grid.setAliveAt( x: x, y: y, value: true )
         self.setNeedsDisplay( self.bounds )
     }
     
     override func draw( _ rect: NSRect )
     {
         NSColor.clear.setFill()
-        NSRectFill( self.frame )
+        self.frame.fill()
         
         if( self.resizing )
         {
@@ -287,15 +281,10 @@ class GridView: NSView
         {
             for y in 0 ..< size_t( self.frame.size.height / Preferences.shared.cellSize )
             {
-                guard let cell = self.grid.cellAt( x: x, y: y ) else
+                if( self.grid.isAliveAt( x: x, y: y ) )
                 {
-                    continue
-                }
-                
-                if( cell.isAlive )
-                {
-                    self.colorForAge( cell.age ).setFill()
-                    NSRectFill( NSRect( x: Preferences.shared.cellSize * CGFloat( x ), y: Preferences.shared.cellSize * CGFloat( y ), width: Preferences.shared.cellSize, height: Preferences.shared.cellSize ) )
+                    self.colorForAge( self.grid.ageAt( x: x, y: y ) ).setFill()
+                    NSRect( x: Preferences.shared.cellSize * CGFloat( x ), y: Preferences.shared.cellSize * CGFloat( y ), width: Preferences.shared.cellSize, height: Preferences.shared.cellSize ).fill()
                 }
             }
         }

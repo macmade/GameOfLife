@@ -173,6 +173,34 @@ class Grid: NSObject
         return nil
     }
     
+    public func isAliveAt( x: size_t, y: size_t ) -> Bool
+    {
+        if( x < self.width && y < self.height )
+        {
+            return self.cells[ x + ( y * self.width ) ].isAlive
+        }
+        
+        return false
+    }
+    
+    public func setAliveAt( x: size_t, y: size_t, value: Bool )
+    {
+        if( x < self.width && y < self.height )
+        {
+            self.cells[ x + ( y * self.width ) ].isAlive = value
+        }
+    }
+    
+    public func ageAt( x: size_t, y: size_t ) -> UInt64
+    {
+        if( x < self.width && y < self.height )
+        {
+            return self.cells[ x + ( y * self.width ) ].age
+        }
+        
+        return 0
+    }
+    
     private func _setupBlankGrid()
     {}
     
