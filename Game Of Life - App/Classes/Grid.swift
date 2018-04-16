@@ -26,6 +26,9 @@ import Foundation
 
 class Grid: NSObject
 {
+    typealias Cell  = UInt8
+    typealias Array = ContiguousArray< Cell >
+    
     @objc dynamic public private( set ) var turns:      UInt64 = 0
     @objc dynamic public private( set ) var population: UInt64 = 0
     
@@ -82,11 +85,6 @@ class Grid: NSObject
         
         cells.reserveCapacity( self.cells.count )
         
-        for cell in self.cells
-        {
-            cells.append( cell.copy() as! Cell )
-        }
-        
         if( self.turns < UInt64.max )
         {
             self.turns += 1
@@ -98,8 +96,9 @@ class Grid: NSObject
         {
             for x in 0 ..< self.width
             {
-                let cell          = cells[ x + ( y * self.width ) ]
-                let alive: Bool   = cell.isAlive
+                let old           = self.cells[ x + ( y * self.width ) ]
+                var new           = old
+                let alive: Bool   = old & 1 == 1
                 var count: size_t = 0
                 
                 var c1: Cell? = nil
@@ -128,34 +127,39 @@ class Grid: NSObject
                     c8 = ( x < self.width - 1 ) ? self.cells[ ( x + 1 ) + ( ( y + 1 ) * self.width ) ] : nil
                 }
                 
-                if( c1?.isAlive ?? false ) { count += 1 }
-                if( c2?.isAlive ?? false ) { count += 1 }
-                if( c3?.isAlive ?? false ) { count += 1 }
-                if( c4?.isAlive ?? false ) { count += 1 }
-                if( c5?.isAlive ?? false ) { count += 1 }
-                if( c6?.isAlive ?? false ) { count += 1 }
-                if( c7?.isAlive ?? false ) { count += 1 }
-                if( c8?.isAlive ?? false ) { count += 1 }
+                if( ( c1 ?? 0 ) & 1 == 1 ) { count += 1 }
+                if( ( c2 ?? 0 ) & 1 == 1 ) { count += 1 }
+                if( ( c3 ?? 0 ) & 1 == 1 ) { count += 1 }
+                if( ( c4 ?? 0 ) & 1 == 1 ) { count += 1 }
+                if( ( c5 ?? 0 ) & 1 == 1 ) { count += 1 }
+                if( ( c6 ?? 0 ) & 1 == 1 ) { count += 1 }
+                if( ( c7 ?? 0 ) & 1 == 1 ) { count += 1 }
+                if( ( c8 ?? 0 ) & 1 == 1 ) { count += 1 }
                 
                 if( alive && count < 2 )
                 {
-                    cell.isAlive = false
+                    new = 0
                 }
                 else if( alive && count > 3 )
                 {
-                    cell.isAlive = false
+                    new = 0
                 }
                 else if( alive == false && count == 3 )
                 {
-                    cell.isAlive = true
+                    new = 1 | ( 1 << 1 )
                 }
                 
-                if( alive && cell.isAlive && cell.age < UInt64.max )
+                let age = old >> 1
+                
+                if( alive && new & 1 == 1 && age < Cell.max )
                 {
-                    cell.age = cell.age + 1
+                    new &= 1
+                    new |= ( age + 1 ) << 1
                 }
                 
-                n += ( cell.isAlive ) ? 1 : 0
+                cells.append( new )
+                
+                n += ( new & 1 == 1 ) ? 1 : 0
             }
         }
         
@@ -177,7 +181,7 @@ class Grid: NSObject
     {
         if( x < self.width && y < self.height )
         {
-            return self.cells[ x + ( y * self.width ) ].isAlive
+            return self.cells[ x + ( y * self.width ) ] & 1 == 1
         }
         
         return false
@@ -187,15 +191,15 @@ class Grid: NSObject
     {
         if( x < self.width && y < self.height )
         {
-            self.cells[ x + ( y * self.width ) ].isAlive = value
+            self.cells[ x + ( y * self.width ) ] = ( value ) ? 1 | ( 1 << 1 ) : 0
         }
     }
     
-    public func ageAt( x: size_t, y: size_t ) -> UInt64
+    public func ageAt( x: size_t, y: size_t ) -> UInt8
     {
         if( x < self.width && y < self.height )
         {
-            return self.cells[ x + ( y * self.width ) ].age
+            return self.cells[ x + ( y * self.width ) ] >> 1
         }
         
         return 0
@@ -208,10 +212,16 @@ class Grid: NSObject
     {
         var n: UInt64 = 0
         
-        for cell in self.cells
+        for y in 0 ..< self.height
         {
-            cell.isAlive = arc4random() % 3 == 1
-            n           += ( cell.isAlive ) ? 1 : 0
+            for x in 0 ..< self.width
+            {
+                let alive = arc4random() % 3 == 1
+                
+                self.setAliveAt( x: x, y: y, value: alive )
+                
+                n += ( alive ) ? 1 : 0
+            }
         }
         
         self.population = n
@@ -227,7 +237,7 @@ class Grid: NSObject
         
         for cell in self.cells
         {
-            data.append( UInt8( ( cell.isAlive ) ? 1 : 0 ) )
+            data.append( cell )
         }
         
         return data

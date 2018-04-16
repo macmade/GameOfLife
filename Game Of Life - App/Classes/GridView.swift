@@ -192,7 +192,7 @@ class GridView: NSView
         }
     }
     
-    public func colorForAge( _ age: UInt64 ) -> NSColor
+    public func colorForAge( _ age: UInt8 ) -> NSColor
     {
         if( Preferences.shared.colors == false )
         {
