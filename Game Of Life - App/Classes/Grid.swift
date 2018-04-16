@@ -26,17 +26,13 @@ import Foundation
 
 class Grid: NSObject
 {
-    typealias Array  = Swift.ContiguousArray
-    typealias Row    = Array< Cell >
-    typealias Table  = Array< Row >
-    
     @objc dynamic public private( set ) var turns:      UInt64 = 0
     @objc dynamic public private( set ) var population: UInt64 = 0
     
     public private( set ) var colors: Bool   = true
     public private( set ) var width:  size_t
     public private( set ) var height: size_t
-    public private( set ) var cells:  Table
+    public private( set ) var cells:  ContiguousArray< Cell >
     
     enum Kind
     {
@@ -48,14 +44,9 @@ class Grid: NSObject
     {
         self.width  = width
         self.height = height
-        self.cells  = Table()
+        self.cells  = ContiguousArray< Cell >()
         
-        self.cells.grow( height ) { Row() }
-        
-        for i in 0 ..< height
-        {
-            self.cells[ i ].grow( width ) { Cell() }
-        }
+        self.cells.grow( width * height ) { Cell() }
         
         super.init()
         
@@ -68,38 +59,32 @@ class Grid: NSObject
     
     public func resize( width: size_t, height: size_t )
     {
-        if( height > self.height )
-        {
-            self.cells.grow( height ) { Row() }
-        }
+        var cells = ContiguousArray< Cell >()
         
-        if( width > self.width )
+        cells.reserveCapacity( width * height )
+        
+        for y in 0 ..< height
         {
-            for i in 0 ..< max( self.height, height )
+            for x in 0 ..< width
             {
-                self.cells[ i ].grow( width ) { Cell() }
+                cells.append( self.cellAt( x: x, y: y ) ?? Cell() )
             }
         }
         
+        self.cells  = cells
         self.height = height
         self.width  = width
     }
     
     public func next()
     {
-        var cells = Table()
+        var cells = ContiguousArray< Cell >()
         
         cells.reserveCapacity( self.cells.count )
         
-        for i in 0 ..< self.cells.count
+        for cell in self.cells
         {
-            cells.append( Row() )
-            cells[ i ].reserveCapacity( self.cells[ i ].count )
-            
-            for j in 0 ..< self.cells[ i ].count
-            {
-                cells[ i ].append( self.cells[ i ][ j ].copy() as! Cell )
-            }
+            cells.append( cell.copy() as! Cell )
         }
         
         if( self.turns < UInt64.max )
@@ -107,16 +92,13 @@ class Grid: NSObject
             self.turns += 1
         }
         
-        var x: size_t = 0
-        var y: size_t = 0
         var n: UInt64 = 0
         
-        for row in cells
+        for y in 0 ..< self.height
         {
-            x = 0
-            
-            for cell in row
+            for x in 0 ..< self.width
             {
+                let cell          = cells[ x + ( y * self.width ) ]
                 let alive: Bool   = cell.isAlive
                 var count: size_t = 0
                 
@@ -131,19 +113,19 @@ class Grid: NSObject
                 
                 if( y > 0 )
                 {
-                    c1 = ( x > 0 ) ? self.cells[ y - 1 ][ x - 1 ] : nil
-                    c2 = self.cells[ y - 1 ][ x ]
-                    c3 = ( x < self.cells[ y ].count - 1 ) ? self.cells[ y - 1 ][ x + 1 ] : nil
+                    c1 = ( x > 0 ) ? self.cells[ ( x - 1 ) + ( ( y - 1 ) * self.width ) ] : nil
+                    c2 = self.cells[ x + ( ( y - 1 ) * self.width ) ]
+                    c3 = ( x < self.width - 1 ) ? self.cells[ ( x + 1 ) + ( ( y - 1 ) * self.width ) ] : nil
                 }
                 
-                c4 = ( x > 0 ) ? self.cells[ y  ][ x - 1 ] : nil
-                c5 = ( x < self.cells[ y ].count - 1 ) ? self.cells[ y ][ x + 1 ] : nil
+                c4 = ( x > 0 ) ? self.cells[ ( x - 1 ) + ( y * self.width ) ] : nil
+                c5 = ( x < self.width - 1 ) ? self.cells[ ( x + 1 ) + ( y * self.width ) ] : nil
                 
-                if( y < self.cells.count - 1 )
+                if( y < self.height - 1 )
                 {
-                    c6 = ( x > 0 ) ? self.cells[ y + 1 ][ x - 1 ] : nil
-                    c7 = self.cells[ y + 1 ][ x ]
-                    c8 = ( x < self.cells[ y ].count - 1 ) ? self.cells[ y + 1 ][ x + 1 ] : nil
+                    c6 = ( x > 0 ) ? self.cells[ ( x - 1 ) + ( ( y + 1 ) * self.width ) ] : nil
+                    c7 = self.cells[ x + ( ( y + 1 ) * self.width ) ]
+                    c8 = ( x < self.width - 1 ) ? self.cells[ ( x + 1 ) + ( ( y + 1 ) * self.width ) ] : nil
                 }
                 
                 if( c1?.isAlive ?? false ) { count += 1 }
@@ -174,10 +156,7 @@ class Grid: NSObject
                 }
                 
                 n += ( cell.isAlive ) ? 1 : 0
-                x += 1
             }
-            
-            y += 1
         }
         
         self.population = n
@@ -186,17 +165,12 @@ class Grid: NSObject
     
     public func cellAt( x: size_t, y: size_t ) -> Cell?
     {
-        if(  y < 0 || y >= self.cells.count )
+        if( x < self.width && y < self.height )
         {
-            return nil
+            return self.cells[ x + ( y * self.width ) ];
         }
         
-        if( x < 0 || x >= self.cells[ y ].count )
-        {
-            return nil
-        }
-        
-        return self.cells[ y ][ x ];
+        return nil
     }
     
     private func _setupBlankGrid()
@@ -206,13 +180,10 @@ class Grid: NSObject
     {
         var n: UInt64 = 0
         
-        for row in self.cells
+        for cell in self.cells
         {
-            for cell in row
-            {
-                cell.isAlive = arc4random() % 3 == 1
-                n           += ( cell.isAlive ) ? 1 : 0
-            }
+            cell.isAlive = arc4random() % 3 == 1
+            n           += ( cell.isAlive ) ? 1 : 0
         }
         
         self.population = n
@@ -226,12 +197,9 @@ class Grid: NSObject
         data.append( UInt64( self.width ) )
         data.append( UInt64( self.height ) )
         
-        for y in 0 ..< self.cells.count
+        for cell in self.cells
         {
-            for x in 0 ..< self.cells[ y ].count
-            {
-                data.append( UInt8( ( self.cells[ y ][ x ].isAlive ) ? 1 : 0 ) )
-            }
+            data.append( UInt8( ( cell.isAlive ) ? 1 : 0 ) )
         }
         
         return data

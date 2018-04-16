@@ -26,7 +26,9 @@ import Cocoa
 
 class GridView: NSView
 {
-    @objc dynamic public var paused: Bool = true
+    @objc dynamic public var paused:            Bool = true
+    @objc dynamic public var resizing:          Bool = false
+    @objc dynamic public var resumeAfterResize: Bool = false
     
     @objc dynamic public private( set ) var speed: UInt    = Preferences.shared.speed
     @objc dynamic public private( set ) var fps:   CGFloat = 0
@@ -66,8 +68,30 @@ class GridView: NSView
     
     override func resize( withOldSuperviewSize size: NSSize )
     {
+        if( self.resizing == false )
+        {
+            self.resumeAfterResize = self.paused == false
+            self.resizing          = true
+        }
+        
+        self.pause( nil )
+        
         super.resize( withOldSuperviewSize: size )
+    }
+    
+    override func viewDidEndLiveResize()
+    {
         self.grid.resize( width: size_t( self.frame.size.width / Preferences.shared.cellSize ), height: size_t( self.frame.size.height / Preferences.shared.cellSize ) )
+        
+        if( self.resumeAfterResize )
+        {
+            self.resume( nil )
+        }
+        
+        self.resumeAfterResize = false
+        self.resizing          = false
+        
+        self.setNeedsDisplay( self.bounds )
     }
     
     override var isFlipped: Bool
@@ -254,11 +278,16 @@ class GridView: NSView
         NSColor.clear.setFill()
         NSRectFill( self.frame )
         
-        for i in 0 ..< size_t( self.frame.size.height / Preferences.shared.cellSize )
+        if( self.resizing )
         {
-            for j in 0 ..< size_t( self.frame.size.width / Preferences.shared.cellSize )
+            return
+        }
+        
+        for x in 0 ..< size_t( self.frame.size.width / Preferences.shared.cellSize )
+        {
+            for y in 0 ..< size_t( self.frame.size.height / Preferences.shared.cellSize )
             {
-                guard let cell = self.grid.cellAt( x: j, y: i ) else
+                guard let cell = self.grid.cellAt( x: x, y: y ) else
                 {
                     continue
                 }
@@ -266,7 +295,7 @@ class GridView: NSView
                 if( cell.isAlive )
                 {
                     self.colorForAge( cell.age ).setFill()
-                    NSRectFill( NSRect( x: Preferences.shared.cellSize * CGFloat( j ), y: Preferences.shared.cellSize * CGFloat( i ), width: Preferences.shared.cellSize, height: Preferences.shared.cellSize ) )
+                    NSRectFill( NSRect( x: Preferences.shared.cellSize * CGFloat( x ), y: Preferences.shared.cellSize * CGFloat( y ), width: Preferences.shared.cellSize, height: Preferences.shared.cellSize ) )
                 }
             }
         }
