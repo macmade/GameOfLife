@@ -107,10 +107,10 @@
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="hXw-I3-eb4">
                                 <rect key="frame" x="974" y="574" width="16" height="16"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="16" id="9Ox-SM-Tgv"/>
                                     <constraint firstAttribute="height" constant="16" id="E2s-CT-pZ7"/>
+                                    <constraint firstAttribute="width" constant="16" id="UKZ-b9-cSR"/>
                                 </constraints>
-                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSActionTemplate" imagePosition="overlaps" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="hSd-iS-i5Q">
+                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSActionTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="hSd-iS-i5Q">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
