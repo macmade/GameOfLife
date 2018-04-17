@@ -17,6 +17,8 @@
 		052B0734206D829800935104 /* Defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = 052B0733206D829800935104 /* Defaults.plist */; };
 		052B0739206D885800935104 /* GOL.PreferencesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 052B0737206D885800935104 /* GOL.PreferencesWindowController.xib */; };
 		052B073B206D886700935104 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052B073A206D886700935104 /* PreferencesWindowController.swift */; };
+		052D1A17208544290076E3E3 /* LibraryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052D1A16208544290076E3E3 /* LibraryItem.swift */; };
+		0531D6EE20866ED500C86639 /* LibraryItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0531D6ED20866ED500C86639 /* LibraryItemView.swift */; };
 		0532BC1F206EB60800807903 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0532BC1D206EB60400807903 /* Data.swift */; };
 		05356FDB20692A3B002178E3 /* ContiguousArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05356FDA20692A3B002178E3 /* ContiguousArray.swift */; };
 		053571582069792A002178E3 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053571572069792A002178E3 /* MainWindowController.swift */; };
@@ -33,6 +35,9 @@
 		0539499420667F8F00C20FA3 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0539499320667F8F00C20FA3 /* libc++.tbd */; };
 		053949CC2067F02C00C20FA3 /* Board.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 053949CB2067F02B00C20FA3 /* Board.cpp */; };
 		053949CD2067F3FF00C20FA3 /* Grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0539498D20667B6D00C20FA3 /* Grid.cpp */; };
+		05949A6F20853A2F00DC9C39 /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05949A6E20853A2F00DC9C39 /* LibraryViewController.swift */; };
+		05949A7520853A6F00DC9C39 /* GOL.LibraryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05949A7320853A6F00DC9C39 /* GOL.LibraryViewController.xib */; };
+		05949A7720853ED300DC9C39 /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05949A7620853ED300DC9C39 /* ColorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -60,6 +65,8 @@
 		052B0733206D829800935104 /* Defaults.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Defaults.plist; sourceTree = "<group>"; };
 		052B0738206D885800935104 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GOL.PreferencesWindowController.xib; sourceTree = "<group>"; };
 		052B073A206D886700935104 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
+		052D1A16208544290076E3E3 /* LibraryItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryItem.swift; sourceTree = "<group>"; };
+		0531D6ED20866ED500C86639 /* LibraryItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryItemView.swift; sourceTree = "<group>"; };
 		0532BC1C206EB35100807903 /* Game Of Life.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Game Of Life.entitlements"; sourceTree = "<group>"; };
 		0532BC1D206EB60400807903 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		05356FDA20692A3B002178E3 /* ContiguousArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContiguousArray.swift; sourceTree = "<group>"; };
@@ -126,6 +133,9 @@
 		053949C92066C53700C20FA3 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		053949CA2067F02B00C20FA3 /* Board.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Board.hpp; sourceTree = "<group>"; };
 		053949CB2067F02B00C20FA3 /* Board.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Board.cpp; sourceTree = "<group>"; };
+		05949A6E20853A2F00DC9C39 /* LibraryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
+		05949A7420853A6F00DC9C39 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GOL.LibraryViewController.xib; sourceTree = "<group>"; };
+		05949A7620853ED300DC9C39 /* ColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +174,7 @@
 			children = (
 				0535DAE52071237300184579 /* Images */,
 				052B0721206D805400935104 /* GOL.AboutWindowController.xib */,
+				05949A7320853A6F00DC9C39 /* GOL.LibraryViewController.xib */,
 				0535715920697963002178E3 /* GOL.MainWindowController.xib */,
 				052B0737206D885800935104 /* GOL.PreferencesWindowController.xib */,
 				0529D8BF2068EA020072B1A5 /* MainMenu.xib */,
@@ -177,15 +188,19 @@
 				052B0723206D806B00935104 /* AboutWindowController.swift */,
 				0529D8C92068EAE90072B1A5 /* ApplicationDelegate.swift */,
 				05357168206A347C002178E3 /* Array.swift */,
+				05949A7620853ED300DC9C39 /* ColorView.swift */,
 				05356FDA20692A3B002178E3 /* ContiguousArray.swift */,
-				0529D8CD2068EB8A0072B1A5 /* Grid.swift */,
 				0532BC1D206EB60400807903 /* Data.swift */,
+				0529D8CD2068EB8A0072B1A5 /* Grid.swift */,
 				0535715D20697CF5002178E3 /* GridView.swift */,
+				052D1A16208544290076E3E3 /* LibraryItem.swift */,
+				0531D6ED20866ED500C86639 /* LibraryItemView.swift */,
+				05949A6E20853A2F00DC9C39 /* LibraryViewController.swift */,
 				053571572069792A002178E3 /* MainWindowController.swift */,
 				0535715F20698C81002178E3 /* NSColor.swift */,
 				052B0727206D81DC00935104 /* Preferences.swift */,
-				052B073A206D886700935104 /* PreferencesWindowController.swift */,
 				051DB8B32072824500963D88 /* PreferencesColorItem.swift */,
+				052B073A206D886700935104 /* PreferencesWindowController.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -447,8 +462,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				05394943206673AC00C20FA3 /* GameOfLife */,
 				0529D8B82068EA020072B1A5 /* Game Of Life */,
+				05394943206673AC00C20FA3 /* GameOfLife */,
 			);
 		};
 /* End PBXProject section */
@@ -459,6 +474,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0535DAE92071248100184579 /* GOL-Save.icns in Resources */,
+				05949A7520853A6F00DC9C39 /* GOL.LibraryViewController.xib in Resources */,
 				052B0726206D816F00935104 /* GOL.AboutWindowController.xib in Resources */,
 				052B0739206D885800935104 /* GOL.PreferencesWindowController.xib in Resources */,
 				052B0734206D829800935104 /* Defaults.plist in Resources */,
@@ -491,10 +507,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				052D1A17208544290076E3E3 /* LibraryItem.swift in Sources */,
 				0529D8CA2068EAE90072B1A5 /* ApplicationDelegate.swift in Sources */,
 				052B073B206D886700935104 /* PreferencesWindowController.swift in Sources */,
+				05949A7720853ED300DC9C39 /* ColorView.swift in Sources */,
 				052B0732206D81E600935104 /* Preferences.swift in Sources */,
 				0529D8CE2068EB8A0072B1A5 /* Grid.swift in Sources */,
+				05949A6F20853A2F00DC9C39 /* LibraryViewController.swift in Sources */,
 				05356FDB20692A3B002178E3 /* ContiguousArray.swift in Sources */,
 				0535716020698C81002178E3 /* NSColor.swift in Sources */,
 				0532BC1F206EB60800807903 /* Data.swift in Sources */,
@@ -503,6 +522,7 @@
 				052B0725206D806E00935104 /* AboutWindowController.swift in Sources */,
 				0535715E20697CF5002178E3 /* GridView.swift in Sources */,
 				053571582069792A002178E3 /* MainWindowController.swift in Sources */,
+				0531D6EE20866ED500C86639 /* LibraryItemView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -551,6 +571,14 @@
 				0535715A20697963002178E3 /* Base */,
 			);
 			name = GOL.MainWindowController.xib;
+			sourceTree = "<group>";
+		};
+		05949A7320853A6F00DC9C39 /* GOL.LibraryViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				05949A7420853A6F00DC9C39 /* Base */,
+			);
+			name = GOL.LibraryViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

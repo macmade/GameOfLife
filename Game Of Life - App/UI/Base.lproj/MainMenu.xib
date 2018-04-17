@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14109"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -630,7 +630,13 @@
                                     <action selector="pauseResume:" target="-1" id="pk4-ir-NQl"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Toggle colors" keyEquivalent="." id="1tW-Xx-xXo">
+                            <menuItem isSeparatorItem="YES" id="5nu-z7-EuF"/>
+                            <menuItem title="Show Library" keyEquivalent="l" id="1KE-kI-Sj5">
+                                <connections>
+                                    <action selector="showLibrary:" target="-1" id="TuC-VX-GqN"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Toggle Colors" keyEquivalent="." id="1tW-Xx-xXo">
                                 <connections>
                                     <action selector="toggleColors:" target="-1" id="McS-xW-8nd"/>
                                 </connections>

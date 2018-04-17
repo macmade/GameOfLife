@@ -8,6 +8,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="MainWindowController" customModule="GOL" customModuleProvider="target">
             <connections>
                 <outlet property="gridViewContainer" destination="Saa-hd-fIb" id="I2b-pt-9yZ"/>
+                <outlet property="libraryViewContainer" destination="dCF-7m-hYT" id="Oxx-iO-sQZ"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="CHT-06-6oS"/>
             </connections>
         </customObject>
@@ -28,6 +29,19 @@
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="Saa-hd-fIb">
                                 <rect key="frame" x="30" y="30" width="940" height="540"/>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="dCF-7m-hYT">
+                                <rect key="frame" x="770" y="30" width="200" height="540"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="W2z-VM-mYQ"/>
+                                </constraints>
+                                <connections>
+                                    <binding destination="-2" name="hidden" keyPath="showLibrary" id="gAd-ZR-9i1">
+                                        <dictionary key="options">
+                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
                             </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="qwa-mU-n7q">
                                 <rect key="frame" x="452" y="0.0" width="97" height="32"/>
@@ -256,15 +270,18 @@
                             </customView>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="dCF-7m-hYT" firstAttribute="trailing" secondItem="Saa-hd-fIb" secondAttribute="trailing" id="2qb-Ty-Zof"/>
                             <constraint firstItem="hXw-I3-eb4" firstAttribute="top" secondItem="izn-PU-t0R" secondAttribute="top" constant="10" id="5rr-5j-jAP"/>
                             <constraint firstItem="Saa-hd-fIb" firstAttribute="centerY" secondItem="izn-PU-t0R" secondAttribute="centerY" id="CKN-A1-di8"/>
                             <constraint firstAttribute="bottom" secondItem="qwa-mU-n7q" secondAttribute="bottom" id="HMn-Vx-7jC"/>
                             <constraint firstItem="Saa-hd-fIb" firstAttribute="width" secondItem="izn-PU-t0R" secondAttribute="width" constant="-60" id="INA-7Q-169"/>
                             <constraint firstItem="qwa-mU-n7q" firstAttribute="centerX" secondItem="izn-PU-t0R" secondAttribute="centerX" id="QS7-hG-kir"/>
                             <constraint firstItem="17W-dc-adO" firstAttribute="leading" secondItem="izn-PU-t0R" secondAttribute="leading" constant="10" id="SBS-VX-Rua"/>
+                            <constraint firstItem="dCF-7m-hYT" firstAttribute="bottom" secondItem="Saa-hd-fIb" secondAttribute="bottom" id="U8h-Rd-TX4"/>
                             <constraint firstItem="Saa-hd-fIb" firstAttribute="centerX" secondItem="izn-PU-t0R" secondAttribute="centerX" id="VXW-bj-UFp"/>
                             <constraint firstItem="Saa-hd-fIb" firstAttribute="height" secondItem="izn-PU-t0R" secondAttribute="height" constant="-60" id="aBL-xS-gBh"/>
                             <constraint firstAttribute="bottom" secondItem="17W-dc-adO" secondAttribute="bottom" constant="10" id="bhg-7F-Vnn"/>
+                            <constraint firstItem="dCF-7m-hYT" firstAttribute="top" secondItem="Saa-hd-fIb" secondAttribute="top" id="wST-Gt-TaZ"/>
                             <constraint firstAttribute="trailing" secondItem="hXw-I3-eb4" secondAttribute="trailing" constant="10" id="yz9-L4-TVl"/>
                         </constraints>
                     </visualEffectView>
@@ -291,7 +308,12 @@
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="09g-hb-cTb"/>
-                <menuItem title="Toggle colors" keyEquivalent="." id="N2g-HH-1HJ">
+                <menuItem title="Toggle Library" keyEquivalent="l" id="4DX-ts-3QS">
+                    <connections>
+                        <action selector="showLibrary:" target="-1" id="ijd-b5-OXM"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Toggle Colors" keyEquivalent="." id="N2g-HH-1HJ">
                     <connections>
                         <action selector="toggleColors:" target="-2" id="Qfg-vh-MwP"/>
                     </connections>

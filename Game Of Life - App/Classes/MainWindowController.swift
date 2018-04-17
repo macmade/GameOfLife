@@ -26,10 +26,13 @@ import Cocoa
 
 class MainWindowController: NSWindowController
 {
-    @objc dynamic public var paused: Bool = false
+    @objc dynamic public var paused:      Bool = false
+    @objc dynamic public var showLibrary: Bool = false
     
-    @IBOutlet     private var gridViewContainer: NSView?
-    @objc dynamic private var gridView:          GridView?
+    @IBOutlet     private var gridViewContainer:       NSView?
+    @objc dynamic private var gridView:                GridView?
+    @IBOutlet     private var libraryViewContainer:    NSView?
+    @objc dynamic private var libraryViewController:   LibraryViewController?
     
     override var windowNibName: NSNib.Name?
     {
@@ -180,5 +183,33 @@ class MainWindowController: NSWindowController
         {
             self.gridView?.resume( nil )
         }
+    }
+    
+    @IBAction func showLibrary( _ sender: Any? )
+    {
+        if( self.libraryViewController == nil )
+        {
+            self.libraryViewController = LibraryViewController()
+            
+            guard let container = self.libraryViewContainer else
+            {
+                return
+            }
+            
+            guard let view = self.libraryViewController?.view else
+            {
+                return
+            }
+            
+            view.translatesAutoresizingMaskIntoConstraints = false
+            
+            container.addSubview( view )
+            container.addConstraint( NSLayoutConstraint( item: view, attribute: .width,   relatedBy: .equal, toItem: container, attribute: .width,   multiplier: 1, constant: 0 ) )
+            container.addConstraint( NSLayoutConstraint( item: view, attribute: .height,  relatedBy: .equal, toItem: container, attribute: .height,  multiplier: 1, constant: 0 ) )
+            container.addConstraint( NSLayoutConstraint( item: view, attribute: .centerX, relatedBy: .equal, toItem: container, attribute: .centerX, multiplier: 1, constant: 0 ) )
+            container.addConstraint( NSLayoutConstraint( item: view, attribute: .centerY, relatedBy: .equal, toItem: container, attribute: .centerY, multiplier: 1, constant: 0 ) )
+        }
+        
+        self.showLibrary = self.showLibrary == false
     }
 }
