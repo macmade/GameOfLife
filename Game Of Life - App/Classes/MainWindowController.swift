@@ -117,6 +117,11 @@ class MainWindowController: NSWindowController
         }
     }
     
+    @IBAction func step( _ sender: Any? )
+    {
+        self.gridView?.step( sender )
+    }
+    
     @IBAction func decreaseSpeed( _ sender: Any? )
     {
         self.gridView?.decreaseSpeed( sender )

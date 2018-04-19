@@ -44,7 +44,7 @@
                                 </connections>
                             </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="qwa-mU-n7q">
-                                <rect key="frame" x="452" y="0.0" width="97" height="32"/>
+                                <rect key="frame" x="426" y="0.0" width="148" height="32"/>
                                 <subviews>
                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="N1C-uC-XH3" userLabel="Back">
                                         <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
@@ -62,7 +62,7 @@
                                         </connections>
                                     </button>
                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="UL5-sC-GxQ" userLabel="Resume">
-                                        <rect key="frame" x="34" y="0.0" width="32" height="32"/>
+                                        <rect key="frame" x="32" y="0.0" width="32" height="32"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarPlayTemplate" imagePosition="only" alignment="center" continuous="YES" imageScaling="proportionallyUpOrDown" inset="2" id="eQM-mH-OpQ">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -77,7 +77,7 @@
                                         </connections>
                                     </button>
                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="g3b-tn-6S3" userLabel="Pause">
-                                        <rect key="frame" x="34" y="0.0" width="32" height="32"/>
+                                        <rect key="frame" x="32" y="0.0" width="32" height="32"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarPauseTemplate" imagePosition="only" alignment="center" continuous="YES" imageScaling="proportionallyUpOrDown" inset="2" id="POo-TK-gSf">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -87,8 +87,20 @@
                                             <binding destination="-2" name="hidden" keyPath="self.paused" id="SSa-oV-qUh"/>
                                         </connections>
                                     </button>
+                                    <button translatesAutoresizingMaskIntoConstraints="NO" id="cse-0O-qcW" userLabel="Step">
+                                        <rect key="frame" x="64" y="0.0" width="32" height="32"/>
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarPlayPauseTemplate" imagePosition="only" alignment="center" continuous="YES" imageScaling="proportionallyUpOrDown" inset="2" id="eLP-EY-Fs3">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                            <string key="keyEquivalent"></string>
+                                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="step:" target="-2" id="Wso-Ul-X4f"/>
+                                        </connections>
+                                    </button>
                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="rrM-RV-RZr" userLabel="Next">
-                                        <rect key="frame" x="65" y="0.0" width="32" height="32"/>
+                                        <rect key="frame" x="96" y="0.0" width="32" height="32"/>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarFastForwardTemplate" imagePosition="only" alignment="center" continuous="YES" imageScaling="proportionallyUpOrDown" inset="2" id="XSZ-z8-HH1">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -100,22 +112,26 @@
                                     </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="UL5-sC-GxQ" firstAttribute="leading" secondItem="N1C-uC-XH3" secondAttribute="trailing" constant="2" id="0ZB-zX-tkH"/>
-                                    <constraint firstItem="g3b-tn-6S3" firstAttribute="height" secondItem="N1C-uC-XH3" secondAttribute="height" id="3Jm-CN-TjQ"/>
-                                    <constraint firstItem="UL5-sC-GxQ" firstAttribute="height" secondItem="N1C-uC-XH3" secondAttribute="height" id="6KD-pV-W1L"/>
-                                    <constraint firstItem="rrM-RV-RZr" firstAttribute="leading" secondItem="g3b-tn-6S3" secondAttribute="trailing" constant="-1" id="6nP-Gk-3hj"/>
-                                    <constraint firstItem="UL5-sC-GxQ" firstAttribute="centerY" secondItem="N1C-uC-XH3" secondAttribute="centerY" id="9rR-U5-vs7"/>
-                                    <constraint firstItem="g3b-tn-6S3" firstAttribute="width" secondItem="N1C-uC-XH3" secondAttribute="width" id="DAX-wB-pne"/>
-                                    <constraint firstItem="N1C-uC-XH3" firstAttribute="leading" secondItem="qwa-mU-n7q" secondAttribute="leading" id="EIF-Yi-gtE"/>
-                                    <constraint firstItem="N1C-uC-XH3" firstAttribute="top" secondItem="qwa-mU-n7q" secondAttribute="top" id="EaG-I6-7tV"/>
-                                    <constraint firstAttribute="bottom" secondItem="N1C-uC-XH3" secondAttribute="bottom" id="Hlq-f5-byI"/>
-                                    <constraint firstItem="rrM-RV-RZr" firstAttribute="width" secondItem="N1C-uC-XH3" secondAttribute="width" id="OPU-n1-lcL"/>
-                                    <constraint firstItem="rrM-RV-RZr" firstAttribute="centerY" secondItem="N1C-uC-XH3" secondAttribute="centerY" id="Pva-B9-LPZ"/>
-                                    <constraint firstItem="rrM-RV-RZr" firstAttribute="height" secondItem="N1C-uC-XH3" secondAttribute="height" id="cwT-e8-nBe"/>
-                                    <constraint firstItem="UL5-sC-GxQ" firstAttribute="width" secondItem="N1C-uC-XH3" secondAttribute="width" id="mbm-Kr-95c"/>
-                                    <constraint firstItem="g3b-tn-6S3" firstAttribute="centerY" secondItem="N1C-uC-XH3" secondAttribute="centerY" id="mzr-5o-LiD"/>
-                                    <constraint firstAttribute="trailing" secondItem="rrM-RV-RZr" secondAttribute="trailing" id="nrl-mQ-tTK"/>
-                                    <constraint firstItem="g3b-tn-6S3" firstAttribute="leading" secondItem="UL5-sC-GxQ" secondAttribute="trailing" constant="-32" id="rcV-s5-Eg0"/>
+                                    <constraint firstItem="cse-0O-qcW" firstAttribute="height" secondItem="g3b-tn-6S3" secondAttribute="height" id="2Rb-SH-RvR"/>
+                                    <constraint firstItem="g3b-tn-6S3" firstAttribute="height" secondItem="UL5-sC-GxQ" secondAttribute="height" id="464-WJ-4GZ"/>
+                                    <constraint firstItem="cse-0O-qcW" firstAttribute="leading" secondItem="g3b-tn-6S3" secondAttribute="trailing" id="DVZ-eR-zFW"/>
+                                    <constraint firstItem="cse-0O-qcW" firstAttribute="centerY" secondItem="g3b-tn-6S3" secondAttribute="centerY" id="JZa-Y5-IUg"/>
+                                    <constraint firstItem="rrM-RV-RZr" firstAttribute="centerY" secondItem="cse-0O-qcW" secondAttribute="centerY" id="Jt4-AU-KzD"/>
+                                    <constraint firstItem="UL5-sC-GxQ" firstAttribute="width" secondItem="N1C-uC-XH3" secondAttribute="width" id="MKw-w4-D1H"/>
+                                    <constraint firstItem="N1C-uC-XH3" firstAttribute="top" secondItem="qwa-mU-n7q" secondAttribute="top" id="Mz8-4O-VL3"/>
+                                    <constraint firstItem="rrM-RV-RZr" firstAttribute="leading" secondItem="cse-0O-qcW" secondAttribute="trailing" id="OMG-ds-Olk"/>
+                                    <constraint firstItem="g3b-tn-6S3" firstAttribute="width" secondItem="UL5-sC-GxQ" secondAttribute="width" id="WdK-Rn-QY2"/>
+                                    <constraint firstItem="UL5-sC-GxQ" firstAttribute="centerY" secondItem="N1C-uC-XH3" secondAttribute="centerY" id="dtX-ZZ-cPM"/>
+                                    <constraint firstItem="UL5-sC-GxQ" firstAttribute="leading" secondItem="N1C-uC-XH3" secondAttribute="trailing" id="f4a-AX-2Ip"/>
+                                    <constraint firstAttribute="bottom" secondItem="N1C-uC-XH3" secondAttribute="bottom" id="kwF-NG-mzi"/>
+                                    <constraint firstItem="UL5-sC-GxQ" firstAttribute="height" secondItem="N1C-uC-XH3" secondAttribute="height" id="lXK-lV-8ge"/>
+                                    <constraint firstItem="g3b-tn-6S3" firstAttribute="centerY" secondItem="UL5-sC-GxQ" secondAttribute="centerY" id="myI-VH-ZiG"/>
+                                    <constraint firstItem="g3b-tn-6S3" firstAttribute="centerX" secondItem="UL5-sC-GxQ" secondAttribute="centerX" id="oCM-qZ-7Tt"/>
+                                    <constraint firstItem="rrM-RV-RZr" firstAttribute="width" secondItem="cse-0O-qcW" secondAttribute="width" id="oiO-Uz-SzQ"/>
+                                    <constraint firstAttribute="trailing" secondItem="rrM-RV-RZr" secondAttribute="trailing" constant="20" id="w6q-Im-bKj"/>
+                                    <constraint firstItem="rrM-RV-RZr" firstAttribute="height" secondItem="cse-0O-qcW" secondAttribute="height" id="wma-S4-NCy"/>
+                                    <constraint firstItem="cse-0O-qcW" firstAttribute="width" secondItem="g3b-tn-6S3" secondAttribute="width" id="xbG-zB-hiE"/>
+                                    <constraint firstItem="N1C-uC-XH3" firstAttribute="leading" secondItem="qwa-mU-n7q" secondAttribute="leading" id="zkW-Xn-RIc"/>
                                 </constraints>
                             </customView>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="hXw-I3-eb4">
@@ -325,6 +341,7 @@
         <image name="NSActionTemplate" width="14" height="14"/>
         <image name="NSTouchBarFastForwardTemplate" width="22" height="30"/>
         <image name="NSTouchBarPauseTemplate" width="11" height="30"/>
+        <image name="NSTouchBarPlayPauseTemplate" width="23" height="30"/>
         <image name="NSTouchBarPlayTemplate" width="14" height="30"/>
         <image name="NSTouchBarRewindTemplate" width="22" height="30"/>
     </resources>

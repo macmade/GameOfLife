@@ -148,6 +148,12 @@ class GridView: NSView
         self.paused = true
     }
     
+    @IBAction func step( _ sender: Any? )
+    {
+        self.grid.next()
+        self.setNeedsDisplay( self.bounds )
+    }
+    
     @IBAction func decreaseSpeed( _ sender: Any? )
     {
         if( Preferences.shared.speed == 0 )
