@@ -9,6 +9,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="LibraryViewController" customModule="GOL" customModuleProvider="target">
             <connections>
                 <outlet property="arrayController" destination="iyv-Od-p61" id="0Gp-j3-cvC"/>
+                <outlet property="tableView" destination="oPn-4L-Rzp" id="ieY-uq-UOo"/>
                 <outlet property="view" destination="ZMb-gg-wxK" id="cIf-lf-tQP"/>
             </connections>
         </customObject>

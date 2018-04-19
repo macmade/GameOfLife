@@ -26,9 +26,9 @@ import Cocoa
 
 class GridView: NSView
 {
-    @objc dynamic public var paused:            Bool = true
-    @objc dynamic public var resizing:          Bool = false
-    @objc dynamic public var resumeAfterResize: Bool = false
+    @objc dynamic public var paused:               Bool = true
+    @objc dynamic public var resizing:             Bool = false
+    @objc dynamic public var resumeAfterOperation: Bool = false
     
     @objc dynamic public private( set ) var speed: UInt    = Preferences.shared.speed
     @objc dynamic public private( set ) var fps:   CGFloat = 0
@@ -38,6 +38,8 @@ class GridView: NSView
     private var mouseUpResume: Bool                      = false
     private var observations:  [ NSKeyValueObservation ] = []
     private var timer:         Timer?
+    private var draggedItem:   LibraryItem?
+    private var draggedPoint:  NSPoint?
     
     init( frame rect: NSRect, kind: Grid.Kind )
     {
@@ -46,6 +48,7 @@ class GridView: NSView
         self.grid = Grid( width: size_t( rect.size.width / Preferences.shared.cellSize ), height: size_t( rect.size.height / Preferences.shared.cellSize ), kind: kind )
         
         self.observations.append( Preferences.shared.observe( \Preferences.speed ) { ( c, o ) in self._restartTimer() } )
+        self.registerForDraggedTypes( [ LibraryItem.PasteboardType ] )
     }
     
     override init( frame rect: NSRect )
@@ -55,6 +58,7 @@ class GridView: NSView
         self.grid = Grid( width: size_t( rect.size.width / Preferences.shared.cellSize ), height: size_t( rect.size.height / Preferences.shared.cellSize ) )
         
         self.observations.append( Preferences.shared.observe( \Preferences.speed ) { ( c, o ) in self._restartTimer() } )
+        self.registerForDraggedTypes( [ LibraryItem.PasteboardType ] )
     }
     
     required init?( coder decoder: NSCoder )
@@ -64,14 +68,15 @@ class GridView: NSView
         self.grid = Grid( width: size_t( self.frame.size.width / Preferences.shared.cellSize ), height: size_t( self.frame.size.height / Preferences.shared.cellSize ) )
         
         self.observations.append( Preferences.shared.observe( \Preferences.speed ) { ( c, o ) in self._restartTimer() } )
+        self.registerForDraggedTypes( [ LibraryItem.PasteboardType ] )
     }
     
     override func resize( withOldSuperviewSize size: NSSize )
     {
         if( self.resizing == false )
         {
-            self.resumeAfterResize = self.paused == false
-            self.resizing          = true
+            self.resumeAfterOperation = self.paused == false
+            self.resizing             = true
         }
         
         self.pause( nil )
@@ -83,13 +88,13 @@ class GridView: NSView
     {
         self.grid.resize( width: size_t( self.frame.size.width / Preferences.shared.cellSize ), height: size_t( self.frame.size.height / Preferences.shared.cellSize ) )
         
-        if( self.resumeAfterResize )
+        if( self.resumeAfterOperation )
         {
             self.resume( nil )
         }
         
-        self.resumeAfterResize = false
-        self.resizing          = false
+        self.resumeAfterOperation = false
+        self.resizing             = false
         
         self.setNeedsDisplay( self.bounds )
     }
@@ -290,5 +295,155 @@ class GridView: NSView
                 NSRect( x: cellSize * CGFloat( x ), y: cellSize * CGFloat( y ), width: cellSize, height: cellSize ).fill()
             }
         }
+        
+        guard let cells = self.draggedItem?.cells else
+        {
+            return
+        }
+        
+        guard let p = self.draggedPoint else
+        {
+            return
+        }
+        
+        let point = self.convert( p, from: self.window?.contentView )
+        
+        for i in 0 ..< cells.count
+        {
+            let s = cells[ i ]
+            
+            for j in 0 ..< s.count
+            {
+                let c = s[ String.Index( encodedOffset: j ) ]
+                
+                if( c == " " )
+                {
+                    continue
+                }
+                
+                var x = CGFloat( j ) * cellSize
+                var y = CGFloat( i ) * cellSize
+                
+                x += cellSize * ceil( ceil( point.x ) / cellSize )
+                y += cellSize * ceil( ceil( point.y ) / cellSize )
+                
+                let rect = NSRect( x: x, y: y, width: cellSize, height: cellSize )
+                
+                NSColor( calibratedWhite: 1, alpha: 0.75 ).setFill()
+                rect.fill()
+            }
+        }
+    }
+    
+    override func draggingEntered( _ sender: NSDraggingInfo ) -> NSDragOperation
+    {
+        guard let objects = sender.draggingPasteboard().readObjects( forClasses: [ LibraryItem.self ], options: nil ) as? [ LibraryItem ] else
+        {
+            return .generic
+        }
+        
+        guard let item = objects.first else
+        {
+            return .generic
+        }
+        
+        self.resumeAfterOperation = self.paused == false
+        self.draggedItem          = item
+        self.draggedPoint         = sender.draggingLocation()
+        
+        self.pause( nil )
+        self.setNeedsDisplay( self.bounds )
+        
+        return .copy
+    }
+    
+    override func draggingUpdated( _ sender: NSDraggingInfo ) -> NSDragOperation
+    {
+        guard let objects = sender.draggingPasteboard().readObjects( forClasses: [ LibraryItem.self ], options: nil ) as? [ LibraryItem ] else
+        {
+            return .generic
+        }
+        
+        guard let item = objects.first else
+        {
+            return .generic
+        }
+        
+        self.draggedItem  = item
+        self.draggedPoint = sender.draggingLocation()
+        
+        self.setNeedsDisplay( self.bounds )
+        
+        return .copy
+    }
+    
+    override func draggingExited( _ sender: NSDraggingInfo? )
+    {
+        self.draggedItem  = nil
+        self.draggedPoint = nil
+        
+        if( self.resumeAfterOperation )
+        {
+            self.resume( nil )
+        }
+        
+        self.resumeAfterOperation = false
+        
+        self.setNeedsDisplay( self.bounds )
+    }
+    
+    override func draggingEnded( _ sender: NSDraggingInfo )
+    {
+        self.draggedItem  = nil
+        self.draggedPoint = nil
+        
+        if( self.resumeAfterOperation )
+        {
+            self.resume( nil )
+        }
+        
+        self.resumeAfterOperation = false
+        
+        self.setNeedsDisplay( self.bounds )
+    }
+    
+    override func performDragOperation( _ sender: NSDraggingInfo ) -> Bool
+    {
+        guard let objects = sender.draggingPasteboard().readObjects( forClasses: [ LibraryItem.self ], options: nil ) as? [ LibraryItem ] else
+        {
+            return false
+        }
+        
+        guard let cells = objects.first?.cells else
+        {
+            return false
+        }
+        
+        let point     = self.convert( sender.draggingLocation(), from: self.window?.contentView )
+        let cellSize  = Preferences.shared.cellSize
+        
+        let offsetX = Int( ceil( point.x / cellSize ) );
+        let offsetY = Int( ceil( point.y / cellSize ) );
+        
+        for i in 0 ..< cells.count
+        {
+            let s = cells[ i ]
+            
+            for j in 0 ..< s.count
+            {
+                let c = s[ String.Index( encodedOffset: j ) ]
+                
+                if( c == " " )
+                {
+                    continue
+                }
+                
+                self.grid.setAliveAt( x: j + offsetX, y: i + offsetY, value: true )
+            }
+        }
+        
+        self.setNeedsDisplay( self.bounds )
+        
+        return true
     }
 }

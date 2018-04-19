@@ -191,7 +191,7 @@ class Grid: NSObject
     {
         if( x < self.width && y < self.height )
         {
-            self.cells[ x + ( y * self.width ) ] = ( value ) ? 1 | ( 1 << 1 ) : 0
+            self.cells[ x + ( y * self.width ) ] = ( value ) ? 1 : 0
         }
     }
     

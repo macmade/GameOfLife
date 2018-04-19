@@ -101,8 +101,6 @@ class LibraryItemView: NSView
             return self.findItem( view: view?.superview ) 
         }
         
-        
-        
         return item
     }
 }

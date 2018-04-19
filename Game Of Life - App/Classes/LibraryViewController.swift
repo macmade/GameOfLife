@@ -27,6 +27,7 @@ import Cocoa
 class LibraryViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource
 {
     @IBOutlet private         var arrayController: NSArrayController?
+    @IBOutlet private         var tableView:       NSTableView?
     @objc     private dynamic var library:         [ LibraryItem ]?
     
     override var nibName: NSNib.Name?
@@ -79,5 +80,30 @@ class LibraryViewController: NSViewController, NSTableViewDelegate, NSTableViewD
         }
         
         return tableView.makeView( withIdentifier: NSUserInterfaceItemIdentifier( "ItemCell" ), owner: self )
+    }
+    
+    func tableView( _ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard ) -> Bool
+    {
+        if( rowIndexes.count != 1 )
+        {
+            return false
+        }
+        
+        guard let index = rowIndexes.first else
+        {
+            return false
+        }
+        
+        guard let item = self.itemAt( index ) else
+        {
+            return false
+        }
+        
+        if( item.kind != .Item )
+        {
+            return false
+        }
+        
+        return pboard.writeObjects( [ item ] )
     }
 }

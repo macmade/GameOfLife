@@ -24,9 +24,11 @@
 
 import Cocoa
 
-class LibraryItem: NSObject
+class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading, NSSecureCoding
 {
-    enum Kind
+    public static let PasteboardType = NSPasteboard.PasteboardType( "com.xs-labs.GOL.LibraryItem" )
+    
+    enum Kind: Int
     {
         case Group
         case Item
@@ -213,5 +215,107 @@ class LibraryItem: NSObject
         }
         
         return items
+    }
+    
+    // MARK: - NSCopying
+    
+    func copy( with zone: NSZone? = nil ) -> Any
+    {
+        let item = LibraryItem()
+        
+        item.title = self.title
+        item.kind  = self.kind
+        item.cells = self.cells
+        
+        return item
+    }
+    
+    // MARK: - NSPasteboardWriting
+    
+    func writableTypes( for pasteboard: NSPasteboard ) -> [ NSPasteboard.PasteboardType ]
+    {
+        return [ LibraryItem.PasteboardType ]
+    }
+    
+    func pasteboardPropertyList( forType type: NSPasteboard.PasteboardType ) -> Any?
+    {
+        if( type != LibraryItem.PasteboardType )
+        {
+            return nil
+        }
+        
+        return NSKeyedArchiver.archivedData( withRootObject: self )
+    }
+    
+    // MARK: - NSPasteboardReading
+    
+    static func readingOptions( forType type: NSPasteboard.PasteboardType, pasteboard: NSPasteboard) -> NSPasteboard.ReadingOptions
+    {
+        if( type == LibraryItem.PasteboardType )
+        {
+            return .asKeyedArchive
+        }
+        
+        return .asData
+    }
+    
+    static func readableTypes( for pasteboard: NSPasteboard ) -> [ NSPasteboard.PasteboardType ]
+    {
+        return [ LibraryItem.PasteboardType ]
+    }
+    
+    required init?( pasteboardPropertyList propertyList: Any, ofType type: NSPasteboard.PasteboardType )
+    {
+        if( type != LibraryItem.PasteboardType )
+        {
+            return nil
+        }
+        
+        guard let data = propertyList as? Data else
+        {
+            return nil
+        }
+        
+        guard let item = NSKeyedUnarchiver.unarchiveObject( with: data ) as? LibraryItem else
+        {
+            return nil
+        }
+        
+        self.title = item.title
+        self.kind  = item.kind
+        self.cells = item.cells
+    }
+    
+    // MARK: - NSSecureCoding
+    
+    static var supportsSecureCoding: Bool = true
+    
+    required init?( coder: NSCoder )
+    {
+        guard let title = coder.decodeObject( forKey: "title" ) as? String else
+        {
+            return nil
+        }
+        
+        guard let kind = Kind( rawValue: coder.decodeInteger( forKey: "kind" ) ) else
+        {
+            return nil
+        }
+        
+        guard let cells = coder.decodeObject( of: NSArray.self, forKey: "cells" ) as? [ String ] else
+        {
+            return nil
+        }
+        
+        self.title = title;
+        self.kind  = kind;
+        self.cells = cells;
+    }
+    
+    func encode( with coder: NSCoder )
+    {
+        coder.encode( self.title,         forKey: "title" )
+        coder.encode( self.kind.rawValue, forKey: "kind" )
+        coder.encode( self.cells,         forKey: "cells" )
     }
 }
