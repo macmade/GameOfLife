@@ -28,6 +28,8 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
 {
     public static let PasteboardType = NSPasteboard.PasteboardType( "com.xs-labs.GOL.LibraryItem" )
     
+    typealias LibraryType = [ [ String: Any ] ]
+    
     enum Kind: Int
     {
         case Group
@@ -37,150 +39,6 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
     @objc public dynamic var title: String
           public         var kind:  Kind
           public         var cells: [ String ]
-    
-    private static let Predefined: [ ( key: String, value: [ ( key: String, value: [ String ] ) ] ) ] =
-    [
-        (
-            key: "Still Lifes",
-            value:
-            [
-                (
-                    key: "Block",
-                    value:
-                    [
-                        "oo",
-                        "oo"
-                    ]
-                ),
-                (
-                    key: "Beehive",
-                    value:
-                    [
-                        " oo ",
-                        "o  o",
-                        " oo ",
-                    ]
-                ),
-                (
-                    key: "Loaf",
-                    value:
-                    [
-                        " oo ",
-                        "o  o",
-                        " o o",
-                        "  o ",
-                    ]
-                ),
-                (
-                    key: "Boat",
-                    value:
-                    [
-                        "oo ",
-                        "o o",
-                        " o ",
-                    ]
-                ),
-                (
-                    key: "Tub",
-                    value:
-                    [
-                        " o ",
-                        "o o",
-                        " o ",
-                    ]
-                ),
-            ]
-        ),
-        (
-            key: "Oscillators",
-            value:
-            [
-                (
-                    key: "Blinker",
-                    value:
-                    [
-                        "ooo",
-                    ]
-                ),
-                (
-                    key: "Toad",
-                    value:
-                    [
-                        " ooo",
-                        "ooo ",
-                    ]
-                ),
-                (
-                    key: "Beacon",
-                    value:
-                    [
-                        "oo  ",
-                        "oo  ",
-                        "  oo",
-                        "  oo",
-                    ]
-                ),
-                (
-                    key: "Pulsar",
-                    value:
-                    [
-                        "  ooo   ooo  ",
-                        "             ",
-                        "o    o o    o",
-                        "o    o o    o",
-                        "o    o o    o",
-                        "  ooo   ooo  ",
-                        "             ",
-                        "  ooo   ooo  ",
-                        "o    o o    o",
-                        "o    o o    o",
-                        "o    o o    o",
-                        "             ",
-                        "  ooo   ooo  ",
-                    ]
-                ),
-                (
-                    key: "Pentadecathlon",
-                    value:
-                    [
-                        "ooo",
-                        "o o",
-                        "ooo",
-                        "ooo",
-                        "ooo",
-                        "ooo",
-                        "o o",
-                        "ooo",
-                    ]
-                ),
-            ]
-        ),
-        (
-            key: "Spaceships",
-            value:
-            [
-                (
-                    key: "Glider",
-                    value:
-                    [
-                        " o ",
-                        "  o",
-                        "ooo"
-                    ]
-                ),
-                (
-                    key: "LWSS",
-                    value:
-                    [
-                        " ooooo",
-                        "o    o",
-                        "     o",
-                        "o   o "
-                    ]
-                ),
-            ]
-        )
-    ]
     
     init( title: String = "" )
     {
@@ -202,19 +60,59 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
     
     public static func allItems() -> [ LibraryItem ]
     {
-        var items = [ LibraryItem ]()
-        
-        for p1 in Predefined
+        guard let url = Bundle.main.url( forResource: "Library", withExtension: "json" ) else
         {
-            items.append( LibraryItem( title: p1.key ) )
-            
-            for p2 in p1.value
+            return []
+        }
+        
+        guard let data = NSData( contentsOf: url ) else
+        {
+            return []
+        }
+        
+        guard let json = try? JSONSerialization.jsonObject( with: data as Data, options: [] ) else
+        {
+            return []
+        }
+        
+        guard let lib = json as? LibraryType else
+        {
+            return []
+        }
+        
+        var library = [ LibraryItem ]()
+        
+        for g in lib
+        {
+            guard let name = g[ "title" ] as? String else
             {
-                items.append( LibraryItem( title: p2.key, cells: p2.value ) )
+                continue
+            }
+            
+            library.append( LibraryItem( title: name ) )
+            
+            guard let items = g[ "items" ] as? [ [ String: Any ] ] else
+            {
+                continue;
+            }
+            
+            for i in items
+            {
+                guard let title = i[ "title" ] as? String else
+                {
+                    continue
+                }
+                
+                guard let cells = i[ "cells" ] as? [ String ] else
+                {
+                    continue
+                }
+                
+                library.append( LibraryItem( title: title, cells: cells ) )
             }
         }
         
-        return items
+        return library
     }
     
     // MARK: - NSCopying

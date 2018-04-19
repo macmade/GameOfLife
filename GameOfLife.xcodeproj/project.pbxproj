@@ -35,6 +35,7 @@
 		0539499420667F8F00C20FA3 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0539499320667F8F00C20FA3 /* libc++.tbd */; };
 		053949CC2067F02C00C20FA3 /* Board.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 053949CB2067F02B00C20FA3 /* Board.cpp */; };
 		053949CD2067F3FF00C20FA3 /* Grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0539498D20667B6D00C20FA3 /* Grid.cpp */; };
+		054607B72089171700D11485 /* Library.json in Resources */ = {isa = PBXBuildFile; fileRef = 054607B62089171700D11485 /* Library.json */; };
 		05949A6F20853A2F00DC9C39 /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05949A6E20853A2F00DC9C39 /* LibraryViewController.swift */; };
 		05949A7520853A6F00DC9C39 /* GOL.LibraryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05949A7320853A6F00DC9C39 /* GOL.LibraryViewController.xib */; };
 		05949A7720853ED300DC9C39 /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05949A7620853ED300DC9C39 /* ColorView.swift */; };
@@ -133,6 +134,7 @@
 		053949C92066C53700C20FA3 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		053949CA2067F02B00C20FA3 /* Board.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Board.hpp; sourceTree = "<group>"; };
 		053949CB2067F02B00C20FA3 /* Board.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Board.cpp; sourceTree = "<group>"; };
+		054607B62089171700D11485 /* Library.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Library.json; sourceTree = "<group>"; };
 		05949A6E20853A2F00DC9C39 /* LibraryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
 		05949A7420853A6F00DC9C39 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GOL.LibraryViewController.xib; sourceTree = "<group>"; };
 		05949A7620853ED300DC9C39 /* ColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorView.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 				0529D8C72068EAC70072B1A5 /* UI */,
 				0529D8C22068EA020072B1A5 /* Info.plist */,
 				052B0733206D829800935104 /* Defaults.plist */,
+				054607B62089171700D11485 /* Library.json */,
 			);
 			path = "Game Of Life - App";
 			sourceTree = "<group>";
@@ -473,6 +476,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				054607B72089171700D11485 /* Library.json in Resources */,
 				0535DAE92071248100184579 /* GOL-Save.icns in Resources */,
 				05949A7520853A6F00DC9C39 /* GOL.LibraryViewController.xib in Resources */,
 				052B0726206D816F00935104 /* GOL.AboutWindowController.xib in Resources */,

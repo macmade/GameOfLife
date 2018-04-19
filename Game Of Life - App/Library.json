@@ -1,0 +1,142 @@
+[
+    {
+        "title": "Still Lifes",
+        "items":
+        [
+            {
+                "title": "Block",
+                "cells":
+                [
+                    "oo",
+                    "oo"
+                ]
+            },
+            {
+                "title": "Beehive",
+                "cells":
+                [
+                    " oo ",
+                    "o  o",
+                    " oo "
+                ]
+            },
+            {
+                "title": "Loaf",
+                "cells":
+                [
+                    " oo ",
+                    "o  o",
+                    " o o",
+                    "  o "
+                ]
+            },
+            {
+                "title": "Boat",
+                "cells":
+                [
+                    "oo ",
+                    "o o",
+                    " o "
+                ]
+            },
+            {
+                "title": "Tub",
+                "cells":
+                [
+                    " o ",
+                    "o o",
+                    " o "
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Oscillators",
+        "items":
+        [
+            {
+                "title": "Blinker",
+                "cells":
+                [
+                    "ooo"
+                ]
+            },
+            {
+                "title": "Toad",
+                "cells":
+                [
+                    " ooo",
+                    "ooo "
+                ]
+            },
+            {
+                "title": "Beacon",
+                "cells":
+                [
+                    "oo  ",
+                    "oo  ",
+                    "  oo",
+                    "  oo"
+                ]
+            },
+            {
+                "title": "Pulsar",
+                "cells":
+                [
+                    "  ooo   ooo  ",
+                    "             ",
+                    "o    o o    o",
+                    "o    o o    o",
+                    "o    o o    o",
+                    "  ooo   ooo  ",
+                    "             ",
+                    "  ooo   ooo  ",
+                    "o    o o    o",
+                    "o    o o    o",
+                    "o    o o    o",
+                    "             ",
+                    "  ooo   ooo  "
+                ]
+            },
+            {
+                "title": "Pentadecathlon",
+                "cells":
+                [
+                    "ooo",
+                    "o o",
+                    "ooo",
+                    "ooo",
+                    "ooo",
+                    "ooo",
+                    "o o",
+                    "ooo"
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Spaceships",
+        "items":
+        [
+            {
+                "title": "Glider",
+                "cells":
+                [
+                    " o ",
+                    "  o",
+                    "ooo"
+                ]
+            },
+            {
+                "title": "LWSS",
+                "cells":
+                [
+                    " ooooo",
+                    "o    o",
+                    "     o",
+                    "o   o "
+                ]
+            }
+        ]
+    }
+]
