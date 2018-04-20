@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>speed</key>
-	<integer>10</integer>
+	<integer>5</integer>
 	<key>cellSize</key>
 	<integer>8</integer>
 	<key>colors</key>

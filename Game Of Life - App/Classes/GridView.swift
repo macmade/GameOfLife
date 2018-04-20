@@ -107,8 +107,13 @@ class GridView: NSView
     
     private func _startTimer()
     {
+        if( self.timer != nil )
+        {
+            return
+        }
+        
         self.speed   = Preferences.shared.speed
-        let interval = ( ( 20 - TimeInterval( Preferences.shared.speed ) ) / 50 )
+        let interval = 1 / exp( ( TimeInterval( Preferences.shared.speed ) - 1 ) )
         self.timer   = Timer.scheduledTimer( timeInterval: interval, target: self, selector: #selector( next ), userInfo: nil, repeats: true )
     }
     
@@ -158,7 +163,7 @@ class GridView: NSView
     
     @IBAction func decreaseSpeed( _ sender: Any? )
     {
-        if( Preferences.shared.speed == 0 )
+        if( Preferences.shared.speed == 1 )
         {
             return
         }
@@ -171,7 +176,7 @@ class GridView: NSView
     
     @IBAction func increaseSpeed( _ sender: Any? )
     {
-        if( Preferences.shared.speed == 20 )
+        if( Preferences.shared.speed == 10 )
         {
             return
         }
@@ -190,8 +195,7 @@ class GridView: NSView
         }
         
         self.grid.next()
-        
-        self.setNeedsDisplay( self.bounds )
+        self.display()
         
         if( self.lastUpdate == 0 )
         {
@@ -201,7 +205,7 @@ class GridView: NSView
         {
             let end = CFAbsoluteTimeGetCurrent()
             
-            self.fps = 1 / CGFloat( end - self.lastUpdate )
+            self.fps = ceil( ( 1 / CGFloat( end - self.lastUpdate ) ) * 100 ) / 100
             
             self.lastUpdate = end
         }

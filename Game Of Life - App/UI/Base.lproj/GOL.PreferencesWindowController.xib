@@ -41,7 +41,7 @@
                                 </textField>
                                 <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iaV-vJ-guG">
                                     <rect key="frame" x="78" y="48" width="225" height="24"/>
-                                    <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="20" doubleValue="20" tickMarkPosition="above" numberOfTickMarks="20" allowsTickMarkValuesOnly="YES" sliderType="linear" id="jw0-Yw-Y5d"/>
+                                    <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="1" maxValue="10" doubleValue="5" tickMarkPosition="above" numberOfTickMarks="10" allowsTickMarkValuesOnly="YES" sliderType="linear" id="jw0-Yw-Y5d"/>
                                     <connections>
                                         <binding destination="-2" name="value" keyPath="speed" id="RzP-Ah-67G"/>
                                     </connections>
