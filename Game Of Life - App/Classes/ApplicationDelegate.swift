@@ -43,6 +43,21 @@ class ApplicationDelegate: NSObject, NSApplicationDelegate
         self.mainWindowController?.window?.makeKeyAndOrderFront( nil )
         
         Preferences.shared.lastStart = Date()
+        
+        guard let bundled = Bundle.main.url( forResource: "Library", withExtension: "json" ) else
+        {
+            return
+        }
+        
+        guard let copy = FileManager.default.urls( for: .applicationSupportDirectory, in: .userDomainMask ).first?.appendingPathComponent( "Library.json" ) else
+        {
+            return
+        }
+        
+        if( FileManager.default.fileExists( atPath: copy.path ) == false )
+        {
+            try? FileManager.default.copyItem( at: bundled, to: copy )
+        }
     }
     
     func applicationWillTerminate( _ notification: Notification )

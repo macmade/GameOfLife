@@ -54,7 +54,10 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
     
     public static func allItems() -> [ LibraryItem ]
     {
-        guard let url = Bundle.main.url( forResource: "Library", withExtension: "json" ) else
+        let bundled = Bundle.main.url( forResource: "Library", withExtension: "json" )
+        let copy    = FileManager.default.urls( for: .applicationSupportDirectory, in: .userDomainMask ).first?.appendingPathComponent( "Library.json" )
+        
+        guard let url = ( copy != nil && FileManager.default.fileExists( atPath: copy!.path ) ) ? copy : bundled else
         {
             return []
         }
