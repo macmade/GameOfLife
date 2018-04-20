@@ -44,12 +44,17 @@ class LibraryViewController: NSViewController, NSTableViewDelegate, NSTableViewD
     
     func itemAt( _ row: Int ) -> LibraryItem?
     {
-        if( row >= self.library?.count ?? 0 )
+        guard let array = self.arrayController?.arrangedObjects as? NSArray else
         {
             return nil
         }
         
-        return self.library?[ row ]
+        if( row >= array.count )
+        {
+            return nil
+        }
+        
+        return array[ row ] as? LibraryItem
     }
     
     func tableView( _ tableView: NSTableView, heightOfRow row: Int) -> CGFloat
@@ -59,7 +64,7 @@ class LibraryViewController: NSViewController, NSTableViewDelegate, NSTableViewD
             return 0
         }
         
-        if( item.kind == .Group )
+        if( item.isGroup )
         {
             return 24
         }
@@ -74,7 +79,7 @@ class LibraryViewController: NSViewController, NSTableViewDelegate, NSTableViewD
             return nil
         }
         
-        if( item.kind == .Group )
+        if( item.isGroup )
         {
             return tableView.makeView( withIdentifier: NSUserInterfaceItemIdentifier( "GroupCell" ), owner: self )
         }
@@ -99,7 +104,7 @@ class LibraryViewController: NSViewController, NSTableViewDelegate, NSTableViewD
             return false
         }
         
-        if( item.kind != .Item )
+        if( item.isGroup )
         {
             return false
         }

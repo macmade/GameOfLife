@@ -33,7 +33,7 @@ class LibraryItemView: NSView
     
     override func draw( _ rect: NSRect )
     {
-        self.getItem()
+        self.updateItem()
         
         guard let cells = self.item?.cells else
         {
@@ -65,9 +65,11 @@ class LibraryItemView: NSView
         }
     }
     
-    private func getItem()
+    private func updateItem()
     {
-        if( self.item != nil || self.superview == nil )
+        self.item = nil
+        
+        if( self.superview == nil )
         {
             return
         }

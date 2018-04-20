@@ -30,30 +30,24 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
     
     typealias LibraryType = [ [ String: Any ] ]
     
-    enum Kind: Int
-    {
-        case Group
-        case Item
-    }
-    
-    @objc public dynamic var title: String
-          public         var kind:  Kind
-          public         var cells: [ String ]
+    @objc public dynamic var title:    String
+    @objc public dynamic var isGroup:  Bool
+          public         var cells:    [ String ]
     
     init( title: String = "" )
     {
-        self.title = title
-        self.kind  = .Group
-        self.cells = [ String ]()
+        self.title   = title
+        self.isGroup = true
+        self.cells   = [ String ]()
         
         super.init()
     }
     
     init( title: String = "", cells: [ String ] )
     {
-        self.title = title
-        self.kind  = .Item
-        self.cells = cells
+        self.title   = title
+        self.isGroup = false
+        self.cells   = cells
         
         super.init()
     }
@@ -121,9 +115,9 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
     {
         let item = LibraryItem()
         
-        item.title = self.title
-        item.kind  = self.kind
-        item.cells = self.cells
+        item.title   = self.title
+        item.isGroup = self.isGroup
+        item.cells   = self.cells
         
         return item
     }
@@ -179,9 +173,9 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
             return nil
         }
         
-        self.title = item.title
-        self.kind  = item.kind
-        self.cells = item.cells
+        self.title   = item.title
+        self.isGroup = item.isGroup
+        self.cells   = item.cells
     }
     
     // MARK: - NSSecureCoding
@@ -195,25 +189,20 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
             return nil
         }
         
-        guard let kind = Kind( rawValue: coder.decodeInteger( forKey: "kind" ) ) else
-        {
-            return nil
-        }
-        
         guard let cells = coder.decodeObject( of: NSArray.self, forKey: "cells" ) as? [ String ] else
         {
             return nil
         }
         
-        self.title = title;
-        self.kind  = kind;
-        self.cells = cells;
+        self.title   = title;
+        self.isGroup = coder.decodeBool( forKey: "isGroup" );
+        self.cells   = cells;
     }
     
     func encode( with coder: NSCoder )
     {
-        coder.encode( self.title,         forKey: "title" )
-        coder.encode( self.kind.rawValue, forKey: "kind" )
-        coder.encode( self.cells,         forKey: "cells" )
+        coder.encode( self.title,   forKey: "title" )
+        coder.encode( self.isGroup, forKey: "isGroup" )
+        coder.encode( self.cells,   forKey: "cells" )
     }
 }
