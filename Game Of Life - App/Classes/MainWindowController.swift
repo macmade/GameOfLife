@@ -26,8 +26,9 @@ import Cocoa
 
 class MainWindowController: NSWindowController
 {
-    @objc dynamic public var paused:      Bool = false
-    @objc dynamic public var showLibrary: Bool = false
+    @objc dynamic public var paused:       Bool = false
+    @objc dynamic public var showLibrary:  Bool = false
+    @objc dynamic public var hideControls: Bool = false
     
     @IBOutlet     private var gridViewContainer:       NSView?
     @objc dynamic private var gridView:                GridView?
@@ -190,7 +191,12 @@ class MainWindowController: NSWindowController
         }
     }
     
-    @IBAction func showLibrary( _ sender: Any? )
+    @IBAction func toggleControls( _ sender: Any? )
+    {
+        self.hideControls = self.hideControls == false
+    }
+    
+    @IBAction func toggleLibrary( _ sender: Any? )
     {
         if( self.libraryViewController == nil )
         {

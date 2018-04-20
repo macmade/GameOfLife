@@ -631,14 +631,19 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="5nu-z7-EuF"/>
-                            <menuItem title="Show Library" keyEquivalent="l" id="1KE-kI-Sj5">
-                                <connections>
-                                    <action selector="showLibrary:" target="-1" id="TuC-VX-GqN"/>
-                                </connections>
-                            </menuItem>
                             <menuItem title="Toggle Colors" keyEquivalent="." id="1tW-Xx-xXo">
                                 <connections>
                                     <action selector="toggleColors:" target="-1" id="McS-xW-8nd"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Toggle Library" keyEquivalent="l" id="1KE-kI-Sj5">
+                                <connections>
+                                    <action selector="toggleLibrary:" target="-1" id="8tG-pV-cue"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Toggle Controls" keyEquivalent="H" id="BP7-kK-8hQ">
+                                <connections>
+                                    <action selector="toggleControls:" target="-1" id="ZP2-LI-Okr"/>
                                 </connections>
                             </menuItem>
                         </items>

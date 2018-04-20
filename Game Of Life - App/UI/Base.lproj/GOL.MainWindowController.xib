@@ -36,6 +36,14 @@
                                     <constraint firstAttribute="width" constant="200" id="W2z-VM-mYQ"/>
                                 </constraints>
                                 <connections>
+                                    <binding destination="-2" name="hidden2" keyPath="hideControls" previousBinding="gAd-ZR-9i1" id="qdJ-SG-TRf">
+                                        <dictionary key="options">
+                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                            <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                            <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                            <integer key="NSNullPlaceholder" value="-1"/>
+                                        </dictionary>
+                                    </binding>
                                     <binding destination="-2" name="hidden" keyPath="showLibrary" id="gAd-ZR-9i1">
                                         <dictionary key="options">
                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
@@ -43,15 +51,25 @@
                                     </binding>
                                 </connections>
                             </customView>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="qwa-mU-n7q">
-                                <rect key="frame" x="426" y="0.0" width="148" height="32"/>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="qwa-mU-n7q" userLabel="Controls" customClass="ColorView" customModule="GOL" customModuleProvider="target">
+                                <rect key="frame" x="431" y="10" width="138" height="32"/>
                                 <subviews>
                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="N1C-uC-XH3" userLabel="Back">
-                                        <rect key="frame" x="0.0" y="0.0" width="32" height="32"/>
+                                        <rect key="frame" x="5" y="0.0" width="32" height="32"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="32" id="TPg-PS-HM6"/>
                                             <constraint firstAttribute="height" constant="32" id="kN5-8T-5oH"/>
                                         </constraints>
+                                        <contentFilters>
+                                            <ciFilter name="CIColorControls">
+                                                <configuration>
+                                                    <real key="inputBrightness" value="1"/>
+                                                    <real key="inputContrast" value="1"/>
+                                                    <null key="inputImage"/>
+                                                    <real key="inputSaturation" value="1"/>
+                                                </configuration>
+                                            </ciFilter>
+                                        </contentFilters>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarRewindTemplate" imagePosition="only" alignment="center" continuous="YES" imageScaling="proportionallyUpOrDown" inset="2" id="30C-FD-NMD">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -62,7 +80,17 @@
                                         </connections>
                                     </button>
                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="UL5-sC-GxQ" userLabel="Resume">
-                                        <rect key="frame" x="32" y="0.0" width="32" height="32"/>
+                                        <rect key="frame" x="37" y="0.0" width="32" height="32"/>
+                                        <contentFilters>
+                                            <ciFilter name="CIColorControls">
+                                                <configuration>
+                                                    <real key="inputBrightness" value="1"/>
+                                                    <real key="inputContrast" value="1"/>
+                                                    <null key="inputImage"/>
+                                                    <real key="inputSaturation" value="1"/>
+                                                </configuration>
+                                            </ciFilter>
+                                        </contentFilters>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarPlayTemplate" imagePosition="only" alignment="center" continuous="YES" imageScaling="proportionallyUpOrDown" inset="2" id="eQM-mH-OpQ">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -77,7 +105,17 @@
                                         </connections>
                                     </button>
                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="g3b-tn-6S3" userLabel="Pause">
-                                        <rect key="frame" x="32" y="0.0" width="32" height="32"/>
+                                        <rect key="frame" x="37" y="0.0" width="32" height="32"/>
+                                        <contentFilters>
+                                            <ciFilter name="CIColorControls">
+                                                <configuration>
+                                                    <real key="inputBrightness" value="1"/>
+                                                    <real key="inputContrast" value="1"/>
+                                                    <null key="inputImage"/>
+                                                    <real key="inputSaturation" value="1"/>
+                                                </configuration>
+                                            </ciFilter>
+                                        </contentFilters>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarPauseTemplate" imagePosition="only" alignment="center" continuous="YES" imageScaling="proportionallyUpOrDown" inset="2" id="POo-TK-gSf">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -88,7 +126,17 @@
                                         </connections>
                                     </button>
                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="cse-0O-qcW" userLabel="Step">
-                                        <rect key="frame" x="64" y="0.0" width="32" height="32"/>
+                                        <rect key="frame" x="69" y="0.0" width="32" height="32"/>
+                                        <contentFilters>
+                                            <ciFilter name="CIColorControls">
+                                                <configuration>
+                                                    <real key="inputBrightness" value="1"/>
+                                                    <real key="inputContrast" value="1"/>
+                                                    <null key="inputImage"/>
+                                                    <real key="inputSaturation" value="1"/>
+                                                </configuration>
+                                            </ciFilter>
+                                        </contentFilters>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarPlayPauseTemplate" imagePosition="only" alignment="center" continuous="YES" imageScaling="proportionallyUpOrDown" inset="2" id="eLP-EY-Fs3">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -100,7 +148,17 @@
                                         </connections>
                                     </button>
                                     <button translatesAutoresizingMaskIntoConstraints="NO" id="rrM-RV-RZr" userLabel="Next">
-                                        <rect key="frame" x="96" y="0.0" width="32" height="32"/>
+                                        <rect key="frame" x="101" y="0.0" width="32" height="32"/>
+                                        <contentFilters>
+                                            <ciFilter name="CIColorControls">
+                                                <configuration>
+                                                    <real key="inputBrightness" value="1"/>
+                                                    <real key="inputContrast" value="1"/>
+                                                    <null key="inputImage"/>
+                                                    <real key="inputSaturation" value="1"/>
+                                                </configuration>
+                                            </ciFilter>
+                                        </contentFilters>
                                         <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarFastForwardTemplate" imagePosition="only" alignment="center" continuous="YES" imageScaling="proportionallyUpOrDown" inset="2" id="XSZ-z8-HH1">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -128,11 +186,22 @@
                                     <constraint firstItem="g3b-tn-6S3" firstAttribute="centerY" secondItem="UL5-sC-GxQ" secondAttribute="centerY" id="myI-VH-ZiG"/>
                                     <constraint firstItem="g3b-tn-6S3" firstAttribute="centerX" secondItem="UL5-sC-GxQ" secondAttribute="centerX" id="oCM-qZ-7Tt"/>
                                     <constraint firstItem="rrM-RV-RZr" firstAttribute="width" secondItem="cse-0O-qcW" secondAttribute="width" id="oiO-Uz-SzQ"/>
-                                    <constraint firstAttribute="trailing" secondItem="rrM-RV-RZr" secondAttribute="trailing" constant="20" id="w6q-Im-bKj"/>
+                                    <constraint firstAttribute="trailing" secondItem="rrM-RV-RZr" secondAttribute="trailing" constant="5" id="w6q-Im-bKj"/>
                                     <constraint firstItem="rrM-RV-RZr" firstAttribute="height" secondItem="cse-0O-qcW" secondAttribute="height" id="wma-S4-NCy"/>
                                     <constraint firstItem="cse-0O-qcW" firstAttribute="width" secondItem="g3b-tn-6S3" secondAttribute="width" id="xbG-zB-hiE"/>
-                                    <constraint firstItem="N1C-uC-XH3" firstAttribute="leading" secondItem="qwa-mU-n7q" secondAttribute="leading" id="zkW-Xn-RIc"/>
+                                    <constraint firstItem="N1C-uC-XH3" firstAttribute="leading" secondItem="qwa-mU-n7q" secondAttribute="leading" constant="5" id="zkW-Xn-RIc"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                        <color key="value" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <binding destination="-2" name="hidden" keyPath="hideControls" id="wHp-E4-Rtj"/>
+                                </connections>
                             </customView>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="hXw-I3-eb4">
                                 <rect key="frame" x="974" y="574" width="16" height="16"/>
@@ -283,13 +352,16 @@
                                     <constraint firstItem="JLM-3r-WHf" firstAttribute="leading" secondItem="tpQ-IE-Rus" secondAttribute="leading" id="vDT-RC-ND4"/>
                                     <constraint firstItem="l6S-zy-zqA" firstAttribute="leading" secondItem="p0W-Sb-y9a" secondAttribute="leading" id="y3f-8D-bhH"/>
                                 </constraints>
+                                <connections>
+                                    <binding destination="-2" name="hidden" keyPath="hideControls" id="CjU-dN-E0e"/>
+                                </connections>
                             </customView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="dCF-7m-hYT" firstAttribute="trailing" secondItem="Saa-hd-fIb" secondAttribute="trailing" id="2qb-Ty-Zof"/>
                             <constraint firstItem="hXw-I3-eb4" firstAttribute="top" secondItem="izn-PU-t0R" secondAttribute="top" constant="10" id="5rr-5j-jAP"/>
                             <constraint firstItem="Saa-hd-fIb" firstAttribute="centerY" secondItem="izn-PU-t0R" secondAttribute="centerY" id="CKN-A1-di8"/>
-                            <constraint firstAttribute="bottom" secondItem="qwa-mU-n7q" secondAttribute="bottom" id="HMn-Vx-7jC"/>
+                            <constraint firstAttribute="bottom" secondItem="qwa-mU-n7q" secondAttribute="bottom" constant="10" id="HMn-Vx-7jC"/>
                             <constraint firstItem="Saa-hd-fIb" firstAttribute="width" secondItem="izn-PU-t0R" secondAttribute="width" constant="-60" id="INA-7Q-169"/>
                             <constraint firstItem="qwa-mU-n7q" firstAttribute="centerX" secondItem="izn-PU-t0R" secondAttribute="centerX" id="QS7-hG-kir"/>
                             <constraint firstItem="17W-dc-adO" firstAttribute="leading" secondItem="izn-PU-t0R" secondAttribute="leading" constant="10" id="SBS-VX-Rua"/>
@@ -324,14 +396,19 @@
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="09g-hb-cTb"/>
-                <menuItem title="Toggle Library" keyEquivalent="l" id="4DX-ts-3QS">
-                    <connections>
-                        <action selector="showLibrary:" target="-1" id="ijd-b5-OXM"/>
-                    </connections>
-                </menuItem>
                 <menuItem title="Toggle Colors" keyEquivalent="." id="N2g-HH-1HJ">
                     <connections>
                         <action selector="toggleColors:" target="-2" id="Qfg-vh-MwP"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Toggle Library" keyEquivalent="l" id="4DX-ts-3QS">
+                    <connections>
+                        <action selector="toggleLibrary:" target="-2" id="NYM-U7-awc"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Toggle Controls" keyEquivalent="H" id="qD7-ZC-YS7">
+                    <connections>
+                        <action selector="toggleControls:" target="-2" id="S4Q-Wa-Pdg"/>
                     </connections>
                 </menuItem>
             </items>
