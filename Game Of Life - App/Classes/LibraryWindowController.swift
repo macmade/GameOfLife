@@ -37,10 +37,20 @@ class LibraryWindowController: NSWindowController
     
     override func windowDidLoad()
     {
+        self.textView?.enclosingScrollView?.verticalRulerView             = RulerView()
+        self.textView?.enclosingScrollView?.verticalRulerView?.clientView = self.textView
+        self.textView?.enclosingScrollView?.hasVerticalRuler              = true
+        self.textView?.enclosingScrollView?.rulersVisible                 = true
+        
         self.textView?.isAutomaticQuoteSubstitutionEnabled = false
         self.textView?.textColor                           = NSColor.init( hex: 0xB2B2B2 )
         self.textView?.textContainerInset                  = NSSize( width: 10, height: 10 )
         self.textView?.font                                = NSFont.userFixedPitchFont( ofSize: 12 )
+        
+        self.textView?.maxSize                            = NSSize( width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude )
+        self.textView?.textContainer?.containerSize       = NSSize( width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude )
+        self.textView?.textContainer?.widthTracksTextView = false
+        self.textView?.isHorizontallyResizable            = true
         
         self.url = FileManager.default.urls( for: .applicationSupportDirectory, in: .userDomainMask ).first?.appendingPathComponent( "Library.json" )
         

@@ -41,6 +41,7 @@
 		05949A7720853ED300DC9C39 /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05949A7620853ED300DC9C39 /* ColorView.swift */; };
 		05F05FE520899B8300337CB6 /* LibraryWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05F05FE420899B8300337CB6 /* LibraryWindowController.swift */; };
 		05F05FE820899BBF00337CB6 /* GOL.LibraryWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05F05FE620899BBF00337CB6 /* GOL.LibraryWindowController.xib */; };
+		05F05FEB2089AB1000337CB6 /* RulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05F05FEA2089AB1000337CB6 /* RulerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -142,6 +143,7 @@
 		05949A7620853ED300DC9C39 /* ColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorView.swift; sourceTree = "<group>"; };
 		05F05FE420899B8300337CB6 /* LibraryWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryWindowController.swift; sourceTree = "<group>"; };
 		05F05FE720899BBF00337CB6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GOL.LibraryWindowController.xib; sourceTree = "<group>"; };
+		05F05FEA2089AB1000337CB6 /* RulerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,6 +207,7 @@
 				0531D6ED20866ED500C86639 /* LibraryItemView.swift */,
 				05949A6E20853A2F00DC9C39 /* LibraryViewController.swift */,
 				05F05FE420899B8300337CB6 /* LibraryWindowController.swift */,
+				05F05FEA2089AB1000337CB6 /* RulerView.swift */,
 				053571572069792A002178E3 /* MainWindowController.swift */,
 				0535715F20698C81002178E3 /* NSColor.swift */,
 				052B0727206D81DC00935104 /* Preferences.swift */,
@@ -519,6 +522,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				052D1A17208544290076E3E3 /* LibraryItem.swift in Sources */,
+				05F05FEB2089AB1000337CB6 /* RulerView.swift in Sources */,
 				0529D8CA2068EAE90072B1A5 /* ApplicationDelegate.swift in Sources */,
 				052B073B206D886700935104 /* PreferencesWindowController.swift in Sources */,
 				05949A7720853ED300DC9C39 /* ColorView.swift in Sources */,
