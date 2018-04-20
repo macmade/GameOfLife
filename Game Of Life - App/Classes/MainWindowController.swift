@@ -120,6 +120,7 @@ class MainWindowController: NSWindowController
     
     @IBAction func step( _ sender: Any? )
     {
+        self.pause( sender )
         self.gridView?.step( sender )
     }
     
