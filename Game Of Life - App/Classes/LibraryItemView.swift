@@ -40,6 +40,9 @@ class LibraryItemView: NSView
     {
         self.updateItem()
         
+        NSColor.clear.setFill()
+        self.bounds.fill()
+        
         guard let cells = self.item?.cells else
         {
             return
@@ -98,6 +101,11 @@ class LibraryItemView: NSView
     
     private func findItem( view: NSView? ) -> LibraryItem?
     {
+        if( view == nil )
+        {
+            return nil
+        }
+        
         guard let cell = view as? NSTableCellView else
         {
             return self.findItem( view: view?.superview ) 

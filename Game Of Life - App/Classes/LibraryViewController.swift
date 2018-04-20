@@ -39,15 +39,15 @@ class LibraryViewController: NSViewController, NSOutlineViewDelegate, NSOutlineV
     {
         super.viewDidLoad()
         self.reload()
-        
-        self.treeController?.sortDescriptors = [ NSSortDescriptor( key: "title", ascending: true ) ]
-        
-        self.outlineView?.expandItem( nil, expandChildren: true )
     }
     
     public func reload()
     {
         self.library = LibraryItem.allItems()
+        
+        self.treeController?.sortDescriptors = [ NSSortDescriptor( key: "title", ascending: true ) ]
+        
+        self.outlineView?.expandItem( nil, expandChildren: true )
     }
     
     func outlineView( _ outlineView: NSOutlineView, shouldCollapseItem item: Any ) -> Bool

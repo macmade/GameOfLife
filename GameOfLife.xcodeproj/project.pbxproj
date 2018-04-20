@@ -19,6 +19,8 @@
 		052B073B206D886700935104 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052B073A206D886700935104 /* PreferencesWindowController.swift */; };
 		052D1A17208544290076E3E3 /* LibraryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052D1A16208544290076E3E3 /* LibraryItem.swift */; };
 		052EDC06208A530D002B48AF /* Library in Resources */ = {isa = PBXBuildFile; fileRef = 052EDC05208A530D002B48AF /* Library */; };
+		052EDC08208A7AA2002B48AF /* NSView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052EDC07208A7AA2002B48AF /* NSView.swift */; };
+		052EDC0A208A7AF4002B48AF /* LibraryCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052EDC09208A7AF4002B48AF /* LibraryCellView.swift */; };
 		0531D6EE20866ED500C86639 /* LibraryItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0531D6ED20866ED500C86639 /* LibraryItemView.swift */; };
 		0532BC1F206EB60800807903 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0532BC1D206EB60400807903 /* Data.swift */; };
 		05356FDB20692A3B002178E3 /* ContiguousArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05356FDA20692A3B002178E3 /* ContiguousArray.swift */; };
@@ -72,6 +74,8 @@
 		052B073A206D886700935104 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		052D1A16208544290076E3E3 /* LibraryItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryItem.swift; sourceTree = "<group>"; };
 		052EDC05208A530D002B48AF /* Library */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Library; sourceTree = "<group>"; };
+		052EDC07208A7AA2002B48AF /* NSView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSView.swift; sourceTree = "<group>"; };
+		052EDC09208A7AF4002B48AF /* LibraryCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryCellView.swift; sourceTree = "<group>"; };
 		0531D6ED20866ED500C86639 /* LibraryItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryItemView.swift; sourceTree = "<group>"; };
 		0532BC1C206EB35100807903 /* Game Of Life.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Game Of Life.entitlements"; sourceTree = "<group>"; };
 		0532BC1D206EB60400807903 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
@@ -184,12 +188,12 @@
 		0529D8C72068EAC70072B1A5 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				0535DAE52071237300184579 /* Images */,
 				052B0721206D805400935104 /* GOL.AboutWindowController.xib */,
 				05949A7320853A6F00DC9C39 /* GOL.LibraryViewController.xib */,
-				0535715920697963002178E3 /* GOL.MainWindowController.xib */,
 				05F05FE620899BBF00337CB6 /* GOL.LibraryWindowController.xib */,
+				0535715920697963002178E3 /* GOL.MainWindowController.xib */,
 				052B0737206D885800935104 /* GOL.PreferencesWindowController.xib */,
+				0535DAE52071237300184579 /* Images */,
 				0529D8BF2068EA020072B1A5 /* MainMenu.xib */,
 			);
 			path = UI;
@@ -206,16 +210,18 @@
 				0532BC1D206EB60400807903 /* Data.swift */,
 				0529D8CD2068EB8A0072B1A5 /* Grid.swift */,
 				0535715D20697CF5002178E3 /* GridView.swift */,
+				052EDC09208A7AF4002B48AF /* LibraryCellView.swift */,
 				052D1A16208544290076E3E3 /* LibraryItem.swift */,
 				0531D6ED20866ED500C86639 /* LibraryItemView.swift */,
 				05949A6E20853A2F00DC9C39 /* LibraryViewController.swift */,
 				05F05FE420899B8300337CB6 /* LibraryWindowController.swift */,
-				05F05FEA2089AB1000337CB6 /* RulerView.swift */,
 				053571572069792A002178E3 /* MainWindowController.swift */,
 				0535715F20698C81002178E3 /* NSColor.swift */,
+				052EDC07208A7AA2002B48AF /* NSView.swift */,
 				052B0727206D81DC00935104 /* Preferences.swift */,
 				051DB8B32072824500963D88 /* PreferencesColorItem.swift */,
 				052B073A206D886700935104 /* PreferencesWindowController.swift */,
+				05F05FEA2089AB1000337CB6 /* RulerView.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -525,6 +531,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				052EDC0A208A7AF4002B48AF /* LibraryCellView.swift in Sources */,
 				052D1A17208544290076E3E3 /* LibraryItem.swift in Sources */,
 				05F05FEB2089AB1000337CB6 /* RulerView.swift in Sources */,
 				0529D8CA2068EAE90072B1A5 /* ApplicationDelegate.swift in Sources */,
@@ -542,6 +549,7 @@
 				052B0725206D806E00935104 /* AboutWindowController.swift in Sources */,
 				0535715E20697CF5002178E3 /* GridView.swift in Sources */,
 				053571582069792A002178E3 /* MainWindowController.swift in Sources */,
+				052EDC08208A7AA2002B48AF /* NSView.swift in Sources */,
 				0531D6EE20866ED500C86639 /* LibraryItemView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
