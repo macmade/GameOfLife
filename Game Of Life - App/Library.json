@@ -136,6 +136,177 @@
 					"     o",
 					"o   o "
 				]
+			},
+			{
+				"title": "MWSS",
+				"cells":
+				[
+					"   o  ",
+					" o   o",
+					"o     ",
+					"o    o",
+					"ooooo "
+				]
+			},
+			{
+				"title": "HWSS",
+				"cells":
+				[
+					"   oo  ",
+					" o    o",
+					"o      ",
+					"o     o",
+					"oooooo "
+				]
+			},
+			{
+				"title": "Loafer",
+				"cells":
+				[
+					" oo  o oo",
+					"o  o  oo ",
+					" o o     ",
+					"  o      ",
+					"        o",
+					"      ooo",
+					"     o   ",
+					"      o  ",
+					"       oo",
+				]
+			},
+			{
+				"title": "Copperhead",
+				"cells":
+				[
+					" oo  oo ",
+					"   oo   ",
+					"   oo   ",
+					"o o  o o",
+					"o      o",
+					"        ",
+					"o      o",
+					" oo  oo ",
+					"  oooo  ",
+					"        ",
+					"   oo   ",
+					"   oo   ",
+				]
+			},
+			{
+				"title": "Turtle",
+				"cells":
+				[
+					" ooo       o",
+					" oo  o oo oo",
+					"   ooo    o ",
+					" o  o o   o ",
+					"o    o    o ",
+					"o    o    o ",
+					" o  o o   o ",
+					"   ooo    o ",
+					" oo  o oo oo",
+					" ooo       o"
+				]
+			},
+			{
+				"title": "Dart",
+				"cells":
+				[
+					"       o       ",
+					"      o o      ",
+					"     o   o     ",
+					"      ooo      ",
+					"               ",
+					"    oo   oo    ",
+					"  o   o o   o  ",
+					" oo   o o   oo ",
+					"o     o o     o",
+					" o oo o o oo o "
+				]
+			},
+			{
+				"title": "X66",
+				"cells":
+				[
+					"  o      ",
+					"oo       ",
+					"o  ooo  o",
+					"o    ooo ",
+					" ooo  oo ",
+					"         ",
+					" ooo  oo ",
+					"o    ooo ",
+					"o  ooo  o",
+					"oo       ",
+					"  o      ",
+				]
+			},
+			{
+				"title": "Hivenudger",
+				"cells":
+				[
+					"oooo     o  o",
+					"o   o   o    ",
+					"o       o   o",
+					" o  o   oooo ",
+					"             ",
+					"     oo      ",
+					"     oo      ",
+					"     oo      ",
+					"             ",
+					" o  o   oooo ",
+					"o       o   o",
+					"o   o   o    ",
+					"oooo     o  o"
+				]
+			},
+			{
+				"title": "Fireship",
+				"cells":
+				[
+					"    oo    ",
+					"    oo    ",
+					"   o  o   ",
+					"   oooo   ",
+					"  o oo o  ",
+					"   o  o   ",
+					"          ",
+					"  oo  oo  ",
+					" o      o ",
+					"          ",
+					"  o    o  ",
+					"   o  o   ",
+					"    oo    ",
+					"          ",
+					" oo    oo ",
+					"o  o  o  o",
+					" oo    oo ",
+					"  o    o  "
+				]
+			},
+			{
+				"title": "Hammerhead",
+				"cells":
+				[
+					"                o  ",
+					" oo           o   o",
+					"oo ooo       o     ",
+					" ooooo       o    o",
+					"  ooooo     o oooo ",
+					"      ooo o oo     ",
+					"      ooo    o     ",
+					"      ooo ooo      ",
+					"          oo       ",
+					"          oo       ",
+					"      ooo ooo      ",
+					"      ooo    o     ",
+					"      ooo o oo     ",
+					"  ooooo     o oooo ",
+					" ooooo       o    o",
+					"oo ooo       o     ",
+					" oo           o   o",
+					"                o  "
+				]
 			}
 		]
 	},
@@ -231,6 +402,25 @@
 					"      o o      ",
 					"   o o   o o   ",
 					"    o     o    "
+				]
+			}
+		]
+	},
+	{
+		"title": "Fuses",
+		"items":
+		[
+			{
+				"title": "Cow",
+				"cells":
+				[
+					"oo       oo  oo  oo  oo  oo  oo  oo     ",
+					"oo    o ooo  oo  oo  oo  oo  oo  oo   oo",
+					"    oo o                             o o",
+					"    oo   ooooooooooooooooooooooooooooo  ",
+					"    oo o                              o ",
+					"oo    o ooo  oo  oo  oo  oo  oo  oo  oo ",
+					"oo       oo  oo  oo  oo  oo  oo  oo     "
 				]
 			}
 		]
