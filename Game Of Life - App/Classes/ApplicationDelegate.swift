@@ -30,6 +30,7 @@ class ApplicationDelegate: NSObject, NSApplicationDelegate
     private var mainWindowController:        MainWindowController?
     private var aboutWindowController:       AboutWindowController?
     private var preferencesWindowController: PreferencesWindowController?
+    private var libraryWindowController:     LibraryWindowController?
     
     func applicationDidFinishLaunching( _ notification: Notification )
     {
@@ -90,6 +91,18 @@ class ApplicationDelegate: NSObject, NSApplicationDelegate
         }
         
         self.preferencesWindowController?.window?.makeKeyAndOrderFront( nil )
+    }
+    
+    @IBAction func showLibraryWindow( _ sender: Any? )
+    {
+        if( self.libraryWindowController == nil )
+        {
+            self.libraryWindowController = LibraryWindowController()
+            
+            self.libraryWindowController?.window?.center()
+        }
+        
+        self.libraryWindowController?.window?.makeKeyAndOrderFront( nil )
     }
 }
 

@@ -78,6 +78,12 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="ixP-si-jEJ"/>
+                            <menuItem title="Edit Library" keyEquivalent="L" id="RNN-uu-QfE">
+                                <connections>
+                                    <action selector="showLibraryWindow:" target="Voe-Tx-rLC" id="etD-0R-WlI"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="vvN-Qq-ipw"/>
                             <menuItem title="Close" keyEquivalent="w" id="DVo-aG-piG">
                                 <connections>
                                     <action selector="performClose:" target="-1" id="HmO-Ls-i7Q"/>

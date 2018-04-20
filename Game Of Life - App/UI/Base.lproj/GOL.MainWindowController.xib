@@ -395,6 +395,12 @@
                         <action selector="toggleControls:" target="-2" id="S4Q-Wa-Pdg"/>
                     </connections>
                 </menuItem>
+                <menuItem isSeparatorItem="YES" id="WyK-Dg-etU"/>
+                <menuItem title="Edit Library" keyEquivalent="L" id="K6U-F8-3uS">
+                    <connections>
+                        <action selector="showLibraryWindow:" target="-1" id="0YU-HG-y9t"/>
+                    </connections>
+                </menuItem>
             </items>
         </menu>
     </objects>
