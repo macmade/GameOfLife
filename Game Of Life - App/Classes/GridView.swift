@@ -29,6 +29,7 @@ class GridView: NSView
     @objc dynamic public var paused:               Bool = true
     @objc dynamic public var resizing:             Bool = false
     @objc dynamic public var resumeAfterOperation: Bool = false
+    @objc dynamic public var drawSetAlive:         Bool = false
     
     @objc dynamic public private( set ) var speed: UInt    = Preferences.shared.speed
     @objc dynamic public private( set ) var fps:   CGFloat = 0
@@ -217,7 +218,9 @@ class GridView: NSView
         let x = size_t( point.x / Preferences.shared.cellSize )
         let y = size_t( point.y / Preferences.shared.cellSize )
         
-        self.grid.setAliveAt( x: x, y: y, value: self.grid.isAliveAt( x: x, y: y ) == false )
+        self.drawSetAlive = self.grid.isAliveAt( x: x, y: y ) == false
+        
+        self.grid.setAliveAt( x: x, y: y, value: self.drawSetAlive )
         self.setNeedsDisplay( self.bounds )
     }
     
@@ -239,7 +242,7 @@ class GridView: NSView
         let x = size_t( point.x / Preferences.shared.cellSize )
         let y = size_t( point.y / Preferences.shared.cellSize )
         
-        self.grid.setAliveAt( x: x, y: y, value: true )
+        self.grid.setAliveAt( x: x, y: y, value: self.drawSetAlive )
         self.setNeedsDisplay( self.bounds )
     }
     

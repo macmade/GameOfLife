@@ -31,6 +31,11 @@ class LibraryItemView: NSView
     private var width:  Int = 0
     private var height: Int = 0
     
+    override var isFlipped: Bool
+    {
+        return true
+    }
+    
     override func draw( _ rect: NSRect )
     {
         self.updateItem()
