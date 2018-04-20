@@ -138,5 +138,77 @@
                 ]
             }
         ]
+    },
+    {
+        "title": "Methuselahs",
+        "items":
+        [
+            {
+                "title": "R-Pentomino",
+                "cells":
+                [
+                    " oo",
+                    "oo ",
+                    " o "
+                ]
+            },
+            {
+                "title": "Diehard",
+                "cells":
+                [
+                    "      o ",
+                    "oo      ",
+                    " o   ooo"
+                ]
+            },
+            {
+                "title": "Acorn",
+                "cells":
+                [
+                    " o",
+                    "   o   ",
+                    "oo  ooo"
+                ]
+            },
+            {
+                "title": "Pi-Heptomino",
+                "cells":
+                [
+                    "ooo",
+                    "o o",
+                    "o o"
+                ]
+            },
+            {
+                "title": "B-Heptomino",
+                "cells":
+                [
+                    "o oo",
+                    "ooo ",
+                    " o  "
+                ]
+            }
+        ]
+    },
+    {
+        "title": "Guns",
+        "items":
+        [
+            {
+                "title": "Gosper Glider Gun",
+                "cells":
+                [
+                    "                        o           ",
+                    "                      o o           ",
+                    "            oo      oo            oo",
+                    "           o   o    oo            oo",
+                    "oo        o     o   oo              ",
+                    "oo        o   o oo    o o           ",
+                    "          o     o       o           ",
+                    "           o   o                    ",
+                    "            oo                      "
+                ]
+            }
+        ]
     }
 ]
