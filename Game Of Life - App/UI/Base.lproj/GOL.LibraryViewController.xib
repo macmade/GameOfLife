@@ -55,12 +55,12 @@
                                         </textFieldCell>
                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                         <prototypeCellViews>
-                                            <tableCellView identifier="HeaderCell" id="Fhr-ic-OLM">
+                                            <tableCellView identifier="HeaderCell" focusRingType="none" id="Fhr-ic-OLM">
                                                 <rect key="frame" x="0.0" y="0.0" width="335" height="28"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
                                                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cag-33-PPT">
-                                                        <rect key="frame" x="0.0" y="2" width="335" height="24"/>
+                                                        <rect key="frame" x="0.0" y="2" width="294" height="24"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="HEADER CELL" drawsBackground="YES" id="zKe-MC-krb">
                                                             <font key="font" metaFont="systemThin" size="20"/>
                                                             <color key="textColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -70,17 +70,54 @@
                                                             <binding destination="Fhr-ic-OLM" name="value" keyPath="objectValue.title" id="xeN-2S-xeW"/>
                                                         </connections>
                                                     </textField>
+                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="qrO-oK-oCd" customClass="ColorView" customModule="GOL" customModuleProvider="target">
+                                                        <rect key="frame" x="302" y="7" width="33" height="16"/>
+                                                        <subviews>
+                                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="q3D-9B-73u">
+                                                                <rect key="frame" x="3" y="2" width="28" height="11"/>
+                                                                <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" drawsBackground="YES" id="dt3-rt-PQM">
+                                                                    <numberFormatter key="formatter" formatterBehavior="default10_4" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="42" id="uGh-2k-alW"/>
+                                                                    <font key="font" metaFont="miniSystem"/>
+                                                                    <color key="textColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
+                                                                </textFieldCell>
+                                                                <connections>
+                                                                    <binding destination="Fhr-ic-OLM" name="value" keyPath="objectValue.children" id="4hQ-nz-KCv">
+                                                                        <dictionary key="options">
+                                                                            <string key="NSValueTransformerName">GOL.ArrayCountValueTransformer</string>
+                                                                        </dictionary>
+                                                                    </binding>
+                                                                </connections>
+                                                            </textField>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstItem="q3D-9B-73u" firstAttribute="height" secondItem="qrO-oK-oCd" secondAttribute="height" constant="-5" id="6hd-Lw-BWm"/>
+                                                            <constraint firstItem="q3D-9B-73u" firstAttribute="centerX" secondItem="qrO-oK-oCd" secondAttribute="centerX" id="AhL-HT-HJD"/>
+                                                            <constraint firstItem="q3D-9B-73u" firstAttribute="width" secondItem="qrO-oK-oCd" secondAttribute="width" constant="-5" id="b29-zX-aXX"/>
+                                                            <constraint firstItem="q3D-9B-73u" firstAttribute="centerY" secondItem="qrO-oK-oCd" secondAttribute="centerY" id="yWm-Bt-FQa"/>
+                                                        </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="5"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                                                <color key="value" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="0.5" colorSpace="calibratedRGB"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </customView>
                                                 </subviews>
                                                 <constraints>
-                                                    <constraint firstItem="Cag-33-PPT" firstAttribute="centerX" secondItem="Fhr-ic-OLM" secondAttribute="centerX" id="8U8-MB-eJ8"/>
-                                                    <constraint firstItem="Cag-33-PPT" firstAttribute="centerY" secondItem="Fhr-ic-OLM" secondAttribute="centerY" id="B5w-zn-e90"/>
-                                                    <constraint firstItem="Cag-33-PPT" firstAttribute="width" secondItem="Fhr-ic-OLM" secondAttribute="width" id="eem-1Y-Mdc"/>
+                                                    <constraint firstItem="qrO-oK-oCd" firstAttribute="centerY" secondItem="Fhr-ic-OLM" secondAttribute="centerY" id="JFY-Yv-ZRA"/>
+                                                    <constraint firstItem="Cag-33-PPT" firstAttribute="leading" secondItem="Fhr-ic-OLM" secondAttribute="leading" id="LK2-1Y-mJi"/>
+                                                    <constraint firstItem="qrO-oK-oCd" firstAttribute="leading" secondItem="Cag-33-PPT" secondAttribute="trailing" constant="8" id="QRm-uA-bnf"/>
+                                                    <constraint firstItem="Cag-33-PPT" firstAttribute="centerY" secondItem="Fhr-ic-OLM" secondAttribute="centerY" id="llg-k0-16P"/>
+                                                    <constraint firstAttribute="trailing" secondItem="qrO-oK-oCd" secondAttribute="trailing" id="uP6-ur-hpe"/>
                                                 </constraints>
                                                 <connections>
                                                     <outlet property="textField" destination="Cag-33-PPT" id="hyt-Rz-9hy"/>
                                                 </connections>
                                             </tableCellView>
-                                            <tableCellView identifier="DataCell" id="34V-5S-6yq" customClass="LibraryCellView" customModule="GOL" customModuleProvider="target">
+                                            <tableCellView identifier="DataCell" focusRingType="none" id="34V-5S-6yq" customClass="LibraryCellView" customModule="GOL" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="28" width="335" height="36"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <subviews>
