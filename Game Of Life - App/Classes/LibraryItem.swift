@@ -30,17 +30,19 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
     
     typealias LibraryType = [ String: [ Any ] ]
     
-    @objc public dynamic var title:    String
-    @objc public dynamic var isGroup:  Bool
-    @objc public dynamic var children: [ LibraryItem ]
-    @objc public dynamic var cells:    [ String ]
+    @objc public dynamic var title:       String
+    @objc public dynamic var isGroup:     Bool
+    @objc public dynamic var allChildren: [ LibraryItem ]
+    @objc public dynamic var children:    [ LibraryItem ]
+    @objc public dynamic var cells:       [ String ]
     
     init( title: String = "", cells: [ String ] = [] )
     {
-        self.title    = title
-        self.isGroup  = cells.count == 0
-        self.cells    = cells
-        self.children = []
+        self.title       = title
+        self.isGroup     = cells.count == 0
+        self.cells       = cells
+        self.allChildren = []
+        self.children    = []
         
         super.init()
     }
@@ -105,7 +107,10 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
                     continue
                 }
                 
-                group.children.append( LibraryItem( title: title, cells: cells ) )
+                let item = LibraryItem( title: title, cells: cells )
+                
+                group.allChildren.append( item )
+                group.children.append( item )
             }
             
             library.append( group )
@@ -146,7 +151,22 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
                 continue
             }
             
-            group.children.append( LibraryItem( title: title, cells: cells ) )
+            let item = LibraryItem( title: title, cells: cells )
+            
+            group.allChildren.append( item )
+            group.children.append( item )
+        }
+    }
+    
+    public func setPredicate( _ predicate: NSPredicate? )
+    {
+        if( predicate == nil )
+        {
+            self.children = self.allChildren
+        }
+        else
+        {
+            self.children = ( self.allChildren as NSArray ).filtered( using: predicate! ) as! [ LibraryItem ]
         }
     }
     
@@ -156,10 +176,11 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
     {
         let item = LibraryItem()
         
-        item.title    = self.title
-        item.isGroup  = self.isGroup
-        item.cells    = self.cells
-        item.children = self.children
+        item.title       = self.title
+        item.isGroup     = self.isGroup
+        item.cells       = self.cells
+        item.allChildren = self.allChildren
+        item.children    = self.children
         
         return item
     }
@@ -215,10 +236,11 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
             return nil
         }
         
-        self.title    = item.title
-        self.isGroup  = item.isGroup
-        self.cells    = item.cells
-        self.children = item.children
+        self.title       = item.title
+        self.isGroup     = item.isGroup
+        self.cells       = item.cells
+        self.allChildren = item.allChildren
+        self.children    = item.children
     }
     
     // MARK: - NSSecureCoding
@@ -242,10 +264,11 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
             return nil
         }
         
-        self.title    = title;
-        self.isGroup  = coder.decodeBool( forKey: "isGroup" );
-        self.cells    = cells;
-        self.children = children;
+        self.title       = title;
+        self.isGroup     = coder.decodeBool( forKey: "isGroup" );
+        self.cells       = cells;
+        self.allChildren = children;
+        self.children    = children;
     }
     
     func encode( with coder: NSCoder )

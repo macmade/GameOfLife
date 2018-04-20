@@ -24,7 +24,7 @@
 
 import Cocoa
 
-class LibraryViewController: NSViewController, NSOutlineViewDelegate, NSOutlineViewDataSource
+class LibraryViewController: NSViewController, NSOutlineViewDelegate, NSOutlineViewDataSource, NSSearchFieldDelegate
 {
     @IBOutlet private         var treeController: NSTreeController?
     @IBOutlet private         var outlineView:    NSOutlineView?
@@ -110,5 +110,27 @@ class LibraryViewController: NSViewController, NSOutlineViewDelegate, NSOutlineV
         }
         
         return pasteboard.writeObjects( items )
+    }
+    
+    override func controlTextDidChange( _ notification: Notification )
+    {
+        guard let searchField = notification.object as? NSSearchField else
+        {
+            return
+        }
+        
+        var predicate: NSPredicate?
+        
+        if( searchField.stringValue != "" )
+        {
+            predicate = NSPredicate( format: "title contains[cd] %@", argumentArray: [ searchField.stringValue ] )
+        }
+            
+        for item in self.library ?? []
+        {
+            item.setPredicate( predicate )
+        }
+        
+        self.outlineView?.expandItem( nil, expandChildren: true )
     }
 }
