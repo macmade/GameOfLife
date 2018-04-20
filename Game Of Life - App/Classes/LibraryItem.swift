@@ -28,26 +28,19 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
 {
     public static let PasteboardType = NSPasteboard.PasteboardType( "com.xs-labs.GOL.LibraryItem" )
     
-    typealias LibraryType = [ [ String: Any ] ]
+    typealias LibraryType = [ String: [ Any ] ]
     
     @objc public dynamic var title:    String
     @objc public dynamic var isGroup:  Bool
-          public         var cells:    [ String ]
+    @objc public dynamic var children: [ LibraryItem ]
+    @objc public dynamic var cells:    [ String ]
     
-    init( title: String = "" )
+    init( title: String = "", cells: [ String ] = [] )
     {
-        self.title   = title
-        self.isGroup = true
-        self.cells   = [ String ]()
-        
-        super.init()
-    }
-    
-    init( title: String = "", cells: [ String ] )
-    {
-        self.title   = title
-        self.isGroup = false
-        self.cells   = cells
+        self.title    = title
+        self.isGroup  = cells.count == 0
+        self.cells    = cells
+        self.children = []
         
         super.init()
     }
@@ -79,37 +72,82 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
         
         var library = [ LibraryItem ]()
         
-        for g in lib
+        for p in lib
         {
-            guard let name = g[ "title" ] as? String else
+            let group = LibraryItem( title: p.key )
+            
+            for i in p.value
+            {
+                guard let dic = i as? [ String: Any ] else
+                {
+                    guard let inc = i as? String else
+                    {
+                        continue
+                    }
+                    
+                    let prefix = "include:"
+                    
+                    if( inc.hasPrefix( prefix ) )
+                    {
+                        self.load( include: ( inc as NSString ).substring( from: prefix.count ), in: group )
+                    }
+                    
+                    continue
+                }
+                
+                guard let title = dic[ "title" ] as? String else
+                {
+                    continue
+                }
+                
+                guard let cells = dic[ "cells" ] as? [ String ] else
+                {
+                    continue
+                }
+                
+                group.children.append( LibraryItem( title: title, cells: cells ) )
+            }
+            
+            library.append( group )
+        }
+        
+        return library
+    }
+    
+    private static func load( include: String, in group: LibraryItem )
+    {
+        let library = ( Bundle.main.resourcePath as NSString? )?.appendingPathComponent( "Library" )
+        let path    = include.replacingOccurrences( of: "$(LIBRARY)", with: library ?? "" )
+        
+        guard let data = NSData( contentsOf: URL( fileURLWithPath: path ) ) else
+        {
+            return
+        }
+        
+        guard let json = try? JSONSerialization.jsonObject( with: data as Data, options: [] ) else
+        {
+            return
+        }
+        
+        guard let items = json as? [ [ String: Any ] ] else
+        {
+            return
+        }
+        
+        for dic in items
+        {
+            guard let title = dic[ "title" ] as? String else
             {
                 continue
             }
             
-            library.append( LibraryItem( title: name ) )
-            
-            guard let items = g[ "items" ] as? [ [ String: Any ] ] else
+            guard let cells = dic[ "cells" ] as? [ String ] else
             {
-                continue;
+                continue
             }
             
-            for i in items
-            {
-                guard let title = i[ "title" ] as? String else
-                {
-                    continue
-                }
-                
-                guard let cells = i[ "cells" ] as? [ String ] else
-                {
-                    continue
-                }
-                
-                library.append( LibraryItem( title: title, cells: cells ) )
-            }
+            group.children.append( LibraryItem( title: title, cells: cells ) )
         }
-        
-        return library
     }
     
     // MARK: - NSCopying
@@ -118,9 +156,10 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
     {
         let item = LibraryItem()
         
-        item.title   = self.title
-        item.isGroup = self.isGroup
-        item.cells   = self.cells
+        item.title    = self.title
+        item.isGroup  = self.isGroup
+        item.cells    = self.cells
+        item.children = self.children
         
         return item
     }
@@ -176,9 +215,10 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
             return nil
         }
         
-        self.title   = item.title
-        self.isGroup = item.isGroup
-        self.cells   = item.cells
+        self.title    = item.title
+        self.isGroup  = item.isGroup
+        self.cells    = item.cells
+        self.children = item.children
     }
     
     // MARK: - NSSecureCoding
@@ -197,15 +237,22 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
             return nil
         }
         
-        self.title   = title;
-        self.isGroup = coder.decodeBool( forKey: "isGroup" );
-        self.cells   = cells;
+        guard let children = coder.decodeObject( of: NSArray.self, forKey: "children" ) as? [ LibraryItem ] else
+        {
+            return nil
+        }
+        
+        self.title    = title;
+        self.isGroup  = coder.decodeBool( forKey: "isGroup" );
+        self.cells    = cells;
+        self.children = children;
     }
     
     func encode( with coder: NSCoder )
     {
-        coder.encode( self.title,   forKey: "title" )
-        coder.encode( self.isGroup, forKey: "isGroup" )
-        coder.encode( self.cells,   forKey: "cells" )
+        coder.encode( self.title,      forKey: "title" )
+        coder.encode( self.isGroup,    forKey: "isGroup" )
+        coder.encode( self.cells,      forKey: "cells" )
+        coder.encode( self.children,   forKey: "children" )
     }
 }

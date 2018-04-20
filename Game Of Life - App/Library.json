@@ -1,428 +1,51 @@
-[
-	{
-		"title": "Still Lifes",
-		"items":
-		[
-			{
-				"title": "Block",
-				"cells":
-				[
-					"oo",
-					"oo"
-				]
-			},
-			{
-				"title": "Beehive",
-				"cells":
-				[
-					" oo ",
-					"o  o",
-					" oo "
-				]
-			},
-			{
-				"title": "Loaf",
-				"cells":
-				[
-					" oo ",
-					"o  o",
-					" o o",
-					"  o "
-				]
-			},
-			{
-				"title": "Boat",
-				"cells":
-				[
-					"oo ",
-					"o o",
-					" o "
-				]
-			},
-			{
-				"title": "Tub",
-				"cells":
-				[
-					" o ",
-					"o o",
-					" o "
-				]
-			}
-		]
-	},
-	{
-		"title": "Oscillators",
-		"items":
-		[
-			{
-				"title": "Blinker",
-				"cells":
-				[
-					"ooo"
-				]
-			},
-			{
-				"title": "Toad",
-				"cells":
-				[
-					" ooo",
-					"ooo "
-				]
-			},
-			{
-				"title": "Beacon",
-				"cells":
-				[
-					"oo  ",
-					"oo  ",
-					"  oo",
-					"  oo"
-				]
-			},
-			{
-				"title": "Pulsar",
-				"cells":
-				[
-					"  ooo   ooo  ",
-					"             ",
-					"o    o o    o",
-					"o    o o    o",
-					"o    o o    o",
-					"  ooo   ooo  ",
-					"             ",
-					"  ooo   ooo  ",
-					"o    o o    o",
-					"o    o o    o",
-					"o    o o    o",
-					"             ",
-					"  ooo   ooo  "
-				]
-			},
-			{
-				"title": "Pentadecathlon",
-				"cells":
-				[
-					"ooo",
-					"o o",
-					"ooo",
-					"ooo",
-					"ooo",
-					"ooo",
-					"o o",
-					"ooo"
-				]
-			}
-		]
-	},
-	{
-		"title": "Spaceships",
-		"items":
-		[
-			{
-				"title": "Glider",
-				"cells":
-				[
-					" o ",
-					"  o",
-					"ooo"
-				]
-			},
-			{
-				"title": "LWSS",
-				"cells":
-				[
-					" ooooo",
-					"o    o",
-					"     o",
-					"o   o "
-				]
-			},
-			{
-				"title": "MWSS",
-				"cells":
-				[
-					"   o  ",
-					" o   o",
-					"o     ",
-					"o    o",
-					"ooooo "
-				]
-			},
-			{
-				"title": "HWSS",
-				"cells":
-				[
-					"   oo  ",
-					" o    o",
-					"o      ",
-					"o     o",
-					"oooooo "
-				]
-			},
-			{
-				"title": "Loafer",
-				"cells":
-				[
-					" oo  o oo",
-					"o  o  oo ",
-					" o o     ",
-					"  o      ",
-					"        o",
-					"      ooo",
-					"     o   ",
-					"      o  ",
-					"       oo",
-				]
-			},
-			{
-				"title": "Copperhead",
-				"cells":
-				[
-					" oo  oo ",
-					"   oo   ",
-					"   oo   ",
-					"o o  o o",
-					"o      o",
-					"        ",
-					"o      o",
-					" oo  oo ",
-					"  oooo  ",
-					"        ",
-					"   oo   ",
-					"   oo   ",
-				]
-			},
-			{
-				"title": "Turtle",
-				"cells":
-				[
-					" ooo       o",
-					" oo  o oo oo",
-					"   ooo    o ",
-					" o  o o   o ",
-					"o    o    o ",
-					"o    o    o ",
-					" o  o o   o ",
-					"   ooo    o ",
-					" oo  o oo oo",
-					" ooo       o"
-				]
-			},
-			{
-				"title": "Dart",
-				"cells":
-				[
-					"       o       ",
-					"      o o      ",
-					"     o   o     ",
-					"      ooo      ",
-					"               ",
-					"    oo   oo    ",
-					"  o   o o   o  ",
-					" oo   o o   oo ",
-					"o     o o     o",
-					" o oo o o oo o "
-				]
-			},
-			{
-				"title": "X66",
-				"cells":
-				[
-					"  o      ",
-					"oo       ",
-					"o  ooo  o",
-					"o    ooo ",
-					" ooo  oo ",
-					"         ",
-					" ooo  oo ",
-					"o    ooo ",
-					"o  ooo  o",
-					"oo       ",
-					"  o      ",
-				]
-			},
-			{
-				"title": "Hivenudger",
-				"cells":
-				[
-					"oooo     o  o",
-					"o   o   o    ",
-					"o       o   o",
-					" o  o   oooo ",
-					"             ",
-					"     oo      ",
-					"     oo      ",
-					"     oo      ",
-					"             ",
-					" o  o   oooo ",
-					"o       o   o",
-					"o   o   o    ",
-					"oooo     o  o"
-				]
-			},
-			{
-				"title": "Fireship",
-				"cells":
-				[
-					"    oo    ",
-					"    oo    ",
-					"   o  o   ",
-					"   oooo   ",
-					"  o oo o  ",
-					"   o  o   ",
-					"          ",
-					"  oo  oo  ",
-					" o      o ",
-					"          ",
-					"  o    o  ",
-					"   o  o   ",
-					"    oo    ",
-					"          ",
-					" oo    oo ",
-					"o  o  o  o",
-					" oo    oo ",
-					"  o    o  "
-				]
-			},
-			{
-				"title": "Hammerhead",
-				"cells":
-				[
-					"                o  ",
-					" oo           o   o",
-					"oo ooo       o     ",
-					" ooooo       o    o",
-					"  ooooo     o oooo ",
-					"      ooo o oo     ",
-					"      ooo    o     ",
-					"      ooo ooo      ",
-					"          oo       ",
-					"          oo       ",
-					"      ooo ooo      ",
-					"      ooo    o     ",
-					"      ooo o oo     ",
-					"  ooooo     o oooo ",
-					" ooooo       o    o",
-					"oo ooo       o     ",
-					" oo           o   o",
-					"                o  "
-				]
-			}
-		]
-	},
-	{
-		"title": "Methuselahs",
-		"items":
-		[
-			{
-				"title": "R-Pentomino",
-				"cells":
-				[
-					" oo",
-					"oo ",
-					" o "
-				]
-			},
-			{
-				"title": "Diehard",
-				"cells":
-				[
-					"      o ",
-					"oo      ",
-					" o   ooo"
-				]
-			},
-			{
-				"title": "Acorn",
-				"cells":
-				[
-					" o",
-					"   o   ",
-					"oo  ooo"
-				]
-			},
-			{
-				"title": "Pi-Heptomino",
-				"cells":
-				[
-					"ooo",
-					"o o",
-					"o o"
-				]
-			},
-			{
-				"title": "B-Heptomino",
-				"cells":
-				[
-					"o oo",
-					"ooo ",
-					" o  "
-				]
-			}
-		]
-	},
-	{
-		"title": "Guns",
-		"items":
-		[
-			{
-				"title": "Gosper Glider Gun",
-				"cells":
-				[
-					"                        o           ",
-					"                      o o           ",
-					"            oo      oo            oo",
-					"           o   o    oo            oo",
-					"oo        o     o   oo              ",
-					"oo        o   o oo    o o           ",
-					"          o     o       o           ",
-					"           o   o                    ",
-					"            oo                      "
-				]
-			}
-		]
-	},
-	{
-		"title": "Puffers",
-		"items":
-		[
-			{
-				"title": "Pufferfish",
-				"cells":
-				[
-					"   o       o   ",
-					"  ooo     ooo  ",
-					" oo  o   o  oo ",
-					"   ooo   ooo   ",
-					"               ",
-					"    o     o    ",
-					"  o  o   o  o  ",
-					"o     o o     o",
-					"oo    o o    oo",
-					"      o o      ",
-					"   o o   o o   ",
-					"    o     o    "
-				]
-			}
-		]
-	},
-	{
-		"title": "Fuses",
-		"items":
-		[
-			{
-				"title": "Cow",
-				"cells":
-				[
-					"oo       oo  oo  oo  oo  oo  oo  oo     ",
-					"oo    o ooo  oo  oo  oo  oo  oo  oo   oo",
-					"    oo o                             o o",
-					"    oo   ooooooooooooooooooooooooooooo  ",
-					"    oo o                              o ",
-					"oo    o ooo  oo  oo  oo  oo  oo  oo  oo ",
-					"oo       oo  oo  oo  oo  oo  oo  oo     "
-				]
-			}
-		]
-	}
-]
+{
+	"Still Lifes":
+	[
+		"include:$(LIBRARY)/Still-Lifes.json",
+	],
+	"Oscillators":
+	[
+		"include:$(LIBRARY)/Oscillators.json",
+	],
+	"Methuselahs":
+	[
+		"include:$(LIBRARY)/Methuselahs.json",
+	],
+	"Spaceships":
+	[
+		"include:$(LIBRARY)/Spaceships.json",
+	],
+	"Guns":
+	[
+		"include:$(LIBRARY)/Guns.json",
+	],
+	"Puffers":
+	[
+		"include:$(LIBRARY)/Puffers.json",
+	],
+	"Fuses":
+	[
+		"include:$(LIBRARY)/Fuses.json",
+	],
+	"My Patterns":
+	[
+		{
+			"title": "Example #1",
+			"cells":
+			[
+				" o ",
+				"o o",
+				" o ",
+			]
+		},
+		{
+			"title": "Example #2",
+			"cells":
+			[
+				" o ",
+				"  o",
+				"ooo",
+			]
+		},
+	],
+}

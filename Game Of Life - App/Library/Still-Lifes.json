@@ -1,0 +1,47 @@
+[
+    {
+        "title": "Block",
+        "cells":
+        [
+            "oo",
+            "oo"
+        ]
+    },
+    {
+        "title": "Beehive",
+        "cells":
+        [
+            " oo ",
+            "o  o",
+            " oo "
+        ]
+    },
+    {
+        "title": "Loaf",
+        "cells":
+        [
+            " oo ",
+            "o  o",
+            " o o",
+            "  o "
+        ]
+    },
+    {
+        "title": "Boat",
+        "cells":
+        [
+            "oo ",
+            "o o",
+            " o "
+        ]
+    },
+    {
+        "title": "Tub",
+        "cells":
+        [
+            " o ",
+            "o o",
+            " o "
+        ]
+    }
+]

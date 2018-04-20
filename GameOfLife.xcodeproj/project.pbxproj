@@ -18,6 +18,7 @@
 		052B0739206D885800935104 /* GOL.PreferencesWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 052B0737206D885800935104 /* GOL.PreferencesWindowController.xib */; };
 		052B073B206D886700935104 /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052B073A206D886700935104 /* PreferencesWindowController.swift */; };
 		052D1A17208544290076E3E3 /* LibraryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052D1A16208544290076E3E3 /* LibraryItem.swift */; };
+		052EDC06208A530D002B48AF /* Library in Resources */ = {isa = PBXBuildFile; fileRef = 052EDC05208A530D002B48AF /* Library */; };
 		0531D6EE20866ED500C86639 /* LibraryItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0531D6ED20866ED500C86639 /* LibraryItemView.swift */; };
 		0532BC1F206EB60800807903 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0532BC1D206EB60400807903 /* Data.swift */; };
 		05356FDB20692A3B002178E3 /* ContiguousArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05356FDA20692A3B002178E3 /* ContiguousArray.swift */; };
@@ -70,6 +71,7 @@
 		052B0738206D885800935104 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GOL.PreferencesWindowController.xib; sourceTree = "<group>"; };
 		052B073A206D886700935104 /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		052D1A16208544290076E3E3 /* LibraryItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryItem.swift; sourceTree = "<group>"; };
+		052EDC05208A530D002B48AF /* Library */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Library; sourceTree = "<group>"; };
 		0531D6ED20866ED500C86639 /* LibraryItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryItemView.swift; sourceTree = "<group>"; };
 		0532BC1C206EB35100807903 /* Game Of Life.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Game Of Life.entitlements"; sourceTree = "<group>"; };
 		0532BC1D206EB60400807903 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 				0529D8C72068EAC70072B1A5 /* UI */,
 				0529D8C22068EA020072B1A5 /* Info.plist */,
 				052B0733206D829800935104 /* Defaults.plist */,
+				052EDC05208A530D002B48AF /* Library */,
 				054607B62089171700D11485 /* Library.json */,
 			);
 			path = "Game Of Life - App";
@@ -485,6 +488,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				052EDC06208A530D002B48AF /* Library in Resources */,
 				054607B72089171700D11485 /* Library.json in Resources */,
 				0535DAE92071248100184579 /* GOL-Save.icns in Resources */,
 				05949A7520853A6F00DC9C39 /* GOL.LibraryViewController.xib in Resources */,

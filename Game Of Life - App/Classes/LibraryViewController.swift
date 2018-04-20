@@ -24,11 +24,11 @@
 
 import Cocoa
 
-class LibraryViewController: NSViewController, NSTableViewDelegate, NSTableViewDataSource
+class LibraryViewController: NSViewController, NSOutlineViewDelegate, NSOutlineViewDataSource
 {
-    @IBOutlet private         var arrayController: NSArrayController?
-    @IBOutlet private         var tableView:       NSTableView?
-    @objc     private dynamic var library:         [ LibraryItem ]?
+    @IBOutlet private         var treeController: NSTreeController?
+    @IBOutlet private         var outlineView:    NSOutlineView?
+    @objc     private dynamic var library:        [ LibraryItem ]?
     
     override var nibName: NSNib.Name?
     {
@@ -39,6 +39,10 @@ class LibraryViewController: NSViewController, NSTableViewDelegate, NSTableViewD
     {
         super.viewDidLoad()
         self.reload()
+        
+        self.treeController?.sortDescriptors = [ NSSortDescriptor( key: "title", ascending: true ) ]
+        
+        self.outlineView?.expandItem( nil, expandChildren: true )
     }
     
     public func reload()
@@ -46,73 +50,65 @@ class LibraryViewController: NSViewController, NSTableViewDelegate, NSTableViewD
         self.library = LibraryItem.allItems()
     }
     
-    func itemAt( _ row: Int ) -> LibraryItem?
+    func outlineView( _ outlineView: NSOutlineView, shouldCollapseItem item: Any ) -> Bool
     {
-        guard let array = self.arrayController?.arrangedObjects as? NSArray else
+        return false
+    }
+    
+    func outlineView( _ outlineView: NSOutlineView, shouldSelectItem item: Any ) -> Bool
+    {
+        return false
+    }
+    
+    func outlineView( _ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item i: Any ) -> NSView?
+    {
+        guard let node = i as? NSTreeNode else
         {
             return nil
         }
         
-        if( row >= array.count )
-        {
-            return nil
-        }
-        
-        return array[ row ] as? LibraryItem
-    }
-    
-    func tableView( _ tableView: NSTableView, heightOfRow row: Int) -> CGFloat
-    {
-        guard let item = self.itemAt( row ) else
-        {
-            return 0
-        }
-        
-        if( item.isGroup )
-        {
-            return 24
-        }
-        
-        return 38
-    }
-    
-    func tableView( _ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int ) -> NSView?
-    {
-        guard let item = self.itemAt( row ) else
+        guard let item = node.representedObject as? LibraryItem else
         {
             return nil
         }
         
         if( item.isGroup )
         {
-            return tableView.makeView( withIdentifier: NSUserInterfaceItemIdentifier( "GroupCell" ), owner: self )
+            return outlineView.makeView( withIdentifier: NSUserInterfaceItemIdentifier( "HeaderCell" ), owner: self )
         }
         
-        return tableView.makeView( withIdentifier: NSUserInterfaceItemIdentifier( "ItemCell" ), owner: self )
+        return outlineView.makeView( withIdentifier: NSUserInterfaceItemIdentifier( "DataCell" ), owner: self )
     }
     
-    func tableView( _ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard ) -> Bool
+    func outlineView( _ outlineView: NSOutlineView, writeItems i: [ Any ], to pasteboard: NSPasteboard ) -> Bool
     {
-        if( rowIndexes.count != 1 )
+        if( i.count == 0 )
         {
             return false
         }
         
-        guard let index = rowIndexes.first else
+        var items = [ LibraryItem ]()
+        
+        for n in i
         {
-            return false
+            guard let node = n as? NSTreeNode else
+            {
+                return false
+            }
+            
+            guard let item = node.representedObject as? LibraryItem else
+            {
+                return false
+            }
+            
+            if( item.isGroup )
+            {
+                return false
+            }
+            
+            items.append( item )
         }
         
-        guard let item = self.itemAt( index ) else
-        {
-            return false
-        }
-        
-        if( item.isGroup )
-        {
-            return false
-        }
-        
-        return pboard.writeObjects( [ item ] )
+        return pasteboard.writeObjects( items )
     }
 }

@@ -1,0 +1,20 @@
+[
+    {
+        "title": "Pufferfish",
+        "cells":
+        [
+            "   o       o   ",
+            "  ooo     ooo  ",
+            " oo  o   o  oo ",
+            "   ooo   ooo   ",
+            "               ",
+            "    o     o    ",
+            "  o  o   o  o  ",
+            "o     o o     o",
+            "oo    o o    oo",
+            "      o o      ",
+            "   o o   o o   ",
+            "    o     o    "
+        ]
+    }
+]
