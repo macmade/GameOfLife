@@ -33,7 +33,8 @@ class MainWindowController: NSWindowController
     @IBOutlet     private var gridViewContainer:       NSView?
     @objc dynamic private var gridView:                GridView?
     @IBOutlet     private var libraryViewContainer:    NSView?
-    @objc dynamic private var libraryViewController:   LibraryViewController?
+    
+    @objc dynamic public private( set ) var libraryViewController: LibraryViewController?
     
     override var windowNibName: NSNib.Name?
     {

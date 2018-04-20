@@ -38,7 +38,11 @@ class LibraryViewController: NSViewController, NSTableViewDelegate, NSTableViewD
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
+        self.reload()
+    }
+    
+    public func reload()
+    {
         self.library = LibraryItem.allItems()
     }
     

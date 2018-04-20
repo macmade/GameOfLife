@@ -103,6 +103,21 @@ class LibraryWindowController: NSWindowController
         return data
     }
     
+    @IBAction func reload( _ sender: Any? )
+    {
+        guard let url = self.url else
+        {
+            return
+        }
+        
+        guard let json = try? String( contentsOf: url ) else
+        {
+            return
+        }
+        
+        self.textView?.string = json
+    }
+    
     @IBAction func saveDocument( _ sender: Any? )
     {
         guard let url = self.url else
@@ -120,26 +135,18 @@ class LibraryWindowController: NSWindowController
         do
         {
             try data.write( to: url, options: .atomic )
+            
+            guard let delegate = NSApp.delegate as? ApplicationDelegate else
+            {
+                return
+            }
+            
+            delegate.mainWindowController?.libraryViewController?.reload()
         }
         catch
         {
             self.displayError( message: "Cannot save: error writing file." )
         }
-    }
-    
-    @IBAction func reload( _ sender: Any? )
-    {
-        guard let url = self.url else
-        {
-            return
-        }
-        
-        guard let json = try? String( contentsOf: url ) else
-        {
-            return
-        }
-        
-        self.textView?.string = json
     }
     
     @IBAction func saveDocumentAs( _ sender: Any? )
