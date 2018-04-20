@@ -1,238 +1,238 @@
 [
-    {
-        "title": "Still Lifes",
-        "items":
-        [
-            {
-                "title": "Block",
-                "cells":
-                [
-                    "oo",
-                    "oo"
-                ]
-            },
-            {
-                "title": "Beehive",
-                "cells":
-                [
-                    " oo ",
-                    "o  o",
-                    " oo "
-                ]
-            },
-            {
-                "title": "Loaf",
-                "cells":
-                [
-                    " oo ",
-                    "o  o",
-                    " o o",
-                    "  o "
-                ]
-            },
-            {
-                "title": "Boat",
-                "cells":
-                [
-                    "oo ",
-                    "o o",
-                    " o "
-                ]
-            },
-            {
-                "title": "Tub",
-                "cells":
-                [
-                    " o ",
-                    "o o",
-                    " o "
-                ]
-            }
-        ]
-    },
-    {
-        "title": "Oscillators",
-        "items":
-        [
-            {
-                "title": "Blinker",
-                "cells":
-                [
-                    "ooo"
-                ]
-            },
-            {
-                "title": "Toad",
-                "cells":
-                [
-                    " ooo",
-                    "ooo "
-                ]
-            },
-            {
-                "title": "Beacon",
-                "cells":
-                [
-                    "oo  ",
-                    "oo  ",
-                    "  oo",
-                    "  oo"
-                ]
-            },
-            {
-                "title": "Pulsar",
-                "cells":
-                [
-                    "  ooo   ooo  ",
-                    "             ",
-                    "o    o o    o",
-                    "o    o o    o",
-                    "o    o o    o",
-                    "  ooo   ooo  ",
-                    "             ",
-                    "  ooo   ooo  ",
-                    "o    o o    o",
-                    "o    o o    o",
-                    "o    o o    o",
-                    "             ",
-                    "  ooo   ooo  "
-                ]
-            },
-            {
-                "title": "Pentadecathlon",
-                "cells":
-                [
-                    "ooo",
-                    "o o",
-                    "ooo",
-                    "ooo",
-                    "ooo",
-                    "ooo",
-                    "o o",
-                    "ooo"
-                ]
-            }
-        ]
-    },
-    {
-        "title": "Spaceships",
-        "items":
-        [
-            {
-                "title": "Glider",
-                "cells":
-                [
-                    " o ",
-                    "  o",
-                    "ooo"
-                ]
-            },
-            {
-                "title": "LWSS",
-                "cells":
-                [
-                    " ooooo",
-                    "o    o",
-                    "     o",
-                    "o   o "
-                ]
-            }
-        ]
-    },
-    {
-        "title": "Methuselahs",
-        "items":
-        [
-            {
-                "title": "R-Pentomino",
-                "cells":
-                [
-                    " oo",
-                    "oo ",
-                    " o "
-                ]
-            },
-            {
-                "title": "Diehard",
-                "cells":
-                [
-                    "      o ",
-                    "oo      ",
-                    " o   ooo"
-                ]
-            },
-            {
-                "title": "Acorn",
-                "cells":
-                [
-                    " o",
-                    "   o   ",
-                    "oo  ooo"
-                ]
-            },
-            {
-                "title": "Pi-Heptomino",
-                "cells":
-                [
-                    "ooo",
-                    "o o",
-                    "o o"
-                ]
-            },
-            {
-                "title": "B-Heptomino",
-                "cells":
-                [
-                    "o oo",
-                    "ooo ",
-                    " o  "
-                ]
-            }
-        ]
-    },
-    {
-        "title": "Guns",
-        "items":
-        [
-            {
-                "title": "Gosper Glider Gun",
-                "cells":
-                [
-                    "                        o           ",
-                    "                      o o           ",
-                    "            oo      oo            oo",
-                    "           o   o    oo            oo",
-                    "oo        o     o   oo              ",
-                    "oo        o   o oo    o o           ",
-                    "          o     o       o           ",
-                    "           o   o                    ",
-                    "            oo                      "
-                ]
-            }
-        ]
-    },
-    {
-        "title": "Puffers",
-        "items":
-        [
-            {
-                "title": "Pufferfish",
-                "cells":
-                [
-                    "   o       o   ",
-                    "  ooo     ooo  ",
-                    " oo  o   o  oo ",
-                    "   ooo   ooo   ",
-                    "               ",
-                    "    o     o    ",
-                    "  o  o   o  o  ",
-                    "o     o o     o",
-                    "oo    o o    oo",
-                    "      o o      ",
-                    "   o o   o o   ",
-                    "    o     o    "
-                ]
-            }
-        ]
-    }
+	{
+		"title": "Still Lifes",
+		"items":
+		[
+			{
+				"title": "Block",
+				"cells":
+				[
+					"oo",
+					"oo"
+				]
+			},
+			{
+				"title": "Beehive",
+				"cells":
+				[
+					" oo ",
+					"o  o",
+					" oo "
+				]
+			},
+			{
+				"title": "Loaf",
+				"cells":
+				[
+					" oo ",
+					"o  o",
+					" o o",
+					"  o "
+				]
+			},
+			{
+				"title": "Boat",
+				"cells":
+				[
+					"oo ",
+					"o o",
+					" o "
+				]
+			},
+			{
+				"title": "Tub",
+				"cells":
+				[
+					" o ",
+					"o o",
+					" o "
+				]
+			}
+		]
+	},
+	{
+		"title": "Oscillators",
+		"items":
+		[
+			{
+				"title": "Blinker",
+				"cells":
+				[
+					"ooo"
+				]
+			},
+			{
+				"title": "Toad",
+				"cells":
+				[
+					" ooo",
+					"ooo "
+				]
+			},
+			{
+				"title": "Beacon",
+				"cells":
+				[
+					"oo  ",
+					"oo  ",
+					"  oo",
+					"  oo"
+				]
+			},
+			{
+				"title": "Pulsar",
+				"cells":
+				[
+					"  ooo   ooo  ",
+					"             ",
+					"o    o o    o",
+					"o    o o    o",
+					"o    o o    o",
+					"  ooo   ooo  ",
+					"             ",
+					"  ooo   ooo  ",
+					"o    o o    o",
+					"o    o o    o",
+					"o    o o    o",
+					"             ",
+					"  ooo   ooo  "
+				]
+			},
+			{
+				"title": "Pentadecathlon",
+				"cells":
+				[
+					"ooo",
+					"o o",
+					"ooo",
+					"ooo",
+					"ooo",
+					"ooo",
+					"o o",
+					"ooo"
+				]
+			}
+		]
+	},
+	{
+		"title": "Spaceships",
+		"items":
+		[
+			{
+				"title": "Glider",
+				"cells":
+				[
+					" o ",
+					"  o",
+					"ooo"
+				]
+			},
+			{
+				"title": "LWSS",
+				"cells":
+				[
+					" ooooo",
+					"o    o",
+					"     o",
+					"o   o "
+				]
+			}
+		]
+	},
+	{
+		"title": "Methuselahs",
+		"items":
+		[
+			{
+				"title": "R-Pentomino",
+				"cells":
+				[
+					" oo",
+					"oo ",
+					" o "
+				]
+			},
+			{
+				"title": "Diehard",
+				"cells":
+				[
+					"      o ",
+					"oo      ",
+					" o   ooo"
+				]
+			},
+			{
+				"title": "Acorn",
+				"cells":
+				[
+					" o",
+					"   o   ",
+					"oo  ooo"
+				]
+			},
+			{
+				"title": "Pi-Heptomino",
+				"cells":
+				[
+					"ooo",
+					"o o",
+					"o o"
+				]
+			},
+			{
+				"title": "B-Heptomino",
+				"cells":
+				[
+					"o oo",
+					"ooo ",
+					" o  "
+				]
+			}
+		]
+	},
+	{
+		"title": "Guns",
+		"items":
+		[
+			{
+				"title": "Gosper Glider Gun",
+				"cells":
+				[
+					"                        o           ",
+					"                      o o           ",
+					"            oo      oo            oo",
+					"           o   o    oo            oo",
+					"oo        o     o   oo              ",
+					"oo        o   o oo    o o           ",
+					"          o     o       o           ",
+					"           o   o                    ",
+					"            oo                      "
+				]
+			}
+		]
+	},
+	{
+		"title": "Puffers",
+		"items":
+		[
+			{
+				"title": "Pufferfish",
+				"cells":
+				[
+					"   o       o   ",
+					"  ooo     ooo  ",
+					" oo  o   o  oo ",
+					"   ooo   ooo   ",
+					"               ",
+					"    o     o    ",
+					"  o  o   o  o  ",
+					"o     o o     o",
+					"oo    o o    oo",
+					"      o o      ",
+					"   o o   o o   ",
+					"    o     o    "
+				]
+			}
+		]
+	}
 ]
