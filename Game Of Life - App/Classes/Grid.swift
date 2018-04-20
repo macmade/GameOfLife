@@ -83,68 +83,81 @@ class Grid: NSObject
     {
         var cells = ContiguousArray< Cell >()
         
-        cells.reserveCapacity( self.cells.count )
+        cells.grow( self.cells.count ) { Cell() }
         
-        if( self.turns < UInt64.max )
+        if( self.turns == UInt64.max )
         {
-            self.turns += 1
+            return
         }
+        
+        self.turns += 1
+        
+        let width  = self.width
+        let height = self.height
         
         var n: UInt64 = 0
         
-        for y in 0 ..< self.height
+        for y in 0 ..< height
         {
-            for x in 0 ..< self.width
+            for x in 0 ..< width
             {
-                let old           = self.cells[ x + ( y * self.width ) ]
+                let old           = self.cells[ x + ( y * width ) ]
                 var new           = old
                 let alive: Bool   = old & 1 == 1
-                var count: size_t = 0
-                
-                var c1: Cell? = nil
-                var c2: Cell? = nil
-                var c3: Cell? = nil
-                var c4: Cell? = nil
-                var c5: Cell? = nil
-                var c6: Cell? = nil
-                var c7: Cell? = nil
-                var c8: Cell? = nil
+                var count: UInt8  = 0
                 
                 if( y > 0 )
                 {
-                    c1 = ( x > 0 ) ? self.cells[ ( x - 1 ) + ( ( y - 1 ) * self.width ) ] : nil
-                    c2 = self.cells[ x + ( ( y - 1 ) * self.width ) ]
-                    c3 = ( x < self.width - 1 ) ? self.cells[ ( x + 1 ) + ( ( y - 1 ) * self.width ) ] : nil
+                    if( x > 0 )
+                    {
+                        count += self.cells[ ( x - 1 ) + ( ( y - 1 ) * width ) ] & 1
+                    }
+                    
+                    count += self.cells[ x + ( ( y - 1 ) * width ) ] & 1
+                    
+                    if( x < width - 1 )
+                    {
+                        count += self.cells[ ( x + 1 ) + ( ( y - 1 ) * width ) ] & 1
+                    }
                 }
                 
-                c4 = ( x > 0 ) ? self.cells[ ( x - 1 ) + ( y * self.width ) ] : nil
-                c5 = ( x < self.width - 1 ) ? self.cells[ ( x + 1 ) + ( y * self.width ) ] : nil
-                
-                if( y < self.height - 1 )
+                if( x > 0 )
                 {
-                    c6 = ( x > 0 ) ? self.cells[ ( x - 1 ) + ( ( y + 1 ) * self.width ) ] : nil
-                    c7 = self.cells[ x + ( ( y + 1 ) * self.width ) ]
-                    c8 = ( x < self.width - 1 ) ? self.cells[ ( x + 1 ) + ( ( y + 1 ) * self.width ) ] : nil
+                    count += self.cells[ ( x - 1 ) + ( y * width ) ] & 1
                 }
                 
-                if( ( c1 ?? 0 ) & 1 == 1 ) { count += 1 }
-                if( ( c2 ?? 0 ) & 1 == 1 ) { count += 1 }
-                if( ( c3 ?? 0 ) & 1 == 1 ) { count += 1 }
-                if( ( c4 ?? 0 ) & 1 == 1 ) { count += 1 }
-                if( ( c5 ?? 0 ) & 1 == 1 ) { count += 1 }
-                if( ( c6 ?? 0 ) & 1 == 1 ) { count += 1 }
-                if( ( c7 ?? 0 ) & 1 == 1 ) { count += 1 }
-                if( ( c8 ?? 0 ) & 1 == 1 ) { count += 1 }
+                if( x < width - 1 )
+                {
+                    count += self.cells[ ( x + 1 ) + ( y * width ) ] & 1
+                }
                 
-                if( alive && count < 2 )
+                if( y < height - 1 )
                 {
-                    new = 0
+                    if( x > 0 )
+                    {
+                        count += self.cells[ ( x - 1 ) + ( ( y + 1 ) * width ) ] & 1
+                    }
+                    
+                    count += self.cells[ x + ( ( y + 1 ) * width ) ] & 1
+                    
+                    if( x < width - 1 )
+                    {
+                        count += self.cells[ ( x + 1 ) + ( ( y + 1 ) * width ) ] & 1
+                    }
                 }
-                else if( alive && count > 3 )
+                
+                if( alive )
                 {
-                    new = 0
+                    if( count < 2 )
+                    {
+                        new = 0
+                    }
+                    else if( alive && count > 3 )
+                    {
+                        new = 0
+                    }
                 }
-                else if( alive == false && count == 3 )
+                else if( count == 3 )
                 {
                     new = 1 | ( 1 << 1 )
                 }
@@ -157,7 +170,7 @@ class Grid: NSObject
                     new |= ( age + 1 ) << 1
                 }
                 
-                cells.append( new )
+                cells[ x + ( y * width ) ] = new
                 
                 n += ( new & 1 == 1 ) ? 1 : 0
             }

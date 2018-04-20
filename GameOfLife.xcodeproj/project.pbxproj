@@ -653,6 +653,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0539494F2066741900C20FA3 /* Release - ccache.xcconfig */;
 			buildSettings = {
+				GCC_OPTIMIZATION_LEVEL = fast;
 			};
 			name = Release;
 		};
