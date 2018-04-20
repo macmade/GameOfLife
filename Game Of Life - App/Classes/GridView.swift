@@ -147,6 +147,7 @@ class GridView: NSView
         self._stopTimer()
         
         self.paused = true
+        self.fps    = 0
     }
     
     @IBAction func step( _ sender: Any? )
@@ -199,6 +200,8 @@ class GridView: NSView
         else
         {
             let end = CFAbsoluteTimeGetCurrent()
+            
+            self.fps = 1 / CGFloat( end - self.lastUpdate )
             
             self.lastUpdate = end
         }
