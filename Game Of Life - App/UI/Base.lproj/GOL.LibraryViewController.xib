@@ -67,12 +67,12 @@
                                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
                                                         </textFieldCell>
                                                         <connections>
-                                                            <binding destination="Fhr-ic-OLM" name="value" keyPath="objectValue.title" id="xeN-2S-xeW"/>
                                                             <binding destination="Fhr-ic-OLM" name="toolTip" keyPath="objectValue.comment" id="8mJ-SZ-U8c"/>
+                                                            <binding destination="Fhr-ic-OLM" name="value" keyPath="objectValue.title" id="xeN-2S-xeW"/>
                                                         </connections>
                                                     </textField>
                                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="qrO-oK-oCd" customClass="ColorView" customModule="GOL" customModuleProvider="target">
-                                                        <rect key="frame" x="302" y="7" width="33" height="16"/>
+                                                        <rect key="frame" x="302" y="6" width="33" height="16"/>
                                                         <subviews>
                                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="q3D-9B-73u">
                                                                 <rect key="frame" x="3" y="2" width="28" height="11"/>
@@ -150,15 +150,27 @@
                                                         </connections>
                                                     </customView>
                                                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GwI-PH-ZZ6">
-                                                        <rect key="frame" x="40" y="10" width="293" height="17"/>
+                                                        <rect key="frame" x="40" y="15" width="293" height="17"/>
                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" drawsBackground="YES" id="BG5-cf-Gft">
                                                             <font key="font" metaFont="system"/>
                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
                                                         </textFieldCell>
                                                         <connections>
-                                                            <binding destination="34V-5S-6yq" name="value" keyPath="objectValue.title" id="trM-2P-m0Z"/>
                                                             <binding destination="34V-5S-6yq" name="toolTip" keyPath="objectValue.comment" id="AIZ-Mn-sLe"/>
+                                                            <binding destination="34V-5S-6yq" name="value" keyPath="objectValue.title" id="trM-2P-m0Z"/>
+                                                        </connections>
+                                                    </textField>
+                                                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rl9-Em-XBN">
+                                                        <rect key="frame" x="40" y="4" width="293" height="11"/>
+                                                        <textFieldCell key="cell" controlSize="mini" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" drawsBackground="YES" id="FQ8-KD-iag">
+                                                            <font key="font" metaFont="miniSystem"/>
+                                                            <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
+                                                        </textFieldCell>
+                                                        <connections>
+                                                            <binding destination="34V-5S-6yq" name="toolTip" keyPath="objectValue.comment" id="3C9-Sw-mTD"/>
+                                                            <binding destination="34V-5S-6yq" name="value" keyPath="objectValue.dimensions" id="cB0-tb-vRh"/>
                                                         </connections>
                                                     </textField>
                                                 </subviews>
@@ -166,8 +178,11 @@
                                                     <constraint firstItem="TvI-la-QK8" firstAttribute="leading" secondItem="34V-5S-6yq" secondAttribute="leading" id="DNr-pb-aAC"/>
                                                     <constraint firstItem="GwI-PH-ZZ6" firstAttribute="leading" secondItem="TvI-la-QK8" secondAttribute="trailing" constant="8" id="LB1-b3-DDU"/>
                                                     <constraint firstAttribute="trailing" secondItem="GwI-PH-ZZ6" secondAttribute="trailing" constant="2" id="Q4D-oi-s1S"/>
+                                                    <constraint firstItem="rl9-Em-XBN" firstAttribute="bottom" secondItem="TvI-la-QK8" secondAttribute="bottom" constant="-2" id="ZkA-Ts-1mC"/>
                                                     <constraint firstItem="TvI-la-QK8" firstAttribute="centerY" secondItem="34V-5S-6yq" secondAttribute="centerY" id="dbv-bn-X3a"/>
-                                                    <constraint firstItem="GwI-PH-ZZ6" firstAttribute="centerY" secondItem="TvI-la-QK8" secondAttribute="centerY" id="gI0-zS-Vj2"/>
+                                                    <constraint firstItem="rl9-Em-XBN" firstAttribute="trailing" secondItem="GwI-PH-ZZ6" secondAttribute="trailing" id="hs6-Xx-0C6"/>
+                                                    <constraint firstItem="GwI-PH-ZZ6" firstAttribute="top" secondItem="TvI-la-QK8" secondAttribute="top" constant="2" id="p2L-yF-TrT"/>
+                                                    <constraint firstItem="rl9-Em-XBN" firstAttribute="leading" secondItem="GwI-PH-ZZ6" secondAttribute="leading" id="yXO-gK-H7m"/>
                                                 </constraints>
                                                 <connections>
                                                     <outlet property="textField" destination="GwI-PH-ZZ6" id="xfV-Co-s1a"/>

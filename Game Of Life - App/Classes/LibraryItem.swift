@@ -32,6 +32,7 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
     
     @objc public dynamic var title:       String
     @objc public dynamic var comment:     String
+    @objc public dynamic var dimensions:  String
     @objc public dynamic var isGroup:     Bool
     @objc public dynamic var allChildren: [ LibraryItem ]
     @objc public dynamic var children:    [ LibraryItem ]
@@ -45,6 +46,15 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
         self.cells       = cells
         self.allChildren = []
         self.children    = []
+        
+        var n = 0
+        
+        for s in cells
+        {
+            n = max( n, s.count )
+        }
+        
+        self.dimensions = ( n == 0 ) ? "" : String( describing: n ) + "x" + String( describing: cells.count ) 
         
         super.init()
     }
@@ -120,6 +130,15 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
         self.cells       = cells
         self.allChildren = []
         self.children    = []
+        
+        var n = 0
+        
+        for s in cells
+        {
+            n = max( n, s.count )
+        }
+        
+        self.dimensions = ( n == 0 ) ? "" : String( describing: n ) + "x" + String( describing: cells.count ) 
         
         super.init()
     }
@@ -316,6 +335,11 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
         {}
     }
     
+    public func dimensionsText() -> String
+    {
+        return ""
+    }
+    
     public func setPredicate( _ predicate: NSPredicate? )
     {
         if( predicate == nil )
@@ -377,6 +401,7 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
         
         item.title       = self.title
         item.comment     = self.comment
+        item.dimensions  = self.dimensions
         item.isGroup     = self.isGroup
         item.cells       = self.cells
         item.allChildren = self.allChildren
@@ -438,6 +463,7 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
         
         self.title       = item.title
         self.comment     = item.comment
+        self.dimensions  = item.dimensions
         self.isGroup     = item.isGroup
         self.cells       = item.cells
         self.allChildren = item.allChildren
@@ -460,6 +486,11 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
             return nil
         }
         
+        guard let dimensions = coder.decodeObject( forKey: "dimensions" ) as? String else
+        {
+            return nil
+        }
+        
         guard let cells = coder.decodeObject( of: NSArray.self, forKey: "cells" ) as? [ String ] else
         {
             return nil
@@ -472,6 +503,7 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
         
         self.title       = title;
         self.comment     = comment
+        self.dimensions  = dimensions
         self.isGroup     = coder.decodeBool( forKey: "isGroup" );
         self.cells       = cells;
         self.allChildren = children;
@@ -482,6 +514,7 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
     {
         coder.encode( self.title,      forKey: "title" )
         coder.encode( self.comment,    forKey: "comment" )
+        coder.encode( self.dimensions, forKey: "dimensions" )
         coder.encode( self.isGroup,    forKey: "isGroup" )
         coder.encode( self.cells,      forKey: "cells" )
         coder.encode( self.children,   forKey: "children" )
