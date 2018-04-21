@@ -28,8 +28,6 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
 {
     public static let PasteboardType = NSPasteboard.PasteboardType( "com.xs-labs.GOL.LibraryItem" )
     
-    typealias LibraryType = [ String: [ Any ] ]
-    
     @objc public dynamic var title:       String
     @objc public dynamic var comment:     String
     @objc public dynamic var dimensions:  String
@@ -42,90 +40,6 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
     {
         self.title       = title
         self.comment     = ""
-        self.isGroup     = cells.count == 0
-        self.cells       = cells
-        self.allChildren = []
-        self.children    = []
-        
-        var n = 0
-        
-        for s in cells
-        {
-            n = max( n, s.count )
-        }
-        
-        self.dimensions = ( n == 0 ) ? "" : String( describing: n ) + "x" + String( describing: cells.count ) 
-        
-        super.init()
-    }
-    
-    init?( cellFile: String )
-    {
-        if( cellFile.count == 0 )
-        {
-            return nil
-        }
-        
-        let content    = cellFile.replacingOccurrences( of: "\r\n", with: "\n" ).replacingOccurrences( of: "\r", with: "\n" )
-        var lines      = content.split( separator: "\n", omittingEmptySubsequences: false )
-        let namePrefix = "!Name:"
-        var cells      = [ String ]()
-        
-        var name:    String?
-        var comment: String?
-        
-        while lines.last?.count == 0
-        {
-            lines.removeLast()
-        }
-        
-        for line in lines
-        {
-            if( line.count == 0 )
-            {
-                if( cells.count > 0 )
-                {
-                    cells.append( " " )
-                }
-                
-                continue
-            }
-            
-            if( line.hasPrefix( namePrefix ) )
-            {
-                name = ( line as NSString ).substring( from: namePrefix.count ).trimmingCharacters( in: CharacterSet.whitespaces )
-            }
-            else if( line.hasPrefix( "!Author:" ) )
-            {
-                continue
-            }
-            else if( line.hasPrefix( "!" ) && comment == nil )
-            {
-                comment = ( line as NSString ).substring( from: 1 ).trimmingCharacters( in: CharacterSet.whitespaces )
-            }
-            
-            let chars: Set< Character > = [ ".", "O" ]
-            
-            if( Set( line ).isSubset( of: chars ) == false )
-            {
-                continue
-            }
-            
-            cells.append( line.replacingOccurrences( of: ".", with: " " ).replacingOccurrences( of: "O", with: "o" ) )
-        }
-        
-        if( name == nil || name?.count == 0 )
-        {
-            return nil
-        }
-        
-        if( cells.count == 0 )
-        {
-            return nil
-        }
-        
-        self.title       = name!
-        self.comment     = comment ?? ""
         self.isGroup     = cells.count == 0
         self.cells       = cells
         self.allChildren = []

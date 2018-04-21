@@ -166,50 +166,18 @@ class LibraryReader
     {
         let library = ( Bundle.main.resourcePath as NSString? )?.appendingPathComponent( "Library" )
         let path    = patterns.replacingOccurrences( of: "$(LIBRARY)", with: library ?? "" )
-        var isDir   = ObjCBool( booleanLiteral: false )
+        let reader  = CellReader()
         
-        if( FileManager.default.fileExists( atPath: path, isDirectory: &isDir ) == false || isDir.boolValue == false )
+        guard let items = reader.read( directory: URL(fileURLWithPath: path ) ) else
         {
             return
         }
         
-        do
+        for item in items
         {
-            for p in try FileManager.default.contentsOfDirectory( atPath: path )
-            {
-                let file = ( path as NSString ).appendingPathComponent( p )
-                
-                if( ( file as NSString ).pathExtension != "cells" && ( file as NSString ).pathExtension != "txt" )
-                {
-                    continue
-                }
-                
-                do
-                {
-                    let data = try NSData( contentsOf: URL( fileURLWithPath: file ) ) as Data
-                    
-                    guard let content = String( data: data, encoding: .utf8 ) else
-                    {
-                        continue
-                    }
-                    
-                    guard let item = LibraryItem( cellFile: content ) else
-                    {
-                        continue
-                    }
-                    
-                    group.allChildren.append( item )
-                    group.children.append( item )
-                }
-                catch
-                {
-                    continue
-                }
-                
-            }
+            group.allChildren.append( item )
+            group.children.append( item )
         }
-        catch
-        {}
     }
 }
 

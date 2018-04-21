@@ -24,6 +24,7 @@
 		052EDC15208A81F0002B48AF /* ArrayCountValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052EDC14208A81F0002B48AF /* ArrayCountValueTransformer.swift */; };
 		052EDC31208B265F002B48AF /* BorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052EDC30208B265F002B48AF /* BorderView.swift */; };
 		05303117208B913B009C9FFE /* LibraryReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05303116208B913B009C9FFE /* LibraryReader.swift */; };
+		05303119208B93D6009C9FFE /* CellReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05303118208B93D6009C9FFE /* CellReader.swift */; };
 		0531D6EE20866ED500C86639 /* LibraryItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0531D6ED20866ED500C86639 /* LibraryItemView.swift */; };
 		0532BC1F206EB60800807903 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0532BC1D206EB60400807903 /* Data.swift */; };
 		05356FDB20692A3B002178E3 /* ContiguousArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05356FDA20692A3B002178E3 /* ContiguousArray.swift */; };
@@ -82,6 +83,7 @@
 		052EDC14208A81F0002B48AF /* ArrayCountValueTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayCountValueTransformer.swift; sourceTree = "<group>"; };
 		052EDC30208B265F002B48AF /* BorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderView.swift; sourceTree = "<group>"; };
 		05303116208B913B009C9FFE /* LibraryReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryReader.swift; sourceTree = "<group>"; };
+		05303118208B93D6009C9FFE /* CellReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellReader.swift; sourceTree = "<group>"; };
 		0531D6ED20866ED500C86639 /* LibraryItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryItemView.swift; sourceTree = "<group>"; };
 		0532BC1C206EB35100807903 /* Game Of Life.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Game Of Life.entitlements"; sourceTree = "<group>"; };
 		0532BC1D206EB60400807903 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 				052EDC09208A7AF4002B48AF /* LibraryCellView.swift */,
 				052D1A16208544290076E3E3 /* LibraryItem.swift */,
 				05303116208B913B009C9FFE /* LibraryReader.swift */,
+				05303118208B93D6009C9FFE /* CellReader.swift */,
 				0531D6ED20866ED500C86639 /* LibraryItemView.swift */,
 				05949A6E20853A2F00DC9C39 /* LibraryViewController.swift */,
 				05F05FE420899B8300337CB6 /* LibraryWindowController.swift */,
@@ -554,6 +557,7 @@
 				05949A6F20853A2F00DC9C39 /* LibraryViewController.swift in Sources */,
 				05356FDB20692A3B002178E3 /* ContiguousArray.swift in Sources */,
 				0535716020698C81002178E3 /* NSColor.swift in Sources */,
+				05303119208B93D6009C9FFE /* CellReader.swift in Sources */,
 				0532BC1F206EB60800807903 /* Data.swift in Sources */,
 				051DB8B42072824500963D88 /* PreferencesColorItem.swift in Sources */,
 				05F05FE520899B8300337CB6 /* LibraryWindowController.swift in Sources */,

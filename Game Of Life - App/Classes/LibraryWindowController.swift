@@ -116,7 +116,7 @@ class LibraryWindowController: NSWindowController
             return nil
         }
         
-        if( json as? LibraryItem.LibraryType == nil )
+        if( json as? LibraryReader.LibraryType == nil )
         {
             self.displayError( message: "Cannot save: invalid JSON data." )
             
