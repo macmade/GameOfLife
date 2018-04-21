@@ -46,6 +46,7 @@ class MainWindowController: NSWindowController
     {
         self.createNewGridView( kind: .Random )
         self.toggleLibrary( nil )
+        self.window?.makeFirstResponder( self.gridView )
     }
     
     func createNewGridView( kind: Grid.Kind )

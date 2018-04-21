@@ -45,6 +45,11 @@ class GridView: NSView
     private var dragOperation: NSDragOperation?
     private var dragRotation:  Int = 0
     
+    override var acceptsFirstResponder: Bool
+    {
+        return true
+    }
+    
     init( frame rect: NSRect, kind: Grid.Kind )
     {
         super.init( frame: rect )
