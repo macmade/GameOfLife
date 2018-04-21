@@ -55,8 +55,8 @@ class Grid: NSObject
         
         switch( kind )
         {
-            case .Blank:  self._setupBlankGrid()
-            case .Random: self._setupRandomGrid()
+            case .Blank:  self.setupBlankGrid()
+            case .Random: self.setupRandomGrid()
         }
     }
     
@@ -208,10 +208,10 @@ class Grid: NSObject
         }
     }
     
-    private func _setupBlankGrid()
+    private func setupBlankGrid()
     {}
     
-    private func _setupRandomGrid()
+    private func setupRandomGrid()
     {
         var n: UInt64 = 0
         
