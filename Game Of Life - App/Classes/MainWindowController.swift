@@ -153,6 +153,11 @@ class MainWindowController: NSWindowController
         Preferences.shared.colors = ( Preferences.shared.colors ) ? false : true
     }
     
+    @IBAction func toggleShapes( _ sender: Any? )
+    {
+        Preferences.shared.drawAsSquares = ( Preferences.shared.drawAsSquares ) ? false : true
+    }
+    
     @IBAction func saveDocumentAs( _ sender: Any? )
     {
         self.gridView?.pause( sender )

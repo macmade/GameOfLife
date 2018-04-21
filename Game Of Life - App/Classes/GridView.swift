@@ -271,6 +271,7 @@ class GridView: NSView
             return
         }
         
+        let squares   = Preferences.shared.drawAsSquares
         let cellSize  = Preferences.shared.cellSize
         let hasColors = Preferences.shared.colors
         let colors    = [
@@ -316,7 +317,18 @@ class GridView: NSView
                     NSColor.white.setFill()
                 }
                 
-                NSRect( x: cellSize * CGFloat( x ), y: cellSize * CGFloat( y ), width: cellSize, height: cellSize ).fill()
+                let rect = NSRect( x: cellSize * CGFloat( x ), y: cellSize * CGFloat( y ), width: cellSize, height: cellSize )
+                
+                if( squares || cellSize < 2 )
+                {
+                    rect.fill()
+                }
+                else
+                {
+                    let path = NSBezierPath( roundedRect: rect, xRadius: cellSize / 2, yRadius: cellSize / 2 )
+                    
+                    path.fill()
+                }
             }
         }
         
@@ -359,7 +371,17 @@ class GridView: NSView
                 let rect = NSRect( x: x, y: y, width: cellSize, height: cellSize )
                 
                 NSColor( calibratedWhite: 1, alpha: 0.75 ).setFill()
-                rect.fill()
+                
+                if( squares || cellSize < 2 )
+                {
+                    rect.fill()
+                }
+                else
+                {
+                    let path = NSBezierPath( roundedRect: rect, xRadius: cellSize / 2, yRadius: cellSize / 2 )
+                    
+                    path.fill()
+                }
             }
         }
     }

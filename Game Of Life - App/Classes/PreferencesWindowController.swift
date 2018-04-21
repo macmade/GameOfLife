@@ -29,6 +29,7 @@ import Cocoa
     @IBOutlet private var colorsController: NSArrayController?
     
     @objc public dynamic var colors:    Bool    = Preferences.shared.colors
+    @objc public dynamic var squares:   Bool    = Preferences.shared.drawAsSquares
     @objc public dynamic var speed:     UInt    = Preferences.shared.speed
     @objc public dynamic var cellSize:  CGFloat = Preferences.shared.cellSize
     
@@ -58,7 +59,12 @@ import Cocoa
             ( o, c ) in Preferences.shared.cellSize = self.cellSize
         }
         
-        self.observations.append( contentsOf: [ o1, o2, o3 ] )
+        let o4 = self.observe( \PreferencesWindowController.squares )
+        {
+            ( o, c ) in Preferences.shared.drawAsSquares = self.squares
+        }
+        
+        self.observations.append( contentsOf: [ o1, o2, o3, o4 ] )
         
         self.colorsController?.addObject( PreferencesColorItem( color: Preferences.shared.color1(), label: "Color 1" ) { c in Preferences.shared.color1( value: c ) } )
         self.colorsController?.addObject( PreferencesColorItem( color: Preferences.shared.color2(), label: "Color 2" ) { c in Preferences.shared.color2( value: c ) } )

@@ -8,6 +8,8 @@
 	<integer>5</integer>
 	<key>colors</key>
 	<true/>
+	<key>drawAsSquares</key>
+	<false/>
 	<key>color1RGB</key>
 	<integer>11763017</integer>
 	<key>color2RGB</key>

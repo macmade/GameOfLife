@@ -417,6 +417,12 @@
                         <action selector="toggleColors:" target="-2" id="Qfg-vh-MwP"/>
                     </connections>
                 </menuItem>
+                <menuItem title="Toggle Shapes" keyEquivalent="." id="vTC-eK-uYN">
+                    <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                    <connections>
+                        <action selector="toggleShapes:" target="-2" id="e1p-4k-T1J"/>
+                    </connections>
+                </menuItem>
                 <menuItem title="Toggle Library" keyEquivalent="l" id="4DX-ts-3QS">
                     <connections>
                         <action selector="toggleLibrary:" target="-2" id="NYM-U7-awc"/>
