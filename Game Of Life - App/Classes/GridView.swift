@@ -44,7 +44,6 @@ class GridView: NSView
     private var draggedItem:   LibraryItem?
     private var draggedPoint:  NSPoint?
     private var dragOperation: NSDragOperation?
-    private var dragRotation:  Int = 0
     
     override var acceptsFirstResponder: Bool
     {
@@ -359,11 +358,6 @@ class GridView: NSView
             return
         }
         
-        for _ in 0 ..< self.dragRotation
-        {
-            item.rotate()
-        }
-        
         guard let p = self.draggedPoint else
         {
             return
@@ -433,12 +427,7 @@ class GridView: NSView
     
     override func draggingUpdated( _ sender: NSDraggingInfo ) -> NSDragOperation
     {
-        guard let objects = sender.draggingPasteboard().readObjects( forClasses: [ LibraryItem.self ], options: nil ) as? [ LibraryItem ] else
-        {
-            return .generic
-        }
-        
-        guard let item = objects.first else
+        guard let item = self.draggedItem else
         {
             return .generic
         }
@@ -450,12 +439,13 @@ class GridView: NSView
         
         if( self.dragOperation != NSDragOperation.generic && sender.draggingSourceOperationMask() == NSDragOperation.generic )
         {
-            self.dragRotation = ( self.dragRotation == 3 ) ? 0 : self.dragRotation + 1
+            self.draggedItem?.rotate()
         }
-        
-        if( self.dragOperation != NSDragOperation.copy && sender.draggingSourceOperationMask() == NSDragOperation.copy )
+        else if( self.dragOperation != NSDragOperation.copy && sender.draggingSourceOperationMask() == NSDragOperation.copy )
         {
-            self.dragRotation = ( self.dragRotation == 0 ) ? 3 : self.dragRotation - 1
+            self.draggedItem?.rotate()
+            self.draggedItem?.rotate()
+            self.draggedItem?.rotate()
         }
         
         self.dragOperation = sender.draggingSourceOperationMask()
@@ -468,7 +458,6 @@ class GridView: NSView
         self.draggedItem   = nil
         self.draggedPoint  = nil
         self.dragOperation = nil
-        self.dragRotation  = 0
         self.dragging      = false
         
         if( self.resumeAfterOperation )
@@ -486,7 +475,6 @@ class GridView: NSView
         self.draggedItem   = nil
         self.draggedPoint  = nil
         self.dragOperation = nil
-        self.dragRotation  = 0
         self.dragging      = false
         
         if( self.resumeAfterOperation )
@@ -497,23 +485,14 @@ class GridView: NSView
         self.resumeAfterOperation = false
         
         self.setNeedsDisplay( self.bounds )
+        self.window?.makeFirstResponder( self )
     }
     
     override func performDragOperation( _ sender: NSDraggingInfo ) -> Bool
     {
-        guard let objects = sender.draggingPasteboard().readObjects( forClasses: [ LibraryItem.self ], options: nil ) as? [ LibraryItem ] else
+        guard let item = self.draggedItem else
         {
             return false
-        }
-        
-        guard let item = objects.first else
-        {
-            return false
-        }
-        
-        for _ in 0 ..< self.dragRotation
-        {
-            item.rotate()
         }
         
         let point     = self.convert( sender.draggingLocation(), from: self.window?.contentView )
