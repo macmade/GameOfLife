@@ -26,11 +26,12 @@ import Cocoa
 
 class GridView: NSView
 {
-    @objc dynamic public var paused:               Bool = true
-    @objc dynamic public var resizing:             Bool = false
-    @objc dynamic public var resumeAfterOperation: Bool = false
-    @objc dynamic public var drawSetAlive:         Bool = false
-    @objc dynamic public var dragging:             Bool = false
+    @objc dynamic public var paused:               Bool   = true
+    @objc dynamic public var resizing:             Bool   = false
+    @objc dynamic public var resumeAfterOperation: Bool   = false
+    @objc dynamic public var drawSetAlive:         Bool   = false
+    @objc dynamic public var dragging:             Bool   = false
+    @objc dynamic public var gridDimensions:       String = ""
     
     @objc dynamic public private( set ) var speed: UInt    = Preferences.shared.speed
     @objc dynamic public private( set ) var fps:   CGFloat = 0
@@ -58,6 +59,7 @@ class GridView: NSView
         
         self.observations.append( Preferences.shared.observe( \Preferences.speed ) { ( c, o ) in self._restartTimer() } )
         self.registerForDraggedTypes( [ LibraryItem.PasteboardType ] )
+        self.updateDimensions()
     }
     
     override init( frame rect: NSRect )
@@ -68,6 +70,7 @@ class GridView: NSView
         
         self.observations.append( Preferences.shared.observe( \Preferences.speed ) { ( c, o ) in self._restartTimer() } )
         self.registerForDraggedTypes( [ LibraryItem.PasteboardType ] )
+        self.updateDimensions()
     }
     
     required init?( coder decoder: NSCoder )
@@ -78,6 +81,7 @@ class GridView: NSView
         
         self.observations.append( Preferences.shared.observe( \Preferences.speed ) { ( c, o ) in self._restartTimer() } )
         self.registerForDraggedTypes( [ LibraryItem.PasteboardType ] )
+        self.updateDimensions()
     }
     
     override func resize( withOldSuperviewSize size: NSSize )
@@ -93,6 +97,14 @@ class GridView: NSView
         super.resize( withOldSuperviewSize: size )
     }
     
+    private func updateDimensions()
+    {
+        let s1 = String( describing: self.grid.width )
+        let s2 = String( describing: self.grid.height )
+        
+        self.gridDimensions = s1 + "x" + s2
+    }
+    
     override func viewDidEndLiveResize()
     {
         self.grid.resize( width: size_t( self.frame.size.width / Preferences.shared.cellSize ), height: size_t( self.frame.size.height / Preferences.shared.cellSize ) )
@@ -106,6 +118,7 @@ class GridView: NSView
         self.resizing             = false
         
         self.setNeedsDisplay( self.bounds )
+        self.updateDimensions()
     }
     
     override var isFlipped: Bool

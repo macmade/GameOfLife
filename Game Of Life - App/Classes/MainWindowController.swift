@@ -26,9 +26,9 @@ import Cocoa
 
 class MainWindowController: NSWindowController
 {
-    @objc dynamic public var paused:       Bool = false
-    @objc dynamic public var showLibrary:  Bool = false
-    @objc dynamic public var hideControls: Bool = false
+    @objc dynamic public var paused:         Bool = false
+    @objc dynamic public var showLibrary:    Bool = false
+    @objc dynamic public var hideControls:   Bool = false
     
     @objc public private( set ) dynamic var gridView: GridView?
     
