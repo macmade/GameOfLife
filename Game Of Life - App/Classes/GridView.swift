@@ -41,6 +41,8 @@ class GridView: NSView
     private var timer:         Timer?
     private var draggedItem:   LibraryItem?
     private var draggedPoint:  NSPoint?
+    private var dragOperation: NSDragOperation?
+    private var dragRotation:  Int = 0
     
     init( frame rect: NSRect, kind: Grid.Kind )
     {
@@ -312,9 +314,14 @@ class GridView: NSView
             }
         }
         
-        guard let cells = self.draggedItem?.cells else
+        guard let item = self.draggedItem else
         {
             return
+        }
+        
+        for _ in 0 ..< self.dragRotation
+        {
+            item.rotate()
         }
         
         guard let p = self.draggedPoint else
@@ -324,9 +331,9 @@ class GridView: NSView
         
         let point = self.convert( p, from: self.window?.contentView )
         
-        for i in 0 ..< cells.count
+        for i in 0 ..< item.cells.count
         {
-            let s = cells[ i ]
+            let s = item.cells[ i ]
             
             for j in 0 ..< s.count
             {
@@ -390,13 +397,27 @@ class GridView: NSView
         
         self.setNeedsDisplay( self.bounds )
         
+        if( self.dragOperation != NSDragOperation.generic && sender.draggingSourceOperationMask() == NSDragOperation.generic )
+        {
+            self.dragRotation = ( self.dragRotation == 3 ) ? 0 : self.dragRotation + 1
+        }
+        
+        if( self.dragOperation != NSDragOperation.copy && sender.draggingSourceOperationMask() == NSDragOperation.copy )
+        {
+            self.dragRotation = ( self.dragRotation == 0 ) ? 3 : self.dragRotation - 1
+        }
+        
+        self.dragOperation = sender.draggingSourceOperationMask()
+        
         return .copy
     }
     
     override func draggingExited( _ sender: NSDraggingInfo? )
     {
-        self.draggedItem  = nil
-        self.draggedPoint = nil
+        self.draggedItem   = nil
+        self.draggedPoint  = nil
+        self.dragOperation = nil
+        self.dragRotation  = 0
         
         if( self.resumeAfterOperation )
         {
@@ -410,8 +431,10 @@ class GridView: NSView
     
     override func draggingEnded( _ sender: NSDraggingInfo )
     {
-        self.draggedItem  = nil
-        self.draggedPoint = nil
+        self.draggedItem   = nil
+        self.draggedPoint  = nil
+        self.dragOperation = nil
+        self.dragRotation  = 0
         
         if( self.resumeAfterOperation )
         {
@@ -430,9 +453,14 @@ class GridView: NSView
             return false
         }
         
-        guard let cells = objects.first?.cells else
+        guard let item = objects.first else
         {
             return false
+        }
+        
+        for _ in 0 ..< self.dragRotation
+        {
+            item.rotate()
         }
         
         let point     = self.convert( sender.draggingLocation(), from: self.window?.contentView )
@@ -441,9 +469,9 @@ class GridView: NSView
         let offsetX = Int( ceil( point.x / cellSize ) );
         let offsetY = Int( ceil( point.y / cellSize ) );
         
-        for i in 0 ..< cells.count
+        for i in 0 ..< item.cells.count
         {
-            let s = cells[ i ]
+            let s = item.cells[ i ]
             
             for j in 0 ..< s.count
             {

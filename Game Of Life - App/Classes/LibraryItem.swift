@@ -170,6 +170,47 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
         }
     }
     
+    public func rotate()
+    {
+        var n = 0
+        
+        for s in self.cells
+        {
+            n = max( n, s.count )
+        }
+        
+        var r = [ String ]()
+        
+        for _ in 0 ..< n
+        {
+            r.append( "" )
+        }
+        
+        for i in 0 ..< self.cells.count
+        {
+            for j in 0 ..< n
+            {
+                if( j < self.cells[ i ].count )
+                {
+                    let c = self.cells[ i ][ String.Index( encodedOffset: j ) ]
+                    
+                    r[ j ].append( c )
+                }
+                else
+                {
+                    r[ j ].append( " " )
+                }
+            }
+        }
+        
+        self.cells.removeAll()
+        
+        for i in 0 ..< r.count
+        {
+            self.cells.append( String( r[ i ].reversed() ) )
+        }
+    }
+    
     // MARK: - NSCopying
     
     func copy( with zone: NSZone? = nil ) -> Any
