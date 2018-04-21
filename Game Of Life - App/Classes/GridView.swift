@@ -57,7 +57,8 @@ class GridView: NSView
         
         self.grid = Grid( width: size_t( rect.size.width / Preferences.shared.cellSize ), height: size_t( rect.size.height / Preferences.shared.cellSize ), kind: kind )
         
-        self.observations.append( Preferences.shared.observe( \Preferences.speed ) { ( c, o ) in self._restartTimer() } )
+        self.observations.append( Preferences.shared.observe( \Preferences.speed    ) { ( c, o ) in self.restartTimer() } )
+        self.observations.append( Preferences.shared.observe( \Preferences.cellSize ) { ( c, o ) in self.resizeGrid() } )
         self.registerForDraggedTypes( [ LibraryItem.PasteboardType ] )
         self.updateDimensions()
     }
@@ -68,7 +69,8 @@ class GridView: NSView
         
         self.grid = Grid( width: size_t( rect.size.width / Preferences.shared.cellSize ), height: size_t( rect.size.height / Preferences.shared.cellSize ) )
         
-        self.observations.append( Preferences.shared.observe( \Preferences.speed ) { ( c, o ) in self._restartTimer() } )
+        self.observations.append( Preferences.shared.observe( \Preferences.speed ) { ( c, o ) in self.restartTimer() } )
+        self.observations.append( Preferences.shared.observe( \Preferences.cellSize ) { ( c, o ) in self.resizeGrid() } )
         self.registerForDraggedTypes( [ LibraryItem.PasteboardType ] )
         self.updateDimensions()
     }
@@ -79,7 +81,8 @@ class GridView: NSView
         
         self.grid = Grid( width: size_t( self.frame.size.width / Preferences.shared.cellSize ), height: size_t( self.frame.size.height / Preferences.shared.cellSize ) )
         
-        self.observations.append( Preferences.shared.observe( \Preferences.speed ) { ( c, o ) in self._restartTimer() } )
+        self.observations.append( Preferences.shared.observe( \Preferences.speed ) { ( c, o ) in self.restartTimer() } )
+        self.observations.append( Preferences.shared.observe( \Preferences.cellSize ) { ( c, o ) in self.resizeGrid() } )
         self.registerForDraggedTypes( [ LibraryItem.PasteboardType ] )
         self.updateDimensions()
     }
@@ -97,17 +100,9 @@ class GridView: NSView
         super.resize( withOldSuperviewSize: size )
     }
     
-    private func updateDimensions()
-    {
-        let s1 = String( describing: self.grid.width )
-        let s2 = String( describing: self.grid.height )
-        
-        self.gridDimensions = s1 + "x" + s2
-    }
-    
     override func viewDidEndLiveResize()
     {
-        self.grid.resize( width: size_t( self.frame.size.width / Preferences.shared.cellSize ), height: size_t( self.frame.size.height / Preferences.shared.cellSize ) )
+        self.resizeGrid()
         
         if( self.resumeAfterOperation )
         {
@@ -117,8 +112,22 @@ class GridView: NSView
         self.resumeAfterOperation = false
         self.resizing             = false
         
+    }
+    
+    private func resizeGrid()
+    {
+        self.grid.resize( width: size_t( self.frame.size.width / Preferences.shared.cellSize ), height: size_t( self.frame.size.height / Preferences.shared.cellSize ) )
+        
         self.setNeedsDisplay( self.bounds )
         self.updateDimensions()
+    }
+    
+    private func updateDimensions()
+    {
+        let s1 = String( describing: self.grid.width )
+        let s2 = String( describing: self.grid.height )
+        
+        self.gridDimensions = s1 + "x" + s2
     }
     
     override var isFlipped: Bool
@@ -126,7 +135,7 @@ class GridView: NSView
         return true
     }
     
-    private func _startTimer()
+    private func startTimer()
     {
         if( self.timer != nil )
         {
@@ -138,17 +147,17 @@ class GridView: NSView
         self.timer   = Timer.scheduledTimer( timeInterval: interval, target: self, selector: #selector( next ), userInfo: nil, repeats: true )
     }
     
-    private func _stopTimer()
+    private func stopTimer()
     {
         self.timer?.invalidate()
         
         self.timer = nil
     }
     
-    private func _restartTimer()
+    private func restartTimer()
     {
-        self._stopTimer()
-        self._startTimer()
+        self.stopTimer()
+        self.startTimer()
     }
     
     @IBAction func resume( _ sender: Any? )
@@ -160,7 +169,7 @@ class GridView: NSView
         
         self.paused = false
         
-        self._startTimer()
+        self.startTimer()
     }
     
     @IBAction func pause( _ sender: Any? )
@@ -170,7 +179,7 @@ class GridView: NSView
             return
         }
         
-        self._stopTimer()
+        self.stopTimer()
         
         self.paused = true
         self.fps    = 0
@@ -192,7 +201,7 @@ class GridView: NSView
         Preferences.shared.speed -= 1
         self.speed                = Preferences.shared.speed
         
-        self._restartTimer()
+        self.restartTimer()
     }
     
     @IBAction func increaseSpeed( _ sender: Any? )
@@ -205,7 +214,7 @@ class GridView: NSView
         Preferences.shared.speed += 1
         self.speed                = Preferences.shared.speed
         
-        self._restartTimer()
+        self.restartTimer()
     }
     
     @objc private func next()
