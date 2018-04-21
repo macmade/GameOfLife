@@ -105,11 +105,32 @@ class LibraryReader
     
     private func load( patterns: String ) -> [ LibraryItem ]?
     {
-        let library = ( Bundle.main.resourcePath as NSString? )?.appendingPathComponent( "Library" )
-        let path    = patterns.replacingOccurrences( of: "$(LIBRARY)", with: library ?? "" )
-        let reader  = CellReader()
+        let library    = ( Bundle.main.resourcePath as NSString? )?.appendingPathComponent( "Library" )
+        let path       = patterns.replacingOccurrences( of: "$(LIBRARY)", with: library ?? "" )
+        let cellReader = CellReader()
+        let rleReader  = RLEReader()
         
-        return reader.read( directory: URL( fileURLWithPath: path ) )
+        let cells = cellReader.read( directory: URL( fileURLWithPath: path ) )
+        let rle   = rleReader.read( directory: URL( fileURLWithPath: path ) )
+        
+        var items = [ LibraryItem ]()
+        
+        if( cells == nil && rle == nil || ( cells?.count == 0 && rle?.count == 0 ) )
+        {
+            return nil
+        }
+        
+        if( cells?.count ?? 0 > 0 )
+        {
+            items.append( contentsOf: cells! )
+        }
+        
+        if( rle?.count ?? 0 > 0 )
+        {
+            items.append( contentsOf: rle! )
+        }
+        
+        return items
     }
     
     private func load( object: Any ) -> [ LibraryItem ]?
