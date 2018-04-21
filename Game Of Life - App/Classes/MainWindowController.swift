@@ -30,9 +30,10 @@ class MainWindowController: NSWindowController
     @objc dynamic public var showLibrary:  Bool = false
     @objc dynamic public var hideControls: Bool = false
     
-    @IBOutlet     private var gridViewContainer:       NSView?
-    @objc dynamic private var gridView:                GridView?
-    @IBOutlet     private var libraryViewContainer:    NSView?
+    @objc public private( set ) dynamic var gridView: GridView?
+    
+    @IBOutlet private var gridViewContainer:    NSView?
+    @IBOutlet private var libraryViewContainer: NSView?
     
     @objc dynamic public private( set ) var libraryViewController: LibraryViewController?
     

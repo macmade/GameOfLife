@@ -27,10 +27,10 @@ import Cocoa
 @NSApplicationMain
 class ApplicationDelegate: NSObject, NSApplicationDelegate
 {
-    public private( set ) var mainWindowController:        MainWindowController?
-    public private( set ) var aboutWindowController:       AboutWindowController?
-    public private( set ) var preferencesWindowController: PreferencesWindowController?
-    public private( set ) var libraryWindowController:     LibraryWindowController?
+    @objc public private( set ) dynamic var mainWindowController:        MainWindowController?
+    @objc public private( set ) dynamic var aboutWindowController:       AboutWindowController?
+    @objc public private( set ) dynamic var preferencesWindowController: PreferencesWindowController?
+    @objc public private( set ) dynamic var libraryWindowController:     LibraryWindowController?
     
     func applicationDidFinishLaunching( _ notification: Notification )
     {

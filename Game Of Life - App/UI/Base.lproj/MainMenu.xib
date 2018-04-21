@@ -83,6 +83,38 @@
                                     <action selector="showLibraryWindow:" target="Voe-Tx-rLC" id="etD-0R-WlI"/>
                                 </connections>
                             </menuItem>
+                            <menuItem isSeparatorItem="YES" id="Jm5-pQ-PsV"/>
+                            <menuItem title="Play / Pause" keyEquivalent=" " id="HJZ-NO-dtW">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="pauseResume:" target="-1" id="fz5-0O-tbj"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Step" keyEquivalent="" id="6pb-P7-k9K">
+                                <connections>
+                                    <action selector="step:" target="-1" id="zlD-Td-2Fj"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="T7l-N1-6cN"/>
+                            <menuItem title="Speed" id="2D5-y7-Qok">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Speed" id="Lhf-Kb-k0Q">
+                                    <items>
+                                        <menuItem title="Decrease" keyEquivalent="" id="ah5-Qx-B2d">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="decreaseSpeed:" target="-1" id="mQF-oM-KMm"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Increase" keyEquivalent="" id="jyH-1T-d3g">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="increaseSpeed:" target="-1" id="Vi3-2i-IWU"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="vvN-Qq-ipw"/>
                             <menuItem title="Close" keyEquivalent="w" id="DVo-aG-piG">
                                 <connections>
