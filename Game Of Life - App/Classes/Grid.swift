@@ -164,7 +164,7 @@ class Grid: NSObject
                 
                 let age = old >> 1
                 
-                if( alive && new & 1 == 1 && age < Cell.max )
+                if( alive && new & 1 == 1 && age < ( Cell.max >> 1 ) )
                 {
                     new &= 1
                     new |= ( age + 1 ) << 1
