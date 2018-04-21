@@ -122,7 +122,7 @@ class GridView: NSView
         self.updateDimensions()
     }
     
-    private func updateDimensions()
+    public func updateDimensions()
     {
         let s1 = String( describing: self.grid.width )
         let s2 = String( describing: self.grid.height )

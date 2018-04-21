@@ -77,6 +77,11 @@
                                     <action selector="createRandomGrid:" target="-1" id="G2n-yu-Usr"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Open…" keyEquivalent="o" id="cK2-8p-NoC">
+                                <connections>
+                                    <action selector="openDocument:" target="-1" id="iZp-vQ-mKW"/>
+                                </connections>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="ixP-si-jEJ"/>
                             <menuItem title="Edit Library" keyEquivalent="L" id="RNN-uu-QfE">
                                 <connections>

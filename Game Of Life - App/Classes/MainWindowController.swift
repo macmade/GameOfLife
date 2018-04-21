@@ -158,22 +158,26 @@ class MainWindowController: NSWindowController
         Preferences.shared.drawAsSquares = ( Preferences.shared.drawAsSquares ) ? false : true
     }
     
-    @IBAction func saveDocumentAs( _ sender: Any? )
+    @IBAction func openDocument( _ sender: Any? )
     {
-        self.gridView?.pause( sender )
+        self.pause( sender )
         
-        let panel = NSSavePanel()
+        let panel                  = NSOpenPanel()
+        panel.canCreateDirectories = false
+        panel.allowedFileTypes     = [ "gol" ]
+        panel.canChooseDirectories = false
+        panel.canChooseFiles       = true
         
-        panel.begin
+        guard let window = self.window else
         {
-            r in
+            return
+        }
+        
+        panel.beginSheetModal( for: window )
+        {
+            res in
             
-            if( r != .OK )
-            {
-                return
-            }
-            
-            guard let data = self.gridView?.grid.data() else
+            if( res != .OK )
             {
                 return
             }
@@ -183,21 +187,72 @@ class MainWindowController: NSWindowController
                 return
             }
             
-            let save = URL( fileURLWithPath: url.path.appending( ".gol" ) )
+            guard let data = NSData( contentsOf: url ) else
+            {
+                return
+            }
+            
+            if( self.gridView?.grid.load( data: data as Data ) == false )
+            {
+                let alert             = NSAlert()
+                alert.messageText     = "Error"
+                alert.informativeText = "Unable to load save file - Incorrect data"
+                
+                alert.beginSheetModal( for: window, completionHandler: nil )
+            }
+            else
+            {
+                self.gridView?.setNeedsDisplay( self.gridView!.bounds )
+                self.gridView?.updateDimensions()
+            }
+        }
+    }
+    
+    @IBAction func saveDocument( _ sender: Any? )
+    {
+        self.saveDocumentAs( sender )
+    }
+    
+    @IBAction func saveDocumentAs( _ sender: Any? )
+    {
+        self.pause( sender )
+        
+        let panel                  = NSSavePanel()
+        panel.canCreateDirectories = true
+        panel.allowedFileTypes     = [ "gol" ]
+        
+        guard let window = self.window else
+        {
+            return
+        }
+        
+        guard let data = self.gridView?.grid.data() else
+        {
+            return
+        }
+        
+        panel.beginSheetModal( for: window )
+        {
+            res in
+            
+            if( res != .OK )
+            {
+                return
+            }
+            
+            guard let url = panel.url else
+            {
+                return
+            }
             
             do
             {
-                try data.write( to: save )
+                try data.write( to: url, options: .atomic )
             }
             catch let error as NSError
             {
-                NSAlert( error: error ).runModal()
+                NSAlert( error: error ).beginSheetModal( for: window, completionHandler: nil )
             }
-        }
-        
-        if( self.paused == false )
-        {
-            self.gridView?.resume( nil )
         }
     }
     

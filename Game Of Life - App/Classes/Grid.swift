@@ -235,6 +235,7 @@ class Grid: NSObject
         var data = Data()
         
         data.append( contentsOf: [ 71, 79, 76, 49 ] )
+        data.append( UInt64( 0 ) )
         data.append( UInt64( self.width ) )
         data.append( UInt64( self.height ) )
         
@@ -244,6 +245,70 @@ class Grid: NSObject
         }
         
         return data
+    }
+    
+    public func load( data: Data ) -> Bool
+    {
+        if( data.count < 28 )
+        {
+            return false
+        }
+        
+        if( data[ 0 ] != 71 && data[ 1 ] != 79 && data[ 2 ] != 76 && data[ 3 ] != 49 )
+        {
+            return false
+        }
+        
+        var version: UInt64 = 0
+        var width:   UInt64 = 0
+        var height:  UInt64 = 0
+        
+        version |= UInt64( data[  4 ] ) << 56
+        version |= UInt64( data[  5 ] ) << 48
+        version |= UInt64( data[  6 ] ) << 40
+        version |= UInt64( data[  7 ] ) << 32
+        version |= UInt64( data[  8 ] ) << 24
+        version |= UInt64( data[  9 ] ) << 16
+        version |= UInt64( data[ 10 ] ) << 8
+        version |= UInt64( data[ 11 ] ) << 0
+        
+        width |= UInt64( data[ 12 ] ) << 56
+        width |= UInt64( data[ 13 ] ) << 48
+        width |= UInt64( data[ 14 ] ) << 40
+        width |= UInt64( data[ 15 ] ) << 32
+        width |= UInt64( data[ 16 ] ) << 24
+        width |= UInt64( data[ 17 ] ) << 16
+        width |= UInt64( data[ 18 ] ) << 8
+        width |= UInt64( data[ 19 ] ) << 0
+        
+        height |= UInt64( data[ 20 ] ) << 56
+        height |= UInt64( data[ 21 ] ) << 48
+        height |= UInt64( data[ 22 ] ) << 40
+        height |= UInt64( data[ 23 ] ) << 32
+        height |= UInt64( data[ 24 ] ) << 24
+        height |= UInt64( data[ 25 ] ) << 16
+        height |= UInt64( data[ 26 ] ) << 8
+        height |= UInt64( data[ 27 ] ) << 0
+        
+        if( width > 0 && height > 0 && data.count - 28 != width * height )
+        {
+            return false
+        }
+        
+        var cells = Array()
+        
+        cells.reserveCapacity( Int( width * height ) )
+        
+        for i in 28 ..< data.count
+        {
+            cells.append( data[ i ] )
+        }
+        
+        self.cells  = cells
+        self.width  = size_t( width )
+        self.height = size_t( height )
+        
+        return true
     }
 }
 
