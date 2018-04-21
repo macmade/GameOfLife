@@ -56,18 +56,28 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
             return nil
         }
         
-        let content    = cellFile.replacingOccurrences( of: "\r", with: "\n" )
-        let lines      = content.split( separator: "\n" )
+        let content    = cellFile.replacingOccurrences( of: "\r\n", with: "\n" ).replacingOccurrences( of: "\r", with: "\n" )
+        var lines      = content.split( separator: "\n", omittingEmptySubsequences: false )
         let namePrefix = "!Name:"
         var cells      = [ String ]()
         
         var name:    String?
         var comment: String?
         
+        while lines.last?.count == 0
+        {
+            lines.removeLast()
+        }
+        
         for line in lines
         {
             if( line.count == 0 )
             {
+                if( cells.count > 0 )
+                {
+                    cells.append( " " )
+                }
+                
                 continue
             }
             
