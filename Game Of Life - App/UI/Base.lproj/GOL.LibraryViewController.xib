@@ -68,6 +68,7 @@
                                                         </textFieldCell>
                                                         <connections>
                                                             <binding destination="Fhr-ic-OLM" name="value" keyPath="objectValue.title" id="xeN-2S-xeW"/>
+                                                            <binding destination="Fhr-ic-OLM" name="toolTip" keyPath="objectValue.comment" id="8mJ-SZ-U8c"/>
                                                         </connections>
                                                     </textField>
                                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="qrO-oK-oCd" customClass="ColorView" customModule="GOL" customModuleProvider="target">
@@ -144,6 +145,9 @@
                                                                 <real key="value" value="5"/>
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
+                                                        <connections>
+                                                            <binding destination="34V-5S-6yq" name="toolTip" keyPath="objectValue.comment" id="F2i-d3-3s9"/>
+                                                        </connections>
                                                     </customView>
                                                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GwI-PH-ZZ6">
                                                         <rect key="frame" x="40" y="10" width="293" height="17"/>
@@ -154,6 +158,7 @@
                                                         </textFieldCell>
                                                         <connections>
                                                             <binding destination="34V-5S-6yq" name="value" keyPath="objectValue.title" id="trM-2P-m0Z"/>
+                                                            <binding destination="34V-5S-6yq" name="toolTip" keyPath="objectValue.comment" id="AIZ-Mn-sLe"/>
                                                         </connections>
                                                     </textField>
                                                 </subviews>

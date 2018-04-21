@@ -31,6 +31,7 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
     typealias LibraryType = [ String: [ Any ] ]
     
     @objc public dynamic var title:       String
+    @objc public dynamic var comment:     String
     @objc public dynamic var isGroup:     Bool
     @objc public dynamic var allChildren: [ LibraryItem ]
     @objc public dynamic var children:    [ LibraryItem ]
@@ -39,6 +40,72 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
     init( title: String = "", cells: [ String ] = [] )
     {
         self.title       = title
+        self.comment     = ""
+        self.isGroup     = cells.count == 0
+        self.cells       = cells
+        self.allChildren = []
+        self.children    = []
+        
+        super.init()
+    }
+    
+    init?( cellFile: String )
+    {
+        if( cellFile.count == 0 )
+        {
+            return nil
+        }
+        
+        let content    = cellFile.replacingOccurrences( of: "\r", with: "\n" )
+        let lines      = content.split( separator: "\n" )
+        let namePrefix = "!Name:"
+        var cells      = [ String ]()
+        
+        var name:    String?
+        var comment: String?
+        
+        for line in lines
+        {
+            if( line.count == 0 )
+            {
+                continue
+            }
+            
+            if( line.hasPrefix( namePrefix ) )
+            {
+                name = ( line as NSString ).substring( from: namePrefix.count ).trimmingCharacters( in: CharacterSet.whitespaces )
+            }
+            else if( line.hasPrefix( "!Author:" ) )
+            {
+                continue
+            }
+            else if( line.hasPrefix( "!" ) && comment == nil )
+            {
+                comment = ( line as NSString ).substring( from: 1 ).trimmingCharacters( in: CharacterSet.whitespaces )
+            }
+            
+            let chars: Set< Character > = [ ".", "O" ]
+            
+            if( Set( line ).isSubset( of: chars ) == false )
+            {
+                continue
+            }
+            
+            cells.append( line.replacingOccurrences( of: ".", with: " " ).replacingOccurrences( of: "O", with: "o" ) )
+        }
+        
+        if( name == nil || name?.count == 0 )
+        {
+            return nil
+        }
+        
+        if( cells.count == 0 )
+        {
+            return nil
+        }
+        
+        self.title       = name!
+        self.comment     = comment ?? ""
         self.isGroup     = cells.count == 0
         self.cells       = cells
         self.allChildren = []
@@ -87,11 +154,16 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
                         continue
                     }
                     
-                    let prefix = "include:"
+                    let prefix1 = "include:"
+                    let prefix2 = "patterns:"
                     
-                    if( inc.hasPrefix( prefix ) )
+                    if( inc.hasPrefix( prefix1 ) )
                     {
-                        self.load( include: ( inc as NSString ).substring( from: prefix.count ), in: group )
+                        self.load( include: ( inc as NSString ).substring( from: prefix1.count ), in: group )
+                    }
+                    else if( inc.hasPrefix( prefix2 ) )
+                    {
+                        self.load( patterns: ( inc as NSString ).substring( from: prefix2.count ), in: group )
                     }
                     
                     continue
@@ -108,6 +180,8 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
                 }
                 
                 let item = LibraryItem( title: title, cells: cells )
+                
+                item.comment = dic[ "comment" ] as? String ?? ""
                 
                 group.allChildren.append( item )
                 group.children.append( item )
@@ -134,13 +208,35 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
             return
         }
         
-        guard let items = json as? [ [ String: Any ] ] else
+        guard let items = json as? [ Any ] else
         {
             return
         }
         
-        for dic in items
+        for i in items
         {
+            guard let dic = i as? [ String: Any ] else
+            {
+                guard let inc = i as? String else
+                {
+                    continue
+                }
+                
+                let prefix1 = "include:"
+                let prefix2 = "patterns:"
+                
+                if( inc.hasPrefix( prefix1 ) )
+                {
+                    self.load( include: ( inc as NSString ).substring( from: prefix1.count ), in: group )
+                }
+                else if( inc.hasPrefix( prefix2 ) )
+                {
+                    self.load( patterns: ( inc as NSString ).substring( from: prefix2.count ), in: group )
+                }
+                
+                continue
+            }
+            
             guard let title = dic[ "title" ] as? String else
             {
                 continue
@@ -153,9 +249,61 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
             
             let item = LibraryItem( title: title, cells: cells )
             
+            item.comment = dic[ "comment" ] as? String ?? ""
+            
             group.allChildren.append( item )
             group.children.append( item )
         }
+    }
+    
+    private static func load( patterns: String, in group: LibraryItem )
+    {
+        let library = ( Bundle.main.resourcePath as NSString? )?.appendingPathComponent( "Library" )
+        let path    = patterns.replacingOccurrences( of: "$(LIBRARY)", with: library ?? "" )
+        var isDir   = ObjCBool( booleanLiteral: false )
+        
+        if( FileManager.default.fileExists( atPath: path, isDirectory: &isDir ) == false || isDir.boolValue == false )
+        {
+            return
+        }
+        
+        do
+        {
+            for p in try FileManager.default.contentsOfDirectory( atPath: path )
+            {
+                let file = ( path as NSString ).appendingPathComponent( p )
+                
+                if( ( file as NSString ).pathExtension != "cells" )
+                {
+                    continue
+                }
+                
+                do
+                {
+                    let data = try NSData( contentsOf: URL( fileURLWithPath: file ) ) as Data
+                    
+                    guard let content = String( data: data, encoding: .utf8 ) else
+                    {
+                        continue
+                    }
+                    
+                    guard let item = LibraryItem( cellFile: content ) else
+                    {
+                        continue
+                    }
+                    
+                    group.allChildren.append( item )
+                    group.children.append( item )
+                }
+                catch
+                {
+                    continue
+                }
+                
+            }
+        }
+        catch
+        {}
     }
     
     public func setPredicate( _ predicate: NSPredicate? )
@@ -218,6 +366,7 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
         let item = LibraryItem()
         
         item.title       = self.title
+        item.comment     = self.comment
         item.isGroup     = self.isGroup
         item.cells       = self.cells
         item.allChildren = self.allChildren
@@ -278,6 +427,7 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
         }
         
         self.title       = item.title
+        self.comment     = item.comment
         self.isGroup     = item.isGroup
         self.cells       = item.cells
         self.allChildren = item.allChildren
@@ -295,6 +445,11 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
             return nil
         }
         
+        guard let comment = coder.decodeObject( forKey: "comment" ) as? String else
+        {
+            return nil
+        }
+        
         guard let cells = coder.decodeObject( of: NSArray.self, forKey: "cells" ) as? [ String ] else
         {
             return nil
@@ -306,6 +461,7 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
         }
         
         self.title       = title;
+        self.comment     = comment
         self.isGroup     = coder.decodeBool( forKey: "isGroup" );
         self.cells       = cells;
         self.allChildren = children;
@@ -315,6 +471,7 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
     func encode( with coder: NSCoder )
     {
         coder.encode( self.title,      forKey: "title" )
+        coder.encode( self.comment,    forKey: "comment" )
         coder.encode( self.isGroup,    forKey: "isGroup" )
         coder.encode( self.cells,      forKey: "cells" )
         coder.encode( self.children,   forKey: "children" )
