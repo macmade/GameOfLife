@@ -34,14 +34,7 @@ class ApplicationDelegate: NSObject, NSApplicationDelegate
     
     func applicationDidFinishLaunching( _ notification: Notification )
     {
-        self.mainWindowController = MainWindowController()
-        
-        if( Preferences.shared.lastStart == nil )
-        {
-            self.mainWindowController?.window?.center()
-        }
-        
-        self.mainWindowController?.window?.makeKeyAndOrderFront( nil )
+        self.showMainWindow()
         
         Preferences.shared.lastStart = Date()
         
@@ -67,6 +60,43 @@ class ApplicationDelegate: NSObject, NSApplicationDelegate
     func applicationShouldTerminateAfterLastWindowClosed( _ sender: NSApplication ) -> Bool
     {
         return true
+    }
+    
+    func application( _ sender: NSApplication, openFile filename: String ) -> Bool
+    {
+        self.showMainWindow()
+        
+        guard let data = NSData( contentsOf: URL( fileURLWithPath: filename ) ) else
+        {
+            return false
+        }
+        
+        if( self.mainWindowController?.gridView?.grid.load( data: data as Data ) ?? false )
+        {
+            self.mainWindowController?.gridView?.setNeedsDisplay( self.mainWindowController!.gridView!.bounds )
+            self.mainWindowController?.gridView?.updateDimensions()
+            
+            return true
+        }
+        
+        return false
+    }
+    
+    private func showMainWindow()
+    {
+        if( self.mainWindowController != nil )
+        {
+            return
+        }
+        
+        self.mainWindowController = MainWindowController()
+        
+        if( Preferences.shared.lastStart == nil )
+        {
+            self.mainWindowController?.window?.center()
+        }
+        
+        self.mainWindowController?.window?.makeKeyAndOrderFront( nil )
     }
     
     @IBAction func showAboutWindow( _ sender: Any? )
