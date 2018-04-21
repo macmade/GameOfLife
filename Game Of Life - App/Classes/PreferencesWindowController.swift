@@ -24,7 +24,7 @@
 
 import Cocoa
 
-@objc class PreferencesWindowController: NSWindowController
+@objc class PreferencesWindowController: NSWindowController, NSWindowDelegate
 {
     @IBOutlet private var colorsController: NSArrayController?
     
@@ -43,6 +43,8 @@ import Cocoa
     override func windowDidLoad()
     {
         super.windowDidLoad()
+        
+        self.window?.delegate = self
         
         let o1 = self.observe( \PreferencesWindowController.colors )
         {
@@ -72,5 +74,13 @@ import Cocoa
         self.colorsController?.addObject( PreferencesColorItem( color: Preferences.shared.color4(), label: "Color 4" ) { c in Preferences.shared.color4( value: c ) } )
         self.colorsController?.addObject( PreferencesColorItem( color: Preferences.shared.color5(), label: "Color 5" ) { c in Preferences.shared.color5( value: c ) } )
         self.colorsController?.addObject( PreferencesColorItem( color: Preferences.shared.color6(), label: "Color 6" ) { c in Preferences.shared.color6( value: c ) } )
+    }
+    
+    func windowDidBecomeKey( _ notification: Notification )
+    {
+        self.colors   = Preferences.shared.colors
+        self.squares  = Preferences.shared.drawAsSquares
+        self.speed    = Preferences.shared.speed
+        self.cellSize = Preferences.shared.cellSize
     }
 }
