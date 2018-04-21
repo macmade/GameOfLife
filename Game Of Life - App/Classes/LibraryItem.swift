@@ -283,7 +283,7 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
             {
                 let file = ( path as NSString ).appendingPathComponent( p )
                 
-                if( ( file as NSString ).pathExtension != "cells" )
+                if( ( file as NSString ).pathExtension != "cells" && ( file as NSString ).pathExtension != "txt" )
                 {
                     continue
                 }

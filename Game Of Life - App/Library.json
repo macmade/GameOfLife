@@ -23,9 +23,9 @@
 	[
 		"include:$(LIBRARY)/Puffers.json",
 	],
-	"Fuses":
+	"Wicks":
 	[
-		"include:$(LIBRARY)/Fuses.json",
+		"include:$(LIBRARY)/Wicks.json",
 	],
 	"My Patterns":
 	[
