@@ -118,16 +118,16 @@ class LibraryViewController: NSViewController, NSOutlineViewDelegate, NSOutlineV
         {
             return
         }
-        
-        var predicate: NSPredicate?
-        
-        if( searchField.stringValue != "" )
-        {
-            predicate = NSPredicate( format: "title contains[cd] %@", argumentArray: [ searchField.stringValue ] )
-        }
             
         for item in self.library ?? []
         {
+            var predicate: NSPredicate?
+            
+            if( searchField.stringValue != "" )
+            {
+                predicate = NSPredicate( format: "title contains[cd] %@ || %@ contains[cd] %@", argumentArray: [ searchField.stringValue, item.title, searchField.stringValue ] )
+            }
+            
             item.setPredicate( predicate )
         }
         
