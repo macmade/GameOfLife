@@ -30,6 +30,7 @@ class GridView: NSView
     @objc dynamic public var resizing:             Bool = false
     @objc dynamic public var resumeAfterOperation: Bool = false
     @objc dynamic public var drawSetAlive:         Bool = false
+    @objc dynamic public var dragging:             Bool = false
     
     @objc dynamic public private( set ) var speed: UInt    = Preferences.shared.speed
     @objc dynamic public private( set ) var fps:   CGFloat = 0
@@ -373,6 +374,7 @@ class GridView: NSView
         self.resumeAfterOperation = self.paused == false
         self.draggedItem          = item
         self.draggedPoint         = sender.draggingLocation()
+        self.dragging             = true
         
         self.pause( nil )
         self.setNeedsDisplay( self.bounds )
@@ -418,6 +420,7 @@ class GridView: NSView
         self.draggedPoint  = nil
         self.dragOperation = nil
         self.dragRotation  = 0
+        self.dragging      = false
         
         if( self.resumeAfterOperation )
         {
@@ -435,6 +438,7 @@ class GridView: NSView
         self.draggedPoint  = nil
         self.dragOperation = nil
         self.dragRotation  = 0
+        self.dragging      = false
         
         if( self.resumeAfterOperation )
         {
