@@ -1,0 +1,20 @@
+!Name: Fireship
+!www.conwaylife.com/wiki/index.php?title=Fireship
+....OO
+....OO
+...O..O
+...OOOO
+..O.OO.O
+...O..O
+
+..OO..OO
+.O......O
+
+..O....O
+...O..O
+....OO
+
+.OO....OO
+O..O..O..O
+.OO....OO
+..O....O

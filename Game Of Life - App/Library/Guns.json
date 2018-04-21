@@ -1,17 +1,3 @@
 [
-    {
-        "title": "Gosper Glider Gun",
-        "cells":
-        [
-            "                        o           ",
-            "                      o o           ",
-            "            oo      oo            oo",
-            "           o   o    oo            oo",
-            "oo        o     o   oo              ",
-            "oo        o   o oo    o o           ",
-            "          o     o       o           ",
-            "           o   o                    ",
-            "            oo                      "
-        ]
-    }
+    "patterns:$(LIBRARY)/Guns/"
 ]
