@@ -26,13 +26,14 @@ import Cocoa
 
 class GridView: NSView
 {
-    @objc dynamic public var paused:               Bool   = true
-    @objc dynamic public var resizing:             Bool   = false
-    @objc dynamic public var resumeAfterOperation: Bool   = false
-    @objc dynamic public var drawSetAlive:         Bool   = false
-    @objc dynamic public var dragging:             Bool   = false
-    @objc dynamic public var scale:                Int    = 0
-    @objc dynamic public var gridDimensions:       String = ""
+    @objc dynamic public var paused:               Bool    = true
+    @objc dynamic public var resizing:             Bool    = false
+    @objc dynamic public var resumeAfterOperation: Bool    = false
+    @objc dynamic public var drawSetAlive:         Bool    = false
+    @objc dynamic public var dragging:             Bool    = false
+    @objc dynamic public var scale:                Int     = 0
+    @objc dynamic public var cellSize:             CGFloat = 0
+    @objc dynamic public var gridDimensions:       String  = ""
     
     @objc dynamic public private( set ) var speed: UInt    = Preferences.shared.speed
     @objc dynamic public private( set ) var fps:   CGFloat = 0
@@ -116,6 +117,8 @@ class GridView: NSView
     
     private func resizeGrid()
     {
+        self.cellSize = Preferences.shared.cellSize
+        
         self.grid.resize( width: size_t( self.frame.size.width / Preferences.shared.cellSize ), height: size_t( self.frame.size.height / Preferences.shared.cellSize ) )
         
         self.setNeedsDisplay( self.bounds )
@@ -124,6 +127,8 @@ class GridView: NSView
     
     public func updateDimensions()
     {
+        self.cellSize = Preferences.shared.cellSize
+        
         let s1 = String( describing: self.grid.width )
         let s2 = String( describing: self.grid.height )
         
