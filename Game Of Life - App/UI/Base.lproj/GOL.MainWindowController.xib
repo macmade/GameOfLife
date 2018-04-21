@@ -31,9 +31,9 @@
                                 <rect key="frame" x="30" y="30" width="1003" height="504"/>
                             </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="dCF-7m-hYT">
-                                <rect key="frame" x="853" y="10" width="200" height="524"/>
+                                <rect key="frame" x="803" y="10" width="250" height="524"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="200" id="W2z-VM-mYQ"/>
+                                    <constraint firstAttribute="width" constant="250" id="W2z-VM-mYQ"/>
                                 </constraints>
                                 <connections>
                                     <binding destination="-2" name="hidden2" keyPath="hideControls" previousBinding="gAd-ZR-9i1" id="qdJ-SG-TRf">
