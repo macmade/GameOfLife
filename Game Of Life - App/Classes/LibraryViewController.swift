@@ -43,7 +43,20 @@ class LibraryViewController: NSViewController, NSOutlineViewDelegate, NSOutlineV
     
     public func reload()
     {
-        self.library = LibraryItem.allItems()
+        let bundled = Bundle.main.url( forResource: "Library", withExtension: "json" )
+        let copy    = FileManager.default.urls( for: .applicationSupportDirectory, in: .userDomainMask ).first?.appendingPathComponent( "Library.json" )
+        
+        let url = ( copy != nil && FileManager.default.fileExists( atPath: copy!.path ) ) ? copy : bundled
+        
+        if( url == nil )
+        {
+            self.library = []
+        }
+        else
+        {
+            let reader   = LibraryReader()
+            self.library = reader.read( url: url! ) ?? []
+        }
         
         self.treeController?.sortDescriptors = [ NSSortDescriptor( key: "title", ascending: true ) ]
         
