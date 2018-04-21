@@ -433,6 +433,11 @@
                         <action selector="showLibraryWindow:" target="-1" id="0YU-HG-y9t"/>
                     </connections>
                 </menuItem>
+                <menuItem title="Edit Preferences" keyEquivalent="," id="Tgx-kB-7SM">
+                    <connections>
+                        <action selector="showPreferencesWindow:" target="-1" id="CnT-AP-Nfh"/>
+                    </connections>
+                </menuItem>
             </items>
         </menu>
     </objects>
