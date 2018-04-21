@@ -45,6 +45,7 @@ class MainWindowController: NSWindowController
     override func windowDidLoad()
     {
         self.createNewGridView( kind: .Random )
+        self.toggleLibrary( nil )
     }
     
     func createNewGridView( kind: Grid.Kind )
