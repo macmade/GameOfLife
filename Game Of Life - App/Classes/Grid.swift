@@ -32,7 +32,7 @@ class Grid: NSObject
     @objc dynamic public private( set ) var turns:      UInt64 = 0
     @objc dynamic public private( set ) var population: UInt64 = 0
     
-    public private( set ) var colors: Bool   = true
+    public private( set ) var colors: Bool = true
     public private( set ) var width:  size_t
     public private( set ) var height: size_t
     public private( set ) var cells:  ContiguousArray< Cell >
