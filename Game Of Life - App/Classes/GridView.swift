@@ -194,6 +194,8 @@ class GridView: NSView
     {
         if( Preferences.shared.speed == 1 )
         {
+            NSSound.beep()
+            
             return
         }
         
@@ -207,6 +209,8 @@ class GridView: NSView
     {
         if( Preferences.shared.speed == 10 )
         {
+            NSSound.beep()
+            
             return
         }
         

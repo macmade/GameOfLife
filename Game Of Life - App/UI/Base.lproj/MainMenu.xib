@@ -695,6 +695,26 @@
                                     <action selector="toggleControls:" target="-1" id="ZP2-LI-Okr"/>
                                 </connections>
                             </menuItem>
+                            <menuItem isSeparatorItem="YES" id="BsO-9n-8UY"/>
+                            <menuItem title="Cell Size" id="WrV-fX-a2c">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Cell Size" id="6ln-pM-sYC">
+                                    <items>
+                                        <menuItem title="Decrease" keyEquivalent="" id="pyn-Z3-DeH">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="decreaseCellSize:" target="-1" id="Ydy-mv-oqh"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Increase" keyEquivalent="" id="MV6-hM-lXf">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="increaseCellSize:" target="-1" id="KPp-k0-5Yh"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
                         </items>
                     </menu>
                 </menuItem>

@@ -288,4 +288,28 @@ class MainWindowController: NSWindowController
         
         self.showLibrary = self.showLibrary == false
     }
+    
+    @IBAction func increaseCellSize( _ sender: Any? )
+    {
+        if( Preferences.shared.cellSize == 10 )
+        {
+            NSSound.beep()
+            
+            return
+        }
+        
+        Preferences.shared.cellSize += 1
+    }
+    
+    @IBAction func decreaseCellSize( _ sender: Any? )
+    {
+        if( Preferences.shared.cellSize == 1 )
+        {
+            NSSound.beep()
+            
+            return
+        }
+        
+        Preferences.shared.cellSize -= 1
+    }
 }
