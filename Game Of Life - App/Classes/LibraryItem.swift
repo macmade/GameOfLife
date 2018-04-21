@@ -29,7 +29,9 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
     public static let PasteboardType = NSPasteboard.PasteboardType( "com.xs-labs.GOL.LibraryItem" )
     
     @objc public dynamic var title:       String
+    @objc public dynamic var author:      String
     @objc public dynamic var comment:     String
+    @objc public dynamic var tooltip:     String
     @objc public dynamic var dimensions:  String
     @objc public dynamic var isGroup:     Bool
     @objc public dynamic var allChildren: [ LibraryItem ]
@@ -39,7 +41,9 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
     init( title: String = "", cells: [ String ] = [] )
     {
         self.title       = title
+        self.author      = ""
         self.comment     = ""
+        self.tooltip     = ""
         self.isGroup     = cells.count == 0
         self.cells       = cells
         self.allChildren = []
@@ -117,7 +121,9 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
         let item = LibraryItem()
         
         item.title       = self.title
+        item.author      = self.author
         item.comment     = self.comment
+        item.tooltip     = self.tooltip
         item.dimensions  = self.dimensions
         item.isGroup     = self.isGroup
         item.cells       = self.cells
@@ -179,7 +185,9 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
         }
         
         self.title       = item.title
+        self.author      = item.author
         self.comment     = item.comment
+        self.tooltip     = item.tooltip
         self.dimensions  = item.dimensions
         self.isGroup     = item.isGroup
         self.cells       = item.cells
@@ -198,7 +206,17 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
             return nil
         }
         
+        guard let author = coder.decodeObject( forKey: "author" ) as? String else
+        {
+            return nil
+        }
+        
         guard let comment = coder.decodeObject( forKey: "comment" ) as? String else
+        {
+            return nil
+        }
+        
+        guard let tooltip = coder.decodeObject( forKey: "tooltip" ) as? String else
         {
             return nil
         }
@@ -219,7 +237,9 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
         }
         
         self.title       = title;
+        self.author      = author
         self.comment     = comment
+        self.tooltip     = tooltip
         self.dimensions  = dimensions
         self.isGroup     = coder.decodeBool( forKey: "isGroup" );
         self.cells       = cells;
@@ -230,7 +250,9 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
     func encode( with coder: NSCoder )
     {
         coder.encode( self.title,      forKey: "title" )
+        coder.encode( self.author ,    forKey: "author" )
         coder.encode( self.comment,    forKey: "comment" )
+        coder.encode( self.tooltip,    forKey: "tooltip" )
         coder.encode( self.dimensions, forKey: "dimensions" )
         coder.encode( self.isGroup,    forKey: "isGroup" )
         coder.encode( self.cells,      forKey: "cells" )

@@ -67,8 +67,8 @@
                                                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
                                                         </textFieldCell>
                                                         <connections>
-                                                            <binding destination="Fhr-ic-OLM" name="toolTip" keyPath="objectValue.comment" id="8mJ-SZ-U8c"/>
                                                             <binding destination="Fhr-ic-OLM" name="value" keyPath="objectValue.title" id="xeN-2S-xeW"/>
+                                                            <binding destination="Fhr-ic-OLM" name="toolTip" keyPath="objectValue.tooltip" id="PFS-9K-kFQ"/>
                                                         </connections>
                                                     </textField>
                                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="qrO-oK-oCd" customClass="ColorView" customModule="GOL" customModuleProvider="target">
@@ -146,7 +146,7 @@
                                                             </userDefinedRuntimeAttribute>
                                                         </userDefinedRuntimeAttributes>
                                                         <connections>
-                                                            <binding destination="34V-5S-6yq" name="toolTip" keyPath="objectValue.comment" id="F2i-d3-3s9"/>
+                                                            <binding destination="34V-5S-6yq" name="toolTip" keyPath="objectValue.tooltip" id="5yb-vL-jUL"/>
                                                         </connections>
                                                     </customView>
                                                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GwI-PH-ZZ6">
@@ -157,8 +157,8 @@
                                                             <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
                                                         </textFieldCell>
                                                         <connections>
-                                                            <binding destination="34V-5S-6yq" name="toolTip" keyPath="objectValue.comment" id="AIZ-Mn-sLe"/>
                                                             <binding destination="34V-5S-6yq" name="value" keyPath="objectValue.title" id="trM-2P-m0Z"/>
+                                                            <binding destination="34V-5S-6yq" name="toolTip" keyPath="objectValue.tooltip" id="TlS-IO-8LE"/>
                                                         </connections>
                                                     </textField>
                                                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rl9-Em-XBN">
@@ -169,8 +169,8 @@
                                                             <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
                                                         </textFieldCell>
                                                         <connections>
-                                                            <binding destination="34V-5S-6yq" name="toolTip" keyPath="objectValue.comment" id="3C9-Sw-mTD"/>
                                                             <binding destination="34V-5S-6yq" name="value" keyPath="objectValue.dimensions" id="cB0-tb-vRh"/>
+                                                            <binding destination="34V-5S-6yq" name="toolTip" keyPath="objectValue.tooltip" id="5Jj-LE-M2V"/>
                                                         </connections>
                                                     </textField>
                                                 </subviews>

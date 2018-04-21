@@ -95,12 +95,14 @@ class CellReader
             return nil
         }
         
-        let content    = content.replacingOccurrences( of: "\r\n", with: "\n" ).replacingOccurrences( of: "\r", with: "\n" )
-        var lines      = content.split( separator: "\n", omittingEmptySubsequences: false )
-        let namePrefix = "!Name:"
-        var cells      = [ String ]()
+        let content      = content.replacingOccurrences( of: "\r\n", with: "\n" ).replacingOccurrences( of: "\r", with: "\n" )
+        var lines        = content.split( separator: "\n", omittingEmptySubsequences: false )
+        let namePrefix   = "!Name:"
+        let authorPrefix = "!Author:"
+        var cells        = [ String ]()
         
         var name:    String?
+        var author:  String?
         var comment: String?
         
         while lines.last?.count == 0
@@ -124,9 +126,9 @@ class CellReader
             {
                 name = ( line as NSString ).substring( from: namePrefix.count ).trimmingCharacters( in: CharacterSet.whitespaces )
             }
-            else if( line.hasPrefix( "!Author:" ) )
+            else if( line.hasPrefix( authorPrefix ) )
             {
-                continue
+                author = ( line as NSString ).substring( from: authorPrefix.count ).trimmingCharacters( in: CharacterSet.whitespaces )
             }
             else if( line.hasPrefix( "!" ) && comment == nil )
             {
@@ -154,7 +156,21 @@ class CellReader
         }
         
         let item     = LibraryItem( title: name!, cells: cells )
+        item.author  = author  ?? ""
         item.comment = comment ?? ""
+        
+        if( item.author.count > 0 && item.comment.count > 0 )
+        {
+            item.tooltip = item.comment + "\n(" + item.author + ")"
+        }
+        else if( item.author.count > 0 )
+        {
+            item.tooltip = item.author
+        }
+        else if( item.comment.count > 0 )
+        {
+            item.tooltip = item.comment
+        }
         
         return item
     }

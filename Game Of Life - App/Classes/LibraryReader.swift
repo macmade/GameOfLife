@@ -53,44 +53,13 @@ class LibraryReader
             
             for i in p.value
             {
-                guard let dic = i as? [ String: Any ] else
-                {
-                    guard let inc = i as? String else
-                    {
-                        continue
-                    }
-                    
-                    let prefix1 = "include:"
-                    let prefix2 = "patterns:"
-                    
-                    if( inc.hasPrefix( prefix1 ) )
-                    {
-                        self.load( include: ( inc as NSString ).substring( from: prefix1.count ), in: group )
-                    }
-                    else if( inc.hasPrefix( prefix2 ) )
-                    {
-                        self.load( patterns: ( inc as NSString ).substring( from: prefix2.count ), in: group )
-                    }
-                    
-                    continue
-                }
-                
-                guard let title = dic[ "title" ] as? String else
+                guard let items = self.load( object: i ) else
                 {
                     continue
                 }
                 
-                guard let cells = dic[ "cells" ] as? [ String ] else
-                {
-                    continue
-                }
-                
-                let item = LibraryItem( title: title, cells: cells )
-                
-                item.comment = dic[ "comment" ] as? String ?? ""
-                
-                group.allChildren.append( item )
-                group.children.append( item )
+                group.allChildren.append( contentsOf: items )
+                group.children.append( contentsOf: items )
             }
             
             library.append( group )
@@ -99,85 +68,107 @@ class LibraryReader
         return library
     }
     
-    private func load( include: String, in group: LibraryItem )
+    private func load( include: String ) -> [ LibraryItem ]?
     {
         let library = ( Bundle.main.resourcePath as NSString? )?.appendingPathComponent( "Library" )
         let path    = include.replacingOccurrences( of: "$(LIBRARY)", with: library ?? "" )
         
         guard let data = NSData( contentsOf: URL( fileURLWithPath: path ) ) else
         {
-            return
+            return nil
         }
         
         guard let json = try? JSONSerialization.jsonObject( with: data as Data, options: [] ) else
         {
-            return
+            return nil
         }
         
-        guard let items = json as? [ Any ] else
+        guard let array = json as? [ Any ] else
         {
-            return
+            return nil
         }
         
-        for i in items
+        var ret = [ LibraryItem ]()
+        
+        for i in array
         {
-            guard let dic = i as? [ String: Any ] else
-            {
-                guard let inc = i as? String else
-                {
-                    continue
-                }
-                
-                let prefix1 = "include:"
-                let prefix2 = "patterns:"
-                
-                if( inc.hasPrefix( prefix1 ) )
-                {
-                    self.load( include: ( inc as NSString ).substring( from: prefix1.count ), in: group )
-                }
-                else if( inc.hasPrefix( prefix2 ) )
-                {
-                    self.load( patterns: ( inc as NSString ).substring( from: prefix2.count ), in: group )
-                }
-                
-                continue
-            }
-            
-            guard let title = dic[ "title" ] as? String else
+            guard let items = self.load( object: i ) else
             {
                 continue
             }
             
-            guard let cells = dic[ "cells" ] as? [ String ] else
-            {
-                continue
-            }
-            
-            let item = LibraryItem( title: title, cells: cells )
-            
-            item.comment = dic[ "comment" ] as? String ?? ""
-            
-            group.allChildren.append( item )
-            group.children.append( item )
+            ret.append( contentsOf: items )
         }
+        
+        return ret
     }
     
-    private func load( patterns: String, in group: LibraryItem )
+    private func load( patterns: String ) -> [ LibraryItem ]?
     {
         let library = ( Bundle.main.resourcePath as NSString? )?.appendingPathComponent( "Library" )
         let path    = patterns.replacingOccurrences( of: "$(LIBRARY)", with: library ?? "" )
         let reader  = CellReader()
         
-        guard let items = reader.read( directory: URL(fileURLWithPath: path ) ) else
+        return reader.read( directory: URL( fileURLWithPath: path ) )
+    }
+    
+    private func load( object: Any ) -> [ LibraryItem ]?
+    {
+        guard let dic = object as? [ String: Any ] else
         {
-            return
+            guard let inc = object as? String else
+            {
+                return nil
+            }
+            
+            let prefix1 = "include:"
+            let prefix2 = "patterns:"
+            
+            if( inc.hasPrefix( prefix1 ) )
+            {
+                return self.load( include: ( inc as NSString ).substring( from: prefix1.count ) )
+            }
+            else if( inc.hasPrefix( prefix2 ) )
+            {
+                return self.load( patterns: ( inc as NSString ).substring( from: prefix2.count ) )
+            }
+            
+            return nil
         }
         
-        for item in items
+        guard let title = dic[ "title" ] as? String else
         {
-            group.allChildren.append( item )
-            group.children.append( item )
+            return nil
         }
+        
+        guard let cells = dic[ "cells" ] as? [ String ] else
+        {
+            return nil
+        }
+        
+        let item = LibraryItem( title: title, cells: cells )
+        
+        item.author  = dic[ "author" ]  as? String ?? ""
+        item.comment = dic[ "comment" ] as? String ?? ""
+        item.tooltip = dic[ "tooltip" ] as? String ?? ""
+        
+        if( item.tooltip.count == 0 )
+        {
+            if( item.author.count > 0 && item.comment.count > 0 )
+            {
+                item.tooltip = item.comment + "\n(" + item.author + ")"
+            }
+            else if( item.author.count > 0 )
+            {
+                item.tooltip = item.author
+            }
+            else if( item.comment.count > 0 )
+            {
+                item.tooltip = item.comment
+            }
+        }
+        
+        return [ item ]
     }
 }
 
