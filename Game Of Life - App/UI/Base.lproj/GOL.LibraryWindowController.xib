@@ -13,7 +13,7 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <window title="Library" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="LibraryWIndow" animationBehavior="default" titlebarAppearsTransparent="YES" id="QvC-M9-y7g">
+        <window title="Library" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="LibraryWIndow" animationBehavior="default" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="500" height="500"/>
@@ -23,28 +23,18 @@
                 <rect key="frame" x="0.0" y="0.0" width="500" height="500"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lI8-FF-uLp">
-                        <rect key="frame" x="422" y="470" width="82" height="32"/>
-                        <buttonCell key="cell" type="push" title="Reload" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Yoi-aw-nYd">
-                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <action selector="reload:" target="-2" id="ZLO-TW-IXg"/>
-                        </connections>
-                    </button>
                     <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="abQ-vC-vtL">
-                        <rect key="frame" x="0.0" y="25" width="500" height="450"/>
+                        <rect key="frame" x="0.0" y="0.0" width="500" height="500"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="bQN-ue-xaI">
-                            <rect key="frame" x="0.0" y="0.0" width="500" height="450"/>
+                            <rect key="frame" x="0.0" y="0.0" width="500" height="500"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="panel" allowsUndo="YES" allowsNonContiguousLayout="YES" id="Gef-kn-V9x">
-                                    <rect key="frame" x="0.0" y="0.0" width="500" height="450"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="500" height="500"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="textColor" red="0.69612499999999999" green="0.69610499999999997" blue="0.69611599999999996" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="backgroundColor" red="0.086274509803921567" green="0.10196078431372549" blue="0.11372549019607843" alpha="1" colorSpace="calibratedRGB"/>
-                                    <size key="minSize" width="500" height="450"/>
+                                    <size key="minSize" width="500" height="500"/>
                                     <size key="maxSize" width="800" height="10000000"/>
                                     <color key="insertionPointColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </textView>
@@ -56,19 +46,42 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="5yR-ro-9aC">
-                            <rect key="frame" x="484" y="0.0" width="16" height="450"/>
+                            <rect key="frame" x="484" y="0.0" width="16" height="500"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
+                    <button translatesAutoresizingMaskIntoConstraints="NO" id="kXu-QL-gfw">
+                        <rect key="frame" x="474" y="474" width="16" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="16" id="8Fy-Pl-cqR"/>
+                            <constraint firstAttribute="height" constant="16" id="xCE-mc-oPT"/>
+                        </constraints>
+                        <contentFilters>
+                            <ciFilter name="CIColorControls">
+                                <configuration>
+                                    <real key="inputBrightness" value="1"/>
+                                    <real key="inputContrast" value="1"/>
+                                    <null key="inputImage"/>
+                                    <real key="inputSaturation" value="1"/>
+                                </configuration>
+                            </ciFilter>
+                        </contentFilters>
+                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSRefreshFreestandingTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="hVc-dk-xSr">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="reload:" target="-2" id="8ho-2s-hwa"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="lI8-FF-uLp" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="2" id="8lX-sI-0bn"/>
-                    <constraint firstItem="lI8-FF-uLp" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" symbolic="YES" id="Atl-EW-yxg"/>
+                    <constraint firstItem="kXu-QL-gfw" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="10" id="9Sp-eA-9Bj"/>
                     <constraint firstItem="abQ-vC-vtL" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="JlA-cW-t3T"/>
-                    <constraint firstAttribute="trailing" secondItem="lI8-FF-uLp" secondAttribute="trailing" constant="2" id="XpM-lE-Do2"/>
                     <constraint firstItem="abQ-vC-vtL" firstAttribute="width" secondItem="EiT-Mj-1SZ" secondAttribute="width" id="XtM-Z1-iKH"/>
                     <constraint firstItem="abQ-vC-vtL" firstAttribute="centerY" secondItem="EiT-Mj-1SZ" secondAttribute="centerY" id="YFv-Dc-gYU"/>
-                    <constraint firstItem="abQ-vC-vtL" firstAttribute="height" secondItem="EiT-Mj-1SZ" secondAttribute="height" constant="-50" id="lLT-Wo-O1q"/>
+                    <constraint firstAttribute="trailing" secondItem="kXu-QL-gfw" secondAttribute="trailing" constant="10" id="Zbn-Ks-PCO"/>
+                    <constraint firstItem="abQ-vC-vtL" firstAttribute="height" secondItem="EiT-Mj-1SZ" secondAttribute="height" id="lLT-Wo-O1q"/>
                 </constraints>
             </view>
             <connections>
@@ -77,4 +90,7 @@
             <point key="canvasLocation" x="13" y="-51"/>
         </window>
     </objects>
+    <resources>
+        <image name="NSRefreshFreestandingTemplate" width="14" height="14"/>
+    </resources>
 </document>

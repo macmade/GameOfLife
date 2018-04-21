@@ -37,6 +37,9 @@ class LibraryWindowController: NSWindowController
     
     override func windowDidLoad()
     {
+        let ruler = RulerView()
+        
+        self.textView?.enclosingScrollView?.verticalRulerView             = ruler
         self.textView?.enclosingScrollView?.verticalRulerView             = RulerView()
         self.textView?.enclosingScrollView?.verticalRulerView?.clientView = self.textView
         self.textView?.enclosingScrollView?.hasVerticalRuler              = true
@@ -55,6 +58,26 @@ class LibraryWindowController: NSWindowController
         self.url = FileManager.default.urls( for: .applicationSupportDirectory, in: .userDomainMask ).first?.appendingPathComponent( "Library.json" )
         
         self.reload( nil )
+    }
+    
+    @IBAction func showMenu( _ sender: Any? )
+    {
+        guard let button = sender as? NSButton else
+        {
+            return
+        }
+        
+        guard let event = NSApp.currentEvent else
+        {
+            return
+        }
+        
+        guard let menu = button.menu else
+        {
+            return
+        }
+        
+        NSMenu.popUpContextMenu( menu, with: event, for: button )
     }
     
     private func displayError( message: String )

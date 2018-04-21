@@ -48,9 +48,14 @@ class RulerView: NSRulerView
         }
     }
     
+    override var requiredThickness: CGFloat
+    {
+        return 65
+    }
+    
     override func drawHashMarksAndLabels( in rect: NSRect )
     {
-        self.textView?.textColor?.setFill()
+        NSColor( hex: 0x242C31 ).setFill()
         rect.fill()
         
         guard let t = self.textView else
@@ -58,7 +63,7 @@ class RulerView: NSRulerView
             return
         }
         
-        let color = t.backgroundColor 
+        let color = NSColor( hex: 0x6C6C6C )
         
         guard let font = t.font else
         {
@@ -136,10 +141,10 @@ class RulerView: NSRulerView
             }
             
             var lineRect         = rectArray[ 0 ]
-            lineRect.origin.x    = 2
+            lineRect.origin.x    = 5
             lineRect.origin.y   -= visibleRect.origin.y
             lineRect.origin.y   += t.textContainerInset.height / 2
-            lineRect.size.width  = rect.size.width - 2
+            lineRect.size.width  = rect.size.width - 5
             lineRect.size.height = rect.size.height
             
             ( String( describing: line + 1 ) as NSString ).draw( in: lineRect, withAttributes: attr )
