@@ -31,6 +31,7 @@ class GridView: NSView
     @objc dynamic public var resumeAfterOperation: Bool   = false
     @objc dynamic public var drawSetAlive:         Bool   = false
     @objc dynamic public var dragging:             Bool   = false
+    @objc dynamic public var scale:                Int    = 0
     @objc dynamic public var gridDimensions:       String = ""
     
     @objc dynamic public private( set ) var speed: UInt    = Preferences.shared.speed
@@ -402,6 +403,57 @@ class GridView: NSView
                     
                     path.fill()
                 }
+            }
+        }
+    }
+    
+    override func scrollWheel( with event: NSEvent )
+    {
+        if( event.modifierFlags.contains( NSEvent.ModifierFlags.option ) )
+        {
+            self.setBoundsOrigin( NSMakePoint( 0, 0 ) )
+            self.setBoundsSize( NSMakeSize( 0, 0 ) )
+            
+            self.scale = 0
+        }
+        else if( event.modifierFlags.contains( NSEvent.ModifierFlags.command ) )
+        {
+            if( event.deltaY < 0 )
+            {
+                self.scaleUnitSquare( to: NSMakeSize( 1.1, 1.1 ) )
+                
+                self.scale += 1
+            }
+            else if ( event.deltaY > 0 && self.scale > 0 )
+            {
+                self.scaleUnitSquare( to: NSMakeSize( 0.9, 0.9 ) )
+                
+                self.scale -= 1
+            }
+            else if( self.scale == 0 )
+            {
+                self.setBoundsOrigin( NSMakePoint( 0, 0 ) )
+                self.setBoundsSize( NSMakeSize( 0, 0 ) )
+            }
+        }
+        else if( self.scale > 0 )
+        {
+            if( event.deltaY > 0 )
+            {
+                self.translateOrigin( to: NSMakePoint( 0, 10 ) )
+            }
+            else if ( event.deltaY < 0 )
+            {
+                self.translateOrigin( to: NSMakePoint( 0, -10 ) )
+            }
+            
+            if( event.deltaX > 0 )
+            {
+                self.translateOrigin( to: NSMakePoint( 10, 0 ) )
+            }
+            else if ( event.deltaX < 0 )
+            {
+                self.translateOrigin( to: NSMakePoint( -10, 0 ) )
             }
         }
     }
