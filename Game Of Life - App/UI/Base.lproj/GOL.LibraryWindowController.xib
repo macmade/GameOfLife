@@ -16,15 +16,15 @@
         <window title="Library" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="LibraryWIndow" animationBehavior="default" titlebarAppearsTransparent="YES" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="196" y="240" width="800" height="600"/>
+            <rect key="contentRect" x="196" y="240" width="500" height="500"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
             <value key="minSize" type="size" width="400" height="300"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
-                <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
+                <rect key="frame" x="0.0" y="0.0" width="500" height="500"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lI8-FF-uLp">
-                        <rect key="frame" x="722" y="570" width="82" height="32"/>
+                        <rect key="frame" x="422" y="470" width="82" height="32"/>
                         <buttonCell key="cell" type="push" title="Reload" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Yoi-aw-nYd">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -34,17 +34,17 @@
                         </connections>
                     </button>
                     <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="abQ-vC-vtL">
-                        <rect key="frame" x="0.0" y="25" width="800" height="550"/>
+                        <rect key="frame" x="0.0" y="25" width="500" height="450"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="bQN-ue-xaI">
-                            <rect key="frame" x="0.0" y="0.0" width="800" height="550"/>
+                            <rect key="frame" x="0.0" y="0.0" width="500" height="450"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="panel" allowsUndo="YES" allowsNonContiguousLayout="YES" id="Gef-kn-V9x">
-                                    <rect key="frame" x="0.0" y="0.0" width="800" height="550"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="500" height="450"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="textColor" red="0.69612499999999999" green="0.69610499999999997" blue="0.69611599999999996" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="backgroundColor" red="0.086274509803921567" green="0.10196078431372549" blue="0.11372549019607843" alpha="1" colorSpace="calibratedRGB"/>
-                                    <size key="minSize" width="800" height="550"/>
+                                    <size key="minSize" width="500" height="450"/>
                                     <size key="maxSize" width="800" height="10000000"/>
                                     <color key="insertionPointColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </textView>
@@ -56,7 +56,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="5yR-ro-9aC">
-                            <rect key="frame" x="784" y="0.0" width="16" height="550"/>
+                            <rect key="frame" x="484" y="0.0" width="16" height="450"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
