@@ -1,0 +1,15 @@
+#N 6-in-a-row Cordership
+#O Dave Greene
+#C http://conwaylife.com/wiki/6-in-a-row_Cordership
+#C http://conwaylife.com/patterns/6inarowcordership.rle
+x = 95, y = 99, rule = B3/S23
+60bo$59b3o14b2o$58bo10bo2bo4bo$59b2ob2o6b3o2bo2bo$60b3ob2o5b2o2bo2bo$
+62b4o9bo2bo$76b3o6b2o$85b2o3$69bo$68bobo$56bo11bobo$55b3o11bo$93b2o$
+55b3o35b2o$56b2ob2o$58bo$77bo$76bobo$76bobo$77bo2$55b3o$57bo$33b3o18b
+3o$37bo17bo$37b2o$37bo2bo$38bobo$38bo$37b2o14bo$36bobo13bobo$38b2o11bo
+$35b2o14bo2bo19bo$37bo12b2obo20b2o$49b3o21bobo$25bo24b2ob2o$25bo24bo2b
+2o$25bo8bo16b3o$32bobo17bo$26b3o2bo3bo$27bob5o$33bo$28b2o9$36bo$35b4o$
+33b5obo$32bo6b2o$31bo3bob3o$25bo6bobo2b2o$13bobo7bob2o$12b2ob2o6bobo$
+13bob2o6b2o$2bo14bo$bobo12bo$2ob2o11bo$bo2bo$3b3o$3bobo$4b2o$4b2o3$11b
+2o$2bo7bo2bo$3bo7b2o$3b2o$2b3o$36bo$34b2o$3b3o29b2o$bo4bo12b2o$b2o3bo
+11bo2bo$3b4o12b2o7$6b2o$6b2o7$14b2o$14b2o!

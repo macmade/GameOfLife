@@ -1,0 +1,7 @@
+#N Fireship
+#O Simon Ekström
+#C http://conwaylife.com/wiki/Fireship
+#C http://conwaylife.com/patterns/fireship.rle
+x = 12, y = 21, rule = B3/S23
+4bo2bo$4bo2bo$3bo4bo$3bo4bo$3bo4bo$3bo4bo$2b3o2b3o$2bob4obo$3bo4bo3$5b
+2o$5b2o$5b2o$3bo4bo$b3o4b3o$3o6b3o$2o8b2o$b10o$2b8o$4b4o!

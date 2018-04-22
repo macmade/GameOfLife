@@ -1,0 +1,12 @@
+#N Glider emulator
+#O Gabriel Nivasch
+#C P4 tagalong for two big gliders, discovered in January 1999.
+#C http://www.conwaylife.com/patterns/longcanadagoose.rle
+#C http://www.conwaylife.com/wiki/Glider_emulator
+#C http://www.conwaylife.com/patterns/glideremulator.rle
+x = 30, y = 28, rule = B3/S23
+14b2o$13b2o3bo$15bob2o$11bo5b3o$10b2o5bo$10bobo6b2o$20b3o$12b3o5bo3bo$
+11b3o7bo2bo$5bo7bobo6b2ob2o$4b5o6b3o7b2o$4bo2b2o7bobo4bo2bo$6b2obo6bo
+2bo6bob2o$b2o16bobo2b3o$2o7bobo5b2o4bo$bobo6b2o7b2o2bo$b3o6b3o6b5o$b2o
+10b2o$3bobo9bo6bo$6b2o7bo6bo$5b3o5b2o2b2o$7bo6bob3o4b2o$8bo2bo3bo6b3o$
+8bo2b2o5bo2b3o$9b2o2bo$12bo$11b2o$11b2obo!

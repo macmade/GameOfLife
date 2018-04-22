@@ -1,0 +1,6 @@
+#N 31P8H4V0
+#O Unknown
+#C http://conwaylife.com/wiki/31P8H4V0
+#C http://conwaylife.com/patterns/31p8h4v0.rle
+x = 11, y = 11, rule = B3/S23
+b5o$bo4bo$bo$2bo4bo$4bo$5b2o2bo$3bo2bo3bo$bo7bo$o5bo2bo$o3b2o$4o2b2o!

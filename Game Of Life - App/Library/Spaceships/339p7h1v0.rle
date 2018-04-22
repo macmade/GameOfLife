@@ -1,0 +1,17 @@
+#N 339P7H1V0
+#O Matthias Merzenich
+#C The second known c/7 spaceship, found by Matthias Merzenich in February 2017.
+#C http://conwaylife.com/wiki/339P7H1V0
+x = 17, y = 96, rule = B3/S23
+5b2o3b2o$3b2o2bobo2b2o2$7bobo$2bo4bobo4bo$2bo3bo3bo3bo$2bo2bo5bo2bo2$
+2bo11bo$2bo2b2o3b2o2bo$bo3b2o3b2o3bo$2bo2bobobobo2bo$2b2o3bobo3b2o$5bo
+bobobo$5bobobobo$4b2obobob2o$7bobo$6b2ob2o3$8bo$4bob2ob2obo$4b2obobob
+2o$3bob2obob2obo$4bo7bo$4bo7bo$2b2o3b3o3b2o$2bo11bo$b2o11b2o$8bo$o2b3o
+5b3o2bo$bo13bo2$5bo5bo$5b2obob2o$b4o7b4o$b3o2b5o2b3o$5bo5bo$b2ob3obob
+3ob2o$2bo2bo5bo2bo$2bo11bo2$3bo4bo4bo$4b2o5b2o$4b2o5b2o2$2bo3bo3bo3bo$
+bo4bo3bo4bo$b3obo5bob3o3$4bo7bo$3b2o7b2o$4bo7bo$2b3o7b3o$bobo9bobo2$b
+3o9b3o$2bo11bo$2b3o7b3o3$3bo9bo$b2obo7bob2o$bo3bo5bo3bo$3obo7bob3o$3b
+2o7b2o$bob2o7b2obo$2b3o7b3o$4bo7bo$2bobo7bobo$5b2o3b2o$4b4ob4o$2bo2bob
+obobo2bo$6bo3bo$5b2o3b2o$5b2o3b2o2$6bo3bo$5bobobobo$4bo7bo$4bo7bo$5bo
+5bo2$6b2ob2o$6bo3bo$6bo3bo$7b3o$6bo3bo$5b2o3b2o4$b2o3bo3bo3b2o$2b4o5b
+4o$3b2o7b2o!

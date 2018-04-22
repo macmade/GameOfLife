@@ -1,0 +1,7 @@
+#N 74P8H2V0
+#C The smallest known period-8 c/4 orthogonal spaceship.
+#C http://conwaylife.com/wiki/74P8H2V0
+x = 15, y = 21, rule = B3/S23
+5bobobo$4b7o$4bo5bo$5bo3bo$5bo3bo$3b2o5b2o$5bo3bo$2bobobobobobo$4bobob
+obo$b2obobobobob2o$bo3b2ob2o3bo2$2o3bo3bo3b2o$5bo3bo$6b3o2$4bo4b2o$3bo
+bo2b2o$6bo2bobo$3bo2bo2bobo$4bobo3bo!

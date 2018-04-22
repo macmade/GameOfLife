@@ -1,0 +1,6 @@
+#N LWSS on HWSS
+#O Unknown
+#C http://conwaylife.com/wiki/LWSS_on_HWSS
+#C http://conwaylife.com/patterns/lwssonhwss.rle
+x = 7, y = 12, rule = B3/S23
+3b2o$bo4bo$o$o5bo$6o4$4o$o3bo$o$bo2bo!

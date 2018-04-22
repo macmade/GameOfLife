@@ -1,0 +1,9 @@
+#N Crane
+#O Nicolay Beluchenko
+#C A c/4 diagonal spaceship found in September 2005
+#C http://www.conwaylife.com/wiki/Crane
+#C http://www.conwaylife.com/patterns/crane.rle
+x = 27, y = 19, rule = B3/S23
+b2o$2o$2bo$4b2o$3bo2$7bo$4b2o2b2o$4b2o2b3o$4b2o3b2o$12b2ob2o$12b3o2bo$
+11b3o3bo2bo$11b2o6bobo$10bobo$9b2o9b2ob2o$9bobo8b2o3bo$8bo13b2o$9b2o
+14b2o!

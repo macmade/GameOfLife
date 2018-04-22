@@ -1,0 +1,6 @@
+#N LWSS on MWSS
+#O Unknown
+#C http://conwaylife.com/wiki/LWSS_on_MWSS
+#C http://conwaylife.com/patterns/lwssonmwss.rle
+x = 6, y = 12, rule = B3/S23
+bo2bo$o$o3bo$4o4$5o$o4bo$o$bo3bo$3bo!

@@ -1,0 +1,7 @@
+#N 30P4H2V0.4
+#O Unknown
+#C http://conwaylife.com/wiki/30P4H2V0.4
+#C http://conwaylife.com/patterns/30p4h2v04.rle
+x = 14, y = 9, rule = B3/S23
+b3o$o2bo6b3o$o4bo4bo2bo$3bobo2bo4bo$2o4bobobo$5bobo4b2o$3bo4bo$4bo5bo$
+9bo!

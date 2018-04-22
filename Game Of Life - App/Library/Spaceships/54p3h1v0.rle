@@ -1,0 +1,7 @@
+#N 54P3H1V0
+#O Tom Rokicki
+#C A small period-3 orthogonal c/3 spaceship.
+#C http://conwaylife.com/wiki/54P3H1V0
+x = 13, y = 13, rule = B3/S23
+3bobo$5bo$obo3b2ob2o$2o4b2o3bo$bo3bob2o3bo$bo3bob2o2bo$bo4bobo$b7ob3o$
+2bo7b2o$4b6o$2b2o$2bo2b2o$2bo2b2o!

@@ -1,0 +1,7 @@
+#N 72P6H2V0
+#C The smallest known period-6 c/3 orthogonal spaceship.
+#C http://conwaylife.com/wiki/72P6H2V0
+x = 25, y = 14, rule = B3/S23
+6b3o7b3o$2bob2o3bo5bo3b2obo$b3o3bobo5bobo3b3o$o3bo4b2o3b2o4bo3bo$bo6bo
+b2ob2obo6bo$7bo3bobo3bo$7bo2bo3bo2bo2$9b2o3b2o$9bobobobo$10b2ob2o$11bo
+bo$8b2obobob2o$8bobo3bobo!

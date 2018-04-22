@@ -1,0 +1,7 @@
+#N 37P4H1V0
+#O Josh Ball
+#C http://conwaylife.com/wiki/37P4H1V0
+#C http://conwaylife.com/patterns/37p4h1v0.rle
+x = 19, y = 12, rule = B3/S23
+bo$bo8bo$obo5bo3bo$8bo3b2o$5bob2o5b2o$b6o2bo6bo$2b2o6bo3b3o$10bo3bob2o
+$13bo$18bo$17bo$17bo!

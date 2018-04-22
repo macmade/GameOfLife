@@ -1,0 +1,7 @@
+#N 70P2H1V0.1
+#C A c/2 orthogonal spaceship
+#C http://www.conwaylife.com/wiki/70P2H1V0.1
+#C http://conwaylife.com/patterns/70p2h1v01.rle
+x = 12, y = 21, rule = B3/S23
+o$4o$2b2o$5bo$6o$6bobo$obob6o$ob2o5b2o$4b2o4b2o$5o4b2o2$5o4b2o$4b2o4b
+2o$ob2o5b2o$obob6o$6bobo$6o$5bo$2b2o$4o$o!
