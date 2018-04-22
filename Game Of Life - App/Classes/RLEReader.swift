@@ -120,13 +120,16 @@ class RLEReader
             {
                 let c = ( line as NSString ).substring( from: 2 ).trimmingCharacters( in: CharacterSet.whitespaces )
                 
-                if( comment != nil )
+                if( c.count > 0 )
                 {
-                    comment?.append( "\n" + c )
-                }
-                else
-                {
-                    comment = c
+                    if( comment != nil )
+                    {
+                        comment?.append( "\n" + c )
+                    }
+                    else
+                    {
+                        comment = c
+                    }
                 }
             }
             else if( line.hasPrefix( "#N" ) )

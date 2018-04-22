@@ -130,9 +130,21 @@ class CellReader
             {
                 author = ( line as NSString ).substring( from: authorPrefix.count ).trimmingCharacters( in: CharacterSet.whitespaces )
             }
-            else if( line.hasPrefix( "!" ) && comment == nil )
+            else if( line.hasPrefix( "!" ) )
             {
-                comment = ( line as NSString ).substring( from: 1 ).trimmingCharacters( in: CharacterSet.whitespaces )
+                let c = ( line as NSString ).substring( from: 1 ).trimmingCharacters( in: CharacterSet.whitespaces )
+                
+                if( c.count > 0 )
+                {
+                    if( comment == nil )
+                    {
+                        comment = c
+                    }
+                    else
+                    {
+                        comment?.append( "\n" + c )
+                    }
+                }
             }
             
             let chars: Set< Character > = [ ".", "O" ]
