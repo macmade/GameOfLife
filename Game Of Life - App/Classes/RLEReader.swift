@@ -174,6 +174,28 @@ class RLEReader
     
     private func decode( rle: String ) -> [ String ]?
     {
+        let numeric: Set< Character > = [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" ]
+        
+        var n = ""
+        
+        for c in rle
+        {
+            if( c == "!" )
+            {
+                break
+            }
+            else if( c == " " )
+            {
+                continue
+            }
+            else if( Set( String( c ) ).isSubset( of: numeric ) )
+            {
+                n += String( c )
+                
+                continue
+            }
+        }
+        
         return nil
     }
 }
