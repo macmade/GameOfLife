@@ -374,7 +374,12 @@ class Grid: NSObject
                     continue
                 }
                 
-                cells[ ( x + left ) + ( ( y + top ) * self.width ) ] = 1
+                let i = ( x + left ) + ( ( y + top ) * self.width )
+                
+                if( i < self.cells.count )
+                {
+                    cells[ i ] = 1
+                }
             }
         }
     }
