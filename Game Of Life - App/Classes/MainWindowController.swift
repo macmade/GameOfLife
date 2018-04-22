@@ -193,6 +193,8 @@ class MainWindowController: NSWindowController
     
     public func open( url: URL ) -> Bool
     {
+        self.pause( nil )
+        
         let ext     = ( url.path as NSString ).pathExtension
         var success = false
         
