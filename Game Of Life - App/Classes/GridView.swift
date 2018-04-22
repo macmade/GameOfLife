@@ -562,22 +562,7 @@ class GridView: NSView
         let offsetX = Int( ceil( point.x / cellSize ) );
         let offsetY = Int( ceil( point.y / cellSize ) );
         
-        for i in 0 ..< item.cells.count
-        {
-            let s = item.cells[ i ]
-            
-            for j in 0 ..< s.count
-            {
-                let c = s[ String.Index( encodedOffset: j ) ]
-                
-                if( c == " " )
-                {
-                    continue
-                }
-                
-                self.grid.setAliveAt( x: j + offsetX, y: i + offsetY, value: true )
-            }
-        }
+        self.grid.add( item: item, left: offsetX, top: offsetY )
         
         self.setNeedsDisplay( self.bounds )
         

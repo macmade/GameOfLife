@@ -313,7 +313,70 @@ class Grid: NSObject
     
     public func load( item: LibraryItem ) -> Bool
     {
+        if( item.cells.count == 0 )
+        {
+            return false
+        }
+        
+        var width  = 0
+        var height = item.cells.count
+        
+        for s in item.cells
+        {
+            width = max( width, s.count )
+        }
+        
+        var xOffset = 0
+        var yOffset = 0
+        
+        if( width < self.width )
+        {
+            xOffset = ( self.width - width ) / 2
+            width   = self.width
+        }
+        
+        if( height < self.height )
+        {
+            yOffset = ( self.height - height ) / 2
+            height  = self.height
+        }
+        
+        var cells = Array()
+        
+        cells.grow( width * height ) { Cell() }
+        
+        self.cells  = cells
+        self.width  = size_t( width )
+        self.height = size_t( height )
+        
+        self.add( item: item, left: xOffset, top: yOffset )
+        
         return true
+    }
+    
+    public func add( item: LibraryItem, left: Int, top: Int )
+    {
+        if( item.cells.count == 0 )
+        {
+            return
+        }
+        
+        for y in 0 ..< item.cells.count
+        {
+            let s = item.cells[ y ]
+            
+            for x in 0 ..< s.count
+            {
+                let c = s[ String.Index( encodedOffset: x ) ]
+                
+                if( c == " " )
+                {
+                    continue
+                }
+                
+                cells[ ( x + left ) + ( ( y + top ) * self.width ) ] = 1
+            }
+        }
     }
 }
 
