@@ -66,17 +66,29 @@ class Grid: NSObject
         
         cells.reserveCapacity( width * height )
         
+        var n: UInt64 = 0
+        
         for y in 0 ..< height
         {
             for x in 0 ..< width
             {
-                cells.append( self.cellAt( x: x, y: y ) ?? Cell() )
+                guard let cell = self.cellAt( x: x, y: y ) else
+                {
+                    cells.append( Cell() )
+                    
+                    continue
+                }
+                
+                n += ( cell & 1 == 1 ) ? 1 : 0
+                
+                cells.append( cell )
             }
         }
         
-        self.cells  = cells
-        self.height = height
-        self.width  = width
+        self.population = n
+        self.cells      = cells
+        self.height     = height
+        self.width      = width
     }
     
     public func next()
@@ -275,20 +287,24 @@ class Grid: NSObject
             return false
         }
         
-        var cells = Array()
+        var cells     = Array()
+        var n: UInt64 = 0
         
         cells.reserveCapacity( Int( width * height ) )
         
         for i in 36 ..< data.count
         {
+            n += ( data[ i ] & 1 == 1 ) ? 1 : 0
+            
             cells.append( data[ i ] )
         }
         
         Preferences.shared.cellSize = CGFloat( size )
         
-        self.cells  = cells
-        self.width  = size_t( width )
-        self.height = size_t( height )
+        self.population = n
+        self.cells      = cells
+        self.width      = size_t( width )
+        self.height     = size_t( height )
         
         return true
     }
