@@ -70,7 +70,7 @@ class RLEReader
         {
             let data = try NSData( contentsOf: URL( fileURLWithPath: file ) ) as Data
             
-            guard let content = String( data: data, encoding: .utf8 ) else
+            guard let content = String( data: data, encoding: .ascii ) else
             {
                 return nil
             }
