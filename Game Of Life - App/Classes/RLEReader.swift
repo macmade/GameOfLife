@@ -118,11 +118,20 @@ class RLEReader
             
             if( line.hasPrefix( "#C" ) || line.hasPrefix( "#c" ) )
             {
-                name = ( line as NSString ).substring( from: 2 ).trimmingCharacters( in: CharacterSet.whitespaces )
+                let c = ( line as NSString ).substring( from: 2 ).trimmingCharacters( in: CharacterSet.whitespaces )
+                
+                if( comment != nil )
+                {
+                    comment?.append( "\n" + c )
+                }
+                else
+                {
+                    comment = c
+                }
             }
             else if( line.hasPrefix( "#N" ) )
             {
-                comment = ( line as NSString ).substring( from: 2 ).trimmingCharacters( in: CharacterSet.whitespaces )
+                name = ( line as NSString ).substring( from: 2 ).trimmingCharacters( in: CharacterSet.whitespaces )
             }
             else if( line.hasPrefix( "#O" ) )
             {
@@ -176,12 +185,16 @@ class RLEReader
     {
         let numeric: Set< Character > = [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" ]
         
-        var n = ""
+        var lines = [ "" ]
+        var cur   = ""
+        var n     = ""
         
         for c in rle
         {
             if( c == "!" )
             {
+                lines.append( cur )
+                
                 break
             }
             else if( c == " " )
@@ -194,8 +207,37 @@ class RLEReader
                 
                 continue
             }
+            else if( c == "$" )
+            {
+                lines.append( cur )
+                
+                let i = ( n == "" ) ? 1 : Int( n ) ?? 0
+                
+                for _ in 0 ..< i - 1
+                {
+                    lines.append( "" )
+                }
+                
+                cur = ""
+                n   = ""
+                
+                continue
+            }
+            else if( c == "b" || c == "o" )
+            {
+                let i = ( n == "" ) ? 1 : Int( n ) ?? 0
+                var s = ""
+                
+                for _ in 0 ..< i
+                {
+                    s += String( ( c == "b" ) ? " " : "o" )
+                }
+                
+                cur += s
+                n    = ""
+            }
         }
         
-        return nil
+        return lines
     }
 }
