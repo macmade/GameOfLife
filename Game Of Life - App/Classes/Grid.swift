@@ -378,6 +378,11 @@ class Grid: NSObject
                 
                 if( i < self.cells.count )
                 {
+                    if( cells[ i ] == 0 )
+                    {
+                        self.population += 1
+                    }
+                    
                     cells[ i ] = 1
                 }
             }
