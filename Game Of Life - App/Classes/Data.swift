@@ -43,4 +43,19 @@ extension Data
         self.append( UInt32( ( value >> 32 ) & 0xFFFFFFFF ) )
         self.append( UInt32( ( value       ) & 0xFFFFFFFF ) )
     }
+    
+    public func readUInt16( at: Int ) -> UInt16
+    {
+        return ( UInt16( self[ at ] ) << 8 ) | UInt16( self[ at + 1 ] )
+    }
+    
+    public func readUInt32( at: Int ) -> UInt32
+    {
+        return UInt32( self.readUInt16( at: at ) ) << 16 | UInt32( self.readUInt16( at: at + 2 ) )
+    }
+    
+    public func readUInt64( at: Int ) -> UInt64
+    {
+        return UInt64( self.readUInt32( at: at ) ) << 16 | UInt64( self.readUInt32( at: at + 4 ) )
+    }
 }

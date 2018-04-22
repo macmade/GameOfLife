@@ -238,6 +238,7 @@ class Grid: NSObject
         data.append( UInt64( 0 ) )
         data.append( UInt64( self.width ) )
         data.append( UInt64( self.height ) )
+        data.append( UInt64( Preferences.shared.cellSize ) )
         
         for cell in self.cells
         {
@@ -249,7 +250,7 @@ class Grid: NSObject
     
     public func load( data: Data ) -> Bool
     {
-        if( data.count < 28 )
+        if( data.count < 36 )
         {
             return false
         }
@@ -259,38 +260,17 @@ class Grid: NSObject
             return false
         }
         
-        var version: UInt64 = 0
-        var width:   UInt64 = 0
-        var height:  UInt64 = 0
+        let _       = data.readUInt64( at: 4 )
+        let width   = data.readUInt64( at: 12 )
+        let height  = data.readUInt64( at: 20 )
+        let size    = data.readUInt64( at: 28 )
         
-        version |= UInt64( data[  4 ] ) << 56
-        version |= UInt64( data[  5 ] ) << 48
-        version |= UInt64( data[  6 ] ) << 40
-        version |= UInt64( data[  7 ] ) << 32
-        version |= UInt64( data[  8 ] ) << 24
-        version |= UInt64( data[  9 ] ) << 16
-        version |= UInt64( data[ 10 ] ) << 8
-        version |= UInt64( data[ 11 ] ) << 0
+        if( width > 0 && height > 0 && data.count - 36 != width * height )
+        {
+            return false
+        }
         
-        width |= UInt64( data[ 12 ] ) << 56
-        width |= UInt64( data[ 13 ] ) << 48
-        width |= UInt64( data[ 14 ] ) << 40
-        width |= UInt64( data[ 15 ] ) << 32
-        width |= UInt64( data[ 16 ] ) << 24
-        width |= UInt64( data[ 17 ] ) << 16
-        width |= UInt64( data[ 18 ] ) << 8
-        width |= UInt64( data[ 19 ] ) << 0
-        
-        height |= UInt64( data[ 20 ] ) << 56
-        height |= UInt64( data[ 21 ] ) << 48
-        height |= UInt64( data[ 22 ] ) << 40
-        height |= UInt64( data[ 23 ] ) << 32
-        height |= UInt64( data[ 24 ] ) << 24
-        height |= UInt64( data[ 25 ] ) << 16
-        height |= UInt64( data[ 26 ] ) << 8
-        height |= UInt64( data[ 27 ] ) << 0
-        
-        if( width > 0 && height > 0 && data.count - 28 != width * height )
+        if( size > 10 )
         {
             return false
         }
@@ -299,10 +279,12 @@ class Grid: NSObject
         
         cells.reserveCapacity( Int( width * height ) )
         
-        for i in 28 ..< data.count
+        for i in 36 ..< data.count
         {
             cells.append( data[ i ] )
         }
+        
+        Preferences.shared.cellSize = CGFloat( size )
         
         self.cells  = cells
         self.width  = size_t( width )
