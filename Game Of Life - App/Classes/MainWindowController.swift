@@ -356,4 +356,14 @@ class MainWindowController: NSWindowController
         
         Preferences.shared.cellSize -= 1
     }
+    
+    @IBAction func performFindPanelAction( _ sender: Any? )
+    {
+        if( self.showLibrary == false )
+        {
+            self.toggleLibrary( sender )
+        }
+        
+        self.window?.makeFirstResponder( self.libraryViewController?.searchField )
+    }
 }

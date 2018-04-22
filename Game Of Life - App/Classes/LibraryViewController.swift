@@ -26,9 +26,10 @@ import Cocoa
 
 class LibraryViewController: NSViewController, NSOutlineViewDelegate, NSOutlineViewDataSource, NSSearchFieldDelegate
 {
-    @IBOutlet private         var treeController: NSTreeController?
-    @IBOutlet private         var outlineView:    NSOutlineView?
-    @objc     private dynamic var library:        [ LibraryItem ]?
+    @IBOutlet public private( set ) var searchField:    NSSearchField?
+    @IBOutlet private               var treeController: NSTreeController?
+    @IBOutlet private               var outlineView:    NSOutlineView?
+    @objc     private dynamic       var library:        [ LibraryItem ]?
     
     override var nibName: NSNib.Name?
     {

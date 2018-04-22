@@ -9,6 +9,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="LibraryViewController" customModule="GOL" customModuleProvider="target">
             <connections>
                 <outlet property="outlineView" destination="S86-4b-IY1" id="kUt-nq-gXE"/>
+                <outlet property="searchField" destination="dPg-HH-iKN" id="QIc-EU-KXt"/>
                 <outlet property="treeController" destination="pjV-lE-XxA" id="K0J-FH-DfO"/>
                 <outlet property="view" destination="ZMb-gg-wxK" id="cIf-lf-tQP"/>
             </connections>
