@@ -66,20 +66,7 @@ class ApplicationDelegate: NSObject, NSApplicationDelegate
     {
         self.showMainWindow()
         
-        guard let data = NSData( contentsOf: URL( fileURLWithPath: filename ) ) else
-        {
-            return false
-        }
-        
-        if( self.mainWindowController?.gridView?.grid.load( data: data as Data ) ?? false )
-        {
-            self.mainWindowController?.gridView?.setNeedsDisplay( self.mainWindowController!.gridView!.bounds )
-            self.mainWindowController?.gridView?.updateDimensions()
-            
-            return true
-        }
-        
-        return false
+        return self.mainWindowController?.open( url: URL( fileURLWithPath: filename ) ) ?? false
     }
     
     private func showMainWindow()

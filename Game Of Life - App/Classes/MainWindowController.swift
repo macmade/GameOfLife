@@ -164,7 +164,7 @@ class MainWindowController: NSWindowController
         
         let panel                  = NSOpenPanel()
         panel.canCreateDirectories = false
-        panel.allowedFileTypes     = [ "gol" ]
+        panel.allowedFileTypes     = [ "gol", "cells", "rle" ]
         panel.canChooseDirectories = false
         panel.canChooseFiles       = true
         
@@ -187,24 +187,66 @@ class MainWindowController: NSWindowController
                 return
             }
             
-            guard let data = NSData( contentsOf: url ) else
+            let _ = self.open( url: url )
+        }
+    }
+    
+    public func open( url: URL ) -> Bool
+    {
+        let ext     = ( url.path as NSString ).pathExtension
+        var success = false
+        
+        if( ext == "gol" )
+        {
+            let data = NSData( contentsOf: url )
+            
+            if( data != nil )
             {
-                return
+                success = self.gridView?.grid.load( data: data! as Data ) ?? false
+            }
+        }
+        else if( ext == "rle" )
+        {
+            let item = RLEReader().read( url: url )
+            
+            if( item != nil )
+            {
+                success = self.gridView?.grid.load( item: item! ) ?? false
+            }
+        }
+        else
+        {
+            let item = CellReader().read( url: url )
+            
+            if( item != nil )
+            {
+                success = self.gridView?.grid.load( item: item! ) ?? false
+            }
+        }
+        
+        if( success == false )
+        {
+            let alert             = NSAlert()
+            alert.messageText     = "Error"
+            alert.informativeText = "Unable to load save file - Incorrect data"
+            
+            guard let window = self.window else
+            {
+                alert.runModal()
+                
+                return false
             }
             
-            if( self.gridView?.grid.load( data: data as Data ) == false )
-            {
-                let alert             = NSAlert()
-                alert.messageText     = "Error"
-                alert.informativeText = "Unable to load save file - Incorrect data"
-                
-                alert.beginSheetModal( for: window, completionHandler: nil )
-            }
-            else
-            {
-                self.gridView?.setNeedsDisplay( self.gridView!.bounds )
-                self.gridView?.updateDimensions()
-            }
+            alert.beginSheetModal( for: window, completionHandler: nil )
+            
+            return false
+        }
+        else
+        {
+            self.gridView?.setNeedsDisplay( self.gridView!.bounds )
+            self.gridView?.updateDimensions()
+            
+            return true
         }
     }
     

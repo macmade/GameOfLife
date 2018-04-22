@@ -61,7 +61,7 @@ class CellReader
     {
         let file = url.path
         
-        if( ( file as NSString ).pathExtension != "cells" && ( file as NSString ).pathExtension != "txt" )
+        if( ( file as NSString ).pathExtension != "cells" )
         {
             return nil
         }

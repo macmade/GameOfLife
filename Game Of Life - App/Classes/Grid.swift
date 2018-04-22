@@ -310,5 +310,10 @@ class Grid: NSObject
         
         return true
     }
+    
+    public func load( item: LibraryItem ) -> Bool
+    {
+        return true
+    }
 }
 
