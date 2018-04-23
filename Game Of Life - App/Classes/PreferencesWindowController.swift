@@ -28,10 +28,11 @@ import Cocoa
 {
     @IBOutlet private var colorsController: NSArrayController?
     
-    @objc public dynamic var colors:    Bool    = Preferences.shared.colors
-    @objc public dynamic var squares:   Bool    = Preferences.shared.drawAsSquares
-    @objc public dynamic var speed:     UInt    = Preferences.shared.speed
-    @objc public dynamic var cellSize:  CGFloat = Preferences.shared.cellSize
+    @objc public dynamic var colors:       Bool    = Preferences.shared.colors
+    @objc public dynamic var squares:      Bool    = Preferences.shared.drawAsSquares
+    @objc public dynamic var preserveGrid: Bool    = Preferences.shared.preserveGridSize
+    @objc public dynamic var speed:        UInt    = Preferences.shared.speed
+    @objc public dynamic var cellSize:     CGFloat = Preferences.shared.cellSize
     
     private var observations: [ NSKeyValueObservation ] = []
     
@@ -66,7 +67,12 @@ import Cocoa
             ( o, c ) in Preferences.shared.drawAsSquares = self.squares
         }
         
-        self.observations.append( contentsOf: [ o1, o2, o3, o4 ] )
+        let o5 = self.observe( \PreferencesWindowController.preserveGrid )
+        {
+            ( o, c ) in Preferences.shared.preserveGridSize = self.preserveGrid
+        }
+        
+        self.observations.append( contentsOf: [ o1, o2, o3, o4, o5 ] )
         
         self.colorsController?.addObject( PreferencesColorItem( color: Preferences.shared.color1(), label: "Color 1" ) { c in Preferences.shared.color1( value: c ) } )
         self.colorsController?.addObject( PreferencesColorItem( color: Preferences.shared.color2(), label: "Color 2" ) { c in Preferences.shared.color2( value: c ) } )

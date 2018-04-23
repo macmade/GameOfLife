@@ -119,10 +119,16 @@ class GridView: NSView
     {
         self.cellSize = Preferences.shared.cellSize
         
-        let width  = size_t( self.frame.size.width  / Preferences.shared.cellSize )
-        let height = size_t( self.frame.size.height / Preferences.shared.cellSize )
+        var width  = size_t( self.frame.size.width  / Preferences.shared.cellSize )
+        var height = size_t( self.frame.size.height / Preferences.shared.cellSize )
         
-        self.grid.resize( width: ( width > self.grid.width ) ? width : self.grid.width, height: ( height > self.grid.height ) ? height : self.grid.height )
+        if( Preferences.shared.preserveGridSize )
+        {
+            width  = ( width  > self.grid.width  ) ? width  : self.grid.width
+            height = ( height > self.grid.height ) ? height : self.grid.height
+        }
+        
+        self.grid.resize( width: width, height: height )
         
         if( width >= self.grid.width && height >= self.grid.height )
         {
