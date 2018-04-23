@@ -254,11 +254,6 @@ class MainWindowController: NSWindowController
     
     @IBAction func saveDocument( _ sender: Any? )
     {
-        self.saveDocumentAs( sender )
-    }
-    
-    @IBAction func saveDocumentAs( _ sender: Any? )
-    {
         self.pause( sender )
         
         let panel                  = NSSavePanel()
@@ -271,6 +266,54 @@ class MainWindowController: NSWindowController
         }
         
         guard let data = self.gridView?.grid.data() else
+        {
+            return
+        }
+        
+        panel.beginSheetModal( for: window )
+        {
+            res in
+            
+            if( res != .OK )
+            {
+                return
+            }
+            
+            guard let url = panel.url else
+            {
+                return
+            }
+            
+            do
+            {
+                try data.write( to: url, options: .atomic )
+            }
+            catch let error as NSError
+            {
+                NSAlert( error: error ).beginSheetModal( for: window, completionHandler: nil )
+            }
+        }
+    }
+    
+    @IBAction func saveDocumentAs( _ sender: Any? )
+    {
+        self.pause( sender )
+        
+        let panel                  = NSSavePanel()
+        panel.canCreateDirectories = true
+        panel.allowedFileTypes     = [ "rle" ]
+        
+        guard let window = self.window else
+        {
+            return
+        }
+        
+        guard let grid = self.gridView?.grid else
+        {
+            return
+        }
+        
+        guard let data = RLEWriter().data( for: grid, name: "Game Of Life Save File", comments: nil ) else
         {
             return
         }

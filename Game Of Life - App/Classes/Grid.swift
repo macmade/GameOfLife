@@ -309,8 +309,6 @@ class Grid: NSObject
                 return false
             }
             
-            //501 252 = 1310 (126252)
-            
             if( decompressed.count != width * height )
             {
                 return false
