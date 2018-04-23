@@ -11,7 +11,7 @@
 	<key>drawAsSquares</key>
 	<false/>
 	<key>preserveGridSize</key>
-	<true/>
+	<false/>
 	<key>color1RGB</key>
 	<integer>11763017</integer>
 	<key>color2RGB</key>
