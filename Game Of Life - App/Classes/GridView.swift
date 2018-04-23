@@ -119,7 +119,16 @@ class GridView: NSView
     {
         self.cellSize = Preferences.shared.cellSize
         
-        self.grid.resize( width: size_t( self.frame.size.width / Preferences.shared.cellSize ), height: size_t( self.frame.size.height / Preferences.shared.cellSize ) )
+        let width  = size_t( self.frame.size.width  / Preferences.shared.cellSize )
+        let height = size_t( self.frame.size.height / Preferences.shared.cellSize )
+        
+        self.grid.resize( width: ( width > self.grid.width ) ? width : self.grid.width, height: ( height > self.grid.height ) ? height : self.grid.height )
+        
+        if( width >= self.grid.width && height >= self.grid.height )
+        {
+            self.setBoundsOrigin( NSMakePoint( 0, 0 ) )
+            self.setBoundsSize( NSMakeSize( 0, 0 ) )
+        }
         
         self.setNeedsDisplay( self.bounds )
         self.updateDimensions()
@@ -441,24 +450,27 @@ class GridView: NSView
                 self.setBoundsSize( NSMakeSize( 0, 0 ) )
             }
         }
-        else if( self.scale > 0 )
+        else
         {
-            if( event.deltaY > 0 )
+            if( self.scale > 0 )
             {
-                self.translateOrigin( to: NSMakePoint( 0, 10 ) )
-            }
-            else if ( event.deltaY < 0 )
-            {
-                self.translateOrigin( to: NSMakePoint( 0, -10 ) )
-            }
-            
-            if( event.deltaX > 0 )
-            {
-                self.translateOrigin( to: NSMakePoint( 10, 0 ) )
-            }
-            else if ( event.deltaX < 0 )
-            {
-                self.translateOrigin( to: NSMakePoint( -10, 0 ) )
+                if( event.deltaY > 0 )
+                {
+                    self.translateOrigin( to: NSMakePoint( 0, 10 ) )
+                }
+                else if ( event.deltaY < 0 )
+                {
+                    self.translateOrigin( to: NSMakePoint( 0, -10 ) )
+                }
+                
+                if( event.deltaX > 0 )
+                {
+                    self.translateOrigin( to: NSMakePoint( 10, 0 ) )
+                }
+                else if ( event.deltaX < 0 )
+                {
+                    self.translateOrigin( to: NSMakePoint( -10, 0 ) )
+                }
             }
         }
     }
