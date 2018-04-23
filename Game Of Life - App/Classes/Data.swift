@@ -23,6 +23,7 @@
  ******************************************************************************/
 
 import Foundation
+import Compression
 
 extension Data
 {
@@ -57,5 +58,63 @@ extension Data
     public func readUInt64( at: Int ) -> UInt64
     {
         return UInt64( self.readUInt32( at: at ) ) << 16 | UInt64( self.readUInt32( at: at + 4 ) )
+    }
+    
+    public func compress( with algorithm: compression_algorithm ) -> Data?
+    {
+        if( self.count == 0 )
+        {
+            return nil
+        }
+        
+        let buf    = UnsafeMutablePointer< UInt8 >.allocate( capacity: self.count )
+        var length = 0
+        
+        self.withUnsafeBytes
+        {
+            ( bytes: UnsafePointer< UInt8 > ) -> Swift.Void in
+            
+            length = compression_encode_buffer( buf, self.count, bytes, self.count, nil, algorithm )
+        }
+        
+        if( length == 0 )
+        {
+            return nil
+        }
+        
+        let data = Data( bytes: buf, count: length )
+        
+        buf.deallocate( capacity: length )
+        
+        return data
+    }
+    
+    public func decompress( with algorithm: compression_algorithm, bufferSize: Int ) -> Data?
+    {
+        if( self.count == 0 )
+        {
+            return nil
+        }
+        
+        let buf    = UnsafeMutablePointer< UInt8 >.allocate( capacity: bufferSize )
+        var length = 0
+        
+        self.withUnsafeBytes
+        {
+            ( bytes: UnsafePointer< UInt8 > ) -> Swift.Void in
+            
+            length = compression_decode_buffer( buf, bufferSize, bytes, self.count, nil, algorithm )
+        }
+        
+        if( length == 0 )
+        {
+            return nil
+        }
+        
+        let data = Data( bytes: buf, count: length )
+        
+        buf.deallocate( capacity: length )
+        
+        return data
     }
 }

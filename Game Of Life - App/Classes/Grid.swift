@@ -23,6 +23,7 @@
  ******************************************************************************/
 
 import Foundation
+import Compression
 
 class Grid: NSObject
 {
@@ -194,7 +195,7 @@ class Grid: NSObject
     
     public func cellAt( x: size_t, y: size_t ) -> Cell?
     {
-        if( x < self.width && y < self.height )
+        if( x < self.width && y < self.height && x >= 0 && y >= 0 )
         {
             return self.cells[ x + ( y * self.width ) ];
         }
@@ -204,7 +205,7 @@ class Grid: NSObject
     
     public func isAliveAt( x: size_t, y: size_t ) -> Bool
     {
-        if( x < self.width && y < self.height )
+        if( x < self.width && y < self.height && x >= 0 && y >= 0 )
         {
             return self.cells[ x + ( y * self.width ) ] & 1 == 1
         }
@@ -214,7 +215,7 @@ class Grid: NSObject
     
     public func setAliveAt( x: size_t, y: size_t, value: Bool )
     {
-        if( x < self.width && y < self.height )
+        if( x < self.width && y < self.height && x >= 0 && y >= 0 )
         {
             self.cells[ x + ( y * self.width ) ] = ( value ) ? 1 : 0
         }
@@ -252,17 +253,30 @@ class Grid: NSObject
         data.append( UInt64( self.height ) )
         data.append( UInt64( Preferences.shared.cellSize ) )
         
+        var cells = Data()
+        
         for cell in self.cells
         {
-            data.append( cell )
+            cells.append( cell )
         }
+        
+        guard let compressed = cells.compress( with: COMPRESSION_LZFSE ) else
+        {
+            data.append( UInt64( 0 ) )
+            data.append( cells )
+            
+            return data
+        }
+        
+        data.append( UInt64( 1 ) )
+        data.append( compressed )
         
         return data
     }
     
     public func load( data: Data ) -> Bool
     {
-        if( data.count < 36 )
+        if( data.count < 44 )
         {
             return false
         }
@@ -276,11 +290,7 @@ class Grid: NSObject
         let width   = data.readUInt64( at: 12 )
         let height  = data.readUInt64( at: 20 )
         let size    = data.readUInt64( at: 28 )
-        
-        if( width > 0 && height > 0 && data.count - 36 != width * height )
-        {
-            return false
-        }
+        let lzfse   = data.readUInt64( at: 36 )
         
         if( size > 10 )
         {
@@ -292,11 +302,40 @@ class Grid: NSObject
         
         cells.reserveCapacity( Int( width * height ) )
         
-        for i in 36 ..< data.count
+        if( lzfse == 1 )
         {
-            n += ( data[ i ] & 1 == 1 ) ? 1 : 0
+            guard let decompressed = data.advanced( by: 44 ).decompress( with: COMPRESSION_LZFSE, bufferSize: Int( width * height ) ) else
+            {
+                return false
+            }
             
-            cells.append( data[ i ] )
+            //501 252 = 1310 (126252)
+            
+            if( decompressed.count != width * height )
+            {
+                return false
+            }
+            
+            for i in 0 ..< decompressed.count
+            {
+                n += ( decompressed[ i ] & 1 == 1 ) ? 1 : 0
+                
+                cells.append( decompressed[ i ] )
+            }
+        }
+        else
+        {
+            if( data.count - 44 != width * height )
+            {
+                return false
+            }
+            
+            for i in 44 ..< data.count
+            {
+                n += ( data[ i ] & 1 == 1 ) ? 1 : 0
+                
+                cells.append( data[ i ] )
+            }
         }
         
         Preferences.shared.cellSize = CGFloat( size )
