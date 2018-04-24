@@ -33,6 +33,7 @@ import Cocoa
     @objc public dynamic var preserveGridSize: Bool    = true
     @objc public dynamic var speed:            UInt    = 10
     @objc public dynamic var cellSize:         UInt    = 10
+    @objc public dynamic var drawInterval:     UInt    = 1
     
     @objc private dynamic var color1RGB: UInt = 0xFFFFFF
     @objc private dynamic var color2RGB: UInt = 0xFFFFFF

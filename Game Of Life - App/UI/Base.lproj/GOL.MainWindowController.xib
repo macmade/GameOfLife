@@ -215,10 +215,10 @@
                                 </connections>
                             </button>
                             <customView appearanceType="aqua" translatesAutoresizingMaskIntoConstraints="NO" id="17W-dc-adO" userLabel="Stats" customClass="ColorView" customModule="GOL" customModuleProvider="target">
-                                <rect key="frame" x="10" y="10" width="120" height="117"/>
+                                <rect key="frame" x="10" y="10" width="120" height="111"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="252" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="p0W-Sb-y9a">
-                                        <rect key="frame" x="8" y="96" width="54" height="11"/>
+                                        <rect key="frame" x="8" y="90" width="54" height="11"/>
                                         <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Population:" id="6eO-P4-bsY">
                                             <font key="font" metaFont="miniSystem"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
@@ -226,7 +226,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zur-Gs-mcQ">
-                                        <rect key="frame" x="66" y="96" width="46" height="11"/>
+                                        <rect key="frame" x="66" y="90" width="46" height="11"/>
                                         <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="wuE-3j-skN">
                                             <numberFormatter key="formatter" formatterBehavior="default10_4" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="42" id="CCr-Xn-fkB"/>
                                             <font key="font" metaFont="miniSystem"/>
@@ -237,8 +237,28 @@
                                             <binding destination="-2" name="value" keyPath="gridView.grid.population" id="lxC-Bk-Q41"/>
                                         </connections>
                                     </textField>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="l6S-zy-zqA">
+                                        <rect key="frame" x="8" y="74" width="56" height="11"/>
+                                        <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Generation:" id="EhJ-JD-sE7">
+                                            <font key="font" metaFont="miniSystem"/>
+                                            <color key="textColor" red="1" green="1" blue="1" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tpQ-IE-Rus">
+                                        <rect key="frame" x="84" y="74" width="28" height="11"/>
+                                        <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="3aP-MN-L3W">
+                                            <numberFormatter key="formatter" formatterBehavior="default10_4" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="42" id="6nN-14-z7R"/>
+                                            <font key="font" metaFont="miniSystem"/>
+                                            <color key="textColor" red="1" green="1" blue="1" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <connections>
+                                            <binding destination="-2" name="value" keyPath="gridView.grid.turns" id="lZC-Sy-gmy"/>
+                                        </connections>
+                                    </textField>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yg4-mT-3kL">
-                                        <rect key="frame" x="8" y="80" width="26" height="11"/>
+                                        <rect key="frame" x="8" y="58" width="26" height="11"/>
                                         <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Grid:" id="bag-KJ-Tmg">
                                             <font key="font" metaFont="miniSystem"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
@@ -246,7 +266,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VSR-mY-ERd">
-                                        <rect key="frame" x="84" y="80" width="28" height="11"/>
+                                        <rect key="frame" x="84" y="58" width="28" height="11"/>
                                         <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="HVi-49-N28">
                                             <font key="font" metaFont="miniSystem"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
@@ -257,7 +277,7 @@
                                         </connections>
                                     </textField>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1SC-Wf-WVw">
-                                        <rect key="frame" x="8" y="61" width="45" height="11"/>
+                                        <rect key="frame" x="8" y="42" width="45" height="11"/>
                                         <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Cell Size:" id="piK-lK-jQM">
                                             <font key="font" metaFont="miniSystem"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
@@ -265,7 +285,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uK7-Fy-bSb">
-                                        <rect key="frame" x="84" y="61" width="28" height="11"/>
+                                        <rect key="frame" x="84" y="42" width="28" height="11"/>
                                         <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="dK1-Qm-jki">
                                             <font key="font" metaFont="miniSystem"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
@@ -273,26 +293,6 @@
                                         </textFieldCell>
                                         <connections>
                                             <binding destination="-2" name="value" keyPath="self.gridView.cellSize" id="Cea-Ma-Jp7"/>
-                                        </connections>
-                                    </textField>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="l6S-zy-zqA">
-                                        <rect key="frame" x="8" y="42" width="32" height="11"/>
-                                        <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Turns:" id="EhJ-JD-sE7">
-                                            <font key="font" metaFont="miniSystem"/>
-                                            <color key="textColor" red="1" green="1" blue="1" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
-                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                    </textField>
-                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tpQ-IE-Rus">
-                                        <rect key="frame" x="84" y="42" width="28" height="11"/>
-                                        <textFieldCell key="cell" controlSize="mini" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Label" id="3aP-MN-L3W">
-                                            <numberFormatter key="formatter" formatterBehavior="default10_4" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="42" id="6nN-14-z7R"/>
-                                            <font key="font" metaFont="miniSystem"/>
-                                            <color key="textColor" red="1" green="1" blue="1" alpha="0.84999999999999998" colorSpace="calibratedRGB"/>
-                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                        <connections>
-                                            <binding destination="-2" name="value" keyPath="gridView.grid.turns" id="lZC-Sy-gmy"/>
                                         </connections>
                                     </textField>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="atG-Xo-C3s">
@@ -338,6 +338,8 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="uK7-Fy-bSb" firstAttribute="trailing" secondItem="VSR-mY-ERd" secondAttribute="trailing" id="1IK-n2-sYN"/>
+                                    <constraint firstItem="l6S-zy-zqA" firstAttribute="top" secondItem="p0W-Sb-y9a" secondAttribute="bottom" constant="5" id="1pw-yx-fn5"/>
+                                    <constraint firstItem="yg4-mT-3kL" firstAttribute="top" secondItem="l6S-zy-zqA" secondAttribute="bottom" constant="5" id="4Gw-Jr-HfX"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="yg4-mT-3kL" secondAttribute="trailing" constant="20" symbolic="YES" id="5uC-1W-kT1"/>
                                     <constraint firstItem="JLM-3r-WHf" firstAttribute="centerY" secondItem="atG-Xo-C3s" secondAttribute="centerY" id="6rd-ro-TsL"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="p0W-Sb-y9a" secondAttribute="trailing" constant="20" symbolic="YES" id="6xS-tg-NtU"/>
@@ -347,24 +349,21 @@
                                     <constraint firstItem="zur-Gs-mcQ" firstAttribute="leading" secondItem="p0W-Sb-y9a" secondAttribute="trailing" constant="8" id="EYq-R3-xoV"/>
                                     <constraint firstAttribute="trailing" secondItem="zur-Gs-mcQ" secondAttribute="trailing" constant="10" id="Fvg-CN-CMX"/>
                                     <constraint firstItem="tpQ-IE-Rus" firstAttribute="trailing" secondItem="uK7-Fy-bSb" secondAttribute="trailing" id="HTC-qA-WAG"/>
-                                    <constraint firstItem="yg4-mT-3kL" firstAttribute="top" secondItem="p0W-Sb-y9a" secondAttribute="bottom" constant="5" id="L5i-Jx-Odg"/>
                                     <constraint firstItem="uK7-Fy-bSb" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1SC-Wf-WVw" secondAttribute="trailing" constant="8" id="LIM-pW-qUd"/>
                                     <constraint firstItem="p0W-Sb-y9a" firstAttribute="leading" secondItem="17W-dc-adO" secondAttribute="leading" constant="10" id="LTH-3Z-g6t"/>
                                     <constraint firstItem="uK7-Fy-bSb" firstAttribute="centerY" secondItem="1SC-Wf-WVw" secondAttribute="centerY" id="Lcd-Sk-SMh"/>
-                                    <constraint firstItem="1SC-Wf-WVw" firstAttribute="top" secondItem="yg4-mT-3kL" secondAttribute="bottom" constant="8" id="Nze-l4-Lgj"/>
+                                    <constraint firstItem="1SC-Wf-WVw" firstAttribute="top" secondItem="yg4-mT-3kL" secondAttribute="bottom" constant="5" id="Nze-l4-Lgj"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="l6S-zy-zqA" secondAttribute="trailing" constant="20" symbolic="YES" id="QVv-Pk-gG8"/>
                                     <constraint firstItem="zur-Gs-mcQ" firstAttribute="centerY" secondItem="p0W-Sb-y9a" secondAttribute="centerY" id="SZ8-9K-YfC"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="120" id="SjZ-3b-Uhs"/>
                                     <constraint firstItem="l6S-zy-zqA" firstAttribute="leading" secondItem="yg4-mT-3kL" secondAttribute="leading" id="Tc7-lJ-bjT"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="atG-Xo-C3s" secondAttribute="trailing" constant="20" symbolic="YES" id="UDY-7y-GKV"/>
                                     <constraint firstItem="M6E-a8-Fdt" firstAttribute="leading" secondItem="atG-Xo-C3s" secondAttribute="leading" id="Vlx-lJ-FKj"/>
-                                    <constraint firstItem="atG-Xo-C3s" firstAttribute="top" secondItem="l6S-zy-zqA" secondAttribute="bottom" constant="5" id="Wsa-yW-eU3"/>
                                     <constraint firstItem="tpQ-IE-Rus" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="l6S-zy-zqA" secondAttribute="trailing" constant="8" id="XtI-1J-Bok"/>
                                     <constraint firstItem="JLM-3r-WHf" firstAttribute="trailing" secondItem="tpQ-IE-Rus" secondAttribute="trailing" id="YM2-D8-n76"/>
                                     <constraint firstItem="tpQ-IE-Rus" firstAttribute="centerY" secondItem="l6S-zy-zqA" secondAttribute="centerY" id="Z5B-XY-jqx"/>
                                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="M6E-a8-Fdt" secondAttribute="trailing" constant="20" symbolic="YES" id="Z8w-S9-O2j"/>
                                     <constraint firstItem="26g-Qu-mQD" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="M6E-a8-Fdt" secondAttribute="trailing" constant="8" id="ZaV-hx-IAa"/>
-                                    <constraint firstItem="l6S-zy-zqA" firstAttribute="top" secondItem="1SC-Wf-WVw" secondAttribute="bottom" constant="8" id="b8o-WB-xLB"/>
                                     <constraint firstItem="tpQ-IE-Rus" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="17W-dc-adO" secondAttribute="leading" constant="20" symbolic="YES" id="dsl-fM-6zS"/>
                                     <constraint firstItem="26g-Qu-mQD" firstAttribute="trailing" secondItem="JLM-3r-WHf" secondAttribute="trailing" id="eKv-va-ec0"/>
                                     <constraint firstItem="VSR-mY-ERd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="yg4-mT-3kL" secondAttribute="trailing" constant="8" id="fEI-mJ-WHt"/>
@@ -379,6 +378,7 @@
                                     <constraint firstItem="yg4-mT-3kL" firstAttribute="leading" secondItem="p0W-Sb-y9a" secondAttribute="leading" id="swK-DX-DUo"/>
                                     <constraint firstItem="M6E-a8-Fdt" firstAttribute="top" secondItem="atG-Xo-C3s" secondAttribute="bottom" constant="5" id="tLg-GY-fWT"/>
                                     <constraint firstItem="VSR-mY-ERd" firstAttribute="trailing" secondItem="zur-Gs-mcQ" secondAttribute="trailing" id="vYc-EL-vQU"/>
+                                    <constraint firstItem="atG-Xo-C3s" firstAttribute="top" secondItem="1SC-Wf-WVw" secondAttribute="bottom" constant="5" id="zYS-87-q5h"/>
                                     <constraint firstItem="JLM-3r-WHf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="17W-dc-adO" secondAttribute="leading" constant="20" symbolic="YES" id="zhs-QY-mV8"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>

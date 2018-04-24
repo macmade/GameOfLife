@@ -8,6 +8,8 @@
 	<integer>5</integer>
 	<key>cellSize</key>
 	<integer>5</integer>
+	<key>drawInterval</key>
+	<integer>1</integer>
 	<key>colors</key>
 	<true/>
 	<key>drawAsSquares</key>

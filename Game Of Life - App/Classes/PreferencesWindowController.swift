@@ -34,6 +34,7 @@ import Cocoa
     @objc public dynamic var preserveGrid: Bool    = Preferences.shared.preserveGridSize
     @objc public dynamic var speed:        UInt    = Preferences.shared.speed
     @objc public dynamic var cellSize:     UInt    = Preferences.shared.cellSize
+    @objc public dynamic var drawInterval: UInt    = Preferences.shared.drawInterval
     @objc public dynamic var selectedRule: Rule    = Preferences.shared.activeRule()
     
     private var observations: [ NSKeyValueObservation ] = []
@@ -83,7 +84,12 @@ import Cocoa
             ( o, c ) in Preferences.shared.rule = self.selectedRule.name
         }
         
-        self.observations.append( contentsOf: [ o1, o2, o3, o4, o5, o6 ] )
+        let o7 = self.observe( \PreferencesWindowController.drawInterval )
+        {
+            ( o, c ) in Preferences.shared.drawInterval = self.drawInterval
+        }
+        
+        self.observations.append( contentsOf: [ o1, o2, o3, o4, o5, o6, o7 ] )
         
         self.colorsController?.addObject( PreferencesColorItem( color: Preferences.shared.color1(), label: "Color 1" ) { c in Preferences.shared.color1( value: c ) } )
         self.colorsController?.addObject( PreferencesColorItem( color: Preferences.shared.color2(), label: "Color 2" ) { c in Preferences.shared.color2( value: c ) } )
