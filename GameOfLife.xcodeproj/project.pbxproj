@@ -50,6 +50,8 @@
 		05949A6F20853A2F00DC9C39 /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05949A6E20853A2F00DC9C39 /* LibraryViewController.swift */; };
 		05949A7520853A6F00DC9C39 /* GOL.LibraryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05949A7320853A6F00DC9C39 /* GOL.LibraryViewController.xib */; };
 		05949A7720853ED300DC9C39 /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05949A7620853ED300DC9C39 /* ColorView.swift */; };
+		05D6AFD5208F9CCA00F484D1 /* CustomRuleWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D6AFD4208F9CCA00F484D1 /* CustomRuleWindowController.swift */; };
+		05D6AFD8208F9D0700F484D1 /* GOL.CustomRuleWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05D6AFD6208F9D0700F484D1 /* GOL.CustomRuleWindowController.xib */; };
 		05F05FE520899B8300337CB6 /* LibraryWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05F05FE420899B8300337CB6 /* LibraryWindowController.swift */; };
 		05F05FE820899BBF00337CB6 /* GOL.LibraryWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05F05FE620899BBF00337CB6 /* GOL.LibraryWindowController.xib */; };
 		05F05FEB2089AB1000337CB6 /* RulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05F05FEA2089AB1000337CB6 /* RulerView.swift */; };
@@ -163,6 +165,8 @@
 		05949A6E20853A2F00DC9C39 /* LibraryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
 		05949A7420853A6F00DC9C39 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GOL.LibraryViewController.xib; sourceTree = "<group>"; };
 		05949A7620853ED300DC9C39 /* ColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorView.swift; sourceTree = "<group>"; };
+		05D6AFD4208F9CCA00F484D1 /* CustomRuleWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRuleWindowController.swift; sourceTree = "<group>"; };
+		05D6AFD7208F9D0700F484D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GOL.CustomRuleWindowController.xib; sourceTree = "<group>"; };
 		05F05FE420899B8300337CB6 /* LibraryWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryWindowController.swift; sourceTree = "<group>"; };
 		05F05FE720899BBF00337CB6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GOL.LibraryWindowController.xib; sourceTree = "<group>"; };
 		05F05FEA2089AB1000337CB6 /* RulerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulerView.swift; sourceTree = "<group>"; };
@@ -209,6 +213,7 @@
 				05F05FE620899BBF00337CB6 /* GOL.LibraryWindowController.xib */,
 				0535715920697963002178E3 /* GOL.MainWindowController.xib */,
 				052B0737206D885800935104 /* GOL.PreferencesWindowController.xib */,
+				05D6AFD6208F9D0700F484D1 /* GOL.CustomRuleWindowController.xib */,
 				0535DAE52071237300184579 /* Images */,
 				0529D8BF2068EA020072B1A5 /* MainMenu.xib */,
 			);
@@ -244,6 +249,7 @@
 				052B0727206D81DC00935104 /* Preferences.swift */,
 				051DB8B32072824500963D88 /* PreferencesColorItem.swift */,
 				052B073A206D886700935104 /* PreferencesWindowController.swift */,
+				05D6AFD4208F9CCA00F484D1 /* CustomRuleWindowController.swift */,
 				05F05FEA2089AB1000337CB6 /* RulerView.swift */,
 				05320E80208F0EA20084A59E /* Rule.swift */,
 			);
@@ -524,6 +530,7 @@
 				05949A7520853A6F00DC9C39 /* GOL.LibraryViewController.xib in Resources */,
 				052B0726206D816F00935104 /* GOL.AboutWindowController.xib in Resources */,
 				052B0739206D885800935104 /* GOL.PreferencesWindowController.xib in Resources */,
+				05D6AFD8208F9D0700F484D1 /* GOL.CustomRuleWindowController.xib in Resources */,
 				05F05FE820899BBF00337CB6 /* GOL.LibraryWindowController.xib in Resources */,
 				052B0734206D829800935104 /* Defaults.plist in Resources */,
 				0535DAE72071238A00184579 /* GOL.icns in Resources */,
@@ -570,6 +577,7 @@
 				05949A6F20853A2F00DC9C39 /* LibraryViewController.swift in Sources */,
 				05320E81208F0EA20084A59E /* Rule.swift in Sources */,
 				05356FDB20692A3B002178E3 /* ContiguousArray.swift in Sources */,
+				05D6AFD5208F9CCA00F484D1 /* CustomRuleWindowController.swift in Sources */,
 				0535716020698C81002178E3 /* NSColor.swift in Sources */,
 				05303119208B93D6009C9FFE /* CellReader.swift in Sources */,
 				0532BC1F206EB60800807903 /* Data.swift in Sources */,
@@ -639,6 +647,14 @@
 				05949A7420853A6F00DC9C39 /* Base */,
 			);
 			name = GOL.LibraryViewController.xib;
+			sourceTree = "<group>";
+		};
+		05D6AFD6208F9D0700F484D1 /* GOL.CustomRuleWindowController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				05D6AFD7208F9D0700F484D1 /* Base */,
+			);
+			name = GOL.CustomRuleWindowController.xib;
 			sourceTree = "<group>";
 		};
 		05F05FE620899BBF00337CB6 /* GOL.LibraryWindowController.xib */ = {

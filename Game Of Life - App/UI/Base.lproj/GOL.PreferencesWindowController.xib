@@ -64,6 +64,9 @@
                                                         <menuItem title="Item 2" id="0ch-cQ-dUc"/>
                                                         <menuItem title="Item 3" id="ksW-GL-Ngb"/>
                                                     </items>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="-2" id="4fC-3c-9MW"/>
+                                                    </connections>
                                                 </menu>
                                             </popUpButtonCell>
                                             <connections>

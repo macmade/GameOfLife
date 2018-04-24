@@ -24,10 +24,12 @@
 
 import Cocoa
 
-@objc class PreferencesWindowController: NSWindowController, NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource
+@objc class PreferencesWindowController: NSWindowController, NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource, NSMenuDelegate
 {
     @IBOutlet private var colorsController: NSArrayController?
     @IBOutlet private var rulesController:  NSArrayController?
+    
+    private var customRuleController: CustomRuleWindowController?
     
     @objc public dynamic var colors:       Bool    = Preferences.shared.colors
     @objc public dynamic var squares:      Bool    = Preferences.shared.drawAsSquares
@@ -35,11 +37,11 @@ import Cocoa
     @objc public dynamic var speed:        UInt    = Preferences.shared.speed
     @objc public dynamic var cellSize:     UInt    = Preferences.shared.cellSize
     @objc public dynamic var drawInterval: UInt    = Preferences.shared.drawInterval
-    @objc public dynamic var selectedRule: Rule    = Preferences.shared.activeRule()
+    @objc public dynamic var selectedRule: Any     = Preferences.shared.activeRule()
     
     private var observations: [ NSKeyValueObservation ] = []
     
-    @objc private dynamic var rules: [ Rule ] = []
+    @objc private dynamic var rules: [ Any ] = []
     
     override var windowNibName: NSNib.Name?
     {
@@ -52,7 +54,17 @@ import Cocoa
         
         self.window?.delegate = self
         
-        self.rules = Rule.availableRules()
+        var rules = [ Any ]()
+        
+        rules.append( "Custom..." )
+        rules.append( "--" )
+        
+        for rule in Rule.availableRules()
+        {
+            rules.append( rule )
+        }
+        
+        self.rules = rules
         
         let o1 = self.observe( \PreferencesWindowController.colors )
         {
@@ -81,7 +93,54 @@ import Cocoa
         
         let o6 = self.observe( \PreferencesWindowController.selectedRule )
         {
-            ( o, c ) in Preferences.shared.rule = self.selectedRule.name
+            ( o, c ) in
+            
+            guard let rule = self.selectedRule as? Rule else
+            {
+                guard let s = self.selectedRule as? String else
+                {
+                    return
+                }
+                
+                if( s == "Custom..." )
+                {
+                    let controller = CustomRuleWindowController()
+                    
+                    guard let window = controller.window else
+                    {
+                        self.selectedRule = Preferences.shared.activeRule()
+                        
+                        return
+                    }
+                    
+                    self.window?.beginSheet( window )
+                    {
+                        ( r ) in
+                        
+                        if( r != .OK || self.customRuleController?.valid == false )
+                        {
+                            self.selectedRule = Preferences.shared.activeRule()
+                            
+                            return
+                        }
+                        
+                        guard let name = self.customRuleController?.name else
+                        {
+                            self.selectedRule = Preferences.shared.activeRule()
+                            
+                            return
+                        }
+                        
+                        Preferences.shared.rule = name
+                    }
+                    
+                    self.customRuleController = controller
+                }
+                
+                return
+            }
+            
+            Preferences.shared.rule = rule.name
         }
         
         let o7 = self.observe( \PreferencesWindowController.drawInterval )
@@ -105,5 +164,17 @@ import Cocoa
         self.squares  = Preferences.shared.drawAsSquares
         self.speed    = Preferences.shared.speed
         self.cellSize = Preferences.shared.cellSize
+    }
+    
+    func menuNeedsUpdate( _ menu: NSMenu )
+    {
+        for( i, item ) in menu.items.enumerated()
+        {
+            if( item.title == "--" )
+            {
+                menu.removeItem( at: i )
+                menu.insertItem( NSMenuItem.separator(), at: i )
+            }
+        }
     }
 }
