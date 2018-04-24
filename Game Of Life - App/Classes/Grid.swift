@@ -38,6 +38,10 @@ class Grid: NSObject
     public private( set ) var height: size_t
     public private( set ) var cells:  ContiguousArray< Cell >
     
+    private var observations: [ NSKeyValueObservation ] = []
+    
+    private var rule = Preferences.shared.activeRule()
+    
     enum Kind
     {
         case Blank
@@ -59,6 +63,13 @@ class Grid: NSObject
             case .Blank:  self.setupBlankGrid()
             case .Random: self.setupRandomGrid()
         }
+        
+        let o1 = Preferences.shared.observe( \.rule )
+        {
+            ( o, c ) in self.rule = Preferences.shared.activeRule()
+        }
+        
+        self.observations.append( contentsOf: [ o1 ] )
     }
     
     public func resize( width: size_t, height: size_t )
@@ -107,6 +118,8 @@ class Grid: NSObject
         
         let width  = self.width
         let height = self.height
+        let bs     = self.rule.bornSet
+        let ss     = self.rule.surviveSet
         
         var n: UInt64 = 0
         
@@ -159,18 +172,11 @@ class Grid: NSObject
                     }
                 }
                 
-                if( alive )
+                if( alive && ss.contains( Int( count ) ) == false )
                 {
-                    if( count < 2 )
-                    {
-                        new = 0
-                    }
-                    else if( alive && count > 3 )
-                    {
-                        new = 0
-                    }
+                    new = 0
                 }
-                else if( count == 3 )
+                if( alive == false && bs.contains( Int( count ) ) )
                 {
                     new = 1 | ( 1 << 1 )
                 }

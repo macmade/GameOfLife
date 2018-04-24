@@ -27,14 +27,18 @@ import Cocoa
 @objc class PreferencesWindowController: NSWindowController, NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource
 {
     @IBOutlet private var colorsController: NSArrayController?
+    @IBOutlet private var rulesController:  NSArrayController?
     
     @objc public dynamic var colors:       Bool    = Preferences.shared.colors
     @objc public dynamic var squares:      Bool    = Preferences.shared.drawAsSquares
     @objc public dynamic var preserveGrid: Bool    = Preferences.shared.preserveGridSize
     @objc public dynamic var speed:        UInt    = Preferences.shared.speed
     @objc public dynamic var cellSize:     CGFloat = Preferences.shared.cellSize
+    @objc public dynamic var selectedRule: Rule    = Preferences.shared.activeRule()
     
     private var observations: [ NSKeyValueObservation ] = []
+    
+    @objc private dynamic var rules: [ Rule ] = []
     
     override var windowNibName: NSNib.Name?
     {
@@ -46,6 +50,8 @@ import Cocoa
         super.windowDidLoad()
         
         self.window?.delegate = self
+        
+        self.rules = Rule.availableRules()
         
         let o1 = self.observe( \PreferencesWindowController.colors )
         {
@@ -72,7 +78,12 @@ import Cocoa
             ( o, c ) in Preferences.shared.preserveGridSize = self.preserveGrid
         }
         
-        self.observations.append( contentsOf: [ o1, o2, o3, o4, o5 ] )
+        let o6 = self.observe( \PreferencesWindowController.selectedRule )
+        {
+            ( o, c ) in Preferences.shared.rule = self.selectedRule.name
+        }
+        
+        self.observations.append( contentsOf: [ o1, o2, o3, o4, o5, o6 ] )
         
         self.colorsController?.addObject( PreferencesColorItem( color: Preferences.shared.color1(), label: "Color 1" ) { c in Preferences.shared.color1( value: c ) } )
         self.colorsController?.addObject( PreferencesColorItem( color: Preferences.shared.color2(), label: "Color 2" ) { c in Preferences.shared.color2( value: c ) } )

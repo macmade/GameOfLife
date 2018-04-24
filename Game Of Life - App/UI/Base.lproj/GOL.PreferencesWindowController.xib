@@ -10,6 +10,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="PreferencesWindowController" customModule="GOL" customModuleProvider="target">
             <connections>
                 <outlet property="colorsController" destination="IRl-rm-2Jt" id="fd3-iT-acG"/>
+                <outlet property="rulesController" destination="vcH-uo-k5h" id="WzF-Vx-Ssl"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="X7M-Zh-3yn"/>
             </connections>
         </customObject>
@@ -65,6 +66,10 @@
                                                     </items>
                                                 </menu>
                                             </popUpButtonCell>
+                                            <connections>
+                                                <binding destination="vcH-uo-k5h" name="content" keyPath="arrangedObjects" id="rzk-cQ-w50"/>
+                                                <binding destination="-2" name="selectedObject" keyPath="selectedRule" previousBinding="rzk-cQ-w50" id="cCI-FV-H09"/>
+                                            </connections>
                                         </popUpButton>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jLD-mN-fzv">
                                             <rect key="frame" x="18" y="176" width="47" height="17"/>
@@ -422,5 +427,10 @@
             <point key="canvasLocation" x="-227" y="-93"/>
         </window>
         <arrayController selectsInsertedObjects="NO" avoidsEmptySelection="NO" clearsFilterPredicateOnInsertion="NO" automaticallyRearrangesObjects="YES" id="IRl-rm-2Jt"/>
+        <arrayController id="vcH-uo-k5h">
+            <connections>
+                <binding destination="-2" name="contentArray" keyPath="rules" id="Rz7-ZJ-lzE"/>
+            </connections>
+        </arrayController>
     </objects>
 </document>

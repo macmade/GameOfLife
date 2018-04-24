@@ -29,6 +29,7 @@
 		05313537208D3C73004B8E07 /* RLEWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05313536208D3C73004B8E07 /* RLEWriter.swift */; };
 		0531D6EE20866ED500C86639 /* LibraryItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0531D6ED20866ED500C86639 /* LibraryItemView.swift */; };
 		05320E7D208EFCA30084A59E /* ColorWell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05320E7C208EFCA30084A59E /* ColorWell.swift */; };
+		05320E81208F0EA20084A59E /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05320E80208F0EA20084A59E /* Rule.swift */; };
 		0532BC1F206EB60800807903 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0532BC1D206EB60400807903 /* Data.swift */; };
 		05356FDB20692A3B002178E3 /* ContiguousArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05356FDA20692A3B002178E3 /* ContiguousArray.swift */; };
 		053571582069792A002178E3 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053571572069792A002178E3 /* MainWindowController.swift */; };
@@ -91,6 +92,7 @@
 		05313536208D3C73004B8E07 /* RLEWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RLEWriter.swift; sourceTree = "<group>"; };
 		0531D6ED20866ED500C86639 /* LibraryItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryItemView.swift; sourceTree = "<group>"; };
 		05320E7C208EFCA30084A59E /* ColorWell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorWell.swift; sourceTree = "<group>"; };
+		05320E80208F0EA20084A59E /* Rule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rule.swift; sourceTree = "<group>"; };
 		0532BC1C206EB35100807903 /* Game Of Life.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Game Of Life.entitlements"; sourceTree = "<group>"; };
 		0532BC1D206EB60400807903 /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		05356FDA20692A3B002178E3 /* ContiguousArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContiguousArray.swift; sourceTree = "<group>"; };
@@ -243,6 +245,7 @@
 				051DB8B32072824500963D88 /* PreferencesColorItem.swift */,
 				052B073A206D886700935104 /* PreferencesWindowController.swift */,
 				05F05FEA2089AB1000337CB6 /* RulerView.swift */,
+				05320E80208F0EA20084A59E /* Rule.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -565,6 +568,7 @@
 				0529D8CE2068EB8A0072B1A5 /* Grid.swift in Sources */,
 				05303117208B913B009C9FFE /* LibraryReader.swift in Sources */,
 				05949A6F20853A2F00DC9C39 /* LibraryViewController.swift in Sources */,
+				05320E81208F0EA20084A59E /* Rule.swift in Sources */,
 				05356FDB20692A3B002178E3 /* ContiguousArray.swift in Sources */,
 				0535716020698C81002178E3 /* NSColor.swift in Sources */,
 				05303119208B93D6009C9FFE /* CellReader.swift in Sources */,

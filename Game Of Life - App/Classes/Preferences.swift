@@ -27,6 +27,7 @@ import Cocoa
 @objc public class Preferences: NSObject
 {
     @objc public dynamic var lastStart:        Date?
+    @objc public dynamic var rule:             String?
     @objc public dynamic var colors:           Bool    = true
     @objc public dynamic var drawAsSquares:    Bool    = false
     @objc public dynamic var preserveGridSize: Bool    = true
@@ -76,6 +77,26 @@ import Cocoa
             
             self.removeObserver( self, forKeyPath: key )
         }
+    }
+    
+    public func activeRule() -> Rule
+    {
+        let name = self.rule?.uppercased()
+        
+        for rule in Rule.availableRules()
+        {
+            if( rule.name == name )
+            {
+                return rule
+            }
+        }
+        
+        guard let rule = Rule.availableRules().first else
+        {
+            return Rule( name: "B3/S23", title: "Conway's Life" )
+        }
+        
+        return rule
     }
     
     private func color( index: UInt ) -> NSColor
