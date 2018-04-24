@@ -33,7 +33,7 @@ import Cocoa
     @objc public dynamic var squares:      Bool    = Preferences.shared.drawAsSquares
     @objc public dynamic var preserveGrid: Bool    = Preferences.shared.preserveGridSize
     @objc public dynamic var speed:        UInt    = Preferences.shared.speed
-    @objc public dynamic var cellSize:     CGFloat = Preferences.shared.cellSize
+    @objc public dynamic var cellSize:     UInt    = Preferences.shared.cellSize
     @objc public dynamic var selectedRule: Rule    = Preferences.shared.activeRule()
     
     private var observations: [ NSKeyValueObservation ] = []

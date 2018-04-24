@@ -342,7 +342,7 @@ class Grid: NSObject
             }
         }
         
-        Preferences.shared.cellSize = CGFloat( size )
+        Preferences.shared.cellSize = UInt( size )
         
         self.population = n
         self.cells      = cells
