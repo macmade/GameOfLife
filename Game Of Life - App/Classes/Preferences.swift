@@ -82,7 +82,7 @@ import Cocoa
     
     public func activeRule() -> Rule
     {
-        let name = self.rule?.uppercased()
+        let name = self.rule?.uppercased() ?? ""
         
         for rule in Rule.availableRules()
         {
@@ -92,9 +92,9 @@ import Cocoa
             }
         }
         
-        guard let rule = Rule.availableRules().first else
+        guard let rule = Rule( name: name, title: "Custom" ) else
         {
-            return Rule( name: "B3/S23", title: "Conway's Life" )
+            return Rule.availableRules().first!
         }
         
         return rule

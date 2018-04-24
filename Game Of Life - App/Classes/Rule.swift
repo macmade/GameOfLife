@@ -31,33 +31,52 @@ import Foundation
     @objc public private( set ) dynamic var displayTitle: String
     @objc public private( set ) dynamic var bornSet:      Set< Int >
     @objc public private( set ) dynamic var surviveSet:   Set< Int >
+    @objc public private( set ) dynamic var predefined:   Bool
     
     static func availableRules() -> [ Rule ]
     {
-        return [
-            Rule( name: "B3/S23",        title: "Conway's Life" ),
-            Rule( name: "B36/S23",       title: "HighLife" ),
-            Rule( name: "B1357/S02468",  title: "Replicator" ),
-            Rule( name: "B1357/S02468",  title: "Fredkin" ),
-            Rule( name: "B2/S",          title: "Seeds" ),
-            Rule( name: "B2/S0",         title: "Live Free or Die" ),
-            Rule( name: "B3/S012345678", title: "Life Without Death" ),
-            Rule( name: "B3/S12",        title: "Flock" ),
-            Rule( name: "B3/S1234",      title: "Mazectric" ),
-            Rule( name: "B3/S12345",     title: "Maze" ),
-            Rule( name: "B36/S125",      title: "2x2" ),
-            Rule( name: "B368/S245",     title: "Move" ),
-            Rule( name: "B3678/34678",   title: "Day & Night" ),
-            Rule( name: "B37/S23",       title: "DryLife" ),
-            Rule( name: "B38/S23",       title: "Pedestrian Life" ),
+        let rules = [
+            Rule( name: "B3/S23",        title: "Conway's Life", predefined: true ),
+            Rule( name: "B36/S23",       title: "HighLife", predefined: true ),
+            Rule( name: "B1357/S02468",  title: "Replicator", predefined: true ),
+            Rule( name: "B1357/S02468",  title: "Fredkin", predefined: true ),
+            Rule( name: "B2/S",          title: "Seeds", predefined: true ),
+            Rule( name: "B2/S0",         title: "Live Free or Die", predefined: true ),
+            Rule( name: "B3/S012345678", title: "Life Without Death", predefined: true ),
+            Rule( name: "B3/S12",        title: "Flock", predefined: true ),
+            Rule( name: "B3/S1234",      title: "Mazectric", predefined: true ),
+            Rule( name: "B3/S12345",     title: "Maze", predefined: true ),
+            Rule( name: "B36/S125",      title: "2x2", predefined: true ),
+            Rule( name: "B368/S245",     title: "Move", predefined: true ),
+            Rule( name: "B3678/34678",   title: "Day & Night", predefined: true ),
+            Rule( name: "B37/S23",       title: "DryLife", predefined: true ),
+            Rule( name: "B38/S23",       title: "Pedestrian Life", predefined: true ),
         ]
+        
+        var available = [ Rule ]()
+        
+        for rule in rules
+        {
+            if( rule != nil )
+            {
+                available.append( rule! )
+            }
+        }
+        
+        return available
     }
     
-    init( name: String, title: String )
+    convenience init?( name: String, title: String )
+    {
+        self.init( name: name, title: title, predefined: false )
+    }
+    
+    private init?( name: String, title: String, predefined: Bool )
     {
         self.name         = name.uppercased()
         self.title        = title
         self.displayTitle = self.title + " (" + self.name + ")"
+        self.predefined   = predefined
         
         let rules = name.split( separator: "/" )
         
@@ -66,35 +85,37 @@ import Foundation
         
         if
         (
-               rules.count == 2
-            && rules[ 0 ].count > 0
-            && rules[ 1 ].count > 0
-            && ( rules[ 0 ] as NSString ).substring( to: 1 ) == "B"
-            && ( rules[ 1 ] as NSString ).substring( to: 1 ) == "S"
+               rules.count != 2
+            || rules[ 0 ].count == 0
+            || rules[ 1 ].count == 0
+            || ( rules[ 0 ] as NSString ).substring( to: 1 ) != "B"
+            || ( rules[ 1 ] as NSString ).substring( to: 1 ) != "S"
         )
         {
-            let b = ( rules[ 0 ] as NSString ).substring( from: 1 )
-            let s = ( rules[ 1 ] as NSString ).substring( from: 1 )
-            
-            for c in b
+            return nil
+        }
+        
+        let b = ( rules[ 0 ] as NSString ).substring( from: 1 )
+        let s = ( rules[ 1 ] as NSString ).substring( from: 1 )
+        
+        for c in b
+        {
+            guard let i = Int( String( c ) ) else
             {
-                guard let i = Int( String( c ) ) else
-                {
-                    continue
-                }
-                
-                self.bornSet.insert( i )
+                continue
             }
             
-            for c in s
+            self.bornSet.insert( i )
+        }
+        
+        for c in s
+        {
+            guard let i = Int( String( c ) ) else
             {
-                guard let i = Int( String( c ) ) else
-                {
-                    continue
-                }
-                
-                self.surviveSet.insert( i )
+                continue
             }
+            
+            self.surviveSet.insert( i )
         }
         
         super.init()

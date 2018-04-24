@@ -54,7 +54,13 @@ import Cocoa
         
         self.window?.delegate = self
         
-        var rules = [ Any ]()
+        var rules  = [ Any ]()
+        let active = Preferences.shared.activeRule()
+        
+        if( active.predefined == false )
+        {
+            rules.append( active )
+        }
         
         rules.append( "Custom..." )
         rules.append( "--" )
@@ -131,7 +137,29 @@ import Cocoa
                             return
                         }
                         
+                        for( i, o ) in self.rules.enumerated()
+                        {
+                            guard let rule = o as? Rule else
+                            {
+                                continue
+                            }
+                            
+                            if( rule.predefined == false )
+                            {
+                                self.rules.remove( at: i )
+                            }
+                        }
+                        
                         Preferences.shared.rule = name
+                        
+                        let rule = Preferences.shared.activeRule()
+                        
+                        if( rule.predefined == false )
+                        {
+                            self.rules.insert( rule, at: 0 )
+                        }
+                        
+                        self.selectedRule = rule
                     }
                     
                     self.customRuleController = controller
@@ -168,7 +196,7 @@ import Cocoa
     
     func menuNeedsUpdate( _ menu: NSMenu )
     {
-        for( i, item ) in menu.items.enumerated()
+        for ( i, item ) in menu.items.enumerated()
         {
             if( item.title == "--" )
             {
