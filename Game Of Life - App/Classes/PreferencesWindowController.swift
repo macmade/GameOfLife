@@ -24,7 +24,7 @@
 
 import Cocoa
 
-@objc class PreferencesWindowController: NSWindowController, NSWindowDelegate
+@objc class PreferencesWindowController: NSWindowController, NSWindowDelegate, NSTableViewDelegate, NSTableViewDataSource
 {
     @IBOutlet private var colorsController: NSArrayController?
     

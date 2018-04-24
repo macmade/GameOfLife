@@ -155,13 +155,18 @@
                                                                 <binding destination="ged-fg-Obu" name="value" keyPath="objectValue.label" id="hUJ-Cy-P36"/>
                                                             </connections>
                                                         </textField>
-                                                        <colorWell bordered="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L1R-c3-02t">
-                                                            <rect key="frame" x="308" y="0.0" width="44" height="20"/>
+                                                        <colorWell translatesAutoresizingMaskIntoConstraints="NO" id="L1R-c3-02t" customClass="ColorWell" customModule="GOL" customModuleProvider="target">
+                                                            <rect key="frame" x="332" y="0.0" width="20" height="20"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="rxu-BU-JbK"/>
-                                                                <constraint firstAttribute="width" constant="44" id="syn-nY-Itt"/>
+                                                                <constraint firstAttribute="width" constant="20" id="syn-nY-Itt"/>
                                                             </constraints>
                                                             <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <userDefinedRuntimeAttributes>
+                                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                    <real key="value" value="10"/>
+                                                                </userDefinedRuntimeAttribute>
+                                                            </userDefinedRuntimeAttributes>
                                                             <connections>
                                                                 <binding destination="ged-fg-Obu" name="value" keyPath="objectValue.color" id="OYn-al-a3H"/>
                                                             </connections>
@@ -185,6 +190,8 @@
                                         <binding destination="IRl-rm-2Jt" name="content" keyPath="arrangedObjects" id="BNT-SU-b2A"/>
                                         <binding destination="IRl-rm-2Jt" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="BNT-SU-b2A" id="aOW-L4-UBr"/>
                                         <binding destination="IRl-rm-2Jt" name="sortDescriptors" keyPath="sortDescriptors" previousBinding="aOW-L4-UBr" id="q5K-no-62G"/>
+                                        <outlet property="dataSource" destination="-2" id="3b9-lB-oWr"/>
+                                        <outlet property="delegate" destination="-2" id="MAy-ma-CyA"/>
                                     </connections>
                                 </tableView>
                             </subviews>
