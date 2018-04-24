@@ -59,6 +59,30 @@
                                     <action selector="reload:" target="-2" id="8ho-2s-hwa"/>
                                 </connections>
                             </button>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="WM9-HO-UYA">
+                                <rect key="frame" x="438" y="450" width="16" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="16" id="0rQ-Jv-yWC"/>
+                                    <constraint firstAttribute="height" constant="16" id="fQM-mL-iml"/>
+                                </constraints>
+                                <contentFilters>
+                                    <ciFilter name="CIColorControls">
+                                        <configuration>
+                                            <real key="inputBrightness" value="1"/>
+                                            <real key="inputContrast" value="1"/>
+                                            <null key="inputImage"/>
+                                            <real key="inputSaturation" value="1"/>
+                                        </configuration>
+                                    </ciFilter>
+                                </contentFilters>
+                                <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSStopProgressFreestandingTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="kug-t2-Ewf">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="discard:" target="-2" id="5Vp-jK-7bp"/>
+                                </connections>
+                            </button>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="V5x-AC-lv3">
                                 <rect key="frame" x="0.0" y="435" width="500" height="5"/>
                             </box>
@@ -94,6 +118,7 @@
                             <constraint firstAttribute="trailing" secondItem="abQ-vC-vtL" secondAttribute="trailing" id="4eU-Tj-rUh"/>
                             <constraint firstItem="kXu-QL-gfw" firstAttribute="centerY" secondItem="Rlx-II-mCa" secondAttribute="centerY" id="4h7-DN-hXq"/>
                             <constraint firstAttribute="bottom" secondItem="abQ-vC-vtL" secondAttribute="bottom" id="Cpp-EZ-9Fi"/>
+                            <constraint firstItem="kXu-QL-gfw" firstAttribute="leading" secondItem="WM9-HO-UYA" secondAttribute="trailing" constant="10" id="H1P-1y-rB6"/>
                             <constraint firstAttribute="trailing" secondItem="kXu-QL-gfw" secondAttribute="trailing" constant="20" id="VSt-3j-2oK"/>
                             <constraint firstItem="V5x-AC-lv3" firstAttribute="top" secondItem="Rlx-II-mCa" secondAttribute="bottom" constant="8" id="WsM-Qo-0Hd"/>
                             <constraint firstItem="V5x-AC-lv3" firstAttribute="leading" secondItem="sNm-Pz-Bds" secondAttribute="leading" id="YeZ-Ec-0Oh"/>
@@ -101,6 +126,7 @@
                             <constraint firstItem="Rlx-II-mCa" firstAttribute="top" secondItem="sNm-Pz-Bds" secondAttribute="top" constant="30" id="hpD-BS-wI0"/>
                             <constraint firstItem="abQ-vC-vtL" firstAttribute="leading" secondItem="sNm-Pz-Bds" secondAttribute="leading" id="rX4-EG-1Ay"/>
                             <constraint firstItem="abQ-vC-vtL" firstAttribute="top" secondItem="V5x-AC-lv3" secondAttribute="bottom" id="tVr-RB-gia"/>
+                            <constraint firstItem="WM9-HO-UYA" firstAttribute="centerY" secondItem="kXu-QL-gfw" secondAttribute="centerY" id="ttf-Vy-Gtk"/>
                             <constraint firstAttribute="trailing" secondItem="V5x-AC-lv3" secondAttribute="trailing" id="vIb-qw-QVi"/>
                             <constraint firstAttribute="trailing" secondItem="Rlx-II-mCa" secondAttribute="trailing" constant="20" id="zDX-mz-Eua"/>
                         </constraints>
@@ -121,5 +147,6 @@
     </objects>
     <resources>
         <image name="NSRefreshFreestandingTemplate" width="14" height="14"/>
+        <image name="NSStopProgressFreestandingTemplate" width="11" height="11"/>
     </resources>
 </document>

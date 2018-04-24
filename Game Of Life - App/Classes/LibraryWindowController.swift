@@ -126,6 +126,64 @@ class LibraryWindowController: NSWindowController
         return data
     }
     
+    @IBAction func discard( _ sender: Any? )
+    {
+        let alert             = NSAlert()
+        alert.messageText     = "Erase Local Library"
+        alert.informativeText = "Are you sure you want to revert your local library to the default version?"
+        
+        alert.addButton( withTitle: "OK" )
+        alert.addButton( withTitle: "Cancel" )
+        
+        guard let window = self.window else
+        {
+            return
+        }
+        
+        alert.beginSheetModal( for: window )
+        {
+            ( r ) in
+            
+            if( r != .alertFirstButtonReturn )
+            {
+                return
+            }
+            
+            guard let bundled = Bundle.main.url( forResource: "Library", withExtension: "json" ) else
+            {
+                return
+            }
+            
+            guard let copy = FileManager.default.urls( for: .applicationSupportDirectory, in: .userDomainMask ).first?.appendingPathComponent( "Library.json" ) else
+            {
+                return
+            }
+            
+            do
+            {
+                try FileManager.default.removeItem( at: copy )
+                try FileManager.default.copyItem( at: bundled, to: copy )
+            }
+            catch( let error as NSError )
+            {
+                NSAlert( error: error ).runModal()
+            }
+            catch
+            {
+                return
+            }
+            
+            self.reload( sender )
+            
+            guard let delegate = NSApp.delegate as? ApplicationDelegate else
+            {
+                return
+            }
+            
+            delegate.mainWindowController?.libraryViewController?.reload()
+        }
+    }
+    
     @IBAction func reload( _ sender: Any? )
     {
         guard let url = self.url else
