@@ -415,6 +415,11 @@ class Grid: NSObject
                     continue
                 }
                 
+                if( x + left >= self.width || y + top >= self.height )
+                {
+                    continue
+                }
+                
                 let i = ( x + left ) + ( ( y + top ) * self.width )
                 
                 if( i < self.cells.count )
