@@ -249,7 +249,13 @@ class GridView: NSView
         }
         
         self.grid.next()
-        self.display()
+        
+        let skip = Preferences.shared.drawInterval
+        
+        if( self.paused || self.grid.turns % UInt64( skip ) == 0 )
+        {
+            self.display()
+        }
         
         if( self.lastUpdate == 0 )
         {
