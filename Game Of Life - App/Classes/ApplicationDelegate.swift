@@ -30,7 +30,7 @@ class ApplicationDelegate: NSObject, NSApplicationDelegate
     @objc public private( set ) dynamic var mainWindowController:        MainWindowController?
     @objc public private( set ) dynamic var aboutWindowController:       AboutWindowController?
     @objc public private( set ) dynamic var preferencesWindowController: PreferencesWindowController?
-    @objc public private( set ) dynamic var libraryWindowController:     LibraryWindowController?
+    @objc public private( set ) dynamic var libraryWindowController:     LibraryEditorWindowController?
     
     func applicationDidFinishLaunching( _ notification: Notification )
     {
@@ -114,7 +114,7 @@ class ApplicationDelegate: NSObject, NSApplicationDelegate
     {
         if( self.libraryWindowController == nil )
         {
-            self.libraryWindowController = LibraryWindowController()
+            self.libraryWindowController = LibraryEditorWindowController()
             
             self.libraryWindowController?.window?.center()
         }

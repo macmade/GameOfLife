@@ -24,7 +24,7 @@
 
 import Cocoa
 
-class LibraryWindowController: NSWindowController
+class LibraryEditorWindowController: NSWindowController
 {
     @IBOutlet private var textView: NSTextView?
     
