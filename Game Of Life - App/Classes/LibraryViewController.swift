@@ -30,6 +30,7 @@ class LibraryViewController: NSViewController, NSOutlineViewDelegate, NSOutlineV
     @IBOutlet private               var treeController: NSTreeController?
     @IBOutlet private               var outlineView:    NSOutlineView?
     @objc     private dynamic       var library:        [ LibraryItem ]?
+    @objc     private dynamic       var loading:        Bool = true
     
     override var nibName: NSNib.Name?
     {
@@ -44,24 +45,38 @@ class LibraryViewController: NSViewController, NSOutlineViewDelegate, NSOutlineV
     
     public func reload()
     {
-        let bundled = Bundle.main.url( forResource: "Library", withExtension: "json" )
-        let copy    = FileManager.default.urls( for: .applicationSupportDirectory, in: .userDomainMask ).first?.appendingPathComponent( "Library.json" )
+        self.loading = true
         
-        let url = ( copy != nil && FileManager.default.fileExists( atPath: copy!.path ) ) ? copy : bundled
-        
-        if( url == nil )
+        DispatchQueue.global( qos: .userInitiated).async
         {
-            self.library = []
+            let bundled = Bundle.main.url( forResource: "Library", withExtension: "json" )
+            let copy    = FileManager.default.urls( for: .applicationSupportDirectory, in: .userDomainMask ).first?.appendingPathComponent( "Library.json" )
+            
+            let url = ( copy != nil && FileManager.default.fileExists( atPath: copy!.path ) ) ? copy : bundled
+            
+            var library: [ LibraryItem ]
+            
+            if( url == nil )
+            {
+                library = []
+            }
+            else
+            {
+                let reader  = LibraryReader()
+                library     = reader.read( url: url! ) ?? []
+            }
+            
+            DispatchQueue.main.sync
+            {
+                self.library = library
+                
+                self.treeController?.sortDescriptors = [ NSSortDescriptor( key: "title", ascending: true ) ]
+                
+                self.outlineView?.expandItem( nil, expandChildren: true )
+                
+                self.loading = false
+            }
         }
-        else
-        {
-            let reader   = LibraryReader()
-            self.library = reader.read( url: url! ) ?? []
-        }
-        
-        self.treeController?.sortDescriptors = [ NSSortDescriptor( key: "title", ascending: true ) ]
-        
-        self.outlineView?.expandItem( nil, expandChildren: true )
     }
     
     func outlineView( _ outlineView: NSOutlineView, shouldCollapseItem item: Any ) -> Bool

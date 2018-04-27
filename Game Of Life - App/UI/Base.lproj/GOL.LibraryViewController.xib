@@ -31,6 +31,21 @@
                         <outlet property="delegate" destination="-2" id="wQT-hS-7lr"/>
                     </connections>
                 </searchField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cmz-nO-ecj">
+                    <rect key="frame" x="134" y="277" width="109" height="17"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Loading Library..." drawsBackground="YES" id="7ja-hc-lqc">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
+                    </textFieldCell>
+                    <connections>
+                        <binding destination="-2" name="hidden" keyPath="loading" id="48v-fc-xTZ">
+                            <dictionary key="options">
+                                <string key="NSValueTransformerName">NSNegateBoolean</string>
+                            </dictionary>
+                        </binding>
+                    </connections>
+                </textField>
                 <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="36" horizontalPageScroll="10" verticalLineScroll="36" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jbl-K3-eqd">
                     <rect key="frame" x="20" y="20" width="338" height="500"/>
                     <clipView key="contentView" drawsBackground="NO" id="2Te-Ts-beu">
@@ -211,6 +226,9 @@
                         <rect key="frame" x="-100" y="-100" width="15" height="102"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
+                    <connections>
+                        <binding destination="-2" name="hidden" keyPath="loading" id="YvA-SI-RVB"/>
+                    </connections>
                 </scrollView>
             </subviews>
             <constraints>
@@ -220,7 +238,9 @@
                 <constraint firstItem="jbl-K3-eqd" firstAttribute="leading" secondItem="dPg-HH-iKN" secondAttribute="leading" id="WCA-8V-xcj"/>
                 <constraint firstItem="jbl-K3-eqd" firstAttribute="top" secondItem="dPg-HH-iKN" secondAttribute="bottom" constant="8" id="bcg-2e-hfd"/>
                 <constraint firstItem="jbl-K3-eqd" firstAttribute="trailing" secondItem="dPg-HH-iKN" secondAttribute="trailing" id="pig-7G-CaZ"/>
+                <constraint firstItem="Cmz-nO-ecj" firstAttribute="centerY" secondItem="ZMb-gg-wxK" secondAttribute="centerY" id="pn9-gS-iUV"/>
                 <constraint firstItem="dPg-HH-iKN" firstAttribute="leading" secondItem="ZMb-gg-wxK" secondAttribute="leading" constant="20" id="sgm-Pl-KVT"/>
+                <constraint firstItem="Cmz-nO-ecj" firstAttribute="centerX" secondItem="ZMb-gg-wxK" secondAttribute="centerX" id="tDq-z2-r5R"/>
             </constraints>
             <userDefinedRuntimeAttributes>
                 <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
