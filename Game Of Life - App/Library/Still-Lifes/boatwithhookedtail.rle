@@ -1,0 +1,6 @@
+#N Boat with hooked tail
+#O Unknown
+#C http://conwaylife.com/wiki/Boat_with_hooked_tail
+#C http://conwaylife.com/patterns/boatwithhookedtail.rle
+x = 6, y = 4, rule = B3/S23
+2ob2o$bobobo$bo2bo$2b2o!

@@ -1,0 +1,6 @@
+#N Long prodigal
+#O Unknown
+#C http://conwaylife.com/wiki/Long_prodigal
+#C http://conwaylife.com/patterns/longprodigal.rle
+x = 7, y = 5, rule = B3/S23
+bo$obo$bo2b2o$2b2o2bo$5b2o!

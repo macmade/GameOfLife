@@ -1,0 +1,6 @@
+#N Very long integral
+#O Unknown
+#C http://conwaylife.com/wiki/Very_long_integral
+#C http://conwaylife.com/patterns/verylongintegral.rle
+x = 7, y = 3, rule = B3/S23
+2o2b2o$o2bo2bo$b2o2b2o!

@@ -1,0 +1,6 @@
+#N Cis-mirrored worm siamese cis-mirrored worm
+#O Unknown
+#C http://conwaylife.com/wiki/Cis-mirrored_worm_siamese_cis-mirrored_worm
+#C http://conwaylife.com/patterns/cismirroredwormsiamesecismirroredworm.rle
+x = 11, y = 9, rule = B3/S23
+b2o5b2o$obo5bobo$o4bo4bo$b9o2$b9o$o4bo4bo$obo5bobo$b2o5b2o!

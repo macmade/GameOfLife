@@ -1,0 +1,6 @@
+#N Cis-boat with nine
+#O Unknown
+#C http://conwaylife.com/wiki/Cis-boat_with_nine
+#C http://conwaylife.com/patterns/cisboatwithnine.rle
+x = 6, y = 6, rule = B3/S23
+4bo$3bobo$2bob2o$2bo$obo$2o!

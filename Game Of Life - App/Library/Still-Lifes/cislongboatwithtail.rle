@@ -1,0 +1,6 @@
+#N Cis-long boat with tail
+#O Unknown
+#C http://conwaylife.com/wiki/Cis-long_boat_with_tail
+#C http://conwaylife.com/patterns/cislongboatwithtail.rle
+x = 6, y = 5, rule = B3/S23
+2o$bo2b2o$bobobo$2bobo$3bo!

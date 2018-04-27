@@ -1,0 +1,6 @@
+#N Super loaf
+#O Unknown
+#C http://conwaylife.com/wiki/Super_loaf
+#C http://conwaylife.com/patterns/superloaf.rle
+x = 7, y = 7, rule = B3/S23
+2bo$bobo$obobo$obo2bo$bob2obo$2bo2bo$3b2o!

@@ -1,0 +1,5 @@
+#N Loaf tie eater-with-tail
+#C The third most common naturally-occurring 18-bit still life.
+#C http://conwaylife.com/wiki/Loaf_tie_eater-with-tail
+x = 8, y = 7, rule = B3/S23
+2bo$bobo2b2o$o2bo3bo$b2ob3o$4bo$b3o$bo!

@@ -1,0 +1,6 @@
+#N Very^7 long boat
+#O Unknown
+#C http://conwaylife.com/wiki/Very%5E7_long_boat
+#C http://conwaylife.com/patterns/veryveryveryveryveryveryverylongboat.rle
+x = 11, y = 11, rule = B3/S23
+9bo$8bobo$7bobo$6bobo$5bobo$4bobo$3bobo$2bobo$bobo$obo$2o!

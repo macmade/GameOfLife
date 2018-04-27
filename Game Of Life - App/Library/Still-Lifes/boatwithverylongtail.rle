@@ -1,0 +1,6 @@
+#N Boat with very long tail
+#O Unknown
+#C http://conwaylife.com/wiki/Boat_with_very_long_tail
+#C http://conwaylife.com/patterns/boatwithverylongtail.rle
+x = 7, y = 4, rule = B3/S23
+2o$obo2b2o$bo2bobo$2b2o!

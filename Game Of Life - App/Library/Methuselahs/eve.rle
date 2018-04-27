@@ -1,0 +1,6 @@
+#N Eve
+#O Andrzej Megier
+#C A 20-cell methusaleh lasting for 30046 generations, found by Andrzej Megier on June 29, 2008.
+#C http://conwaylife.com/wiki/Eve
+x = 16, y = 10, rule = B3/S23
+14bo$14bo$15bo$9bo3b2o$7bo4b3o$7bo3bo$9b2o$bo$3o$obo!

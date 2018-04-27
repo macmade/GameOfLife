@@ -1,0 +1,10 @@
+#N Period-45 glider gun
+#O Matthias Merzenich
+#C A true period 45 glider gun found by Matthias Merzenich in 2010, with improvements by Adam P. Goucher, Dave Greene and Tanner Jacobi.
+#C http://conwaylife.com/wiki/Period-45_glider_gun
+x = 48, y = 40, rule = B3/S23
+15bo2bo2bo$15b7o2$15b7o$15bo2bo2bo6$16bo2bo$12b2o2bo2bo$12b2o2bo2bo7b
+2o$27b2o4b2o3bo2bo3b2o$33b5o4b5o$33b2o3bo2bo3b2o$27b3o2$2ob2o$bobo23b
+3o$bobo6b3o$2ob2o29bobo$bobo31b2o$bobo6b3o22bo$2ob2o2$11b2o$11b2o7bo2b
+o2b2o$20bo2bo2b2o$20bo2bo3$47bo$45bobo$46b2o$18bo2bo2bo$18b7o2$18b7o$
+18bo2bo2bo!

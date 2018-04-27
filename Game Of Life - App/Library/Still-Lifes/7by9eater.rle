@@ -1,0 +1,4 @@
+#N 7×9 eater
+#C http://conwaylife.com/wiki/7%C3%979_eater
+x = 7, y = 9, rule = B3/S23
+bo3b2o$obo3bo$2o3bo$4bo$5obo$o4b2o$b3o$3bob2o$4bobo!

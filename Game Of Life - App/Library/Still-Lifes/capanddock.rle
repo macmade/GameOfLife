@@ -1,0 +1,6 @@
+#N Cap and dock
+#O Unknown
+#C http://conwaylife.com/wiki/Cap_and_dock
+#C http://conwaylife.com/patterns/capanddock.rle
+x = 7, y = 6, rule = B3/S23
+5b2o$b2obobo$obobo$obobo$b2obobo$5b2o!

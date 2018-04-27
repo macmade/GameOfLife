@@ -1,0 +1,6 @@
+#N Eater head siamese carrier
+#O Unknown
+#C http://conwaylife.com/wiki/Eater_head_siamese_carrier
+#C http://conwaylife.com/patterns/eaterheadsiamesecarrier.rle
+x = 7, y = 5, rule = B3/S23
+5b2o$2b2o2bo$bob2o$bo$2o!

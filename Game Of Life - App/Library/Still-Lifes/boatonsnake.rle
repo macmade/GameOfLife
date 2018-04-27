@@ -1,0 +1,6 @@
+#N Boat on snake
+#O Unknown
+#C http://conwaylife.com/wiki/Boat_on_snake
+#C http://conwaylife.com/patterns/boatonsnake.rle
+x = 7, y = 5, rule = B3/S23
+bo$obo$b2o$3b2obo$3bob2o!

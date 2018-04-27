@@ -1,0 +1,6 @@
+#N E-heptomino
+#O Unknown
+#C http://conwaylife.com/wiki/E-heptomino
+#C http://conwaylife.com/patterns/eheptomino.rle
+x = 4, y = 3, rule = B3/S23
+b3o$2o$b2o!

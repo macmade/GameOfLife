@@ -1,0 +1,5 @@
+#N Very^3 long ship
+#C A 14-bit still life.
+#C http://conwaylife.com/wiki/Very%5E3_long_ship
+x = 7, y = 7, rule = B3/S23
+5b2o$4bobo$3bobo$2bobo$bobo$obo$2o!

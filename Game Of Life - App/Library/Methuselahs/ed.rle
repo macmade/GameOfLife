@@ -1,0 +1,12 @@
+#N Ed
+#O Schneelocke
+#C Methuselah_35426 ("Ed"), discovered 17 June 2010
+#C named after Ed Edison from the "Maniac Mansion" computer game,
+#C the son of Dr. Fred and his wife Edna (also methuselah names)
+#C http://www.conwaylife.com/wiki/Ed
+#C http://www.conwaylife.com/patterns/ed.rle
+x = 20, y = 20, rule = B3/S23
+5bo8bo2b2o$bo5b6o2bobo$3b6ob2o2bobo$o2bo2b2obo3bo4b2o$obob3o2bobo6bo$b
+ob4o2b3o5b2o$bo2b3ob2obob3o$o2bo4bo3bo6bo$b2o2b3o3bo3bo$obo3b2obo3bo2b
+obo$bo6bobo5b2o$6o2b3o2bo$2bo4b3o5bobo$2b2ob2o5bo3b3o$3bo2b4obobo2bob
+2o$o4bo6b2obobo$o2bo2b2obobo$bo5bo2bo2bobobo$b3ob2obo$ob3obo6bo3b2o!

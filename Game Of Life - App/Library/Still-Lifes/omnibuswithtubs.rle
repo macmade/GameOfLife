@@ -1,0 +1,7 @@
+#N Omnibus with tubs
+#O Unknown
+#C http://conwaylife.com/wiki/Omnibus_with_tubs
+#C http://conwaylife.com/patterns/omnibuswithtubs.rle
+x = 9, y = 11, rule = B3/S23
+bo5bo$obo3bobo$bobobobo$3bobo$3bobo$2obobob2o$2obobob2o$3bobo$2obobob
+2o$o2bobo2bo$b2o3b2o!

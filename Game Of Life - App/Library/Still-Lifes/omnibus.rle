@@ -1,0 +1,7 @@
+#N Omnibus
+#O Unknown
+#C http://conwaylife.com/wiki/Omnibus
+#C http://conwaylife.com/patterns/omnibus.rle
+x = 9, y = 10, rule = B3/S23
+b2o3b2o$bobobobo$3bobo$3bobo$2obobob2o$2obobob2o$3bobo$2obobob2o$o2bob
+o2bo$b2o3b2o!

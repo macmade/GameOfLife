@@ -1,0 +1,6 @@
+#N Jaydot
+#O Kazyan
+#C http://conwaylife.com/wiki/Jaydot
+#C http://conwaylife.com/patterns/jaydot.rle
+x = 3, y = 6, rule = B3/S23
+b2o$3o2$bo$b2o$o!

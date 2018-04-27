@@ -1,0 +1,6 @@
+#N Python siamese carrier
+#O 
+#C An 11-bit still life.
+#C http://conwaylife.com/wiki/Python_siamese_carrier
+x = 4, y = 8, rule = B3/S23
+2b2o$3bo$bo$b2o$2bo$bo$o$2o!

@@ -1,0 +1,5 @@
+#N 29-bit still life #1
+#C The most common 29-bit still life in B3/S23/C1 on Catagolue.
+#C http://conwaylife.com/wiki/29-bit_still-life_No._1
+x = 8, y = 10, rule = B3/S23
+5bo$4bobo$2obobobo$2obobobo$3bob2o$2obo$2obo$3bob2o$3bo2bo$4b2o!

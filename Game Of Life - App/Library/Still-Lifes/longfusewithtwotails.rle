@@ -1,0 +1,6 @@
+#N Long fuse with two tails
+#O 
+#C An 11-bit still life.
+#C http://conwaylife.com/wiki/Long_fuse_with_two_tails
+x = 7, y = 5, rule = B3/S23
+2o$bo2bo$bobobo$2bo2bo$5b2o!

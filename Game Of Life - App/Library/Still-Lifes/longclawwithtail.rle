@@ -1,0 +1,5 @@
+#N Long claw with tail
+#C An 11-bit still life.
+#C www.conwaylife.com/wiki/Long_claw_with_tail
+x = 7, y = 4, rule = B3/S23
+2o$bo2b2o$bobo2bo$2bo2b2o!

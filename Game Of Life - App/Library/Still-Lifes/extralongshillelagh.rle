@@ -1,0 +1,6 @@
+#N Extra long shillelagh
+#O Unknown
+#C http://conwaylife.com/wiki/Extra_long_shillelagh
+#C http://conwaylife.com/patterns/extralongshillelagh.rle
+x = 5, y = 8, rule = B3/S23
+3b2o$4bo$3bo$2bo$bo$o$obo$b2o!

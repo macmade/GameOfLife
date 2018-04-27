@@ -1,0 +1,6 @@
+#N Boat on aircraft
+#O Unknown
+#C http://conwaylife.com/wiki/Boat_on_aircraft
+#C http://conwaylife.com/patterns/boatonaircraft.rle
+x = 6, y = 7, rule = B3/S23
+bo$obo$b2o$3b2o$3bo$5bo$4b2o!

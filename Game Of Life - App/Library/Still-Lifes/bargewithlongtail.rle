@@ -1,0 +1,6 @@
+#N Barge with long tail
+#O Unknown
+#C http://conwaylife.com/wiki/Barge_with_long_tail
+#C http://conwaylife.com/patterns/bargewithlongtail.rle
+x = 7, y = 5, rule = B3/S23
+bo$obo$bobo$2bo2b2o$3b2obo!

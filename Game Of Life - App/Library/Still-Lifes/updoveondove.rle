@@ -1,0 +1,6 @@
+#N Up dove on dove
+#C 18-bit still life #355 in Mark D. Niemiec's life synthesis database
+#C http://www.conwaylife.com/wiki/Up_dove_on_dove
+#C http://codercontest.com/mniemiec/18/18-355.rle
+x = 9, y = 5, rule = B3/S23
+2b2ob2o$bobobobo$o2bobo2bo$obo3bobo$bo5bo!

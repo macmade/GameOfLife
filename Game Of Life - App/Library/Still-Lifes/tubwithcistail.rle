@@ -1,0 +1,6 @@
+#N Tub with cis-tail
+#O Unknown
+#C http://conwaylife.com/wiki/Tub_with_cis-tail
+#C http://conwaylife.com/patterns/tubwithcistail.rle
+x = 7, y = 5, rule = B3/S23
+2o$o4bo$bo2bobo$2bo2bo$3b2o!

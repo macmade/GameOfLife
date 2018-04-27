@@ -1,0 +1,4 @@
+#N Sidesnagger
+#C http://conwaylife.com/wiki/Sidesnagger
+x = 13, y = 9, rule = B3/S23
+6bo$5bobo$4bo2bo3b2o$5b2o4b2o$bo$obo$2o$6b2o$6b2o!

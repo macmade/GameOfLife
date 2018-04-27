@@ -1,0 +1,5 @@
+#N House on house siamese table-on-table weld hat-siamese-hat
+#C A 34-bit still life.
+#C http://conwaylife.com/wiki/House_on_house_siamese_table-on-table_weld_hat-siamese-hat
+x = 7, y = 13, rule = B3/S23
+b2ob2o$bo3bo$2b3o2$2b3o$bo3bo$b2ob2o$2bobo$2bobo$b2ob2o$o5bo$b5o$3bo!

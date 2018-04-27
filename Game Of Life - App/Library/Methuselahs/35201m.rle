@@ -1,0 +1,10 @@
+#N 35201M
+#O Andrzej Okrasinski
+#C http://conwaylife.com/wiki/35201M
+#C http://conwaylife.com/patterns/35201m.rle
+x = 20, y = 20, rule = B3/S23
+4o2b2o3b2ob2o3bo$2obo2b2ob3obobo2b2o$bob2o4bo5b2ob2o$bo4bo4bo4bob2o$o
+5bobobo4bobo$b3obo2b5obobob2o$ob2o2b4obob2ob4o$2bo6b2obobobobo$b4o4bo
+4b2obobo$b2o6b3o3b3o$bo3bo2bo6b5o$3o3bo2bo4bob3o$b2obobob2o4b4o$obo2b
+2obo2bobob4o$2o4bobob2obo2bobo$b2o3bobob7o$o3bobo6b3o2b2o$2b2o2bo2bobo
+b2obo2bo$3bobobobobo4b2o$2o2b2obobo2bo!

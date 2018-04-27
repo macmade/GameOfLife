@@ -1,0 +1,6 @@
+#N Fuse with tail and long tail
+#O Unknown
+#C http://conwaylife.com/wiki/Fuse_with_tail_and_long_tail
+#C http://conwaylife.com/patterns/fusewithtailandlongtail.rle
+x = 7, y = 5, rule = B3/S23
+ob2o$2o2bo$3bo$4b3o$6bo!

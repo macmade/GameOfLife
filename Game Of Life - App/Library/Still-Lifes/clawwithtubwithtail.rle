@@ -1,0 +1,6 @@
+#N Claw with tub with tail
+#O Unknown
+#C http://conwaylife.com/wiki/Claw_with_tub_with_tail
+#C http://conwaylife.com/patterns/clawwithtubwithtail.rle
+x = 6, y = 7, rule = B3/S23
+bo$obo$bobo$3bo$2bo$3b3o$5bo!

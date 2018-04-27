@@ -1,0 +1,6 @@
+#N Integral with two tubs
+#O Unknown
+#C http://conwaylife.com/wiki/Integral_with_two_tubs
+#C http://conwaylife.com/patterns/integralwithtwotubs.rle
+x = 7, y = 7, rule = B3/S23
+5bo$4bobo$5bo$2b3o$bo$obo$bo!

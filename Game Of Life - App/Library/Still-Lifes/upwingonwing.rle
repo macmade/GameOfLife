@@ -1,0 +1,6 @@
+#N Up wing on wing
+#O Unknown
+#C http://conwaylife.com/wiki/Up_wing_on_wing
+#C http://conwaylife.com/patterns/upwingonwing.rle
+x = 9, y = 4, rule = B3/S23
+b2o3b2o$o2bobo2bo$bobobobo$2b2ob2o!

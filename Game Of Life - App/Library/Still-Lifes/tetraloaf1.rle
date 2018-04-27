@@ -1,0 +1,7 @@
+#N Tetraloaf I
+#O Unknown
+#C http://conwaylife.com/wiki/Tetraloaf_I
+#C http://conwaylife.com/patterns/Tetraloaf1.rle
+x = 10, y = 10, rule = B3/S23
+5bo$4bobo$3bo2bo$2bob2ob2o$bobo2bo2bo$o2bo2bobo$b2ob2obo$3bo2bo$3bobo$
+4bo!

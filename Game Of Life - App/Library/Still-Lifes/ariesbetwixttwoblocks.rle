@@ -1,0 +1,5 @@
+#N Aries betwixt two blocks
+#C The most common naturally-occurring 31-bit still life.
+#C http://conwaylife.com/wiki/Aries_betwixt_two_blocks
+x = 9, y = 8, rule = B3/S23
+b2o3b2o$o2bobo2bo$2obobob2o$3bobo$3bobo$2obobob2o$2obobob2o$4bo!

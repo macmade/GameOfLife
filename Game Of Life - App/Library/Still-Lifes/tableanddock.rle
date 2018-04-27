@@ -1,0 +1,6 @@
+#N Table and dock
+#O Unknown
+#C http://conwaylife.com/wiki/Table_and_dock
+#C http://conwaylife.com/patterns/tableanddock.rle
+x = 6, y = 6, rule = B3/S23
+2o2b2o$o4bo$b4o2$b4o$bo2bo!

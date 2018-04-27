@@ -1,0 +1,5 @@
+#N Super mango
+#C A 15-bit still life.
+#C http://conwaylife.com/wiki/Super_mango
+x = 6, y = 7, rule = B3/S23
+2bo$bobo$obobo$o2bobo$bobobo$2bobo$3bo!

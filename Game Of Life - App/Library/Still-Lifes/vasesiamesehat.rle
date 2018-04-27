@@ -1,0 +1,7 @@
+#N Vase siamese hat
+#O 
+#C The most common 27-bit still life on Catagolue
+#C http://conwaylife.com/wiki/Vase_siamese_hat
+x = 9, y = 9, rule = B3/S23
+b2o3b2ob$o2bobo2bo$2obobob2o$3bobo3b$3bobo3b$2b2ob2o2b$3bobo3b$3bobo3b$
+4bo4b!

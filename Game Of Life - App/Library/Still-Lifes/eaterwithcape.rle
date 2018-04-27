@@ -1,0 +1,6 @@
+#N Eater with cape
+#O Unknown
+#C http://conwaylife.com/wiki/Eater_with_cape
+#C http://conwaylife.com/patterns/eaterwithcape.rle
+x = 6, y = 4, rule = B3/S23
+2o2b2o$o2bobo$bobo$2b2o!

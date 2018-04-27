@@ -1,0 +1,5 @@
+#N Inflected 30-great sym
+#C The most common naturally-occurring 32-bit still life.
+#C http://conwaylife.com/wiki/Inflected_30-great_sym
+x = 9, y = 8, rule = B3/S23
+2bo3bo$bobobobo$o2bobo2bo$2obobob2o$3bobo$2obobob2o$o2bobo2bo$b2o3b2o!

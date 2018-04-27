@@ -1,0 +1,6 @@
+#N Amphisbaena
+#O Unknown
+#C http://conwaylife.com/wiki/Amphisbaena
+#C http://conwaylife.com/patterns/amphisbaena.rle
+x = 7, y = 5, rule = B3/S23
+obo$2obo$3bo$3bob2o$4bobo!

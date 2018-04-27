@@ -1,0 +1,17 @@
+#N Pony express
+#O Unknown
+#C http://conwaylife.com/wiki/Pony_express
+#C http://conwaylife.com/patterns/ponyexpress.rle
+x = 74, y = 124, rule = B3/S23
+15b2o$14bo2bo$15bobo$5b2o5bo3bo$5b2o4bobo$11bo2bo$12b2o4$19b2o$19b2o
+10$15bo$14bobo$14b2o3$32bo$31bobo$32b2o$9b2o$8bo2bo$9b2o3$43b2o$29b2o
+12b2o$29b2o2$b2o$b2o22b2o10b2o$25b2o9bo2bo$36bo2bo$38bo12b2o$37bo13b2o
+$24bob2o4bo$29b2o$9b2o12bo3bobo$9b2o12b2o2b3o4bo$25bo3bobobo$26bobo2bo
+bo$27bo4bo$32bo$39b3o$38bo2bo$31b2o5b2obo11b2o$31b2o20b4o$4b2o51bo$4b
+2o47b3obob2o$44bob3o4bo3bo3bo$47b2o4bo4bo2bo$2o37b3o15bo3bo$2o52b2o4bo
+$25b2o32bo$25b2o29b3o2$19b2o$19b2o3$15b2o$15b2o16b2o$33b2o3$5b2o$5b2o
+5$28b2o$28b2o3$24b2o$24b2o$49b2o$49b2o2$43b2o$21b2o20b2o$21b2o2$39b2o$
+39b2o16b2o$57b2o3$29b2o20b3o$29b2o$49b2o$49bo4bo$49bo15b2o$41bo8bo2bo
+11b2o$41b2o9bo$41bobo$44b4o$45b5o$45bo2b2o4bo$53b3o$52b2o2bo$52b2ob2o$
+55b3o$53bob2o12bo$45b2o5bo2bo14b2o$45b2o8bo11b2o$52bobo13bobo$53bo14b
+2o$68bo$54bo11bobo$54bo11bo2bo$54bo13b2o$69bo$71b3o!

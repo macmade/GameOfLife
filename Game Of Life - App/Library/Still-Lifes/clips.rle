@@ -1,0 +1,5 @@
+#N Clips
+#C The most common naturally-occurring 30-bit still life.
+#C http://conwaylife.com/wiki/Clips
+x = 9, y = 7, rule = B3/S23
+b2o3b2o$o2bobo2bo$2obobob2o$3bobo$2obobob2o$o2bobo2bo$b2o3b2o!

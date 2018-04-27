@@ -1,0 +1,6 @@
+#N R-mango and house
+#O Unknown
+#C http://conwaylife.com/wiki/R-mango_and_house
+#C http://conwaylife.com/patterns/rmangoandhouse.rle
+x = 8, y = 6, rule = B3/S23
+bo$obo3b2o$o2bobobo$bobobo$2b2obobo$6b2o!

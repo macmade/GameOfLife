@@ -1,0 +1,6 @@
+#N Rotated C
+#O Unknown
+#C http://conwaylife.com/wiki/Rotated_C
+#C http://conwaylife.com/patterns/rotatedc.rle
+x = 7, y = 7, rule = B3/S23
+2o$obo$2bo2b2o$obobobo$2o2bo$4bobo$5b2o!

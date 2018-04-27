@@ -1,0 +1,6 @@
+#N Cis-mirrored worm
+#O Unknown
+#C http://conwaylife.com/wiki/Cis-mirrored_worm
+#C http://conwaylife.com/patterns/cismirroredworm.rle
+x = 6, y = 9, rule = B3/S23
+b2o$obo$o4bo$b5o2$b5o$o4bo$obo$b2o!

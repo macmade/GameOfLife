@@ -1,0 +1,8 @@
+#N Shuriken
+#O Unknown
+#C http://conwaylife.com/wiki/Shuriken
+#C http://conwaylife.com/patterns/shuriken.rle
+#C http://conwaylife.com/ref/mniemiec/20/20-21877.rle
+#C https://catagolue.appspot.com/object/xs20_cq231eoz012311/b3s23
+x = 7, y = 7, rule = B3/S23
+3b2o$b3obo$o4bo$2o3b2o$bo4bo$bob3o$2b2o!

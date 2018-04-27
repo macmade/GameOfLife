@@ -1,0 +1,6 @@
+#N Very^4 long snake
+#O Unknown
+#C http://www.conwaylife.com/wiki/Very%5E4_long_snake
+#C http://www.conwaylife.com/patterns/veryveryveryverylongsnake.rle
+x = 9, y = 7, rule = B3/S23
+2o$obo$3bo$4bo$5bo$6bobo$7b2o!

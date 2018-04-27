@@ -1,0 +1,6 @@
+#N Dock siamese carrier
+#O Unknown
+#C http://conwaylife.com/wiki/Dock_siamese_carrier
+#C http://conwaylife.com/patterns/docksiamesecarrier.rle
+x = 6, y = 6, rule = B3/S23
+2o2b2o$o4bo$b4o$3bo$5bo$4b2o!

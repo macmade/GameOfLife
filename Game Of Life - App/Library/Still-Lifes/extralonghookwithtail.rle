@@ -1,0 +1,6 @@
+#N Extra long hook with tail
+#O Unknown
+#C http://conwaylife.com/wiki/Extra_long_hook_with_tail
+#C http://conwaylife.com/patterns/extralonghookwithtail.rle
+x = 5, y = 8, rule = B3/S23
+bo$b3o$4bo$3bo$2bo$bo$o$2o!

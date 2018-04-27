@@ -1,0 +1,12 @@
+#N Period-36 glider gun
+#O Jason Summers
+#C A true period 36 glider gun found by Jason Summers in 2004.
+#C http://conwaylife.com/wiki/Period-36_glider_gun
+x = 50, y = 49, rule = B3/S23
+48bo$46b3o$45bo$45b2o4$41bo$40bo2$33b2o$32bo2bo$32bobo2bo$33bo3bo$37bo
+$34bo7b2o$35b2o4bobo$41bo2bo$42b2o$38bo4bo$38b2o$37bo2bo$38bobo4b2o$
+38b2o7bo$26b2o16bo$2o23bo2bo15bo3bo$bo21bo2bobo15bo2bobo$bobo18bo4bo
+18bo2bo$2b2o18bo24b2o$13b3o8b3o$13bo$13bobo19bo$14b2o20b2o$23b2o10b2o$
+23bobo$25bo$12b3o8b3o$16bo$11bo4bo$10bobo2bo$10bo2bo17b2o$11b2o11bo3bo
+5bob2o$23bobo11bo$23bobo9b2o$20b2obobob8o2b3o$20b2obo12bo2bo$23bo13b2o
+$23bobo4b2o$24b2o4b2o!

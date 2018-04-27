@@ -1,0 +1,6 @@
+#N Very very long barge
+#O Unknown
+#C http://conwaylife.com/wiki/Very_very_long_barge
+#C http://conwaylife.com/patterns/veryverylongbarge.rle
+x = 7, y = 7, rule = B3/S23
+bo$obo$bobo$2bobo$3bobo$4bobo$5bo!

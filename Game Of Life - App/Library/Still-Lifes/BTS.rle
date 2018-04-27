@@ -1,0 +1,6 @@
+#N BTS
+#O Mark Niemiec
+#C 19-bit still life that's used as a catalyst in non-Spartan Herschel conduits.
+#C http://conwaylife.com/wiki/BTS
+x = 7, y = 8, rule = B3/S23
+3b2o$3bo2bo$4b3o2$2obob2o$ob2obo$5bo$5b2o!

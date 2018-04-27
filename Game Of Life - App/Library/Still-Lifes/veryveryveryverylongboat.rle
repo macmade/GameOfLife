@@ -1,0 +1,5 @@
+#N Very^4 long boat
+#C A 15-bit still life.
+#C http://conwaylife.com/wiki/Very%5E4_long_boat
+x = 8, y = 8, rule = B3/S23
+6bo$5bobo$4bobo$3bobo$2bobo$bobo$obo$2o!

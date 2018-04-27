@@ -1,0 +1,5 @@
+#N Longhorn
+#C A 19-bit still life.
+#C http://conwaylife.com/wiki/Longhorn
+x = 9, y = 6, rule = B3/S23
+b2o3b2o$o2bobo2bo$2obobob2o$3bobo$3bobo$4bo!

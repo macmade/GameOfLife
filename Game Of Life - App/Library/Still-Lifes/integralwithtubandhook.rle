@@ -1,0 +1,6 @@
+#N Integral with tub and hook
+#O Unknown
+#C http://conwaylife.com/wiki/Integral_with_tub_and_hook
+#C http://conwaylife.com/patterns/integralwithtubandhook.rle
+x = 6, y = 7, rule = B3/S23
+4bo$3bobo$4bo$b3o$o$bo$2o!

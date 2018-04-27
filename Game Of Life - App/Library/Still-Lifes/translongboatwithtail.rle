@@ -1,0 +1,6 @@
+#N Trans-long boat with tail
+#O 
+#C A small 11-bit still life.
+#C http://conwaylife.com/wiki/Trans-long_boat_with_tail
+x = 6, y = 6, rule = B3/S23
+4b2o$3bobo$2bobo$3bo$3o$o!

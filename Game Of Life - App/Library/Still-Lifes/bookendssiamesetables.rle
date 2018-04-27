@@ -1,0 +1,5 @@
+#N Bookends siamese tables
+#C A 22-bit still life.
+#C https://conwaylife.com/wiki/Bookends_siamese_tables
+x = 7, y = 7, rule = B3/S23
+2o3b2o$obobobo$2bobo$b2ob2o$2bobo$2bobo$b2ob2o!

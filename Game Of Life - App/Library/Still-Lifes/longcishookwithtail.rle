@@ -1,0 +1,6 @@
+#N Long cis-hook with tail
+#O 
+#C An 11-bit still life.
+#C http://conwaylife.com/wiki/Long_cis-hook_with_tail
+x = 6, y = 7, rule = B3/S23
+3bo$b3o$o$bo$2bo$3bobo$4b2o!

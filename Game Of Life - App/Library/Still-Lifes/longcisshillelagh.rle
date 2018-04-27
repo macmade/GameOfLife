@@ -1,0 +1,6 @@
+#N Long cis-shillelagh
+#O 
+#C An 11-bit still life.
+#C http://conwaylife.com/wiki/Long_cis-shillelagh
+x = 6, y = 7, rule = B3/S23
+b2o$obo$o$bo$2bo$3bobo$4b2o!

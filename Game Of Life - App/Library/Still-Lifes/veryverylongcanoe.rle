@@ -1,0 +1,6 @@
+#N Very very long canoe
+#O Unknown
+#C http://conwaylife.com/wiki/Very_very_long_canoe
+#C http://conwaylife.com/patterns/veryverylongcanoe.rle
+x = 8, y = 8, rule = B3/S23
+6b2o$5bobo$4bo$3bo$2bo$bo$o$2o!

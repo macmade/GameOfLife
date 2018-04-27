@@ -1,0 +1,6 @@
+#N Snake with feather
+#O 
+#C A small 11-bit still life.
+#C http://conwaylife.com/wiki/Snake_with_feather
+x = 7, y = 4, rule = B3/S23
+2o$o2b2obo$bobob2o$2bo!

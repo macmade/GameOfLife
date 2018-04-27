@@ -1,0 +1,5 @@
+#N Bi-loaf 4
+#C A 14-cell still life.
+#C www.conwaylife.com/wiki/index.php?title=Bi-loaf_4
+x = 6, y = 6, rule = B3/S23
+3b2o$2bo2bo$bobobo$obobo$o2bo$b2o!

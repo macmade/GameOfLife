@@ -1,0 +1,6 @@
+#N Hungry hat
+#O Unknown
+#C http://conwaylife.com/wiki/Hungry_hat
+#C http://conwaylife.com/patterns/hungryhat.rle
+x = 6, y = 5, rule = B3/S23
+4b2o$2obobo$bobo$bobo$2bo!

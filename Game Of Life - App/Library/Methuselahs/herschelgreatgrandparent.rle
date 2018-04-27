@@ -1,0 +1,5 @@
+#N Herschel great-grandparent
+#C A specific 3-tick Herschel predecessor occasionally useful for displaying dependent conduits.
+#C http://conwaylife.com/wiki/Herschel_great-grandparent
+x = 7, y = 5, rule = B3/S23
+b2o$3ob2o$b2ob3o$3ob2o$2o!

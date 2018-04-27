@@ -1,0 +1,6 @@
+#N Carrier with feather
+#O Unknown
+#C http://conwaylife.com/wiki/Carrier_with_feather
+#C http://conwaylife.com/patterns/carrierwithfeather.rle
+x = 7, y = 4, rule = B3/S23
+2o2bo$o2bobo$2b2o2bo$5b2o!

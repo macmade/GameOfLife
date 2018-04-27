@@ -1,0 +1,6 @@
+#N Very very long ship
+#O Unknown
+#C http://conwaylife.com/wiki/Very_very_long_ship
+#C http://conwaylife.com/patterns/veryverylongship.rle
+x = 6, y = 6, rule = B3/S23
+2o$obo$bobo$2bobo$3bobo$4b2o!

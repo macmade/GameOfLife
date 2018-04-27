@@ -1,0 +1,6 @@
+#N Trans-boat and table
+#O 
+#C A small 11-bit still life.
+#C http://conwaylife.com/wiki/Trans-boat_and_table
+x = 6, y = 5, rule = B3/S23
+bo$obob2o$b2obo$4bo$4b2o!

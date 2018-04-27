@@ -1,0 +1,6 @@
+#N Python siamese snake
+#O 
+#C A small 11-bit still life.
+#C http://conwaylife.com/wiki/Python_siamese_snake
+x = 3, y = 8, rule = B3/S23
+b2o$2bo$bo$b2o$2bo$bo$o$2o!

@@ -1,0 +1,6 @@
+#N Bi-boat
+#O Unknown
+#C http://conwaylife.com/wiki/Bi-boat
+#C http://conwaylife.com/patterns/biboat.rle
+x = 7, y = 3, rule = B3/S23
+bo3bo$obobobo$b2ob2o!
