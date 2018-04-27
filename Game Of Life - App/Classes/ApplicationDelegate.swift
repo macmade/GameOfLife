@@ -27,10 +27,11 @@ import Cocoa
 @NSApplicationMain
 class ApplicationDelegate: NSObject, NSApplicationDelegate
 {
-    @objc public private( set ) dynamic var mainWindowController:        MainWindowController?
-    @objc public private( set ) dynamic var aboutWindowController:       AboutWindowController?
-    @objc public private( set ) dynamic var preferencesWindowController: PreferencesWindowController?
-    @objc public private( set ) dynamic var libraryWindowController:     LibraryEditorWindowController?
+    @objc public private( set ) dynamic var mainWindowController:          MainWindowController?
+    @objc public private( set ) dynamic var aboutWindowController:         AboutWindowController?
+    @objc public private( set ) dynamic var preferencesWindowController:   PreferencesWindowController?
+    @objc public private( set ) dynamic var libraryEditorWindowController: LibraryEditorWindowController?
+    @objc public private( set ) dynamic var libraryViewerWindowController: LibraryViewerWindowController?
     
     func applicationDidFinishLaunching( _ notification: Notification )
     {
@@ -110,16 +111,28 @@ class ApplicationDelegate: NSObject, NSApplicationDelegate
         self.preferencesWindowController?.window?.makeKeyAndOrderFront( nil )
     }
     
-    @IBAction func showLibraryWindow( _ sender: Any? )
+    @IBAction func showLibraryEditorWindow( _ sender: Any? )
     {
-        if( self.libraryWindowController == nil )
+        if( self.libraryEditorWindowController == nil )
         {
-            self.libraryWindowController = LibraryEditorWindowController()
+            self.libraryEditorWindowController = LibraryEditorWindowController()
             
-            self.libraryWindowController?.window?.center()
+            self.libraryEditorWindowController?.window?.center()
         }
         
-        self.libraryWindowController?.window?.makeKeyAndOrderFront( nil )
+        self.libraryEditorWindowController?.window?.makeKeyAndOrderFront( nil )
+    }
+    
+    @IBAction func showLibraryViewerWindow( _ sender: Any? )
+    {
+        if( self.libraryViewerWindowController == nil )
+        {
+            self.libraryViewerWindowController = LibraryViewerWindowController()
+            
+            self.libraryViewerWindowController?.window?.center()
+        }
+        
+        self.libraryViewerWindowController?.window?.makeKeyAndOrderFront( nil )
     }
 }
 

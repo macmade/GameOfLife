@@ -85,7 +85,13 @@
                             <menuItem isSeparatorItem="YES" id="ixP-si-jEJ"/>
                             <menuItem title="Edit Library" keyEquivalent="L" id="RNN-uu-QfE">
                                 <connections>
-                                    <action selector="showLibraryWindow:" target="Voe-Tx-rLC" id="etD-0R-WlI"/>
+                                    <action selector="showLibraryEditorWindow:" target="Voe-Tx-rLC" id="f3F-iZ-jwo"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Show Library" keyEquivalent="l" id="7r6-jH-d3x">
+                                <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                <connections>
+                                    <action selector="showLibraryViewerWindow:" target="Voe-Tx-rLC" id="9bD-Zw-P4j"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="Jm5-pQ-PsV"/>

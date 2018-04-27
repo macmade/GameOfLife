@@ -480,14 +480,14 @@
                         <action selector="toggleShapes:" target="-2" id="e1p-4k-T1J"/>
                     </connections>
                 </menuItem>
-                <menuItem title="Toggle Library" keyEquivalent="l" id="4DX-ts-3QS">
-                    <connections>
-                        <action selector="toggleLibrary:" target="-2" id="NYM-U7-awc"/>
-                    </connections>
-                </menuItem>
                 <menuItem title="Toggle Controls" keyEquivalent="H" id="qD7-ZC-YS7">
                     <connections>
                         <action selector="toggleControls:" target="-2" id="S4Q-Wa-Pdg"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Toggle Library" keyEquivalent="l" id="4DX-ts-3QS">
+                    <connections>
+                        <action selector="toggleLibrary:" target="-2" id="NYM-U7-awc"/>
                     </connections>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="tqw-Zy-Xv4"/>
@@ -513,7 +513,13 @@
                 <menuItem isSeparatorItem="YES" id="WyK-Dg-etU"/>
                 <menuItem title="Edit Library" keyEquivalent="L" id="K6U-F8-3uS">
                     <connections>
-                        <action selector="showLibraryWindow:" target="-1" id="0YU-HG-y9t"/>
+                        <action selector="showLibraryEditorWindow:" target="-1" id="aoA-rp-jDX"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Show Library" keyEquivalent="l" id="jSu-YW-oSR">
+                    <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                    <connections>
+                        <action selector="showLibraryViewerWindow:" target="-1" id="dxR-vK-TgK"/>
                     </connections>
                 </menuItem>
                 <menuItem title="Edit Preferences" keyEquivalent="," id="Tgx-kB-7SM">

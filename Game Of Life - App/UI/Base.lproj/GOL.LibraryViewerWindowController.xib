@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <capability name="system font weights other than Regular or Bold" minToolsVersion="7.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="LibraryViewerWindowController" customModule="GOL" customModuleProvider="target">
+            <connections>
+                <outlet property="window" destination="QvC-M9-y7g" id="OYP-9z-vQb"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Library Viewer" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="QvC-M9-y7g">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="196" y="240" width="679" height="557"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
+            <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
+                <rect key="frame" x="0.0" y="0.0" width="679" height="557"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <visualEffectView appearanceType="vibrantDark" blendingMode="behindWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="uq0-9d-DYl">
+                        <rect key="frame" x="0.0" y="0.0" width="679" height="557"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="1" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="dpd-Kd-nxy">
+                                <rect key="frame" x="18" y="503" width="643" height="24"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Library" id="mG2-FZ-w2w">
+                                    <font key="font" metaFont="systemThin" size="20"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="lq0-ha-ns6">
+                                <rect key="frame" x="20" y="492" width="639" height="5"/>
+                            </box>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="dpd-Kd-nxy" secondAttribute="trailing" constant="20" id="1xa-cF-59R"/>
+                            <constraint firstItem="lq0-ha-ns6" firstAttribute="trailing" secondItem="dpd-Kd-nxy" secondAttribute="trailing" id="2ef-Z5-Oxf"/>
+                            <constraint firstItem="lq0-ha-ns6" firstAttribute="leading" secondItem="dpd-Kd-nxy" secondAttribute="leading" id="8TU-hI-kYp"/>
+                            <constraint firstItem="dpd-Kd-nxy" firstAttribute="top" secondItem="uq0-9d-DYl" secondAttribute="top" constant="30" id="TRb-ZD-XkW"/>
+                            <constraint firstItem="lq0-ha-ns6" firstAttribute="top" secondItem="dpd-Kd-nxy" secondAttribute="bottom" constant="8" id="pmT-jm-hLb"/>
+                            <constraint firstItem="dpd-Kd-nxy" firstAttribute="leading" secondItem="uq0-9d-DYl" secondAttribute="leading" constant="20" id="u8f-0x-J49"/>
+                        </constraints>
+                    </visualEffectView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="uq0-9d-DYl" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="7pv-VX-fEF"/>
+                    <constraint firstItem="uq0-9d-DYl" firstAttribute="height" secondItem="EiT-Mj-1SZ" secondAttribute="height" id="HFV-dY-Rbq"/>
+                    <constraint firstItem="uq0-9d-DYl" firstAttribute="width" secondItem="EiT-Mj-1SZ" secondAttribute="width" id="Ysw-XM-sF4"/>
+                    <constraint firstItem="uq0-9d-DYl" firstAttribute="centerY" secondItem="EiT-Mj-1SZ" secondAttribute="centerY" id="pGV-3k-JzJ"/>
+                </constraints>
+            </view>
+            <point key="canvasLocation" x="101.5" y="-20.5"/>
+        </window>
+    </objects>
+</document>
