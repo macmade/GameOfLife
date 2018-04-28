@@ -223,6 +223,7 @@ class LibraryEditorWindowController: NSWindowController
             }
             
             delegate.mainWindowController?.libraryViewController?.reload()
+            delegate.libraryViewerWindowController?.libraryViewController?.reload()
         }
         catch
         {

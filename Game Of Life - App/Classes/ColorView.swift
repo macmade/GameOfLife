@@ -38,4 +38,3 @@ class ColorView: NSView
         p.fill()
     }
 }
-

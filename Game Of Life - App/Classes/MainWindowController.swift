@@ -352,7 +352,8 @@ class MainWindowController: NSWindowController
     {
         if( self.libraryViewController == nil )
         {
-            self.libraryViewController = LibraryViewController()
+            self.libraryViewController            = LibraryViewController()
+            self.libraryViewController?.allowDrag = true
             
             guard let container = self.libraryViewContainer else
             {

@@ -31,6 +31,7 @@ class LibraryViewController: NSViewController, NSOutlineViewDelegate, NSOutlineV
     @IBOutlet private               var outlineView:    NSOutlineView?
     @objc     private dynamic       var library:        [ LibraryItem ]?
     @objc     private dynamic       var loading:        Bool = true
+    @objc     public  dynamic       var allowDrag:      Bool = false
     
     override var nibName: NSNib.Name?
     {
@@ -41,6 +42,8 @@ class LibraryViewController: NSViewController, NSOutlineViewDelegate, NSOutlineV
     {
         super.viewDidLoad()
         self.reload()
+        
+        self.view.appearance = NSAppearance( named: .vibrantDark )
     }
     
     public func reload()
@@ -111,7 +114,7 @@ class LibraryViewController: NSViewController, NSOutlineViewDelegate, NSOutlineV
     
     func outlineView( _ outlineView: NSOutlineView, writeItems i: [ Any ], to pasteboard: NSPasteboard ) -> Bool
     {
-        if( i.count == 0 )
+        if( i.count == 0 || self.allowDrag == false )
         {
             return false
         }

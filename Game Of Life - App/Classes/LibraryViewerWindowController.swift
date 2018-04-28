@@ -26,12 +26,41 @@ import Cocoa
 
 class LibraryViewerWindowController: NSWindowController
 {
+    @IBOutlet private var libraryViewContainer: NSView?
+    
+    @objc dynamic public private( set ) var libraryViewController: LibraryViewController?
+    
     override var windowNibName: NSNib.Name?
     {
         return NSNib.Name( NSStringFromClass( type( of: self ) ) )
     }
     
     override func windowDidLoad()
-    {}
+    {
+        self.window?.appearance = NSAppearance(named: .vibrantDark)
+        
+        if( self.libraryViewController == nil )
+        {
+            self.libraryViewController = LibraryViewController()
+            
+            guard let container = self.libraryViewContainer else
+            {
+                return
+            }
+            
+            guard let view = self.libraryViewController?.view else
+            {
+                return
+            }
+            
+            view.translatesAutoresizingMaskIntoConstraints = false
+            
+            container.addSubview( view )
+            container.addConstraint( NSLayoutConstraint( item: view, attribute: .width,   relatedBy: .equal, toItem: container, attribute: .width,   multiplier: 1, constant: 0 ) )
+            container.addConstraint( NSLayoutConstraint( item: view, attribute: .height,  relatedBy: .equal, toItem: container, attribute: .height,  multiplier: 1, constant: 0 ) )
+            container.addConstraint( NSLayoutConstraint( item: view, attribute: .centerX, relatedBy: .equal, toItem: container, attribute: .centerX, multiplier: 1, constant: 0 ) )
+            container.addConstraint( NSLayoutConstraint( item: view, attribute: .centerY, relatedBy: .equal, toItem: container, attribute: .centerY, multiplier: 1, constant: 0 ) )
+        }
+    }
 }
 
