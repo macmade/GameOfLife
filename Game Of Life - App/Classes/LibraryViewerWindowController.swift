@@ -27,9 +27,13 @@ import Cocoa
 class LibraryViewerWindowController: NSWindowController
 {
     @IBOutlet private var libraryViewContainer: NSView?
+    @IBOutlet private var infosController:      NSArrayController?
+    @IBOutlet private var textView:             NSTextView?
     
     @objc dynamic public private( set ) var libraryViewController: LibraryViewController?
     @objc dynamic public private( set ) var selectedItem:          LibraryItem?
+    @objc dynamic public private( set ) var infos:                 [ StringPair ]?
+    @objc dynamic public private( set ) var comments:              NSAttributedString?
     
     override var windowNibName: NSNib.Name?
     {
@@ -38,32 +42,54 @@ class LibraryViewerWindowController: NSWindowController
     
     override func windowDidLoad()
     {
-        self.window?.appearance = NSAppearance(named: .vibrantDark)
+        self.window?.appearance = NSAppearance( named: .vibrantDark )
         
-        if( self.libraryViewController == nil )
+        self.libraryViewController = LibraryViewController()
+        
+        guard let container = self.libraryViewContainer else
         {
-            self.libraryViewController = LibraryViewController()
-            
-            guard let container = self.libraryViewContainer else
-            {
-                return
-            }
-            
-            guard let view = self.libraryViewController?.view else
-            {
-                return
-            }
-            
-            view.translatesAutoresizingMaskIntoConstraints = false
-            
-            container.addSubview( view )
-            container.addConstraint( NSLayoutConstraint( item: view, attribute: .width,   relatedBy: .equal, toItem: container, attribute: .width,   multiplier: 1, constant: 0 ) )
-            container.addConstraint( NSLayoutConstraint( item: view, attribute: .height,  relatedBy: .equal, toItem: container, attribute: .height,  multiplier: 1, constant: 0 ) )
-            container.addConstraint( NSLayoutConstraint( item: view, attribute: .centerX, relatedBy: .equal, toItem: container, attribute: .centerX, multiplier: 1, constant: 0 ) )
-            container.addConstraint( NSLayoutConstraint( item: view, attribute: .centerY, relatedBy: .equal, toItem: container, attribute: .centerY, multiplier: 1, constant: 0 ) )
-            
-            self.libraryViewController?.onSelect = { ( item ) in self.selectedItem = item }
+            return
         }
+        
+        guard let view = self.libraryViewController?.view else
+        {
+            return
+        }
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        container.addSubview( view )
+        container.addConstraint( NSLayoutConstraint( item: view, attribute: .width,   relatedBy: .equal, toItem: container, attribute: .width,   multiplier: 1, constant: 0 ) )
+        container.addConstraint( NSLayoutConstraint( item: view, attribute: .height,  relatedBy: .equal, toItem: container, attribute: .height,  multiplier: 1, constant: 0 ) )
+        container.addConstraint( NSLayoutConstraint( item: view, attribute: .centerX, relatedBy: .equal, toItem: container, attribute: .centerX, multiplier: 1, constant: 0 ) )
+        container.addConstraint( NSLayoutConstraint( item: view, attribute: .centerY, relatedBy: .equal, toItem: container, attribute: .centerY, multiplier: 1, constant: 0 ) )
+        
+        self.libraryViewController?.onSelect = { ( item ) in self.select( item: item ) }
+        
+        self.infosController?.sortDescriptors = [ NSSortDescriptor( key: "key", ascending: true ) ]
+        
+        self.textView?.font      = NSFont.systemFont( ofSize: NSFont.smallSystemFontSize )
+        self.textView?.textColor = NSColor.disabledControlTextColor
+    }
+    
+    private func select( item: LibraryItem )
+    {
+        var infos = [ StringPair ]()
+        
+        infos.append( StringPair( key: "Author:", value: item.author ) )
+        infos.append( StringPair( key: "Rule:",   value: item.rule ) )
+        
+        if( item.width > 0 && item.height > 0 )
+        {
+            infos.append( StringPair( key: "Width:",  value: String( describing: item.width ) ) )
+            infos.append( StringPair( key: "Height:", value: String( describing: item.height ) ) )
+        }
+        
+        let attr = [ NSAttributedStringKey.foregroundColor: NSColor.disabledControlTextColor ]
+        
+        self.comments     = NSAttributedString( string: item.comment, attributes: attr )
+        self.infos        = infos
+        self.selectedItem = item
     }
 }
 
