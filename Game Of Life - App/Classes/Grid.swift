@@ -397,14 +397,19 @@ class Grid: NSObject
     
     public func add( item: LibraryItem, left: Int, top: Int )
     {
-        if( item.cells.count == 0 )
+        self.add( cells: item.cells, left: left, top: top )
+    }
+    
+    public func add( cells: [ String ], left: Int, top: Int )
+    {
+        if( cells.count == 0 )
         {
             return
         }
         
-        for y in 0 ..< item.cells.count
+        for y in 0 ..< cells.count
         {
-            let s = item.cells[ y ]
+            let s = cells[ y ]
             
             for x in 0 ..< s.count
             {
@@ -424,12 +429,12 @@ class Grid: NSObject
                 
                 if( i < self.cells.count )
                 {
-                    if( cells[ i ] == 0 )
+                    if( self.cells[ i ] == 0 )
                     {
                         self.population += 1
                     }
                     
-                    cells[ i ] = 1
+                    self.cells[ i ] = 1
                 }
             }
         }

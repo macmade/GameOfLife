@@ -39,13 +39,14 @@ class GridView: NSView
     @objc dynamic public private( set ) var fps:   CGFloat = 0
     @objc dynamic public private( set ) var grid:  Grid    = Grid( width: 0, height: 0 )
     
-    private var lastUpdate:    CFAbsoluteTime            = 0
-    private var mouseUpResume: Bool                      = false
-    private var observations:  [ NSKeyValueObservation ] = []
-    private var timer:         Timer?
-    private var draggedItem:   LibraryItem?
-    private var draggedPoint:  NSPoint?
-    private var dragOperation: NSDragOperation?
+    private var lastUpdate:      CFAbsoluteTime            = 0
+    private var draggedRotation: Int                       = 0
+    private var mouseUpResume:   Bool                      = false
+    private var observations:    [ NSKeyValueObservation ] = []
+    private var timer:           Timer?
+    private var draggedItem:     LibraryItem?
+    private var draggedPoint:    NSPoint?
+    private var dragOperation:   NSDragOperation?
     
     override var acceptsFirstResponder: Bool
     {
@@ -396,9 +397,44 @@ class GridView: NSView
         
         let point = self.convert( p, from: self.window?.contentView )
         
-        for i in 0 ..< item.cells.count
+        self.drawItemBackground( item, at: point )
+        self.drawItem( item, at: point )
+    }
+    
+    public func drawItemBackground( _ item: LibraryItem, at point: NSPoint )
+    {
+        let cellSize  = self.cellSize
+        
+        let x = cellSize * ceil( ceil( point.x ) / cellSize )
+        let y = cellSize * ceil( ceil( point.y ) / cellSize )
+        var w = cellSize * CGFloat( item.width )
+        var h = cellSize * CGFloat( item.height )
+        
+        if( self.draggedRotation % 2 != 0 )
         {
-            let s = item.cells[ i ]
+            swap( &w, &h )
+        }
+        
+        let rect = NSRect( x: x, y: y, width: w, height: h )
+        let path = NSBezierPath( roundedRect: rect, xRadius: cellSize, yRadius: cellSize )
+        
+        NSColor( deviceWhite: 1, alpha: 0.1 ).setFill()
+        path.fill()
+    }
+    
+    public func drawItem( _ item: LibraryItem, at point: NSPoint )
+    {
+        let squares   = Preferences.shared.drawAsSquares
+        let cellSize  = self.cellSize
+        
+        guard let cells = ( self.draggedRotation == 0 ) ? item.cells : ( ( self.draggedRotation <= item.rotations.count ) ? item.rotations[ self.draggedRotation - 1 ] : nil ) else
+        {
+            return
+        }
+        
+        for i in 0 ..< cells.count
+        {
+            let s = cells[ i ]
             
             for j in 0 ..< s.count
             {
@@ -499,10 +535,16 @@ class GridView: NSView
             return .generic
         }
         
+        item.prepareRotations
+        {
+            self.setNeedsDisplay( self.bounds )
+        }
+        
         self.resumeAfterOperation = self.paused == false
         self.draggedItem          = item
         self.draggedPoint         = sender.draggingLocation()
         self.dragging             = true
+        self.draggedRotation      = 0
         
         self.pause( nil )
         self.setNeedsDisplay( self.bounds )
@@ -524,13 +566,11 @@ class GridView: NSView
         
         if( self.dragOperation != NSDragOperation.generic && sender.draggingSourceOperationMask() == NSDragOperation.generic )
         {
-            self.draggedItem?.rotate()
+            self.draggedRotation = ( self.draggedRotation == 3 ) ? 0 : self.draggedRotation + 1
         }
         else if( self.dragOperation != NSDragOperation.copy && sender.draggingSourceOperationMask() == NSDragOperation.copy )
         {
-            self.draggedItem?.rotate()
-            self.draggedItem?.rotate()
-            self.draggedItem?.rotate()
+            self.draggedRotation = ( self.draggedRotation == 0 ) ? 3 : self.draggedRotation - 1
         }
         
         self.dragOperation = sender.draggingSourceOperationMask()
@@ -540,10 +580,11 @@ class GridView: NSView
     
     override func draggingExited( _ sender: NSDraggingInfo? )
     {
-        self.draggedItem   = nil
-        self.draggedPoint  = nil
-        self.dragOperation = nil
-        self.dragging      = false
+        self.draggedItem     = nil
+        self.draggedPoint    = nil
+        self.dragOperation   = nil
+        self.dragging        = false
+        self.draggedRotation = 0
         
         if( self.resumeAfterOperation )
         {
@@ -557,10 +598,11 @@ class GridView: NSView
     
     override func draggingEnded( _ sender: NSDraggingInfo )
     {
-        self.draggedItem   = nil
-        self.draggedPoint  = nil
-        self.dragOperation = nil
-        self.dragging      = false
+        self.draggedItem     = nil
+        self.draggedPoint    = nil
+        self.dragOperation   = nil
+        self.dragging        = false
+        self.draggedRotation = 0
         
         if( self.resumeAfterOperation )
         {
@@ -580,13 +622,27 @@ class GridView: NSView
             return false
         }
         
+        var cells: [ String ]
+        
+        if( self.draggedRotation == 0 )
+        {
+            cells = item.cells
+        }
+        else
+        {
+            while item.rotations.count < self.draggedRotation
+            {}
+            
+            cells = item.rotations[ self.draggedRotation - 1 ]
+        }
+        
         let point     = self.convert( sender.draggingLocation(), from: self.window?.contentView )
         let cellSize  = self.cellSize
         
         let offsetX = Int( ceil( point.x / cellSize ) );
         let offsetY = Int( ceil( point.y / cellSize ) );
         
-        self.grid.add( item: item, left: offsetX, top: offsetY )
+        self.grid.add( cells: cells, left: offsetX, top: offsetY )
         
         self.setNeedsDisplay( self.bounds )
         

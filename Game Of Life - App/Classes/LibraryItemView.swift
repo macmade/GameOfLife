@@ -28,9 +28,6 @@ class LibraryItemView: NSView
 {
     private var item: LibraryItem?
     
-    private var width:  Int = 0
-    private var height: Int = 0
-    
     override var isFlipped: Bool
     {
         return true
@@ -43,18 +40,18 @@ class LibraryItemView: NSView
         NSColor.clear.setFill()
         self.bounds.fill()
         
-        guard let cells = self.item?.cells else
+        guard let item = self.item else
         {
             return
         }
         
-        let n1 = max( self.width, self.height )
+        let n1 = max( item.width, item.height )
         let n2 = min( self.bounds.width, self.bounds.height )
         let d  = CGFloat( n2 ) / CGFloat( n1 )
         
-        for y in 0 ..< cells.count
+        for y in 0 ..< item.cells.count
         {
-            let s = cells[ y ]
+            let s = item.cells[ y ]
             
             for x in 0 ..< s.count
             {
@@ -87,16 +84,7 @@ class LibraryItemView: NSView
             return
         }
         
-        var width = 0
-        
-        for s in item.cells
-        {
-            width = max( s.count, width )
-        }
-        
-        self.width  = width
-        self.height = item.cells.count
-        self.item   = item
+        self.item = item
     }
     
     private func findItem( view: NSView? ) -> LibraryItem?

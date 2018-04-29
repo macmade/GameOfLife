@@ -40,7 +40,8 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
     @objc public dynamic var allChildren: [ LibraryItem ]
     @objc public dynamic var children:    [ LibraryItem ]
     
-    @objc public private( set ) dynamic var cells: [ String ]
+    @objc public private( set ) dynamic var cells:     [ String ]
+    @objc public private( set ) dynamic var rotations: [ [ String ] ]
     
     init( title: String = "", cells: [ String ] = [] )
     {
@@ -52,6 +53,7 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
         self.tooltip     = ""
         self.isGroup     = cells.count == 0
         self.cells       = cells
+        self.rotations   = []
         self.allChildren = []
         self.children    = []
         
@@ -122,9 +124,14 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
     
     public func rotate()
     {
+        self.cells = self.rotate( cells: self.cells )
+    }
+    
+    public func rotate( cells: [ String ] ) -> [ String ]
+    {
         var n = 0
         
-        for s in self.cells
+        for s in cells
         {
             n = max( n, s.count )
         }
@@ -136,13 +143,13 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
             r.append( "" )
         }
         
-        for i in 0 ..< self.cells.count
+        for i in 0 ..< cells.count
         {
             for j in 0 ..< n
             {
-                if( j < self.cells[ i ].count )
+                if( j < cells[ i ].count )
                 {
-                    let c = self.cells[ i ][ String.Index( encodedOffset: j ) ]
+                    let c = cells[ i ][ String.Index( encodedOffset: j ) ]
                     
                     r[ j ].append( c )
                 }
@@ -153,11 +160,41 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
             }
         }
         
-        self.cells.removeAll()
+        var ret = [ String ]()
         
         for i in 0 ..< r.count
         {
-            self.cells.append( String( r[ i ].reversed() ) )
+            ret.append( String( r[ i ].reversed() ) )
+        }
+        
+        return ret
+    }
+    
+    public func prepareRotations( done: @escaping () -> Void )
+    {
+        if( self.rotations.count > 0 )
+        {
+            return
+        }
+        
+        DispatchQueue.global( qos: .default ).async
+        {
+            var rotations = [ [ String ] ]()
+            var cells     = self.cells
+            
+            for _ in 0 ... 2
+            {
+                cells = self.rotate( cells: cells )
+                
+                rotations.append( cells )
+            }
+            
+            self.rotations = rotations
+            
+            DispatchQueue.main.sync
+            {
+                done()
+            }
         }
     }
     
@@ -177,6 +214,7 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
         item.width       = self.width
         item.height      = self.height
         item.cells       = self.cells
+        item.rotations   = self.rotations
         item.allChildren = self.allChildren
         item.children    = self.children
         
@@ -244,6 +282,7 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
         self.width       = item.width
         self.height      = item.height
         self.cells       = item.cells
+        self.rotations   = item.rotations
         self.allChildren = item.allChildren
         self.children    = item.children
     }
@@ -289,6 +328,11 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
             return nil
         }
         
+        guard let rotations = coder.decodeObject( of: NSArray.self, forKey: "rotations" ) as? [ [ String ] ] else
+        {
+            return nil
+        }
+        
         guard let children = coder.decodeObject( of: NSArray.self, forKey: "children" ) as? [ LibraryItem ] else
         {
             return nil
@@ -302,8 +346,9 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
         self.tooltip     = tooltip
         self.isGroup     = coder.decodeBool( forKey: "isGroup" )
         self.width       = coder.decodeInteger( forKey: "width" )
-        self.height      = coder.decodeInteger( forKey: "height" );
+        self.height      = coder.decodeInteger( forKey: "height" )
         self.cells       = cells
+        self.rotations   = rotations
         self.allChildren = children
         self.children    = children
     }
@@ -320,6 +365,7 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
         coder.encode( self.width,      forKey: "width" )
         coder.encode( self.height,     forKey: "height" )
         coder.encode( self.cells,      forKey: "cells" )
+        coder.encode( self.rotations,  forKey: "rotations" )
         coder.encode( self.children,   forKey: "children" )
     }
 }
