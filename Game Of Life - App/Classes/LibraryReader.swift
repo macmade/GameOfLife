@@ -30,6 +30,8 @@ class LibraryReader
     
     public func read( url: URL ) -> [ LibraryItem ]?
     {
+        let dispatch = DispatchGroup()
+        
         guard let data = NSData( contentsOf: url ) else
         {
             return nil
@@ -51,18 +53,26 @@ class LibraryReader
         {
             let group = LibraryItem( title: p.key )
             
-            for i in p.value
-            {
-                guard let items = self.load( object: i ) else
+                for i in p.value
                 {
-                    continue
+                    dispatch.enter()
+                    
+                    DispatchQueue.global( qos: .userInitiated ).async
+                    {
+                        guard let items = self.load( object: i ) else
+                        {
+                            return
+                        }
+                        
+                        group.allChildren.append( contentsOf: items )
+                        group.children.append( contentsOf: items )
+                        
+                        dispatch.leave()
+                    }
                 }
                 
-                group.allChildren.append( contentsOf: items )
-                group.children.append( contentsOf: items )
-            }
-            
-            library.append( group )
+                dispatch.wait()
+                library.append( group )
         }
         
         return library
