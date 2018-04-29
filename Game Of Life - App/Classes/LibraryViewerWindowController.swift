@@ -44,7 +44,8 @@ class LibraryViewerWindowController: NSWindowController
     {
         self.window?.appearance = NSAppearance( named: .vibrantDark )
         
-        self.libraryViewController = LibraryViewController()
+        self.libraryViewController            = LibraryViewController()
+        self.libraryViewController?.allowDrag = true
         
         guard let container = self.libraryViewContainer else
         {
