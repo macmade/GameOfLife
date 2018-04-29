@@ -38,13 +38,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="338" height="500"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="36" rowSizeStyle="automatic" viewBased="YES" outlineTableColumn="Rdf-0C-esc" id="S86-4b-IY1">
+                            <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowHeight="36" rowSizeStyle="automatic" viewBased="YES" outlineTableColumn="Rdf-0C-esc" id="S86-4b-IY1">
                                 <rect key="frame" x="0.0" y="0.0" width="338" height="500"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <color key="backgroundColor" red="0.43529411764705883" green="0.43529411764705883" blue="0.45098039215686275" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="gridColor" white="0.80000000000000004" alpha="0.0" colorSpace="deviceWhite"/>
                                 <tableColumns>
-                                    <tableColumn identifier="" width="335" minWidth="16" maxWidth="1000" id="Rdf-0C-esc">
+                                    <tableColumn identifier="" width="335" minWidth="16" maxWidth="2000" id="Rdf-0C-esc">
                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -171,8 +171,8 @@
                                                             <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
                                                         </textFieldCell>
                                                         <connections>
-                                                            <binding destination="34V-5S-6yq" name="toolTip" keyPath="objectValue.tooltip" id="5Jj-LE-M2V"/>
                                                             <binding destination="34V-5S-6yq" name="value" keyPath="objectValue.subtitle" id="5b6-Iq-xPT"/>
+                                                            <binding destination="34V-5S-6yq" name="toolTip" keyPath="objectValue.tooltip" id="5Jj-LE-M2V"/>
                                                         </connections>
                                                     </textField>
                                                 </subviews>
