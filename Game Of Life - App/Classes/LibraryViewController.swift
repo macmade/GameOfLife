@@ -35,9 +35,11 @@ class LibraryViewController: NSViewController, NSOutlineViewDelegate, NSOutlineV
     @IBOutlet private               var outlineView:    NSOutlineView?
     @IBOutlet private               var progress:       ProgressIndicator?
     
-    @objc private dynamic var library:   [ LibraryItem ]?
-    @objc private dynamic var loading:   Bool = false
-    @objc public  dynamic var allowDrag: Bool = false
+    @objc private dynamic var library:    [ LibraryItem ]?
+    @objc private dynamic var itemsText:  String?
+    @objc private dynamic var itemsCount: Int = 0
+    @objc private dynamic var loading:    Bool = false
+    @objc public  dynamic var allowDrag:  Bool = false
     
     private var observations:  [ NSKeyValueObservation ] = []
     
@@ -93,6 +95,13 @@ class LibraryViewController: NSViewController, NSOutlineViewDelegate, NSOutlineV
                 library     = reader.read( url: url! ) ?? []
             }
             
+            var n = 0
+            
+            for group in library
+            {
+                n += group.allChildren.count
+            }
+            
             DispatchQueue.main.sync
             {
                 self.library = library
@@ -102,6 +111,9 @@ class LibraryViewController: NSViewController, NSOutlineViewDelegate, NSOutlineV
                 self.outlineView?.expandItem( nil, expandChildren: true )
                 
                 self.loading = false
+                
+                self.itemsCount = n
+                self.itemsText  = String( describing: n ) + " items"
             }
         }
     }
@@ -213,7 +225,9 @@ class LibraryViewController: NSViewController, NSOutlineViewDelegate, NSOutlineV
         {
             return
         }
-            
+        
+        var n = 0
+        
         for item in self.library ?? []
         {
             var predicate: NSPredicate?
@@ -224,6 +238,17 @@ class LibraryViewController: NSViewController, NSOutlineViewDelegate, NSOutlineV
             }
             
             item.setPredicate( predicate )
+            
+            n += item.children.count
+        }
+        
+        if( searchField.stringValue.count == 0 )
+        {
+            self.itemsText = String( describing: n ) + " items"
+        }
+        else
+        {
+            self.itemsText = String( describing: n ) + " of " + String( describing: self.itemsCount ) + " items"
         }
         
         self.outlineView?.expandItem( nil, expandChildren: true )
