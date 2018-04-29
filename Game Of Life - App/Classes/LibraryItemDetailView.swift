@@ -73,6 +73,35 @@ class LibraryItemDetailView: NSView
                 rect.fill()
             }
         }
+        
+        if( d > 5 )
+        {
+            for i in 0 ... Int( self.bounds.width / d )
+            {
+                let p = NSBezierPath()
+                
+                p.move( to: NSPoint( x: d * CGFloat( i ), y: 0 ) )
+                p.line( to: NSPoint( x: d * CGFloat( i ), y: self.bounds.size.height ) )
+                
+                p.lineWidth = 0.5
+                
+                NSColor( deviceWhite: 0.75, alpha: 1 ).setStroke()
+                p.stroke()
+            }
+            
+            for i in 0 ... Int( self.bounds.height / d )
+            {
+                let p = NSBezierPath()
+                
+                p.move( to: NSPoint( x: 0, y: d * CGFloat( i ) ) )
+                p.line( to: NSPoint( x: self.bounds.size.width, y: d * CGFloat( i ) ) )
+                
+                p.lineWidth = 0.5
+                
+                NSColor( deviceWhite: 0.75, alpha: 1 ).setStroke()
+                p.stroke()
+            }
+        }
     }
     
     public func updateItem( _ item: LibraryItem? )
