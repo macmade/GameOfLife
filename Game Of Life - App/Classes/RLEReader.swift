@@ -166,11 +166,6 @@ class RLEReader
             }
         }
         
-        if( name == nil || name?.count == 0 )
-        {
-            return nil
-        }
-        
         guard let cells = self.decode( rle: rle ) else
         {
             return nil
@@ -181,7 +176,7 @@ class RLEReader
             return nil
         }
         
-        let item     = LibraryItem( title: name!, cells: cells )
+        let item     = LibraryItem( title: name ?? "Untitled", cells: cells )
         item.author  = author            ?? ""
         item.rule    = rule?.capitalized ?? ""
         item.comment = comment           ?? ""
