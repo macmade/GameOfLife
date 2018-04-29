@@ -511,15 +511,15 @@
                     </menu>
                 </menuItem>
                 <menuItem isSeparatorItem="YES" id="WyK-Dg-etU"/>
-                <menuItem title="Edit Library" keyEquivalent="L" id="K6U-F8-3uS">
-                    <connections>
-                        <action selector="showLibraryEditorWindow:" target="-1" id="aoA-rp-jDX"/>
-                    </connections>
-                </menuItem>
-                <menuItem title="Show Library" keyEquivalent="l" id="jSu-YW-oSR">
-                    <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                <menuItem title="Show Library" keyEquivalent="L" id="jSu-YW-oSR">
                     <connections>
                         <action selector="showLibraryViewerWindow:" target="-1" id="dxR-vK-TgK"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Edit Library" keyEquivalent="l" id="K6U-F8-3uS">
+                    <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                    <connections>
+                        <action selector="showLibraryEditorWindow:" target="-1" id="aoA-rp-jDX"/>
                     </connections>
                 </menuItem>
                 <menuItem title="Edit Preferences" keyEquivalent="," id="Tgx-kB-7SM">
