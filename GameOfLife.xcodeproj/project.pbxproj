@@ -20,6 +20,7 @@
 		052D1A17208544290076E3E3 /* LibraryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052D1A16208544290076E3E3 /* LibraryItem.swift */; };
 		052D482A209385ED0018F4A3 /* LibraryViewerWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052D4829209385ED0018F4A3 /* LibraryViewerWindowController.swift */; };
 		052D482D209386190018F4A3 /* GOL.LibraryViewerWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 052D482B209386190018F4A3 /* GOL.LibraryViewerWindowController.xib */; };
+		052DD23620961CBE008BA363 /* ProgressIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052DD23520961CBE008BA363 /* ProgressIndicator.swift */; };
 		052EDC06208A530D002B48AF /* Library in Resources */ = {isa = PBXBuildFile; fileRef = 052EDC05208A530D002B48AF /* Library */; };
 		052EDC08208A7AA2002B48AF /* NSView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052EDC07208A7AA2002B48AF /* NSView.swift */; };
 		052EDC0A208A7AF4002B48AF /* LibraryCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052EDC09208A7AF4002B48AF /* LibraryCellView.swift */; };
@@ -87,6 +88,7 @@
 		052D1A16208544290076E3E3 /* LibraryItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryItem.swift; sourceTree = "<group>"; };
 		052D4829209385ED0018F4A3 /* LibraryViewerWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewerWindowController.swift; sourceTree = "<group>"; };
 		052D482C209386190018F4A3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GOL.LibraryViewerWindowController.xib; sourceTree = "<group>"; };
+		052DD23520961CBE008BA363 /* ProgressIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressIndicator.swift; sourceTree = "<group>"; };
 		052EDC05208A530D002B48AF /* Library */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Library; sourceTree = "<group>"; };
 		052EDC07208A7AA2002B48AF /* NSView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSView.swift; sourceTree = "<group>"; };
 		052EDC09208A7AF4002B48AF /* LibraryCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryCellView.swift; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 				052B0727206D81DC00935104 /* Preferences.swift */,
 				051DB8B32072824500963D88 /* PreferencesColorItem.swift */,
 				052B073A206D886700935104 /* PreferencesWindowController.swift */,
+				052DD23520961CBE008BA363 /* ProgressIndicator.swift */,
 				0530311A208BE601009C9FFE /* RLEReader.swift */,
 				05313536208D3C73004B8E07 /* RLEWriter.swift */,
 				05320E80208F0EA20084A59E /* Rule.swift */,
@@ -584,6 +587,7 @@
 				05949A6F20853A2F00DC9C39 /* LibraryViewController.swift in Sources */,
 				05320E81208F0EA20084A59E /* Rule.swift in Sources */,
 				05356FDB20692A3B002178E3 /* ContiguousArray.swift in Sources */,
+				052DD23620961CBE008BA363 /* ProgressIndicator.swift in Sources */,
 				05D6AFD5208F9CCA00F484D1 /* CustomRuleWindowController.swift in Sources */,
 				0535716020698C81002178E3 /* NSColor.swift in Sources */,
 				05303119208B93D6009C9FFE /* CellReader.swift in Sources */,

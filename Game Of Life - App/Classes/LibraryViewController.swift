@@ -29,9 +29,13 @@ class LibraryViewController: NSViewController, NSOutlineViewDelegate, NSOutlineV
     @IBOutlet public private( set ) var searchField:    NSSearchField?
     @IBOutlet private               var treeController: NSTreeController?
     @IBOutlet private               var outlineView:    NSOutlineView?
-    @objc     private dynamic       var library:        [ LibraryItem ]?
-    @objc     private dynamic       var loading:        Bool = true
-    @objc     public  dynamic       var allowDrag:      Bool = false
+    @IBOutlet private               var progress:       ProgressIndicator?
+    
+    @objc private dynamic var library:   [ LibraryItem ]?
+    @objc private dynamic var loading:   Bool = false
+    @objc public  dynamic var allowDrag: Bool = false
+    
+    private var observations:  [ NSKeyValueObservation ] = []
     
     override var nibName: NSNib.Name?
     {
@@ -40,6 +44,22 @@ class LibraryViewController: NSViewController, NSOutlineViewDelegate, NSOutlineV
     
     override func viewDidLoad()
     {
+        let o1 = self.observe( \LibraryViewController.loading )
+        {
+            ( o, c ) in
+            
+            if( self.loading )
+            {
+                self.progress?.startAnimation( nil )
+            }
+            else
+            {
+                self.progress?.stopAnimation( nil )
+            }
+        }
+        
+        self.observations.append( contentsOf: [ o1 ] )
+        
         super.viewDidLoad()
         self.reload()
         
