@@ -8,6 +8,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="LibraryViewerWindowController" customModule="GOL" customModuleProvider="target">
             <connections>
+                <outlet property="detailView" destination="k8f-Et-hPh" id="doo-h8-e5U"/>
                 <outlet property="infosController" destination="TH2-gT-D8W" id="1VQ-jX-OQc"/>
                 <outlet property="libraryViewContainer" destination="g5Z-FE-vbg" id="bri-8T-zcy"/>
                 <outlet property="textView" destination="6Aa-Yd-5gV" id="afo-iz-O6t"/>
@@ -16,7 +17,7 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <window title="Library Viewer" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="QvC-M9-y7g">
+        <window title="Library Viewer" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="LibraryViewer" animationBehavior="default" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="1000" height="600"/>
@@ -67,7 +68,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="699" height="529"/>
                                                 <subviews>
                                                     <textField horizontalHuggingPriority="1" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oWr-1X-9x9">
-                                                        <rect key="frame" x="20" y="485" width="659" height="24"/>
+                                                        <rect key="frame" x="20" y="495" width="659" height="24"/>
                                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" drawsBackground="YES" id="smz-wi-Qwk">
                                                             <font key="font" metaFont="systemThin" size="20"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -78,10 +79,10 @@
                                                         </connections>
                                                     </textField>
                                                     <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="xl9-E8-tno">
-                                                        <rect key="frame" x="20" y="474" width="659" height="5"/>
+                                                        <rect key="frame" x="20" y="484" width="659" height="5"/>
                                                     </box>
                                                     <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="16" horizontalPageScroll="10" verticalLineScroll="16" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lp7-bK-EkO">
-                                                        <rect key="frame" x="20" y="404" width="200" height="64"/>
+                                                        <rect key="frame" x="20" y="414" width="200" height="64"/>
                                                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="BN4-CO-616">
                                                             <rect key="frame" x="0.0" y="0.0" width="200" height="64"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -200,7 +201,7 @@
                                                         </scroller>
                                                     </scrollView>
                                                     <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0H2-yd-VNr">
-                                                        <rect key="frame" x="228" y="404" width="451" height="64"/>
+                                                        <rect key="frame" x="228" y="414" width="451" height="64"/>
                                                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="ngC-mx-037">
                                                             <rect key="frame" x="0.0" y="0.0" width="451" height="64"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -228,10 +229,35 @@
                                                             <autoresizingMask key="autoresizingMask"/>
                                                         </scroller>
                                                     </scrollView>
+                                                    <customView translatesAutoresizingMaskIntoConstraints="NO" id="XAk-Td-pHm" customClass="ColorView" customModule="GOL" customModuleProvider="target">
+                                                        <rect key="frame" x="20" y="20" width="659" height="386"/>
+                                                        <subviews>
+                                                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="k8f-Et-hPh" customClass="LibraryItemDetailView" customModule="GOL" customModuleProvider="target">
+                                                                <rect key="frame" x="10" y="10" width="639" height="366"/>
+                                                            </customView>
+                                                        </subviews>
+                                                        <constraints>
+                                                            <constraint firstItem="k8f-Et-hPh" firstAttribute="height" secondItem="XAk-Td-pHm" secondAttribute="height" constant="-20" id="GTS-1D-rLS"/>
+                                                            <constraint firstItem="k8f-Et-hPh" firstAttribute="centerY" secondItem="XAk-Td-pHm" secondAttribute="centerY" id="NYd-lA-AXn"/>
+                                                            <constraint firstItem="k8f-Et-hPh" firstAttribute="centerX" secondItem="XAk-Td-pHm" secondAttribute="centerX" id="YOz-01-Lmr"/>
+                                                            <constraint firstItem="k8f-Et-hPh" firstAttribute="width" secondItem="XAk-Td-pHm" secondAttribute="width" constant="-20" id="af8-nq-w7H"/>
+                                                        </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                                                <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                                <real key="value" value="10"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </customView>
                                                 </subviews>
                                                 <constraints>
                                                     <constraint firstItem="0H2-yd-VNr" firstAttribute="top" secondItem="Lp7-bK-EkO" secondAttribute="top" id="5YM-re-ZKp"/>
                                                     <constraint firstItem="Lp7-bK-EkO" firstAttribute="leading" secondItem="xl9-E8-tno" secondAttribute="leading" id="7VP-lL-isq"/>
+                                                    <constraint firstAttribute="trailing" secondItem="XAk-Td-pHm" secondAttribute="trailing" constant="20" id="9zN-nq-mEa"/>
+                                                    <constraint firstAttribute="bottom" secondItem="XAk-Td-pHm" secondAttribute="bottom" constant="20" id="IHt-ez-r77"/>
+                                                    <constraint firstItem="XAk-Td-pHm" firstAttribute="leading" secondItem="7fU-ty-akQ" secondAttribute="leading" constant="20" id="Opp-kT-Kxj"/>
                                                     <constraint firstItem="xl9-E8-tno" firstAttribute="leading" secondItem="oWr-1X-9x9" secondAttribute="leading" id="SAB-cE-eZl"/>
                                                     <constraint firstItem="xl9-E8-tno" firstAttribute="trailing" secondItem="oWr-1X-9x9" secondAttribute="trailing" id="UIV-vY-Fvu"/>
                                                     <constraint firstItem="0H2-yd-VNr" firstAttribute="bottom" secondItem="Lp7-bK-EkO" secondAttribute="bottom" id="Y4Z-Ir-4Ua"/>
@@ -241,7 +267,8 @@
                                                     <constraint firstAttribute="trailing" secondItem="oWr-1X-9x9" secondAttribute="trailing" constant="20" id="f3J-zk-eTf"/>
                                                     <constraint firstItem="xl9-E8-tno" firstAttribute="top" secondItem="oWr-1X-9x9" secondAttribute="bottom" constant="8" id="gGe-E3-FlD"/>
                                                     <constraint firstItem="oWr-1X-9x9" firstAttribute="leading" secondItem="7fU-ty-akQ" secondAttribute="leading" constant="20" id="ghT-iY-WfH"/>
-                                                    <constraint firstItem="oWr-1X-9x9" firstAttribute="top" secondItem="7fU-ty-akQ" secondAttribute="top" constant="20" id="reG-tx-ku3"/>
+                                                    <constraint firstItem="oWr-1X-9x9" firstAttribute="top" secondItem="7fU-ty-akQ" secondAttribute="top" constant="10" id="reG-tx-ku3"/>
+                                                    <constraint firstItem="XAk-Td-pHm" firstAttribute="top" secondItem="Lp7-bK-EkO" secondAttribute="bottom" constant="8" id="vhH-Am-67V"/>
                                                 </constraints>
                                                 <connections>
                                                     <binding destination="-2" name="hidden" keyPath="self.selectedItem" id="Tmw-Yv-0Ih">

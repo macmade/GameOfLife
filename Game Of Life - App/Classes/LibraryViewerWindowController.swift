@@ -29,6 +29,7 @@ class LibraryViewerWindowController: NSWindowController
     @IBOutlet private var libraryViewContainer: NSView?
     @IBOutlet private var infosController:      NSArrayController?
     @IBOutlet private var textView:             NSTextView?
+    @IBOutlet private var detailView:           LibraryItemDetailView?
     
     @objc dynamic public private( set ) var libraryViewController: LibraryViewController?
     @objc dynamic public private( set ) var selectedItem:          LibraryItem?
@@ -74,24 +75,33 @@ class LibraryViewerWindowController: NSWindowController
         self.textView?.linkTextAttributes = [ NSAttributedStringKey.foregroundColor: NSColor( hex: 0x5EA09F ) ]
     }
     
-    private func select( item: LibraryItem )
+    private func select( item: LibraryItem? )
     {
+        guard let i = item else
+        {
+            self.selectedItem = item
+            
+            return
+        }
+        
         var infos = [ StringPair ]()
         
-        infos.append( StringPair( key: "Author:", value: item.author ) )
-        infos.append( StringPair( key: "Rule:",   value: item.rule ) )
+        infos.append( StringPair( key: "Author:", value: i.author ) )
+        infos.append( StringPair( key: "Rule:",   value: i.rule ) )
         
-        if( item.width > 0 && item.height > 0 )
+        if( i.width > 0 && i.height > 0 )
         {
-            infos.append( StringPair( key: "Width:",  value: String( describing: item.width ) ) )
-            infos.append( StringPair( key: "Height:", value: String( describing: item.height ) ) )
+            infos.append( StringPair( key: "Width:",  value: String( describing: i.width ) ) )
+            infos.append( StringPair( key: "Height:", value: String( describing: i.height ) ) )
         }
         
         let attr = [ NSAttributedStringKey.foregroundColor: NSColor.disabledControlTextColor ]
         
-        self.comments     = NSAttributedString( string: item.comment, attributes: attr )
+        self.comments     = NSAttributedString( string: i.comment, attributes: attr )
         self.infos        = infos
         self.selectedItem = item
+        
+        self.detailView?.updateItem( item )
         
         self.textView?.isEditable = true
         

@@ -22,6 +22,7 @@
 		052D482D209386190018F4A3 /* GOL.LibraryViewerWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 052D482B209386190018F4A3 /* GOL.LibraryViewerWindowController.xib */; };
 		052DD23620961CBE008BA363 /* ProgressIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052DD23520961CBE008BA363 /* ProgressIndicator.swift */; };
 		052DD23820963123008BA363 /* StringPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052DD23720963123008BA363 /* StringPair.swift */; };
+		052DD23C20963A08008BA363 /* LibraryItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052DD23B20963A08008BA363 /* LibraryItemDetailView.swift */; };
 		052EDC06208A530D002B48AF /* Library in Resources */ = {isa = PBXBuildFile; fileRef = 052EDC05208A530D002B48AF /* Library */; };
 		052EDC08208A7AA2002B48AF /* NSView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052EDC07208A7AA2002B48AF /* NSView.swift */; };
 		052EDC0A208A7AF4002B48AF /* LibraryCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 052EDC09208A7AF4002B48AF /* LibraryCellView.swift */; };
@@ -91,6 +92,7 @@
 		052D482C209386190018F4A3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GOL.LibraryViewerWindowController.xib; sourceTree = "<group>"; };
 		052DD23520961CBE008BA363 /* ProgressIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressIndicator.swift; sourceTree = "<group>"; };
 		052DD23720963123008BA363 /* StringPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringPair.swift; sourceTree = "<group>"; };
+		052DD23B20963A08008BA363 /* LibraryItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryItemDetailView.swift; sourceTree = "<group>"; };
 		052EDC05208A530D002B48AF /* Library */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Library; sourceTree = "<group>"; };
 		052EDC07208A7AA2002B48AF /* NSView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSView.swift; sourceTree = "<group>"; };
 		052EDC09208A7AF4002B48AF /* LibraryCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryCellView.swift; sourceTree = "<group>"; };
@@ -248,6 +250,7 @@
 				052EDC09208A7AF4002B48AF /* LibraryCellView.swift */,
 				052D1A16208544290076E3E3 /* LibraryItem.swift */,
 				0531D6ED20866ED500C86639 /* LibraryItemView.swift */,
+				052DD23B20963A08008BA363 /* LibraryItemDetailView.swift */,
 				05303116208B913B009C9FFE /* LibraryReader.swift */,
 				05949A6E20853A2F00DC9C39 /* LibraryViewController.swift */,
 				05F05FE420899B8300337CB6 /* LibraryEditorWindowController.swift */,
@@ -587,6 +590,7 @@
 				052B0732206D81E600935104 /* Preferences.swift in Sources */,
 				0529D8CE2068EB8A0072B1A5 /* Grid.swift in Sources */,
 				05303117208B913B009C9FFE /* LibraryReader.swift in Sources */,
+				052DD23C20963A08008BA363 /* LibraryItemDetailView.swift in Sources */,
 				05949A6F20853A2F00DC9C39 /* LibraryViewController.swift in Sources */,
 				05320E81208F0EA20084A59E /* Rule.swift in Sources */,
 				052DD23820963123008BA363 /* StringPair.swift in Sources */,

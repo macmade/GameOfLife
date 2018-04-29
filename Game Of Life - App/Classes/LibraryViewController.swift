@@ -26,7 +26,7 @@ import Cocoa
 
 class LibraryViewController: NSViewController, NSOutlineViewDelegate, NSOutlineViewDataSource, NSSearchFieldDelegate
 {
-    typealias OnSelectHandler = ( _ item: LibraryItem ) -> Void
+    typealias OnSelectHandler = ( _ item: LibraryItem? ) -> Void
     
     public var onSelect: OnSelectHandler?
     
@@ -140,11 +140,15 @@ class LibraryViewController: NSViewController, NSOutlineViewDelegate, NSOutlineV
         
         guard let nodes = self.treeController?.selectedNodes else
         {
+            onSelect( nil )
+            
             return
         }
         
         guard let item = nodes.first?.representedObject as? LibraryItem else
         {
+            onSelect( nil )
+            
             return
         }
         

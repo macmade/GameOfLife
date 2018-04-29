@@ -37,8 +37,6 @@ class ApplicationDelegate: NSObject, NSApplicationDelegate
     {
         self.showMainWindow()
         
-        Preferences.shared.lastStart = Date()
-        
         guard let bundled = Bundle.main.url( forResource: "Library", withExtension: "json" ) else
         {
             return
@@ -56,7 +54,9 @@ class ApplicationDelegate: NSObject, NSApplicationDelegate
     }
     
     func applicationWillTerminate( _ notification: Notification )
-    {}
+    {
+        Preferences.shared.lastStart = Date()
+    }
     
     func applicationShouldTerminateAfterLastWindowClosed( _ sender: NSApplication ) -> Bool
     {
@@ -128,8 +128,12 @@ class ApplicationDelegate: NSObject, NSApplicationDelegate
         if( self.libraryViewerWindowController == nil )
         {
             self.libraryViewerWindowController = LibraryViewerWindowController()
-            
+        }
+        
+        if( Preferences.shared.lastStart == nil )
+        {
             self.libraryViewerWindowController?.window?.center()
+            self.libraryViewerWindowController?.window?.zoom( nil )
         }
         
         self.libraryViewerWindowController?.window?.makeKeyAndOrderFront( nil )
