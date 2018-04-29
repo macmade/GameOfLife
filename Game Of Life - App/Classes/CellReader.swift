@@ -157,17 +157,12 @@ class CellReader
             cells.append( line.replacingOccurrences( of: ".", with: " " ).replacingOccurrences( of: "O", with: "o" ) )
         }
         
-        if( name == nil || name?.count == 0 )
-        {
-            return nil
-        }
-        
         if( cells.count == 0 )
         {
             return nil
         }
         
-        let item     = LibraryItem( title: name!, cells: cells )
+        let item     = LibraryItem( title: name ?? "Untitled", cells: cells )
         item.author  = author  ?? ""
         item.comment = comment ?? ""
         
