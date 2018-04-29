@@ -1,0 +1,7 @@
+#N Blocked p4-5
+#O Matthias Merzenich
+#C A sparking period 4 oscillator found by Matthias Merzenich in April 2010.
+#C http://conwaylife.com/wiki/Blocked_p4-5
+x = 18, y = 12, rule = B3/S23
+4bo3bo3bob2o$3bobo9bo$3bobo7b2o$2obobob6o2b3o$2obo10bo2bo$3bo11b2o$3bo
+bo5b2o$4b2o4b3o$9bob2o$8bobo$8bo2bo$9b2o!

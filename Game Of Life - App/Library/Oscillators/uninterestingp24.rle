@@ -1,0 +1,8 @@
+#N Uninteresting p24
+#O Unknown
+#C http://conwaylife.com/wiki/Uninteresting_p24
+#C http://conwaylife.com/patterns/uninterestingp24.rle
+x = 26, y = 15, rule = B3/S23
+15bo5bo$15bo5bo$15b2o3b2o2$3bo7b3o2b2ob2o2b3o$2b2o9bobobobobobo$bob2o
+10b2o3b2o$3o2bo$2bobobo8b2o3b2o$3bobobo5bobobobobobo$4bo2b3ob3o2b2ob2o
+2b3o$5b2obo$6b2o7b2o3b2o$6bo8bo5bo$15bo5bo!

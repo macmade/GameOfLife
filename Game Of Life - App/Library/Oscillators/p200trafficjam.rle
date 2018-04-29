@@ -1,0 +1,23 @@
+#N P200 traffic jam
+#O Bill Gosper
+#C A period-200 oscillator based on the traffic jam reaction, found by Bill Gosper in 1994.
+#C http://conwaylife.com/wiki/P200_traffic_jam
+x = 77, y = 77, rule = B3/S23
+26b2o4b2o$26bobo2bobo$28b4o$26bo2b2o2bo$26bo2b2o2bo$28bo2bo18b2o4b2o$
+50bobo2bobo$35b3o14b4o$35b3obo10bo2b2o2bo$36bobobo9bo2b2o2bo$30b3o4bo
+2bo11bo2bo$38b2o20bobo$14b2o12bo5bo24bo$13bo2bo11bo5bo25bo2bo$12bobobo
+11bo5bo20bo4bobobo$12bo2bo39bo5bo2bo$11bo18b3o22bo6b2o$12bobo3bo$18bo
+32b3o3b3o$5b2ob2o8bo$5bo49bo$6b2o2bo3b3o3b3o7bo24bo$7b3o20bo8bo15bo$7b
+3o8bo11bo8bo14bo$6b2o2bo7bo20bo14bo$5bo12bo7b3o3b3o19bo$5b2ob2o25b3o3b
+3o28b2ob2o$30bo19b3o3b3o17bo$30bo8bo22b3o6bo2b2o$30bo8bo14bo17b3o$39bo
+14bo5bo5bo5b3o$25b3o26bo5bo5bo4bo2b2o$60bo5bo9bo$23bo5bo42b2ob2o$23bo
+5bo32b3o$23bo5bo$9b2o57b3o$8bo2bo13b3o38bob3o$7bobobo53bobobo$6b3obo
+38b3o13bo2bo$6b3o57b2o$47bo5bo$12b3o10bo21bo5bo$2ob2o20bo21bo5bo$o9bo
+5bo8bo$b2o2bo4bo5bo32b3o$2b3o5bo5bo4b3o3b3o$2b3o28b3o10bo$b2o2bo6b3o
+10bo20bo$o24bo5bo5bo8bo$2ob2o20bo5bo5bo29b2ob2o$31bo5bo4b3o3b3o7bo12bo
+$58bo7bo2b2o$33b3o10bo11bo8b3o$21bo24bo20b3o$21bo24bo7b3o3b3o3bo2b2o$
+21bo49bo$58bo8b2ob2o$17b3o3b3o32bo$58bo3bobo$13b2o6bo43bo$12bo2bo5bo
+39bo2bo$12bobobo4bo23bo14bobobo$13bo2bo28bo14bo2bo$17bo26bobo14b2o$14b
+obo20b2o$21bo2bo11bo2bo$19bo2b2o2bo9bobobo$19bo2b2o2bo10bob3o$21b4o14b
+3o$19bobo2bobo$19b2o4b2o18bo2bo$43bo2b2o2bo$43bo2b2o2bo$45b4o$43bobo2b
+obo$43b2o4b2o!

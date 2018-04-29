@@ -1,0 +1,9 @@
+#N p60 hassler
+#O Noam Elkies
+#C A period 60 oscillator found by Noam Elkies in 2002.
+#C http://conwaylife.com/wiki/P60_hassler
+x = 34, y = 23, rule = B3/S23
+10b2o10b2o$9bo2bo8bo2bo$9b3o2b6o2b3o$12b2o6b2o$11bo10bo$11b2obo4bob2o$
+16b2o2$16bo$16bo$16bo$13bo$2bo4bo3bo2bo3b3o5bo4bo$2b6o3bobo12b6o$2bo4b
+o4bo3bo9bo4bo$16bo$16bo2$2b6o18b6o$bo6bo16bo6bo$o8bo14bo8bo$bo6bo16bo
+6bo$2b6o18b6o!

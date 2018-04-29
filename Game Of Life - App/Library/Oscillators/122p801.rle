@@ -1,0 +1,9 @@
+#N 122p80.1
+#C The smallest known period-80 oscillator.
+#C http://conwaylife.com/wiki/122P80.1
+x = 45, y = 41, rule = B3/S23
+14b2o$14b2o$22bob2o$21b2o3bo$21bob2obo$25bo3$19bo$18bob2obo$18bo3b2o$
+19b2obo$14b2o13b2o10b2o$13bo2bo12b2o9bo2bo4$23bo$2b2o10bob2o4bobo4b2o
+10bob2o$2bobo9bobo12bobo9bobo$4bo8bo17bo8bo$bobo9bobo6b3o3bobo9bobo$2o
+bo10b2o11b2obo10b2o5$bo2bo9b2o12bo2bo$2b2o10b2o13b2o$22bob2o$21b2o3bo$
+21bob2obo$25bo3$19bo$18bob2obo$18bo3b2o$19b2obo$29b2o$29b2o!

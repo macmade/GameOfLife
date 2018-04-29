@@ -1,0 +1,6 @@
+#N Loaf test tube baby
+#O Unknown
+#C http://conwaylife.com/wiki/Loaf_test_tube_baby
+#C http://conwaylife.com/patterns/loaftesttubebaby.rle
+x = 12, y = 7, rule = B3/S23
+10bo$b2o6bobo$o2bo4bo2bo$obobo2bob2o$bo2bo2bo$4bo2bo$5b2o!

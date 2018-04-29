@@ -1,0 +1,6 @@
+#N Ship on bipole
+#O Unknown
+#C http://conwaylife.com/wiki/Ship_on_bipole
+#C http://conwaylife.com/patterns/shiponbipole.rle
+x = 8, y = 8, rule = B3/S23
+2o$obo$b2o$3b2o$3bobo2$5bobo$6b2o!

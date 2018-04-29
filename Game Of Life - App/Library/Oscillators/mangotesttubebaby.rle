@@ -1,0 +1,6 @@
+#N Mango test tube baby
+#O Unknown
+#C http://conwaylife.com/wiki/Mango_test_tube_baby
+#C http://conwaylife.com/patterns/mangotesttubebaby.rle
+x = 14, y = 7, rule = B3/S23
+11b2o$2b2o6bo2bo$bo2bo4bo2bo$o2bobo2bob2o$b2o2bo2bo$5bo2bo$6b2o!

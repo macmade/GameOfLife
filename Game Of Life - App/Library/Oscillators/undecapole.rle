@@ -1,0 +1,6 @@
+#N Undecapole
+#O Unknown
+#C http://conwaylife.com/wiki/Undecapole
+#C http://conwaylife.com/patterns/undecapole.rle
+x = 14, y = 14, rule = B3/S23
+12b2o$11bobo2$9bobo2$7bobo2$5bobo2$3bobo2$bobo$o$2o!

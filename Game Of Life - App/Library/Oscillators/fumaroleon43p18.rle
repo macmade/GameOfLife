@@ -1,0 +1,7 @@
+#N Fumarole on 43P18
+#C The smallest known period-90 oscillator.
+#C http://conwaylife.com/wiki/Fumarole_on_43P18
+x = 23, y = 18, rule = B3/S23
+4b2o$4b2o$4b2o$4bo13bo2bo$3bobo12bo$4bobob3o6bo4bo$5bob4o5bobo2b2o$6bo
+7b2obo2$10bo$2o7bo4bo2bo$o2b2o5bo5b2o$b2obo$5bo4b2o$5bo4b2o$b2obo$o2b
+2o$2o!

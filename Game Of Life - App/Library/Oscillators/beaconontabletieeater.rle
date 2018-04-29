@@ -1,0 +1,6 @@
+#N Beacon on table tie eater
+#O Unknown
+#C http://conwaylife.com/wiki/Beacon_on_table_tie_eater
+#C http://conwaylife.com/patterns/beaconontabletieeater.rle
+x = 8, y = 8, rule = B3/S23
+b2ob2o$2bobo$2bo4bo$b2o3b2o$o$3o$3bo$2b2o!

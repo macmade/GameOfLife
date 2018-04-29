@@ -1,0 +1,7 @@
+#N Bumper
+#O Tanner Jacobi
+#C A small, color-preserving 90° glider reflector with a repeat time of 34.
+#C http://conwaylife.com/wiki/Bumper
+x = 21, y = 9, rule = B3/S23
+7b2o$6bo2bo4b2o$6bobo5b2o$7bo2$2b2o9b3o$3bo9b2obo2b2o$3o12b2o2b2o$o14b
+2o!

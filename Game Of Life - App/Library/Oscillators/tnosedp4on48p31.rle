@@ -1,0 +1,8 @@
+#N T-nosed p4 on 48P31
+#O 
+#C A small period 124 oscillator.
+#C http://conwaylife.com/wiki/T-nosed_p4_on_48P31
+x = 24, y = 30, rule = B3/S23
+7b2obo2bob2o$2o4bo2bo4bo2bo4b2o$2o5bobo4bobo5b2o$8bo6bo6$8bo6bo$2o5bob
+o4bobo5b2o$2o4bo2bo4bo2bo4b2o$7b2obo2bob2o8$11b3o$12bo2$11b3o$10bo3bo$
+9bo5bo$9bobobobo$8b2obobob2o$7bo2b2ob2o2bo$7b2o7b2o!

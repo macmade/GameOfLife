@@ -1,0 +1,6 @@
+#N Racetrack and ortho-beacon
+#O Unknown
+#C http://conwaylife.com/wiki/Racetrack_and_ortho-beacon
+#C http://conwaylife.com/patterns/racetrackandorthobeacon.rle
+x = 7, y = 9, rule = B3/S23
+4b2o$2b3obo$bo4bo$2b4o2$2b2o$3bo$o$2o!

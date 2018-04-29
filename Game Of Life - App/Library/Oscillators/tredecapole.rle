@@ -1,0 +1,6 @@
+#N Tredecapole
+#O Unknown
+#C http://conwaylife.com/wiki/Tredecapole
+#C http://conwaylife.com/patterns/tredecapole.rle
+x = 16, y = 16, rule = B3/S23
+14b2o$13bobo2$11bobo2$9bobo2$7bobo2$5bobo2$3bobo2$bobo$o$2o!

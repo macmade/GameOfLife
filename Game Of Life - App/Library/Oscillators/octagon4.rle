@@ -1,0 +1,7 @@
+#N Octagon 4
+#O Robert Wainwright
+#C http://conwaylife.com/wiki/Octagon_4
+#C http://conwaylife.com/patterns/octagon4.rle
+x = 16, y = 16, rule = B3/S23
+7b2o$7b2o2$6b4o$5bo4bo$4bo6bo$3bo8bo$2obo8bob2o$2obo8bob2o$3bo8bo$4bo
+6bo$5bo4bo$6b4o2$7b2o$7b2o!

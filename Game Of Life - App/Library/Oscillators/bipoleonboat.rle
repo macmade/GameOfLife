@@ -1,0 +1,6 @@
+#N Bipole on boat
+#O Unknown
+#C http://conwaylife.com/wiki/Bipole_on_boat
+#C http://conwaylife.com/patterns/bipoleonboat.rle
+x = 8, y = 8, rule = B3/S23
+2o$obo2$2bobo$3b2o$5b2o$5bobo$6bo!

@@ -1,0 +1,5 @@
+#N Quattuordecapole
+#C The barberpole of length 14.
+#C http://conwaylife.com/wiki/Quattuordecapole
+x = 17, y = 17, rule = B3/S23
+15b2o$14bobo2$12bobo2$10bobo2$8bobo2$6bobo2$4bobo2$2bobo2$obo$2o!

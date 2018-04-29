@@ -1,0 +1,8 @@
+#N p32 blinker hassler
+#O Noam Elkies
+#C http://conwaylife.com/wiki/P32_blinker_hassler
+#C http://conwaylife.com/patterns/p32blinkerhassler.rle
+x = 21, y = 23, rule = B3/S23
+10bo$4b2o3bobo3b2o$3bobo4bo4bobo$3bo13bo$2obo13bob2o$2obobob7obobob2o$
+3bobo9bobo$3bobo9bobo$4bo3bobobo3bo2$10bo$4b2o4bo4b2o$4b2o4bo4b2o7$12b
+o$8b2o2b2ob3o$8b2o4b4o$12b2o!

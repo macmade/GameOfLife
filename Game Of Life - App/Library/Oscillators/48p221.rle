@@ -1,0 +1,7 @@
+#N 48P22.1
+#O Nicolay Beluchenko, 4 March 2009
+#C http://conwaylife.com/wiki/48P22.1
+#C http://conwaylife.com/patterns/48p221.rle
+x = 16, y = 16, rule = B3/S23
+3b2o$3bobo$2bo4bo5bo$3bobob2o2b2ob2o$3bo3bo7bo$12bobo2$3bo7b3o$2b3o7bo
+2$bobo$o7bo3bo$2ob2o2b2obobo$2bo5bo4bo$10bobo$11b2o!

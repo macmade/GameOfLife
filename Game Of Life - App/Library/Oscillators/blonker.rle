@@ -1,0 +1,6 @@
+#N Blonker
+#O Nicolay Beluchenko
+#C http://conwaylife.com/wiki/Blonker
+#C http://conwaylife.com/patterns/blonker.rle
+x = 12, y = 8, rule = B3/S23
+o2b2o4bo$2o2bob2obo$4bobo$5b2o$7bo$7bo3bo$9bobo$10bo!

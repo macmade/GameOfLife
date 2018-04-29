@@ -1,0 +1,6 @@
+#N Boat test tube baby
+#O Unknown
+#C http://conwaylife.com/wiki/Boat_test_tube_baby
+#C http://conwaylife.com/patterns/boattesttubebaby.rle
+x = 10, y = 6, rule = B3/S23
+2o6bo$obo4bobo$bobo2bob2o$3bo2bo$3bo2bo$4b2o!

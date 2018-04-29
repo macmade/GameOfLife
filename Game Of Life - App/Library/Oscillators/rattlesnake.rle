@@ -1,0 +1,7 @@
+#N Rattlesnake
+#O Dean Hickerson
+#C http://conwaylife.com/wiki/Rattlesnake
+#C http://conwaylife.com/patterns/rattlesnake.rle
+x = 13, y = 15, rule = B3/S23
+8b2o$8bo$9bo$8b2o4$5bo$5b2o$2obobob3o$ob2obobobo$6bo2b3o$7b2o3bo$9b3o$
+9bo!

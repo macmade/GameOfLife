@@ -1,0 +1,8 @@
+#N Tanner's p46
+#O Tanner Jacobi
+#C A period 46 oscillator discovered by Tanner Jacobi in October 2017.
+#C http://conwaylife.com/wiki/Tanner%27s_p46
+x = 13, y = 26, rule = B3/S23
+2b2o9b$2bo10b$3bo9b$2b2o9b$13b$9b2o2b$9bo3b$10bo2b$9b2o2b$b2o10b$b2o6b
+2o2b$o7bobo2b$b2o6bo3b$b2o7b3o$12bo$13b$13b$13b$13b$13b$13b$b2o10b$b2o
+2b2o6b$5bobo5b$7bo5b$7b2o4b!

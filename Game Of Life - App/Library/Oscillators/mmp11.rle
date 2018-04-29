@@ -1,0 +1,10 @@
+#N Merzenich's P11
+#O Matthias Merzenich
+#C Period 11 oscillator with two diagonal lines of symmetry,
+#C discovered in December 2010.
+#C http://www.conwaylife.com/wiki/Merzenich%27s_p11
+#C http://www.conwaylife.com/patterns/mmp11.rle
+x = 21, y = 21, rule = B3/S23
+11b2o$12bo$12bobo$10b2obobo$9bobobobo$8bobo2bo2b2o$7bo5bo4bo$6bo7b4o$
+5bo12b3o$4bo5bo5b2o2bo$3bobo3bobo3bobo$o2b2o5bo5bo$3o12bo$3b4o7bo$2bo
+4bo5bo$3b2o2bo2bobo$5bobobobo$5bobob2o$6bobo$8bo$8b2o!

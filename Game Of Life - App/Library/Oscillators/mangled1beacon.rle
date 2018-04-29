@@ -1,0 +1,6 @@
+#N Mangled 1 beacon
+#O Unknown
+#C http://conwaylife.com/wiki/Mangled_1_beacon
+#C http://conwaylife.com/patterns/mangled1beacon.rle
+x = 7, y = 7, rule = B3/S23
+3b2o$3bobo$o5bo$5obo$5bo$2bo$2b2o!

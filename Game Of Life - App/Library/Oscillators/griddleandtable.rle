@@ -1,0 +1,6 @@
+#N Griddle and table
+#O Unknown
+#C http://conwaylife.com/wiki/Griddle_and_table
+#C http://conwaylife.com/patterns/griddleandtable.rle
+x = 6, y = 7, rule = B3/S23
+3bo$bobo$o4bo$6o2$4o$o2bo!

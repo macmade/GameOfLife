@@ -1,0 +1,7 @@
+#N p24 shuttle
+#O Karel Suhajda
+#C A period 24 shuttle oscillator found by Karel Suhajda.
+#C http://conwaylife.com/wiki/P24_shuttle
+x = 20, y = 20, rule = B3/S23
+7b2o$7b2o4$11bo$6bo4b2o$2o3bobo5bo$2o2b2obo5b2o$5b2o2$18b2o$11b2o5b2o$
+10bo2bo$10b3o$11bo3$11b2o$11b2o!

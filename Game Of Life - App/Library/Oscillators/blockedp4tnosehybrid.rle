@@ -1,0 +1,7 @@
+#N Blocked p4 t-nose hybrid
+#O Matthias Merzenich
+#C A sparking period 4 oscillator found by Matthias Merzenich in April 2010.
+#C http://conwaylife.com/wiki/Blocked_p4_t-nose_hybrid
+x = 21, y = 13, rule = B3/S23
+11b3o2$10bo3bo$4bo3bo6bob2o$3bobo12bo$3bobo10b2o$2obobob9o2b3o$2obo13b
+o2bo$3bo14b2o$3bobo4bobo$4b2o4b2obo$13bo$13b2o!

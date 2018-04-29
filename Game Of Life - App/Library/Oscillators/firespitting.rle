@@ -1,0 +1,6 @@
+#N Fire-spitting
+#O Nicolay Beluchenko
+#C A small period-3 oscillator found by Nicolay Beluchenko in September 2003.
+#C http://conwaylife.com/wiki/Fire-spitting
+x = 8, y = 10, rule = B3/S23
+5bo$3b2obo$b2o3bo$4bob2o$bo2bo$2bobo2$bobo$o$2o!

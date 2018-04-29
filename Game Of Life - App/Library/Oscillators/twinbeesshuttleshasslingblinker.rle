@@ -1,0 +1,7 @@
+#N Twin bees shuttles hassling blinker
+#C The smallest known period-92 oscillator.
+#C http://conwaylife.com/wiki/Twin_bees_shuttles_hassling_blinker
+x = 68, y = 11, rule = B3/S23
+17b2o31bo$2o15bobo7b2o10b2o8b2o15b2o$2o17bo7b2o10b2o7b2o16b2o$17b3o29b
+2o2b2o4$17b3o29b2o2b2o$2o17bo12b3o13b2o16b2o$2o15bobo29b2o15b2o$17b2o
+31bo!

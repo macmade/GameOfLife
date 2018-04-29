@@ -1,0 +1,10 @@
+#N p48 pi hassler
+#O Matthias Merzenich
+#C A period 48 oscillator found by Matthias Merzenich in June 2011.
+#C http://conwaylife.com/wiki/p48_pi_hassler
+x = 33, y = 26, rule = B3/S23
+19bo$17b3o8b2o$7b2o7bo11b2o$8bo7b2o$8bobo15b6o$9b2o14bo3bo2bo$3b2o21b
+2o3b2o$2bobo22bo$2bobob2o19bobo$3bobobo9bo9bobo$5bo11b2o7bo5bo$3bo2bo
+12bo6bo5bo$6bo10b2o7bo5bo$o5bo10bo8bo$o5bo19bo2bo$o5bo20bo$3bobo19bobo
+bo$3bobo19b2obobo$5bo22bobo$2o3b2o21b2o$o2bo3bo14b2o$b6o15bobo$15b2o7b
+o$3b2o11bo7b2o$3b2o8b3o$13bo!

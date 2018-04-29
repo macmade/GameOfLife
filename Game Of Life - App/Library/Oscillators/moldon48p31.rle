@@ -1,0 +1,7 @@
+#N Mold on 48P31
+#C The smallest known period-124 oscillator.
+#C http://conwaylife.com/wiki/Mold_on_48P31
+x = 24, y = 24, rule = B3/S23
+10b2o$9bo2bo$8bobobo$8bo2bo$7bo$8bobo6$7b2obo2bob2o$2o4bo2bo4bo2bo4b2o
+$2o5bobo4bobo5b2o$8bo6bo6$8bo6bo$2o5bobo4bobo5b2o$2o4bo2bo4bo2bo4b2o$
+7b2obo2bob2o!

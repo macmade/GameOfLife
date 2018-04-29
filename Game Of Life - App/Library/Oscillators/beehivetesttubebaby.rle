@@ -1,0 +1,6 @@
+#N Beehive test tube baby
+#O Unknown
+#C http://conwaylife.com/wiki/Beehive_test_tube_baby
+#C http://conwaylife.com/patterns/beehivetesttubebaby.rle
+x = 10, y = 6, rule = B3/S23
+b2o$o2bo4b2o$b2obo2bobo$4bo2bo$4bo2bo$5b2o!

@@ -1,0 +1,9 @@
+#N p32 blinker hassler 2
+#O Noam Elkies
+#C A period 32 oscillator found by Noam Elkies in April 2010.
+#C http://conwaylife.com/wiki/P32_blinker_hassler_2
+x = 30, y = 24, rule = B3/S23
+17b3o$17b3o$17b3o$14b3o7b2o$2o12b3o7b2o$obo11b3o$2b3o17b6o$bo3bo15bo6b
+o$b5o3bo12b3o2b2o$4b2o3b3o$b5o3bo14bo$bo3bo15bo2bo$2b3o9b3o7bo3bo$obo
+11bobo4bo2bo2bobo$2o12b3o7bo3bo$21bo2bo$10b2o12bo$10bobo$11b2o9b3o2b2o
+$21bo6bo$22b6o2$24b2o$24b2o!

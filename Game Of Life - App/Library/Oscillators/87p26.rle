@@ -1,0 +1,7 @@
+#N 87p26
+#C The smallest known period 26 oscillator.
+#C http://conwaylife.com/wiki/87P26
+x = 17, y = 16, rule = B3/S23
+11b2o$6b2o4bo$4b3o3bobob2o$bobo4bob2obobo$b2ob4obo3bo$4bo4bo3bo$4bob2o
+bobob3o$3b2o2bobob2o3bo$5bo2b2o4b2o$b3o2b3o2b3o$obo3bobo2b2o$o3b2o2bo
+5b2o$b3o4bob4o2bo$3bo5bo5b2o$11bo$10b2o!

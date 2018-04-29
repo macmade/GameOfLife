@@ -1,0 +1,6 @@
+#N Two cis griddles with two tubs
+#O Unknown
+#C http://conwaylife.com/wiki/Two_cis_griddles_with_two_tubs
+#C http://conwaylife.com/patterns/twocisgriddleswtwotubs.rle
+x = 8, y = 7, rule = B3/S23
+4bo$2bobo$bo4bo$ob4obo$bo4bo$2bobo$4bo!

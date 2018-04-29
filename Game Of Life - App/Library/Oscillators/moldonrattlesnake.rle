@@ -1,0 +1,6 @@
+#N Mold on rattlesnake
+#C The smallest known period-44 oscillator.
+#C http://conwaylife.com/wiki/Mold_on_rattlesnake
+x = 14, y = 15, rule = B3/S23
+4bo4b2o$2b2obo3bo$bo8bo$obo2bo3b2o$o2bo$b2o2$6bo$6b2o$b2obobob3o$bob2o
+bobobo$7bo2b3o$8b2o3bo$10b3o$10bo!

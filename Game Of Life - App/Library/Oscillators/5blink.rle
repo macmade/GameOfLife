@@ -1,0 +1,6 @@
+#N 5blink
+#O Scot Ellison
+#C http://conwaylife.com/wiki/5blink
+#C http://conwaylife.com/patterns/5blink.rle
+x = 13, y = 9, rule = B3/S23
+5bo$4bob2o$o3bo3b2o$o8bo$o3bo$3b3obo3bo$bobo2b2o2bobo$obo8bo$2o!

@@ -1,0 +1,7 @@
+#N Circle of fire
+#O Unknown
+#C http://conwaylife.com/wiki/Circle_of_fire
+#C http://conwaylife.com/patterns/circleoffire.rle
+x = 11, y = 11, rule = B3/S23
+4bobo$2bo2bo2bo$3bobobo$b3obob3o$5bo$5ob5o$5bo$b3obob3o$3bobobo$2bo2bo
+2bo$4bobo!

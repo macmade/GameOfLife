@@ -1,0 +1,6 @@
+#N Nonapole
+#O Unknown
+#C http://conwaylife.com/wiki/Nonapole
+#C http://conwaylife.com/patterns/nonapole.rle
+x = 12, y = 12, rule = B3/S23
+10b2o$9bobo2$7bobo2$5bobo2$3bobo2$bobo$o$2o!

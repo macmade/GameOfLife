@@ -1,0 +1,8 @@
+#N 126p78.1
+#C The smallest known period-78 oscillator.
+#C http://conwaylife.com/wiki/126P78.1
+x = 23, y = 34, rule = B3/S23
+2b2ob2o$2b2obobo$5bobo$2b2obob2ob2o$2bo5bob2o$3bob2o$2b2obob2ob2o$4bob
+o4b3o$4o5bo4bo$o2bobo3bob2obo$2bo2b3obobobo$b2obo$o3b2o3b7o$4o2b2o7bo$
+4b2o6b3o$2bo2bo6bo$2b2o2b6o$15b2o$15b2o2$10bo2bo$7bo6bo$6bo7bo$7bob2o
+3bo6b2o$11b3o7b2o$16b3o$15bo3bo$15bo$15bo$16bo2bo$16bo2$16bobo$17bo!

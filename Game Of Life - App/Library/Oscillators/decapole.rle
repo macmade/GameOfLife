@@ -1,0 +1,6 @@
+#N Decapole
+#O Unknown
+#C http://conwaylife.com/wiki/Decapole
+#C http://conwaylife.com/patterns/decapole.rle
+x = 13, y = 13, rule = B3/S23
+11b2o$10bobo2$8bobo2$6bobo2$4bobo2$2bobo2$obo$2o!

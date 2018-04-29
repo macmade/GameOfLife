@@ -1,0 +1,8 @@
+#N Caterer on 68P32
+#C The smallest known period-96 oscillator.
+#C http://conwaylife.com/wiki/Caterer_on_68P32
+x = 29, y = 23, rule = B3/S23
+2b2o11b2o$bo2bo9bo2bo$2b3o9b3o$2bo13bo$bobo11bobo$3bo11bo$o3bo9bo3bo$o
+2bo11bo2bo$b2o13b2o2$b2o13b2o$o2bo11bo2bo$o3bo9bo3bo$3bo11bo$bobo11bob
+o$2bo13bo$2b3o9b3o$bo2bo9bo2bo5bo$2b2o11b2o4bo3b4o$21bo3bo$21bo$24bo$
+22b2o!

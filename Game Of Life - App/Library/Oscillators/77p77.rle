@@ -1,0 +1,7 @@
+#N 77p77
+#C The smallest known period 77 oscillator.
+#C http://conwaylife.com/wiki/77P77
+x = 16, y = 21, rule = B3/S23
+8b2o$6bo2bo$4b4o$3bo4b4o$3bobobo4bo$b2o4bob3o2bo$o2b5obo2b3o$bo2bo6bo$
+2b2o8bo$4bo6b2o$2b2o$2bo$4bo$3b2o3bo$8b2o$6bobob3o$4b3obobobo$3bo5bo2b
+3o$3b2o5b2o3bo$12b3o$12bo!

@@ -1,0 +1,6 @@
+#N Cha cha
+#O Unknown
+#C http://conwaylife.com/wiki/Cha_cha
+#C http://conwaylife.com/patterns/chacha.rle
+x = 8, y = 6, rule = B3/S23
+4bo$2bobobo$obobobo$bobobobo$bobobo$3bo!

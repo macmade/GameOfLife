@@ -1,0 +1,7 @@
+#N Killer candlefrobras
+#O Robert Wainwright
+#C A period 3 oscillator made up of two candlefrobras that act in some ways like killer toads.
+#C www.conwaylife.com/wiki/index.php?title=Killer_candlefrobras
+x = 21, y = 5, rule = B3/S23
+4bo11bo$2obob2obo3bob2obob2o$2obo3bobobobo3bob2o$3bo4bo3bo4bo$3b2o11b
+2o!

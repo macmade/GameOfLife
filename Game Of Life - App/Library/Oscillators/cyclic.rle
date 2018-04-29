@@ -1,0 +1,7 @@
+#N Cyclic
+#O Unknown
+#C http://conwaylife.com/wiki/Cyclic
+#C http://conwaylife.com/patterns/cyclic.rle
+x = 10, y = 10, rule = B3/S23
+4b2o$3bo2bo$3bob2o$b2o2bob2o$o5b2obo$ob2o5bo$b2obo2b2o$3b2obo$3bo2bo$
+4b2o!

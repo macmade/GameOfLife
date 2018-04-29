@@ -1,0 +1,10 @@
+#N 65P48
+#O Matthias Merzenich
+#C The smallest known period-48 oscillator, found 13 September 2014
+#C http://www.conwaylife.com/forums/viewtopic.php?p=13230#p13230
+#C www.conwaylife.com/wiki/65P48
+#C www.conwaylife.com/patterns/65p48.rle
+x = 21, y = 16, rule = B3/S23
+6bo3b2o$7b2ob2o$5bobo$6bo$2o2b3o5bobo2bo$2o9bob5o2$10bob4o$10bo5bo$11b
+2o2b2o$9bobobo3b2o$8bobo2b3o3bo$8bo2b2o4b2obo$7b2o4b3o3bo$13bo2b3o$16b
+o!

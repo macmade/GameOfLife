@@ -1,0 +1,8 @@
+#N 84P87
+#C The smallest known period-87 oscillator.
+#C http://conwaylife.com/wiki/84P87
+x = 37, y = 41, rule = B3/S23
+14bo$14b3o$17bo$16b2o2$24b2o$24b2o8b2o$34b2o$20bo$19bobo$18bo2bo$19b2o
+2$4bo$3bobo$4bo2$9bo$9b2o15b2o$2o3bo5bo15bobo$2o4b3o19b3o4b2o$7bobo15b
+o5bo3b2o$9b2o15b2o$27bo2$32bo$31bobo$32bo2$16b2o$15bo2bo$15bobo$16bo$b
+2o$b2o8b2o$11b2o2$19b2o$19bo$20b3o$22bo!

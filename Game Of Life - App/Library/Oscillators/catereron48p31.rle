@@ -1,0 +1,7 @@
+#N Caterer on 48P31
+#C The smallest known period-93 oscillator.
+#C http://conwaylife.com/wiki/Caterer_on_48P31
+x = 24, y = 27, rule = B3/S23
+7b2obo2bob2o$2o4bo2bo4bo2bo4b2o$2o5bobo4bobo5b2o$8bo6bo6$8bo6bo$2o5bob
+o4bobo5b2o$2o4bo2bo4bo2bo4b2o$7b2obo2bob2o7$12b3o$10bo$10bo4bo$11bo$
+13b2o$14bo$14bo$14bo!

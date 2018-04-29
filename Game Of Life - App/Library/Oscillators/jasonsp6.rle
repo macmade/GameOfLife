@@ -1,0 +1,7 @@
+#N Jason's p6
+#O Jason Summers
+#C http://conwaylife.com/wiki/Jason%27s_p6
+#C http://conwaylife.com/patterns/jasonsp6.rle
+x = 10, y = 10, rule = B3/S23
+2b2ob2o$5bo$o2b3o$obobo4bo$2b2o3b3o$3o3b2o$o4bobobo$4b3o2bo$4bo$3b2ob
+2o!

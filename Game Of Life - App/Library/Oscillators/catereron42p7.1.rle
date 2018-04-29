@@ -1,0 +1,9 @@
+#N Caterer on 42P7.1
+#O Unknown
+#C The smallest known period-21 oscillator, non-trivial because
+#C it contains one cell that oscillates at the full period
+#C www.conwaylife.com/wiki/Caterer_on_42P7.1
+#C www.conwaylife.com/patterns/catereron42p7.1.rle
+x = 17, y = 14, rule = B3/S23
+3b2o5b2o$2o2bo7bo$bobo5bo$bob2o4bo3bo$2o7bo3b4o$2b2o7bo$2bo2bo$3b3o$6b
+2o$3b2obo3bob2o$3b2obobob2obo$7b2o$9b4o$9bo2bo!

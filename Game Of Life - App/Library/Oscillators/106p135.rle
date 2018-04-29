@@ -1,0 +1,8 @@
+#N 106P135
+#C The smallest known period-135 oscillator.
+#C http://conwaylife.com/wiki/106P135
+x = 54, y = 29, rule = B3/S23
+26b2o$26b2o$6bo4bo30bo4bo$4b2ob4ob2o26b2ob4ob2o$6bo4bo30bo4bo5$25bo2bo
+$23bobo2bobo$24b2o2b2o$2bo2bo4bo2bo26bo2bo4bo2bo$3o2b6o2b3o22b3o2b6o2b
+3o$2bo2bo4bo2bo12b2o12bo2bo4bo2bo$26b2o4$21bo10bo$21bo10bo$20bobo8bobo
+$21bo10bo$21bo10bo$21bo10bo$21bo10bo$20bobo8bobo$21bo10bo$21bo10bo!

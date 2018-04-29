@@ -1,0 +1,7 @@
+#N Rich's p16
+#O Rich Holmes
+#C http://conwaylife.com/wiki/Rich%27s_p16
+#C http://conwaylife.com/patterns/richsp16.rle
+x = 13, y = 10, rule = B3/S23
+4bo3bo$2b2obobob2o$bo3bobo3bo$o3b2ob2o3bo$obo7bobo$bo9bo2$4b2ob2o$3bob
+obobo$4bo3bo!

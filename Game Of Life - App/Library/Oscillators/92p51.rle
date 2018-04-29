@@ -1,0 +1,8 @@
+#N 92p51
+#C The smallest known period 51 oscillator.
+#C http://conwaylife.com/wiki/92P51
+x = 24, y = 23, rule = B3/S23
+15b2o$15b2o2$13b4o$12bo4bo$13bo2bo$10b3obobo$9bo3bo$o8b2ob2o2bo$3o10bo
+bo$3bo5b2obo2bo2bo$2bo6b2obobo4bo$3bo9bob3o2bo$6b2o6bo8bo$6b2o7b5obobo
+$19b2o2bo$7b2o8b2o2bo$7b2o8bo3b2o$11bo6b3o$4b2o6bo7bo$5bo5bo$2b3o7b3o$
+2bo11bo!

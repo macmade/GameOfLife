@@ -1,0 +1,7 @@
+#N Merzenich's p64
+#O Matthias Merzenich
+#C The smallest known period-64 oscillator.
+#C http://conwaylife.com/wiki/Merzenich%27s_p64
+x = 21, y = 21, rule = B3/S23
+5b2o$5b2o3$8b2o$9b2o8b2o$19b2o2$10bobo$9bo3bo$8bo3bo$7bo3bo$8bobo2$2o$
+2o8b2o$11b2o3$14b2o$14b2o!

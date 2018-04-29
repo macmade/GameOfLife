@@ -1,0 +1,6 @@
+#N Caterer on rattlesnake
+#C The smallest known period-33 oscillator.
+#C http://conwaylife.com/wiki/Caterer_on_rattlesnake
+x = 13, y = 20, rule = B3/S23
+5bo$5bo$5bo$4b2o$2bo$bo4bo3b2o$bo7bobo$3b3o3bo$8b2o4$5bo$5b2o$2obobob
+3o$ob2obobobo$6bo2b3o$7b2o3bo$9b3o$9bo!

@@ -1,0 +1,9 @@
+#N Statorless p5
+#O Josh Ball
+#C Found in June 2016, using Nicolay Beluchenko's version of WLS
+#C http://conwaylife.com/wiki/Statorless_p5
+#C http://conwaylife.com/patterns/statorlessp5.rle
+x = 15, y = 14, rule = B3/S23
+o13bo$b2o9b2o$o4b2ob2o4bo$2obo7bob2o$bobo2bobo2bobo$2bobo5bobo$2b3o5b
+3o$2b3o5b3o$2bobo5bobo$bobo2bobo2bobo$2obo7bob2o$o4b2ob2o4bo$b2o9b2o$o
+13bo!

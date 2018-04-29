@@ -1,0 +1,6 @@
+#N Monoclaw test tube baby
+#O Unknown
+#C http://conwaylife.com/wiki/Monoclaw_test_tube_baby
+#C http://conwaylife.com/patterns/monoclawtesttubebaby.rle
+x = 10, y = 6, rule = B3/S23
+2o$o2bo4b2o$b2obo2bobo$4bo2bo$4bo2bo$5b2o!

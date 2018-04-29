@@ -1,0 +1,9 @@
+#N Achim's other p16
+#O Achim Flammenkamp
+#C http://conwaylife.com/wiki/Achim%27s_other_p16
+#C http://conwaylife.com/patterns/achimsotherp16.rle
+x = 35, y = 35, rule = B3/S23
+9bo15bo$9b2o13b2o$9b2o13b2o$10bo13bo5$12b2o7b2o$3o10b2o5b2o10b3o$b3o
+10b2o3b2o10b3o2$8bo17bo$8b2o15b2o$9b2o13b2o$10bo13bo4$10bo13bo$9b2o13b
+2o$8b2o15b2o$8bo17bo2$b3o10b2o3b2o10b3o$3o10b2o5b2o10b3o$12b2o7b2o5$
+10bo13bo$9b2o13b2o$9b2o13b2o$9bo15bo!

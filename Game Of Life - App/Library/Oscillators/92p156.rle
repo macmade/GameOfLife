@@ -1,0 +1,11 @@
+#N 92P156
+#O Jason Summers, 31 October 2004
+#C Oscillator, or actually an eight-barrelled glider gun,
+#C discovered in a RandomAgar search. Also known as "Jason's p156".
+#C http://www.conwaylife.com/wiki/92P156
+x = 42, y = 42, rule = B3/S23
+20b2o$20b2o4$8b2o22b2o$9bo12b2o8bo$9bobo10bo7bobo$5bo4b2o10bo7b2o4bo$
+5b3o15bo10b3o$8bo24bo$7b2o24b2o7$32bo2bo$33b3o$2o38b2o$2o38b2o$6b3o$6b
+o2bo7$7b2o24b2o$8bo24bo$5b3o10bo15b3o$5bo4b2o7bo10b2o4bo$9bobo7bo10bob
+o$9bo8b2o12bo$8b2o22b2o4$20b2o$20b2o!
+#C [[ WIDTH 560 HEIGHT 560 GPS 30 ZOOM 12 AUTOSTART ]]

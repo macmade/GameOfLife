@@ -1,0 +1,8 @@
+#N Boring p24
+#O Unknown
+#C http://conwaylife.com/wiki/Boring_p24
+#C http://conwaylife.com/patterns/boringp24.rle
+x = 26, y = 18, rule = B3/S23
+15bo5bo$15bo5bo$15b2o3b2o2$11b3o2b2ob2o2b3o$13bobobobobobo$15b2o3b2o2$
+6bo8b2o3b2o$6b2o5bobobobobobo$5b2obo2b3o2b2ob2o2b3o$4bo2b3o$3bobobo7b
+2o3b2o$2bobobo8bo5bo$3o2bo9bo5bo$bob2o$2b2o$3bo!

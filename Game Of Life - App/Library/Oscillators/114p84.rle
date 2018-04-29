@@ -1,0 +1,9 @@
+#N 114p84
+#O Scorbie
+#C The smallest known period-84 oscillator.
+#C http://conwaylife.com/wiki/114P84
+x = 23, y = 26, rule = B3/S23
+3bo$b3o$o3b2o$b3o2bo$3bobobob2o$4bo2bobo2bo$6b2o3b2o$8bo3$2b2o4bo$3bo
+2bo3bo2bo$3o4bob5o$o$7b5o$6bo5bo$7b2o2b2o4b2o$2b2obobobo3b2o2bo$2bob2o
+bob4o2bobo3b2o$8bo3bobobob2o2bo$9b3o4bobob2o$12b2obo$7b4o2bob3o$7bo2b
+2o2bo6b2o$15b3obo2bo$17bob2o!

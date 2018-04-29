@@ -1,0 +1,6 @@
+#N Griddle and blocks
+#O Unknown
+#C http://conwaylife.com/wiki/Griddle_and_blocks
+#C http://conwaylife.com/patterns/griddleandblocks.rle
+x = 6, y = 7, rule = B3/S23
+3bo$bobo$o4bo$6o2$2o2b2o$2o2b2o!

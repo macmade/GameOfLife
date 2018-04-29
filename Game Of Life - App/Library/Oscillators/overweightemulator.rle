@@ -1,0 +1,7 @@
+#N Overweight emulator
+#O Unknown
+#C http://conwaylife.com/wiki/Overweight_emulator
+#C http://conwaylife.com/patterns/overweightemulator.rle
+x = 17, y = 9, rule = B3/S23
+7b3o2$2b2obo5bob2o$2bo11bo$3b2o7b2o$3o2b7o2b3o$o2bo9bo2bo$b2o11b2o$7b
+3o!

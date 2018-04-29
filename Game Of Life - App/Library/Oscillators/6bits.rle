@@ -1,0 +1,7 @@
+#N 6 bits
+#O Robert Wainwright
+#C http://conwaylife.com/wiki/6_bits
+#C http://conwaylife.com/patterns/6bits.rle
+x = 40, y = 23, rule = B3/S23
+21bo$21bo$20bobo$21bo$21bo$21bo$21bo$20bobo$21bo$21bo5$2bo2bo4bo2bo$3o
+2b6o2b3o$2bo2bo4bo2bo$22b2o$21b2o$23bo$32bo4bo$30b2ob4ob2o$32bo4bo!

@@ -1,0 +1,8 @@
+#N Fx119 inserter
+#O David Buckingham
+#C Eater1 addition Fx119 conduit is from circa 2003
+#C www.conwaylife.com/wiki/index.php?title=Fx119_inserter
+#C http://www.conwaylife.com/patterns/fx119inserter.rle
+x = 30, y = 24, rule = B3/S23
+9bo$9bobo$9b3o$11bo5$2b2o6b2o$3bo7bo$3o5b3o$o7bo4$18b2o$13b2o3b2o$13b
+2o3$12b2o12b2o$13bo4b2o6bo$10b3o5b2o7b3o$10bo18bo!

@@ -1,0 +1,7 @@
+#N Figure eight on 34P13
+#O 
+#C A 46-cell non-trivial period 104 oscillator.
+#C http://conwaylife.com/wiki/Figure_eight_on_34P13
+x = 16, y = 22, rule = B3/S23
+4b3o2$6bo$6b2o$5bo$8bo$4bo3bo$9b2o$2o2b3o5bo$2o5bo4b2obo$7bo3bo3bo$7bo
+bo5bo3$6b2o$6b2o$13b2o$11bob2o$10bo$13bo$9b2obo$9b2o!

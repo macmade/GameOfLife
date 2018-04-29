@@ -1,0 +1,6 @@
+#N Claw test tube baby
+#O Unknown
+#C http://conwaylife.com/wiki/Claw_test_tube_baby
+#C http://conwaylife.com/patterns/clawtesttubebaby.rle
+x = 12, y = 6, rule = B3/S23
+2o8b2o$o2bo4bo2bo$b2obo2bob2o$4bo2bo$4bo2bo$5b2o!

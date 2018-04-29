@@ -1,0 +1,8 @@
+#N Jason's p36
+#O Jason Summers
+#C http://conwaylife.com/wiki/Jason%27s_p36
+#C http://conwaylife.com/patterns/jsp36.rle
+x = 39, y = 18, rule = B3/S23
+26b2o$2o23bo2bo$bo21bo2bobo$bobo18bo4bo$2b2o18bo$13b3o8b3o$13bo$13bobo
+$14b2o$23b2o$23bobo$25bo$12b3o8b3o$16bo18b2o$11bo4bo18bobo$10bobo2bo
+21bo$10bo2bo23b2o$11b2o!

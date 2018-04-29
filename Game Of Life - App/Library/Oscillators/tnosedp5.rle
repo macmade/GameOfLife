@@ -1,0 +1,13 @@
+#N T-nosed p5
+#O Nicolay Beluchenko
+#C A period 5 oscillator found in April 2005.
+#C www.conwaylife.com/wiki/index.php?title=T-nosed_p5
+#C http://www.conwaylife.com/patterns/tnosedp5.rle
+x = 41, y = 17, rule = B3/S23
+5b2o15b2ob2o5bo$2bo2bo9b2obob3ob2o6bo$bobobo5bo4bobob3o6b2obo$o2bobob
+6o5bo4bobo3b2obo$b2obobo2bo3b3o2bob4o2bobob2ob2o$2bobo2b2obo2bo2bob2o
+4b3obobo4b2o$bo2bo3bo2bobob2o4b3o3bo$bobobo3b3obo3b4o3bo2bobo2b2obo2bo
+$2obo9b2obo4bobobobo8bob3o$bobobo3b3obo3b4o3bo2bobo2b2obo2bo$bo2bo3bo
+2bobob2o4b3o3bo$2bobo2b2obo2bo2bob2o4b3obobo4b2o$b2obobo2bo3b3o2bob4o
+2bobob2ob2o$o2bobob6o5bo4bobo3b2obo$bobobo5bo4bobob3o6b2obo$2bo2bo9b2o
+bob3ob2o6bo$5b2o15b2ob2o5bo!

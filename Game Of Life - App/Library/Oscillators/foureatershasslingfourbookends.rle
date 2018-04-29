@@ -1,0 +1,9 @@
+#N Four eaters hassling four bookends
+#O Jason Summers
+#C A period 18 oscillator found by Jason Summers.
+#C http://conwaylife.com/wiki/Four_eaters_hassling_four_bookends
+x = 29, y = 29, rule = B3/S23
+10bo18b$10b3o16b$13bo15b$12b2o15b$29b$29b$29b$29b$14b2o13b$14bob2o11b$
+2o12b4o11b$bo13b2ob2o9b$bobo13b3o9b$2b2o13b2obo8b$8b3o7b3o8b$8bob2o13b
+2o2b$9b3o13bobob$9b2ob2o13bob$11b4o12b2o$11b2obo14b$13b2o14b$29b$29b$29b$
+29b$15b2o12b$15bo13b$16b3o10b$18bo10b!

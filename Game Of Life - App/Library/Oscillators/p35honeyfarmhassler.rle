@@ -1,0 +1,8 @@
+#N P35 honey farm hassler
+#O Dongook Lee
+#C Found on 9 January 2016, with a hacked version of ptbsearch
+#C http://conwaylife.com/wiki/P35_honey_farm_hassler
+#C http://conwaylife.com/patterns/p35honeyfarmhassler.rle
+x = 24, y = 17, rule = B3/S23
+20b2o$11bo7bobo$9b3o8bo$8bo$8b2o$15bo$15bobo$16b3o3b2o$2o20b2o$2o3b3o$
+6bobo$8bo$14b2o$15bo$3bo8b3o$2bobo7bo$2b2o!

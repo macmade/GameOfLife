@@ -1,0 +1,9 @@
+#N Voldiag
+#O Unknown
+#C http://conwaylife.com/wiki/Voldiag
+#C http://conwaylife.com/patterns/voldiag.rle
+x = 26, y = 26, rule = B3/S23
+6b3o$4b2o$4bo$4bo3bo$b3ob2o$bo2bobo3b2o$o3b2o4bo3bo$o8bo2b3o$o2bo5bo4b
+2o$7b2o3bo$5b2o4b3o3bo$5bo4bob3obobo$7bob3o2bo2b2o$7bo2b2o$6b3o2b2o7b
+2o$8bo10b2o$11bo8bobo$10bobo5bobob3o$11b2o4bobo5bo$15bo2bo5b2o$14b4o$
+14bo$16b2o$17bo$17bobo$18b2o!

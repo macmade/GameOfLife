@@ -1,0 +1,5 @@
+#N Quindecapole
+#C The barberpole of length 15.
+#C http://conwaylife.com/wiki/Quindecapole
+x = 18, y = 18, rule = B3/S23
+16b2o$15bobo2$13bobo2$11bobo2$9bobo2$7bobo2$5bobo2$3bobo2$bobo$o$2o!

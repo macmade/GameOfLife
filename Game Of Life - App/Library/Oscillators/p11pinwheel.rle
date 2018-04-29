@@ -1,0 +1,9 @@
+#N P11 pinwheel
+#O Nicolay Beluchenko
+#C Rotationally symmetric p11 oscillator discovered in May 2009.
+#C http://www.conwaylife.com/wiki/P11_pinwheel
+#C http://www.conwaylife.com/patterns/p11pinwheel.rle
+x = 23, y = 23, rule = B3/S23
+7b2o$7bobo$9bo3$5bo3bo5b3o$5bo2bo4b3o$5b2o7bo6b2o$6b4o4bobo5bo$6bo2b2o
+2b2o2bo2b2o$13bo2$9bo$b2o2bo2b2o2b2o2bo$o5bobo4b4o$2o6bo7b2o$7b3o4bo2b
+o$5b3o5bo3bo3$13bo$13bobo$14b2o!

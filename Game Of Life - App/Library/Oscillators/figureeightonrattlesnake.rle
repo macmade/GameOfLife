@@ -1,0 +1,6 @@
+#N Figure eight on rattlesnake
+#C The smallest known period-88 oscillator.
+#C http://conwaylife.com/wiki/Figure_eight_on_rattlesnake
+x = 20, y = 15, rule = B3/S23
+8b2o8b2o$8bo7bob2o$9bo5bo$8b2o8bo$14b2obo$14b2o2$5b2o$5bob2o$2obobobob
+o$ob2obobo$6bo2b3o$7b2o3bo$9b3o$9bo!

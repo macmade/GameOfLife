@@ -1,0 +1,8 @@
+#N T-nosed p4 on 56P27
+#C The smallest known period-108 oscillator.
+#C http://conwaylife.com/wiki/T-nosed_p4_on_56P27
+x = 34, y = 32, rule = B3/S23
+15b2o$15b2o5$13b2o$14b2o$10bo4bo$10bo3bo$10b2o7b3o$19bo2$2o21bo$2o5b2o
+11bob2o$6b2obo11b2o5b2o$6bo21b2o2$10bo$8b3o7b2o$15bo3bo$14bo4bo$14b2o
+11b3o$15b2o11bo2$27b3o$26bo3bo$25bo5bo$13b2o10bobobobo$13b2o9b2obobob
+2o$23bo2b2ob2o2bo$23b2o7b2o!

@@ -1,0 +1,6 @@
+#N Pseudo-barberpole on rattlesnake
+#C The smallest known period-55 oscillator.
+#C http://conwaylife.com/wiki/Pseudo-barberpole_on_rattlesnake
+x = 13, y = 22, rule = B3/S23
+11b2o$12bo$9b2o2$7bobo2$5bobo$10b2o$3bobo3bobo$3bo5bo$bo6b2o$b2o3$5bo$
+5b2o$2obobob3o$ob2obobobo$6bo2b3o$7b2o3bo$9b3o$9bo!

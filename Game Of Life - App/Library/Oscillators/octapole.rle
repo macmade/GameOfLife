@@ -1,0 +1,6 @@
+#N Octapole
+#O Unknown
+#C http://conwaylife.com/wiki/Octapole
+#C http://conwaylife.com/patterns/octapole.rle
+x = 11, y = 11, rule = B3/S23
+9b2o$8bobo2$6bobo2$4bobo2$2bobo2$obo$2o!
