@@ -171,18 +171,8 @@ class CellReader
         item.author  = author  ?? ""
         item.comment = comment ?? ""
         
-        if( item.author.count > 0 && item.comment.count > 0 )
-        {
-            item.tooltip = item.comment + "\n(" + item.author + ")"
-        }
-        else if( item.author.count > 0 )
-        {
-            item.tooltip = item.author
-        }
-        else if( item.comment.count > 0 )
-        {
-            item.tooltip = item.comment
-        }
+        item.setSubtitle()
+        item.setTooltip()
         
         return item
     }

@@ -29,19 +29,25 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
     public static let PasteboardType = NSPasteboard.PasteboardType( "com.xs-labs.GOL.LibraryItem" )
     
     @objc public dynamic var title:       String
+    @objc public dynamic var subtitle:    String
     @objc public dynamic var author:      String
+    @objc public dynamic var rule:        String
     @objc public dynamic var comment:     String
     @objc public dynamic var tooltip:     String
-    @objc public dynamic var dimensions:  String
     @objc public dynamic var isGroup:     Bool
+    @objc public dynamic var width:       Int
+    @objc public dynamic var height:      Int
     @objc public dynamic var allChildren: [ LibraryItem ]
     @objc public dynamic var children:    [ LibraryItem ]
-    @objc public dynamic var cells:       [ String ]
+    
+    @objc public private( set ) dynamic var cells: [ String ]
     
     init( title: String = "", cells: [ String ] = [] )
     {
         self.title       = title
+        self.subtitle    = ""
         self.author      = ""
+        self.rule        = ""
         self.comment     = ""
         self.tooltip     = ""
         self.isGroup     = cells.count == 0
@@ -56,9 +62,50 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
             n = max( n, s.count )
         }
         
-        self.dimensions = ( n == 0 ) ? "" : String( describing: n ) + "x" + String( describing: cells.count ) 
+        self.width  = n
+        self.height = cells.count
         
         super.init()
+    }
+    
+    public func setSubtitle()
+    {
+        var sub = ""
+        
+        if( self.width > 0 && self.height > 0 )
+        {
+            sub += String( describing: self.width )
+            sub += "x"
+            sub += String( describing: self.height )
+        }
+        
+        if( self.rule.count > 0 )
+        {
+            if( sub.count > 0 )
+            {
+                sub += ", "
+            }
+            
+            sub += self.rule
+        }
+        
+        self.subtitle = sub
+    }
+    
+    public func setTooltip()
+    {
+        if( self.author.count > 0 && self.comment.count > 0 )
+        {
+            self.tooltip = self.comment + "\n(" + self.author + ")"
+        }
+        else if( self.author.count > 0 )
+        {
+            self.tooltip = self.author
+        }
+        else if( self.comment.count > 0 )
+        {
+            self.tooltip = self.comment
+        }
     }
     
     public func setPredicate( _ predicate: NSPredicate? )
@@ -121,11 +168,14 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
         let item = LibraryItem()
         
         item.title       = self.title
+        item.subtitle    = self.subtitle
         item.author      = self.author
+        item.rule        = self.rule
         item.comment     = self.comment
         item.tooltip     = self.tooltip
-        item.dimensions  = self.dimensions
         item.isGroup     = self.isGroup
+        item.width       = self.width
+        item.height      = self.height
         item.cells       = self.cells
         item.allChildren = self.allChildren
         item.children    = self.children
@@ -185,11 +235,14 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
         }
         
         self.title       = item.title
+        self.subtitle    = item.subtitle
         self.author      = item.author
+        self.rule        = item.rule
         self.comment     = item.comment
         self.tooltip     = item.tooltip
-        self.dimensions  = item.dimensions
         self.isGroup     = item.isGroup
+        self.width       = item.width
+        self.height      = item.height
         self.cells       = item.cells
         self.allChildren = item.allChildren
         self.children    = item.children
@@ -206,7 +259,17 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
             return nil
         }
         
+        guard let subtitle = coder.decodeObject( forKey: "subtitle" ) as? String else
+        {
+            return nil
+        }
+        
         guard let author = coder.decodeObject( forKey: "author" ) as? String else
+        {
+            return nil
+        }
+        
+        guard let rule = coder.decodeObject( forKey: "rule" ) as? String else
         {
             return nil
         }
@@ -221,11 +284,6 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
             return nil
         }
         
-        guard let dimensions = coder.decodeObject( forKey: "dimensions" ) as? String else
-        {
-            return nil
-        }
-        
         guard let cells = coder.decodeObject( of: NSArray.self, forKey: "cells" ) as? [ String ] else
         {
             return nil
@@ -236,25 +294,31 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
             return nil
         }
         
-        self.title       = title;
+        self.title       = title
+        self.subtitle    = subtitle
         self.author      = author
+        self.rule        = rule;
         self.comment     = comment
         self.tooltip     = tooltip
-        self.dimensions  = dimensions
-        self.isGroup     = coder.decodeBool( forKey: "isGroup" );
-        self.cells       = cells;
-        self.allChildren = children;
-        self.children    = children;
+        self.isGroup     = coder.decodeBool( forKey: "isGroup" )
+        self.width       = coder.decodeInteger( forKey: "width" )
+        self.height      = coder.decodeInteger( forKey: "height" );
+        self.cells       = cells
+        self.allChildren = children
+        self.children    = children
     }
     
     func encode( with coder: NSCoder )
     {
         coder.encode( self.title,      forKey: "title" )
+        coder.encode( self.subtitle,   forKey: "subtitle" )
         coder.encode( self.author ,    forKey: "author" )
+        coder.encode( self.rule,       forKey: "rule" )
         coder.encode( self.comment,    forKey: "comment" )
         coder.encode( self.tooltip,    forKey: "tooltip" )
-        coder.encode( self.dimensions, forKey: "dimensions" )
         coder.encode( self.isGroup,    forKey: "isGroup" )
+        coder.encode( self.width,      forKey: "width" )
+        coder.encode( self.height,     forKey: "height" )
         coder.encode( self.cells,      forKey: "cells" )
         coder.encode( self.children,   forKey: "children" )
     }

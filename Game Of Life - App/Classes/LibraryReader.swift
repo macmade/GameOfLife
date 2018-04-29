@@ -179,24 +179,19 @@ class LibraryReader
         
         let item = LibraryItem( title: title, cells: cells )
         
-        item.author  = dic[ "author" ]  as? String ?? ""
-        item.comment = dic[ "comment" ] as? String ?? ""
-        item.tooltip = dic[ "tooltip" ] as? String ?? ""
+        item.author   = dic[ "author" ]   as? String ?? ""
+        item.comment  = dic[ "comment" ]  as? String ?? ""
+        item.subtitle = dic[ "subtitle" ] as? String ?? ""
+        item.tooltip  = dic[ "tooltip" ]  as? String ?? ""
+        
+        if( item.subtitle.count == 0 )
+        {
+            item.setSubtitle()
+        }
         
         if( item.tooltip.count == 0 )
         {
-            if( item.author.count > 0 && item.comment.count > 0 )
-            {
-                item.tooltip = item.comment + "\n(" + item.author + ")"
-            }
-            else if( item.author.count > 0 )
-            {
-                item.tooltip = item.author
-            }
-            else if( item.comment.count > 0 )
-            {
-                item.tooltip = item.comment
-            }
+            item.setTooltip()
         }
         
         return [ item ]

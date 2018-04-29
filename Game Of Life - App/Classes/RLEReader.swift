@@ -101,6 +101,7 @@ class RLEReader
         var name:    String?
         var author:  String?
         var comment: String?
+        var rule:    String?
         
         while lines.last?.count == 0
         {
@@ -140,12 +141,28 @@ class RLEReader
             {
                 author = ( line as NSString ).substring( from: 2 ).trimmingCharacters( in: CharacterSet.whitespaces )
             }
-            
-            let chars: Set< Character > = [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "b", "o", "$", "!", " " ]
-            
-            if( Set( ( line as NSString ).substring( to: 1 ) ).isSubset( of: chars ) )
+            else if( line.hasPrefix( "x" ) )
             {
-                rle += line
+                let infos = line.replacingOccurrences( of: " ", with: "" ).split( separator: "," )
+                
+                for info in infos
+                {
+                    if info.hasPrefix( "rule=" )
+                    {
+                        rule = ( info as NSString ).substring( from: 5 ).trimmingCharacters( in: CharacterSet.whitespaces )
+                        
+                        break
+                    }
+                }
+            }
+            else
+            {
+                let chars: Set< Character > = [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "b", "o", "$", "!", " " ]
+                
+                if( Set( ( line as NSString ).substring( to: 1 ) ).isSubset( of: chars ) )
+                {
+                    rle += line
+                }
             }
         }
         
@@ -165,21 +182,12 @@ class RLEReader
         }
         
         let item     = LibraryItem( title: name!, cells: cells )
-        item.author  = author  ?? ""
-        item.comment = comment ?? ""
+        item.author  = author            ?? ""
+        item.rule    = rule?.capitalized ?? ""
+        item.comment = comment           ?? ""
         
-        if( item.author.count > 0 && item.comment.count > 0 )
-        {
-            item.tooltip = item.comment + "\n(" + item.author + ")"
-        }
-        else if( item.author.count > 0 )
-        {
-            item.tooltip = item.author
-        }
-        else if( item.comment.count > 0 )
-        {
-            item.tooltip = item.comment
-        }
+        item.setSubtitle()
+        item.setTooltip()
         
         return item
     }

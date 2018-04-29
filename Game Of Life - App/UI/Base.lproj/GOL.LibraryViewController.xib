@@ -171,8 +171,8 @@
                                                             <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
                                                         </textFieldCell>
                                                         <connections>
-                                                            <binding destination="34V-5S-6yq" name="value" keyPath="objectValue.dimensions" id="cB0-tb-vRh"/>
                                                             <binding destination="34V-5S-6yq" name="toolTip" keyPath="objectValue.tooltip" id="5Jj-LE-M2V"/>
+                                                            <binding destination="34V-5S-6yq" name="value" keyPath="objectValue.subtitle" id="5b6-Iq-xPT"/>
                                                         </connections>
                                                     </textField>
                                                 </subviews>
