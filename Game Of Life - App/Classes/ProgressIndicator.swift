@@ -110,7 +110,7 @@ import Cocoa
         let p1       = NSBezierPath( ovalIn: NSInsetRect( rect, lineWidth / 2, lineWidth / 2 ) )
         p1.lineWidth = self.lineWidth
         
-        color1.setStroke()
+        self.color1.setStroke()
         p1.stroke()
         
         let p2          = NSBezierPath()
@@ -119,7 +119,7 @@ import Cocoa
         
         p2.appendArc( withCenter: NSPoint( x: NSMidX( rect ), y: NSMidY( rect ) ), radius: ( rect.size.width / 2 ) - ( lineWidth / 2 ), startAngle: self.startAngle, endAngle: self.endAngle )
         
-        color2.setStroke()
+        self.color2.setStroke()
         p2.stroke()
     }
 }
