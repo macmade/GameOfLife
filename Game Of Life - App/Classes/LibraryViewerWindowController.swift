@@ -69,8 +69,9 @@ class LibraryViewerWindowController: NSWindowController
         
         self.infosController?.sortDescriptors = [ NSSortDescriptor( key: "key", ascending: true ) ]
         
-        self.textView?.font      = NSFont.systemFont( ofSize: NSFont.smallSystemFontSize )
-        self.textView?.textColor = NSColor.disabledControlTextColor
+        self.textView?.font               = NSFont.systemFont( ofSize: NSFont.smallSystemFontSize )
+        self.textView?.textColor          = NSColor.disabledControlTextColor
+        self.textView?.linkTextAttributes = [ NSAttributedStringKey.foregroundColor: NSColor( hex: 0x5EA09F ) ]
     }
     
     private func select( item: LibraryItem )
@@ -91,6 +92,12 @@ class LibraryViewerWindowController: NSWindowController
         self.comments     = NSAttributedString( string: item.comment, attributes: attr )
         self.infos        = infos
         self.selectedItem = item
+        
+        self.textView?.isEditable = true
+        
+        self.textView?.checkTextInDocument( nil )
+        
+        self.textView?.isEditable = false
     }
 }
 
