@@ -26,6 +26,10 @@ import Cocoa
 
 class LibraryViewController: NSViewController, NSOutlineViewDelegate, NSOutlineViewDataSource, NSSearchFieldDelegate
 {
+    typealias OnSelectHandler = ( _ item: LibraryItem ) -> Void
+    
+    public var onSelect: OnSelectHandler?
+    
     @IBOutlet public private( set ) var searchField:    NSSearchField?
     @IBOutlet private               var treeController: NSTreeController?
     @IBOutlet private               var outlineView:    NSOutlineView?
@@ -109,7 +113,42 @@ class LibraryViewController: NSViewController, NSOutlineViewDelegate, NSOutlineV
     
     func outlineView( _ outlineView: NSOutlineView, shouldSelectItem item: Any ) -> Bool
     {
-        return false
+        if( self.onSelect == nil )
+        {
+            return false
+        }
+        
+        guard let node = item as? NSTreeNode else
+        {
+            return false
+        }
+        
+        guard let item = node.representedObject as? LibraryItem else
+        {
+            return false
+        }
+        
+        return item.isGroup == false
+    }
+    
+    func outlineViewSelectionDidChange( _ notification: Notification )
+    {
+        guard let onSelect = self.onSelect else
+        {
+            return
+        }
+        
+        guard let nodes = self.treeController?.selectedNodes else
+        {
+            return
+        }
+        
+        guard let item = nodes.first?.representedObject as? LibraryItem else
+        {
+            return
+        }
+        
+        onSelect( item )
     }
     
     func outlineView( _ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item i: Any ) -> NSView?

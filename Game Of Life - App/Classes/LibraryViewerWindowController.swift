@@ -29,6 +29,7 @@ class LibraryViewerWindowController: NSWindowController
     @IBOutlet private var libraryViewContainer: NSView?
     
     @objc dynamic public private( set ) var libraryViewController: LibraryViewController?
+    @objc dynamic public private( set ) var selectedItem:          LibraryItem?
     
     override var windowNibName: NSNib.Name?
     {
@@ -60,6 +61,8 @@ class LibraryViewerWindowController: NSWindowController
             container.addConstraint( NSLayoutConstraint( item: view, attribute: .height,  relatedBy: .equal, toItem: container, attribute: .height,  multiplier: 1, constant: 0 ) )
             container.addConstraint( NSLayoutConstraint( item: view, attribute: .centerX, relatedBy: .equal, toItem: container, attribute: .centerX, multiplier: 1, constant: 0 ) )
             container.addConstraint( NSLayoutConstraint( item: view, attribute: .centerY, relatedBy: .equal, toItem: container, attribute: .centerY, multiplier: 1, constant: 0 ) )
+            
+            self.libraryViewController?.onSelect = { ( item ) in self.selectedItem = item }
         }
     }
 }

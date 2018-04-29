@@ -60,8 +60,42 @@
                                     <customView id="g5s-qs-YjB">
                                         <rect key="frame" x="301" y="0.0" width="699" height="529"/>
                                         <autoresizingMask key="autoresizingMask"/>
+                                        <subviews>
+                                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="7fU-ty-akQ">
+                                                <rect key="frame" x="0.0" y="0.0" width="699" height="529"/>
+                                                <subviews>
+                                                    <textField horizontalHuggingPriority="1" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oWr-1X-9x9">
+                                                        <rect key="frame" x="20" y="485" width="659" height="24"/>
+                                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Label" drawsBackground="YES" id="smz-wi-Qwk">
+                                                            <font key="font" metaFont="systemThin" size="20"/>
+                                                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" white="1" alpha="0.0" colorSpace="deviceWhite"/>
+                                                        </textFieldCell>
+                                                        <connections>
+                                                            <binding destination="-2" name="value" keyPath="self.selectedItem.title" id="MdE-ew-W7Q"/>
+                                                        </connections>
+                                                    </textField>
+                                                </subviews>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="oWr-1X-9x9" secondAttribute="trailing" constant="20" id="f3J-zk-eTf"/>
+                                                    <constraint firstItem="oWr-1X-9x9" firstAttribute="leading" secondItem="7fU-ty-akQ" secondAttribute="leading" constant="20" id="ghT-iY-WfH"/>
+                                                    <constraint firstItem="oWr-1X-9x9" firstAttribute="top" secondItem="7fU-ty-akQ" secondAttribute="top" constant="20" id="reG-tx-ku3"/>
+                                                </constraints>
+                                                <connections>
+                                                    <binding destination="-2" name="hidden" keyPath="self.selectedItem" id="Tmw-Yv-0Ih">
+                                                        <dictionary key="options">
+                                                            <string key="NSValueTransformerName">NSIsNil</string>
+                                                        </dictionary>
+                                                    </binding>
+                                                </connections>
+                                            </customView>
+                                        </subviews>
                                         <constraints>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="7sg-TH-zed"/>
+                                            <constraint firstItem="7fU-ty-akQ" firstAttribute="height" secondItem="g5s-qs-YjB" secondAttribute="height" id="RR7-A3-U1p"/>
+                                            <constraint firstItem="7fU-ty-akQ" firstAttribute="centerX" secondItem="g5s-qs-YjB" secondAttribute="centerX" id="Xaa-6H-PMf"/>
+                                            <constraint firstItem="7fU-ty-akQ" firstAttribute="width" secondItem="g5s-qs-YjB" secondAttribute="width" id="bqp-cX-JcJ"/>
+                                            <constraint firstItem="7fU-ty-akQ" firstAttribute="centerY" secondItem="g5s-qs-YjB" secondAttribute="centerY" id="jSW-9j-LA3"/>
                                         </constraints>
                                     </customView>
                                 </subviews>
@@ -92,7 +126,7 @@
                     <constraint firstItem="uq0-9d-DYl" firstAttribute="centerY" secondItem="EiT-Mj-1SZ" secondAttribute="centerY" id="pGV-3k-JzJ"/>
                 </constraints>
             </view>
-            <point key="canvasLocation" x="101.5" y="-20.5"/>
+            <point key="canvasLocation" x="101" y="-21"/>
         </window>
     </objects>
 </document>
