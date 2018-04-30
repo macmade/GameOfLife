@@ -627,6 +627,31 @@
 			};
 			name = Release;
 		};
+		052E8FCA209782F70094A21A /* AppStore */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0539494F2066741900C20FA3 /* Release - ccache.xcconfig */;
+			buildSettings = {
+				GCC_OPTIMIZATION_LEVEL = fast;
+			};
+			name = AppStore;
+		};
+		052E8FCB209782F70094A21A /* AppStore */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "Game Of Life.entitlements";
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 326Y53CJMD;
+				IBC_MODULE = GOL;
+				INFOPLIST_FILE = GameOfLife/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.xs-labs.Game-Of-Life";
+				PRODUCT_MODULE_NAME = GOL;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = AppStore;
+		};
 		05394949206673AC00C20FA3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 053949512066741900C20FA3 /* Debug - ccache.xcconfig */;
@@ -650,6 +675,7 @@
 			buildConfigurations = (
 				0529D8C42068EA020072B1A5 /* Debug */,
 				0529D8C52068EA020072B1A5 /* Release */,
+				052E8FCB209782F70094A21A /* AppStore */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -659,6 +685,7 @@
 			buildConfigurations = (
 				05394949206673AC00C20FA3 /* Debug */,
 				0539494A206673AC00C20FA3 /* Release */,
+				052E8FCA209782F70094A21A /* AppStore */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
