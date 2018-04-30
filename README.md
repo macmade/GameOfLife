@@ -14,12 +14,12 @@ GameOfLife
 About
 -----
 
-C++ / ncurses implementation of Conway's Game of Life.
+Conway's Game of Life macOS app.
 
 License
 -------
 
-PIMPL is released under the terms of the MIT license.
+GameOfLife is released under the terms of the MIT license.
 
 Repository Infos
 ----------------
