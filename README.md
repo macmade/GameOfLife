@@ -16,6 +16,8 @@ About
 
 Conway's Game of Life macOS app.
 
+![Main Window](Resources/GOL.png "Main Window")
+
 License
 -------
 
