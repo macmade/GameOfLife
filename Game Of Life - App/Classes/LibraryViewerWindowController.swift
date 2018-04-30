@@ -72,7 +72,7 @@ class LibraryViewerWindowController: NSWindowController
         
         self.textView?.font               = NSFont.systemFont( ofSize: NSFont.smallSystemFontSize )
         self.textView?.textColor          = NSColor.disabledControlTextColor
-        self.textView?.linkTextAttributes = [ NSAttributedStringKey.foregroundColor: NSColor( hex: 0x5EA09F ) ]
+        self.textView?.linkTextAttributes = [ NSAttributedStringKey.foregroundColor: NSColor.disabledControlTextColor ]
     }
     
     private func select( item: LibraryItem? )
@@ -95,7 +95,7 @@ class LibraryViewerWindowController: NSWindowController
             infos.append( StringPair( key: "Height:", value: String( describing: i.height ) ) )
         }
         
-        let attr = [ NSAttributedStringKey.foregroundColor: NSColor.disabledControlTextColor ]
+        let attr = [ NSAttributedStringKey.foregroundColor: NSColor.white ]
         
         self.comments     = NSAttributedString( string: i.comment, attributes: attr )
         self.infos        = infos
