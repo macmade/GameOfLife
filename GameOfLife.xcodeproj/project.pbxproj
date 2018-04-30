@@ -163,7 +163,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0529D8BA2068EA020072B1A5 /* Game Of Life - App */ = {
+		0529D8BA2068EA020072B1A5 /* GameOfLife */ = {
 			isa = PBXGroup;
 			children = (
 				0529D8C82068EAC70072B1A5 /* Classes */,
@@ -173,7 +173,7 @@
 				052EDC05208A530D002B48AF /* Library */,
 				054607B62089171700D11485 /* Library.json */,
 			);
-			path = "Game Of Life - App";
+			path = GameOfLife;
 			sourceTree = "<group>";
 		};
 		0529D8C72068EAC70072B1A5 /* UI */ = {
@@ -248,7 +248,7 @@
 				053949C92066C53700C20FA3 /* LICENSE */,
 				053949C82066C53700C20FA3 /* README.md */,
 				0539494E2066741900C20FA3 /* xcconfig */,
-				0529D8BA2068EA020072B1A5 /* Game Of Life - App */,
+				0529D8BA2068EA020072B1A5 /* GameOfLife */,
 				05394945206673AC00C20FA3 /* Products */,
 				053949862066752C00C20FA3 /* Frameworks */,
 			);
@@ -604,7 +604,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 326Y53CJMD;
 				IBC_MODULE = GOL;
-				INFOPLIST_FILE = "Game Of Life - App/Info.plist";
+				INFOPLIST_FILE = GameOfLife/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xs-labs.Game-Of-Life";
 				PRODUCT_MODULE_NAME = GOL;
@@ -621,7 +621,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 326Y53CJMD;
 				IBC_MODULE = GOL;
-				INFOPLIST_FILE = "Game Of Life - App/Info.plist";
+				INFOPLIST_FILE = GameOfLife/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.xs-labs.Game-Of-Life";
 				PRODUCT_MODULE_NAME = GOL;
