@@ -151,11 +151,15 @@ class MainWindowController: NSWindowController
     @IBAction func toggleColors( _ sender: Any? )
     {
         Preferences.shared.colors = ( Preferences.shared.colors ) ? false : true
+        
+        self.gridView?.setNeedsDisplay( self.gridView!.bounds )
     }
     
     @IBAction func toggleShapes( _ sender: Any? )
     {
         Preferences.shared.drawAsSquares = ( Preferences.shared.drawAsSquares ) ? false : true
+        
+        self.gridView?.setNeedsDisplay( self.gridView!.bounds )
     }
     
     @IBAction func openDocument( _ sender: Any? )
