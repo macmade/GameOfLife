@@ -84,7 +84,7 @@ extension Data
         
         let data = Data( bytes: buf, count: length )
         
-        buf.deallocate( capacity: length )
+        buf.deallocate()
         
         return data
     }
@@ -113,7 +113,7 @@ extension Data
         
         let data = Data( bytes: buf, count: length )
         
-        buf.deallocate( capacity: length )
+        buf.deallocate()
         
         return data
     }
