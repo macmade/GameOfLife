@@ -44,13 +44,6 @@
 		05357169206A347C002178E3 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05357168206A347C002178E3 /* Array.swift */; };
 		0535DAE72071238A00184579 /* GOL.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0535DAE62071237300184579 /* GOL.icns */; };
 		0535DAE92071248100184579 /* GOL-Save.icns in Resources */ = {isa = PBXBuildFile; fileRef = 0535DAE82071246900184579 /* GOL-Save.icns */; };
-		05394948206673AC00C20FA3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 05394947206673AC00C20FA3 /* main.cpp */; };
-		053949882066752C00C20FA3 /* libncurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 053949872066752C00C20FA3 /* libncurses.tbd */; };
-		0539498C20667A9F00C20FA3 /* Cell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0539498A20667A9F00C20FA3 /* Cell.cpp */; };
-		0539499220667EFA00C20FA3 /* Screen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0539499020667EFA00C20FA3 /* Screen.cpp */; };
-		0539499420667F8F00C20FA3 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0539499320667F8F00C20FA3 /* libc++.tbd */; };
-		053949CC2067F02C00C20FA3 /* Board.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 053949CB2067F02B00C20FA3 /* Board.cpp */; };
-		053949CD2067F3FF00C20FA3 /* Grid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0539498D20667B6D00C20FA3 /* Grid.cpp */; };
 		054607B72089171700D11485 /* Library.json in Resources */ = {isa = PBXBuildFile; fileRef = 054607B62089171700D11485 /* Library.json */; };
 		05949A6F20853A2F00DC9C39 /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05949A6E20853A2F00DC9C39 /* LibraryViewController.swift */; };
 		05949A7520853A6F00DC9C39 /* GOL.LibraryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05949A7320853A6F00DC9C39 /* GOL.LibraryViewController.xib */; };
@@ -61,18 +54,6 @@
 		05F05FE820899BBF00337CB6 /* GOL.LibraryEditorWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05F05FE620899BBF00337CB6 /* GOL.LibraryEditorWindowController.xib */; };
 		05F05FEB2089AB1000337CB6 /* RulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05F05FEA2089AB1000337CB6 /* RulerView.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		05394942206673AC00C20FA3 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		051DB8B32072824500963D88 /* PreferencesColorItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesColorItem.swift; sourceTree = "<group>"; };
@@ -115,8 +96,6 @@
 		05357168206A347C002178E3 /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		0535DAE62071237300184579 /* GOL.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = GOL.icns; sourceTree = "<group>"; };
 		0535DAE82071246900184579 /* GOL-Save.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "GOL-Save.icns"; sourceTree = "<group>"; };
-		05394944206673AC00C20FA3 /* GameOfLife */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GameOfLife; sourceTree = BUILT_PRODUCTS_DIR; };
-		05394947206673AC00C20FA3 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		0539494F2066741900C20FA3 /* Release - ccache.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Release - ccache.xcconfig"; sourceTree = "<group>"; };
 		053949502066741900C20FA3 /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		053949512066741900C20FA3 /* Debug - ccache.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Debug - ccache.xcconfig"; sourceTree = "<group>"; };
@@ -159,18 +138,9 @@
 		0539497E2066741900C20FA3 /* ccache-config.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = "ccache-config.sh"; sourceTree = "<group>"; };
 		0539497F2066741900C20FA3 /* ccache.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ccache.sh; sourceTree = "<group>"; };
 		053949872066752C00C20FA3 /* libncurses.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libncurses.tbd; path = usr/lib/libncurses.tbd; sourceTree = SDKROOT; };
-		0539498A20667A9F00C20FA3 /* Cell.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Cell.cpp; sourceTree = "<group>"; };
-		0539498B20667A9F00C20FA3 /* Cell.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Cell.hpp; sourceTree = "<group>"; };
-		0539498D20667B6D00C20FA3 /* Grid.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Grid.cpp; sourceTree = "<group>"; };
-		0539498E20667B6D00C20FA3 /* Grid.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Grid.hpp; sourceTree = "<group>"; };
-		0539499020667EFA00C20FA3 /* Screen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Screen.cpp; sourceTree = "<group>"; };
-		0539499120667EFA00C20FA3 /* Screen.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Screen.hpp; sourceTree = "<group>"; };
 		0539499320667F8F00C20FA3 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		05394995206697C100C20FA3 /* OptionalReference.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = OptionalReference.hpp; sourceTree = "<group>"; };
 		053949C82066C53700C20FA3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		053949C92066C53700C20FA3 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		053949CA2067F02B00C20FA3 /* Board.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Board.hpp; sourceTree = "<group>"; };
-		053949CB2067F02B00C20FA3 /* Board.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Board.cpp; sourceTree = "<group>"; };
 		054607B62089171700D11485 /* Library.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Library.json; sourceTree = "<group>"; };
 		05949A6E20853A2F00DC9C39 /* LibraryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
 		05949A7420853A6F00DC9C39 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GOL.LibraryViewController.xib; sourceTree = "<group>"; };
@@ -187,15 +157,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		05394941206673AC00C20FA3 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0539499420667F8F00C20FA3 /* libc++.tbd in Frameworks */,
-				053949882066752C00C20FA3 /* libncurses.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,7 +249,6 @@
 				053949C82066C53700C20FA3 /* README.md */,
 				0539494E2066741900C20FA3 /* xcconfig */,
 				0529D8BA2068EA020072B1A5 /* Game Of Life - App */,
-				05394946206673AC00C20FA3 /* Game Of Life - CLI */,
 				05394945206673AC00C20FA3 /* Products */,
 				053949862066752C00C20FA3 /* Frameworks */,
 			);
@@ -297,19 +257,9 @@
 		05394945206673AC00C20FA3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				05394944206673AC00C20FA3 /* GameOfLife */,
 				0529D8B92068EA020072B1A5 /* Game Of Life.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		05394946206673AC00C20FA3 /* Game Of Life - CLI */ = {
-			isa = PBXGroup;
-			children = (
-				0539498920667A9500C20FA3 /* Classes */,
-				05394947206673AC00C20FA3 /* main.cpp */,
-			);
-			path = "Game Of Life - CLI";
 			sourceTree = "<group>";
 		};
 		0539494E2066741900C20FA3 /* xcconfig */ = {
@@ -434,22 +384,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		0539498920667A9500C20FA3 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				053949CB2067F02B00C20FA3 /* Board.cpp */,
-				053949CA2067F02B00C20FA3 /* Board.hpp */,
-				0539498A20667A9F00C20FA3 /* Cell.cpp */,
-				0539498B20667A9F00C20FA3 /* Cell.hpp */,
-				0539498D20667B6D00C20FA3 /* Grid.cpp */,
-				0539498E20667B6D00C20FA3 /* Grid.hpp */,
-				05394995206697C100C20FA3 /* OptionalReference.hpp */,
-				0539499020667EFA00C20FA3 /* Screen.cpp */,
-				0539499120667EFA00C20FA3 /* Screen.hpp */,
-			);
-			path = Classes;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -471,23 +405,6 @@
 			productReference = 0529D8B92068EA020072B1A5 /* Game Of Life.app */;
 			productType = "com.apple.product-type.application";
 		};
-		05394943206673AC00C20FA3 /* GameOfLife */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0539494B206673AC00C20FA3 /* Build configuration list for PBXNativeTarget "GameOfLife" */;
-			buildPhases = (
-				05394940206673AC00C20FA3 /* Sources */,
-				05394941206673AC00C20FA3 /* Frameworks */,
-				05394942206673AC00C20FA3 /* CopyFiles */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = GameOfLife;
-			productName = GameOfLife;
-			productReference = 05394944206673AC00C20FA3 /* GameOfLife */;
-			productType = "com.apple.product-type.tool";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -508,11 +425,6 @@
 							};
 						};
 					};
-					05394943206673AC00C20FA3 = {
-						CreatedOnToolsVersion = 9.2;
-						LastSwiftMigration = 0920;
-						ProvisioningStyle = Automatic;
-					};
 				};
 			};
 			buildConfigurationList = 0539493F206673AC00C20FA3 /* Build configuration list for PBXProject "GameOfLife" */;
@@ -529,7 +441,6 @@
 			projectRoot = "";
 			targets = (
 				0529D8B82068EA020072B1A5 /* Game Of Life */,
-				05394943206673AC00C20FA3 /* GameOfLife */,
 			);
 		};
 /* End PBXProject section */
@@ -611,18 +522,6 @@
 				053571582069792A002178E3 /* MainWindowController.swift in Sources */,
 				052EDC08208A7AA2002B48AF /* NSView.swift in Sources */,
 				0531D6EE20866ED500C86639 /* LibraryItemView.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		05394940206673AC00C20FA3 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				05394948206673AC00C20FA3 /* main.cpp in Sources */,
-				0539498C20667A9F00C20FA3 /* Cell.cpp in Sources */,
-				053949CC2067F02C00C20FA3 /* Board.cpp in Sources */,
-				0539499220667EFA00C20FA3 /* Screen.cpp in Sources */,
-				053949CD2067F3FF00C20FA3 /* Grid.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -745,27 +644,6 @@
 			};
 			name = Release;
 		};
-		0539494C206673AC00C20FA3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_COMPILATION_MODE = singlefile;
-				SWIFT_VERSION = 3.0;
-			};
-			name = Debug;
-		};
-		0539494D206673AC00C20FA3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -783,15 +661,6 @@
 			buildConfigurations = (
 				05394949206673AC00C20FA3 /* Debug */,
 				0539494A206673AC00C20FA3 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		0539494B206673AC00C20FA3 /* Build configuration list for PBXNativeTarget "GameOfLife" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0539494C206673AC00C20FA3 /* Debug */,
-				0539494D206673AC00C20FA3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
