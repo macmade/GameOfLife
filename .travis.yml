@@ -7,7 +7,7 @@ install:
 - brew install ccache
 - PATH=$PATH:/usr/local/opt/ccache/libexec
 script:
-- set -o pipefail && xcodebuild -project "GameOfLife.xcodeproj" -scheme "Game Of Life - Debug" build analyze | xcpretty
+- set -o pipefail && xcodebuild -project "GameOfLife.xcodeproj" -scheme "Game Of Life - Debug" build analyze
 before_script:
 - ccache -s
 - ccache -z
