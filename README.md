@@ -14,7 +14,7 @@ GameOfLife
 About
 -----
 
-Conway's Game of Life macOS app.
+Conway's Game of Life macOS app: [www.game-of-life.io](http://www.game-of-life.io/)
 
 ![Main Window](Resources/GOL.png "Main Window")
 
