@@ -235,7 +235,7 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
             return nil
         }
         
-        return NSKeyedArchiver.archivedData( withRootObject: self )
+        return try? NSKeyedArchiver.archivedData( withRootObject: self, requiringSecureCoding: true )
     }
     
     // MARK: - NSPasteboardReading
@@ -267,24 +267,33 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
             return nil
         }
         
-        guard let item = NSKeyedUnarchiver.unarchiveObject( with: data ) as? LibraryItem else
+        do
+        {
+            let unarchived = try NSKeyedUnarchiver.unarchivedObject( ofClass: LibraryItem.self, from: data )
+            
+            guard let item = unarchived else
+            {
+                return nil
+            }
+            
+            self.title       = item.title
+            self.subtitle    = item.subtitle
+            self.author      = item.author
+            self.rule        = item.rule
+            self.comment     = item.comment
+            self.tooltip     = item.tooltip
+            self.isGroup     = item.isGroup
+            self.width       = item.width
+            self.height      = item.height
+            self.cells       = item.cells
+            self.rotations   = item.rotations
+            self.allChildren = item.allChildren
+            self.children    = item.children
+        }
+        catch
         {
             return nil
         }
-        
-        self.title       = item.title
-        self.subtitle    = item.subtitle
-        self.author      = item.author
-        self.rule        = item.rule
-        self.comment     = item.comment
-        self.tooltip     = item.tooltip
-        self.isGroup     = item.isGroup
-        self.width       = item.width
-        self.height      = item.height
-        self.cells       = item.cells
-        self.rotations   = item.rotations
-        self.allChildren = item.allChildren
-        self.children    = item.children
     }
     
     // MARK: - NSSecureCoding
