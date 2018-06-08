@@ -235,7 +235,14 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
             return nil
         }
         
-        return try? NSKeyedArchiver.archivedData( withRootObject: self, requiringSecureCoding: true )
+        if #available( macOS 10.14, * )
+        {
+            return try? NSKeyedArchiver.archivedData( withRootObject: self, requiringSecureCoding: true )
+        }
+        else
+        {
+            return try? NSKeyedArchiver.archivedData( withRootObject: self, requiringSecureCoding: true )
+        }
     }
     
     // MARK: - NSPasteboardReading
@@ -269,7 +276,16 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
         
         do
         {
-            let unarchived = try NSKeyedUnarchiver.unarchivedObject( ofClass: LibraryItem.self, from: data )
+            var unarchived: LibraryItem?
+            
+            if #available( macOS 10.14, * )
+            {
+                unarchived = try NSKeyedUnarchiver.unarchivedObject( ofClass: LibraryItem.self, from: data )
+            }
+            else
+            {
+                unarchived = NSKeyedUnarchiver.unarchiveObject( with: data ) as? LibraryItem
+            }
             
             guard let item = unarchived else
             {
