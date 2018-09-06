@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.13.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.13.2"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -14,11 +15,11 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <window title="Game Of Life" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="MainWindow" animationBehavior="default" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="QvC-M9-y7g">
+        <window title="Game Of Life" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="MainWindow" animationBehavior="default" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="1063" height="564"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
             <value key="minSize" type="size" width="400" height="200"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="1063" height="564"/>
@@ -70,7 +71,7 @@
                                                 </configuration>
                                             </ciFilter>
                                         </contentFilters>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarRewindTemplate" imagePosition="only" alignment="center" continuous="YES" transparent="YES" imageScaling="proportionallyUpOrDown" inset="2" id="30C-FD-NMD">
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="RewindTemplate" imagePosition="only" alignment="center" continuous="YES" transparent="YES" imageScaling="proportionallyUpOrDown" inset="2" id="30C-FD-NMD">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -90,7 +91,7 @@
                                                 </configuration>
                                             </ciFilter>
                                         </contentFilters>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarPlayTemplate" imagePosition="only" alignment="center" continuous="YES" transparent="YES" imageScaling="proportionallyUpOrDown" inset="2" id="eQM-mH-OpQ">
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="PlayTemplate" imagePosition="only" alignment="center" continuous="YES" transparent="YES" imageScaling="proportionallyUpOrDown" inset="2" id="eQM-mH-OpQ">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -115,7 +116,7 @@
                                                 </configuration>
                                             </ciFilter>
                                         </contentFilters>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarPauseTemplate" imagePosition="only" alignment="center" continuous="YES" transparent="YES" imageScaling="proportionallyUpOrDown" inset="2" id="POo-TK-gSf">
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="PauseTemplate" imagePosition="only" alignment="center" continuous="YES" transparent="YES" imageScaling="proportionallyUpOrDown" inset="2" id="POo-TK-gSf">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -136,7 +137,7 @@
                                                 </configuration>
                                             </ciFilter>
                                         </contentFilters>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarPlayPauseTemplate" imagePosition="only" alignment="center" continuous="YES" transparent="YES" imageScaling="proportionallyUpOrDown" inset="2" id="eLP-EY-Fs3">
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="PlayPauseTemplate" imagePosition="only" alignment="center" continuous="YES" transparent="YES" imageScaling="proportionallyUpOrDown" inset="2" id="eLP-EY-Fs3">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -156,7 +157,7 @@
                                                 </configuration>
                                             </ciFilter>
                                         </contentFilters>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarFastForwardTemplate" imagePosition="only" alignment="center" continuous="YES" transparent="YES" imageScaling="proportionallyUpOrDown" inset="2" id="XSZ-z8-HH1">
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="ForwardTemplate" imagePosition="only" alignment="center" continuous="YES" transparent="YES" imageScaling="proportionallyUpOrDown" inset="2" id="XSZ-z8-HH1">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -531,11 +532,11 @@
         </menu>
     </objects>
     <resources>
+        <image name="ForwardTemplate" width="567" height="567"/>
         <image name="NSActionTemplate" width="14" height="14"/>
-        <image name="NSTouchBarFastForwardTemplate" width="22" height="30"/>
-        <image name="NSTouchBarPauseTemplate" width="11" height="30"/>
-        <image name="NSTouchBarPlayPauseTemplate" width="23" height="30"/>
-        <image name="NSTouchBarPlayTemplate" width="14" height="30"/>
-        <image name="NSTouchBarRewindTemplate" width="22" height="30"/>
+        <image name="PauseTemplate" width="567" height="567"/>
+        <image name="PlayPauseTemplate" width="567" height="567"/>
+        <image name="PlayTemplate" width="567" height="567"/>
+        <image name="RewindTemplate" width="567" height="567"/>
     </resources>
 </document>

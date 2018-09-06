@@ -50,6 +50,11 @@
 		05949A7720853ED300DC9C39 /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05949A7620853ED300DC9C39 /* ColorView.swift */; };
 		05D6AFD5208F9CCA00F484D1 /* CustomRuleWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05D6AFD4208F9CCA00F484D1 /* CustomRuleWindowController.swift */; };
 		05D6AFD8208F9D0700F484D1 /* GOL.CustomRuleWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05D6AFD6208F9D0700F484D1 /* GOL.CustomRuleWindowController.xib */; };
+		05D712062141C3360022AAB8 /* PlayTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 05D712052141C3360022AAB8 /* PlayTemplate.pdf */; };
+		05D7120B2141C4450022AAB8 /* RewindTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 05D712072141C4450022AAB8 /* RewindTemplate.pdf */; };
+		05D7120C2141C4450022AAB8 /* ForwardTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 05D712082141C4450022AAB8 /* ForwardTemplate.pdf */; };
+		05D7120D2141C4450022AAB8 /* PauseTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 05D712092141C4450022AAB8 /* PauseTemplate.pdf */; };
+		05D7120E2141C4450022AAB8 /* PlayPauseTemplate.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 05D7120A2141C4450022AAB8 /* PlayPauseTemplate.pdf */; };
 		05F05FE520899B8300337CB6 /* LibraryEditorWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05F05FE420899B8300337CB6 /* LibraryEditorWindowController.swift */; };
 		05F05FE820899BBF00337CB6 /* GOL.LibraryEditorWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05F05FE620899BBF00337CB6 /* GOL.LibraryEditorWindowController.xib */; };
 		05F05FEB2089AB1000337CB6 /* RulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05F05FEA2089AB1000337CB6 /* RulerView.swift */; };
@@ -147,6 +152,11 @@
 		05949A7620853ED300DC9C39 /* ColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorView.swift; sourceTree = "<group>"; };
 		05D6AFD4208F9CCA00F484D1 /* CustomRuleWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRuleWindowController.swift; sourceTree = "<group>"; };
 		05D6AFD7208F9D0700F484D1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GOL.CustomRuleWindowController.xib; sourceTree = "<group>"; };
+		05D712052141C3360022AAB8 /* PlayTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = PlayTemplate.pdf; sourceTree = "<group>"; };
+		05D712072141C4450022AAB8 /* RewindTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = RewindTemplate.pdf; sourceTree = "<group>"; };
+		05D712082141C4450022AAB8 /* ForwardTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = ForwardTemplate.pdf; sourceTree = "<group>"; };
+		05D712092141C4450022AAB8 /* PauseTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = PauseTemplate.pdf; sourceTree = "<group>"; };
+		05D7120A2141C4450022AAB8 /* PlayPauseTemplate.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = PlayPauseTemplate.pdf; sourceTree = "<group>"; };
 		05F05FE420899B8300337CB6 /* LibraryEditorWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryEditorWindowController.swift; sourceTree = "<group>"; };
 		05F05FE720899BBF00337CB6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GOL.LibraryEditorWindowController.xib; sourceTree = "<group>"; };
 		05F05FEA2089AB1000337CB6 /* RulerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulerView.swift; sourceTree = "<group>"; };
@@ -235,8 +245,13 @@
 		0535DAE52071237300184579 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				05D712082141C4450022AAB8 /* ForwardTemplate.pdf */,
 				0535DAE82071246900184579 /* GOL-Save.icns */,
 				0535DAE62071237300184579 /* GOL.icns */,
+				05D712092141C4450022AAB8 /* PauseTemplate.pdf */,
+				05D7120A2141C4450022AAB8 /* PlayPauseTemplate.pdf */,
+				05D712052141C3360022AAB8 /* PlayTemplate.pdf */,
+				05D712072141C4450022AAB8 /* RewindTemplate.pdf */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -452,6 +467,8 @@
 			files = (
 				052EDC06208A530D002B48AF /* Library in Resources */,
 				054607B72089171700D11485 /* Library.json in Resources */,
+				05D712062141C3360022AAB8 /* PlayTemplate.pdf in Resources */,
+				05D7120D2141C4450022AAB8 /* PauseTemplate.pdf in Resources */,
 				0535DAE92071248100184579 /* GOL-Save.icns in Resources */,
 				05949A7520853A6F00DC9C39 /* GOL.LibraryViewController.xib in Resources */,
 				052B0726206D816F00935104 /* GOL.AboutWindowController.xib in Resources */,
@@ -459,10 +476,13 @@
 				052B0739206D885800935104 /* GOL.PreferencesWindowController.xib in Resources */,
 				05D6AFD8208F9D0700F484D1 /* GOL.CustomRuleWindowController.xib in Resources */,
 				05F05FE820899BBF00337CB6 /* GOL.LibraryEditorWindowController.xib in Resources */,
+				05D7120B2141C4450022AAB8 /* RewindTemplate.pdf in Resources */,
 				052B0734206D829800935104 /* Defaults.plist in Resources */,
+				05D7120C2141C4450022AAB8 /* ForwardTemplate.pdf in Resources */,
 				0535DAE72071238A00184579 /* GOL.icns in Resources */,
 				0535715B20697963002178E3 /* GOL.MainWindowController.xib in Resources */,
 				0529D8C12068EA020072B1A5 /* MainMenu.xib in Resources */,
+				05D7120E2141C4450022AAB8 /* PlayPauseTemplate.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
