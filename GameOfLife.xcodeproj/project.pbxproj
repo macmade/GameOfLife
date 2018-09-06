@@ -599,6 +599,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 326Y53CJMD;
 				IBC_MODULE = GOL;
@@ -615,7 +616,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Game Of Life.entitlements";
-				CODE_SIGN_IDENTITY = "Developer ID Application";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 326Y53CJMD;
 				IBC_MODULE = GOL;
@@ -632,7 +633,7 @@
 			baseConfigurationReference = 0539494F2066741900C20FA3 /* Release - ccache.xcconfig */;
 			buildSettings = {
 				GCC_OPTIMIZATION_LEVEL = fast;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 			};
 			name = AppStore;
 		};
@@ -641,7 +642,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Game Of Life.entitlements";
-				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 326Y53CJMD;
 				IBC_MODULE = GOL;
@@ -657,7 +658,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 053949512066741900C20FA3 /* Debug - ccache.xcconfig */;
 			buildSettings = {
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 			};
 			name = Debug;
 		};
@@ -666,7 +667,7 @@
 			baseConfigurationReference = 0539494F2066741900C20FA3 /* Release - ccache.xcconfig */;
 			buildSettings = {
 				GCC_OPTIMIZATION_LEVEL = fast;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 			};
 			name = Release;
 		};
