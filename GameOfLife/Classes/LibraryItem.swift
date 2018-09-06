@@ -241,7 +241,7 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
         }
         else
         {
-            return try? NSKeyedArchiver.archivedData( withRootObject: self, requiringSecureCoding: true )
+            return NSKeyedArchiver.archivedData( withRootObject: self )
         }
     }
     
