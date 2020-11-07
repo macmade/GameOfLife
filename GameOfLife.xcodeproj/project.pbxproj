@@ -657,7 +657,7 @@
 			baseConfigurationReference = 0539494F2066741900C20FA3 /* Release - ccache.xcconfig */;
 			buildSettings = {
 				GCC_OPTIMIZATION_LEVEL = fast;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 			};
 			name = AppStore;
 		};
@@ -683,7 +683,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 053949512066741900C20FA3 /* Debug - ccache.xcconfig */;
 			buildSettings = {
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 			};
 			name = Debug;
 		};
@@ -692,7 +692,7 @@
 			baseConfigurationReference = 0539494F2066741900C20FA3 /* Release - ccache.xcconfig */;
 			buildSettings = {
 				GCC_OPTIMIZATION_LEVEL = fast;
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
 			};
 			name = Release;
 		};
