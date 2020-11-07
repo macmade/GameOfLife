@@ -25,7 +25,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="1063" height="564"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <visualEffectView appearanceType="vibrantDark" blendingMode="behindWindow" material="appearanceBased" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="izn-PU-t0R">
+                    <visualEffectView appearanceType="vibrantDark" blendingMode="behindWindow" material="underWindowBackground" state="followsWindowActiveState" translatesAutoresizingMaskIntoConstraints="NO" id="izn-PU-t0R">
                         <rect key="frame" x="0.0" y="0.0" width="1063" height="564"/>
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="Saa-hd-fIb">
