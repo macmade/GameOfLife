@@ -99,9 +99,9 @@ class RulerView: NSRulerView
         pStyle.lineBreakMode = .byTruncatingMiddle
         
         let attr = [
-            NSAttributedStringKey.font:            font,
-            NSAttributedStringKey.foregroundColor: color,
-            NSAttributedStringKey.paragraphStyle:  pStyle
+            NSAttributedString.Key.font:            font,
+            NSAttributedString.Key.foregroundColor: color,
+            NSAttributedString.Key.paragraphStyle:  pStyle
         ]
         
         var range           = NSMakeRange( 0, 1 )

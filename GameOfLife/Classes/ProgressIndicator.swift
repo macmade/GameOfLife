@@ -115,7 +115,7 @@ import Cocoa
         
         let p2          = NSBezierPath()
         p2.lineWidth    = self.lineWidth
-        p2.lineCapStyle = .roundLineCapStyle
+        p2.lineCapStyle = .round
         
         p2.appendArc( withCenter: NSPoint( x: NSMidX( rect ), y: NSMidY( rect ) ), radius: ( rect.size.width / 2 ) - ( lineWidth / 2 ), startAngle: self.startAngle, endAngle: self.endAngle )
         

@@ -149,7 +149,7 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
             {
                 if( j < cells[ i ].count )
                 {
-                    let c = cells[ i ][ String.Index( encodedOffset: j ) ]
+                    let c = cells[ i ][ String.Index( utf16Offset: j, in: cells[ i ] ) ]
                     
                     r[ j ].append( c )
                 }

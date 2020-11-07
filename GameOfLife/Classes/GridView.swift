@@ -438,7 +438,7 @@ class GridView: NSView
             
             for j in 0 ..< s.count
             {
-                let c = s[ String.Index( encodedOffset: j ) ]
+                let c = s[ String.Index( utf16Offset: j, in: s ) ]
                 
                 if( c == " " )
                 {
@@ -525,7 +525,7 @@ class GridView: NSView
     
     override func draggingEntered( _ sender: NSDraggingInfo ) -> NSDragOperation
     {
-        guard let objects = sender.draggingPasteboard().readObjects( forClasses: [ LibraryItem.self ], options: nil ) as? [ LibraryItem ] else
+        guard let objects = sender.draggingPasteboard.readObjects( forClasses: [ LibraryItem.self ], options: nil ) as? [ LibraryItem ] else
         {
             return .generic
         }
@@ -542,7 +542,7 @@ class GridView: NSView
         
         self.resumeAfterOperation = self.paused == false
         self.draggedItem          = item
-        self.draggedPoint         = sender.draggingLocation()
+        self.draggedPoint         = sender.draggingLocation
         self.dragging             = true
         self.draggedRotation      = 0
         
@@ -560,20 +560,20 @@ class GridView: NSView
         }
         
         self.draggedItem  = item
-        self.draggedPoint = sender.draggingLocation()
+        self.draggedPoint = sender.draggingLocation
         
         self.setNeedsDisplay( self.bounds )
         
-        if( self.dragOperation != NSDragOperation.generic && sender.draggingSourceOperationMask() == NSDragOperation.generic )
+        if( self.dragOperation != NSDragOperation.generic && sender.draggingSourceOperationMask == NSDragOperation.generic )
         {
             self.draggedRotation = ( self.draggedRotation == 3 ) ? 0 : self.draggedRotation + 1
         }
-        else if( self.dragOperation != NSDragOperation.copy && sender.draggingSourceOperationMask() == NSDragOperation.copy )
+        else if( self.dragOperation != NSDragOperation.copy && sender.draggingSourceOperationMask == NSDragOperation.copy )
         {
             self.draggedRotation = ( self.draggedRotation == 0 ) ? 3 : self.draggedRotation - 1
         }
         
-        self.dragOperation = sender.draggingSourceOperationMask()
+        self.dragOperation = sender.draggingSourceOperationMask
         
         return .copy
     }
@@ -636,7 +636,7 @@ class GridView: NSView
             cells = item.rotations[ self.draggedRotation - 1 ]
         }
         
-        let point     = self.convert( sender.draggingLocation(), from: self.window?.contentView )
+        let point     = self.convert( sender.draggingLocation, from: self.window?.contentView )
         let cellSize  = self.cellSize
         
         let offsetX = Int( ceil( point.x / cellSize ) );

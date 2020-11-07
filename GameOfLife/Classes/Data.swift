@@ -72,9 +72,15 @@ extension Data
         
         self.withUnsafeBytes
         {
-            ( bytes: UnsafePointer< UInt8 > ) -> Swift.Void in
+            bytes in
             
-            length = compression_encode_buffer( buf, self.count, bytes, self.count, nil, algorithm )
+            let unsafeBufferPointer = bytes.bindMemory( to: UInt8.self )
+            guard let unsafePointer = unsafeBufferPointer.baseAddress else
+            {
+                return
+            }
+            
+            length = compression_encode_buffer( buf, self.count, unsafePointer, self.count, nil, algorithm )
         }
         
         if( length == 0 )
@@ -101,9 +107,15 @@ extension Data
         
         self.withUnsafeBytes
         {
-            ( bytes: UnsafePointer< UInt8 > ) -> Swift.Void in
+            bytes in
             
-            length = compression_decode_buffer( buf, bufferSize, bytes, self.count, nil, algorithm )
+            let unsafeBufferPointer = bytes.bindMemory( to: UInt8.self )
+            guard let unsafePointer = unsafeBufferPointer.baseAddress else
+            {
+                return
+            }
+            
+            length = compression_decode_buffer( buf, bufferSize, unsafePointer, self.count, nil, algorithm )
         }
         
         if( length == 0 )

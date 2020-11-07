@@ -219,7 +219,7 @@ class LibraryViewController: NSViewController, NSOutlineViewDelegate, NSOutlineV
         return pasteboard.writeObjects( items )
     }
     
-    override func controlTextDidChange( _ notification: Notification )
+    func controlTextDidChange( _ notification: Notification )
     {
         guard let searchField = notification.object as? NSSearchField else
         {

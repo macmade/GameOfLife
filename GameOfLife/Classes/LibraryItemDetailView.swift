@@ -58,7 +58,7 @@ class LibraryItemDetailView: NSView
             
             for x in 0 ..< s.count
             {
-                let c = s[ String.Index( encodedOffset: x ) ]
+                let c = s[ String.Index( utf16Offset: x, in: s ) ]
                 
                 if( c == " " )
                 {
