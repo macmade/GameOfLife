@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14313.13.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.13.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17506"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -19,7 +19,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="1063" height="564"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1177"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1175"/>
             <value key="minSize" type="size" width="400" height="200"/>
             <view key="contentView" wantsLayer="YES" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="1063" height="564"/>
@@ -71,7 +71,7 @@
                                                 </configuration>
                                             </ciFilter>
                                         </contentFilters>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="RewindTemplate" imagePosition="only" alignment="center" continuous="YES" transparent="YES" imageScaling="proportionallyUpOrDown" inset="2" id="30C-FD-NMD">
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="RewindTemplate" imagePosition="only" alignment="center" continuous="YES" imageScaling="proportionallyUpOrDown" inset="2" id="30C-FD-NMD">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -91,7 +91,7 @@
                                                 </configuration>
                                             </ciFilter>
                                         </contentFilters>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="PlayTemplate" imagePosition="only" alignment="center" continuous="YES" transparent="YES" imageScaling="proportionallyUpOrDown" inset="2" id="eQM-mH-OpQ">
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="PlayTemplate" imagePosition="only" alignment="center" continuous="YES" imageScaling="proportionallyUpOrDown" inset="2" id="eQM-mH-OpQ">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -116,7 +116,7 @@
                                                 </configuration>
                                             </ciFilter>
                                         </contentFilters>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="PauseTemplate" imagePosition="only" alignment="center" continuous="YES" transparent="YES" imageScaling="proportionallyUpOrDown" inset="2" id="POo-TK-gSf">
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="PauseTemplate" imagePosition="only" alignment="center" continuous="YES" imageScaling="proportionallyUpOrDown" inset="2" id="POo-TK-gSf">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -137,7 +137,7 @@
                                                 </configuration>
                                             </ciFilter>
                                         </contentFilters>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="PlayPauseTemplate" imagePosition="only" alignment="center" continuous="YES" transparent="YES" imageScaling="proportionallyUpOrDown" inset="2" id="eLP-EY-Fs3">
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="PlayPauseTemplate" imagePosition="only" alignment="center" continuous="YES" imageScaling="proportionallyUpOrDown" inset="2" id="eLP-EY-Fs3">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -157,7 +157,7 @@
                                                 </configuration>
                                             </ciFilter>
                                         </contentFilters>
-                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="ForwardTemplate" imagePosition="only" alignment="center" continuous="YES" transparent="YES" imageScaling="proportionallyUpOrDown" inset="2" id="XSZ-z8-HH1">
+                                        <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="ForwardTemplate" imagePosition="only" alignment="center" continuous="YES" imageScaling="proportionallyUpOrDown" inset="2" id="XSZ-z8-HH1">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -201,7 +201,7 @@
                                 </connections>
                             </customView>
                             <button translatesAutoresizingMaskIntoConstraints="NO" id="hXw-I3-eb4">
-                                <rect key="frame" x="1043" y="544" width="10" height="10"/>
+                                <rect key="frame" x="1043" y="541" width="10" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="10" id="E2s-CT-pZ7"/>
                                     <constraint firstAttribute="width" constant="10" id="UKZ-b9-cSR"/>
@@ -395,10 +395,10 @@
                                 </connections>
                             </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="8tf-RY-nVV" userLabel="Rotation Hint" customClass="ColorView" customModule="GOL" customModuleProvider="target">
-                                <rect key="frame" x="10" y="507" width="269" height="27"/>
+                                <rect key="frame" x="10" y="508" width="268" height="26"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WOz-Dt-lqP">
-                                        <rect key="frame" x="10" y="5" width="249" height="17"/>
+                                        <rect key="frame" x="10" y="5" width="248" height="16"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Rotate with the command or option keys" drawsBackground="YES" id="3ll-5c-Z2V">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -529,11 +529,12 @@
                     </connections>
                 </menuItem>
             </items>
+            <point key="canvasLocation" x="28" y="146"/>
         </menu>
     </objects>
     <resources>
         <image name="ForwardTemplate" width="567" height="567"/>
-        <image name="NSActionTemplate" width="14" height="14"/>
+        <image name="NSActionTemplate" width="15" height="15"/>
         <image name="PauseTemplate" width="567" height="567"/>
         <image name="PlayPauseTemplate" width="567" height="567"/>
         <image name="PlayTemplate" width="567" height="567"/>
