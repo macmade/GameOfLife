@@ -17,6 +17,8 @@
 			<string>GOL Save File</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>com.xs-labs.gol.save</string>
@@ -35,6 +37,8 @@
 			<string>GOL RLE File</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>com.xs-labs.gol.rle</string>
@@ -53,6 +57,8 @@
 			<string>GOL Cells File</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>com.xs-labs.gol.cells</string>
@@ -76,7 +82,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0.2</string>
 	<key>CFBundleVersion</key>
-	<string>175</string>
+	<string>181</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.games</string>
 	<key>LSMinimumSystemVersion</key>
