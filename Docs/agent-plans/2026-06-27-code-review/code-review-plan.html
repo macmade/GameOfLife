@@ -352,7 +352,7 @@
     <div class="milestone" id="m3-1">
         <div class="milestone-head">
             <h3>Milestone 3.1 — Clamp the "Draw every N generations" interval</h3>
-            <span class="pill st-notstarted">Not started</span>
+            <span class="pill st-completed">Completed</span>
         </div>
         <div class="refs"><span class="ref">M5</span><span class="ref">stability</span><span class="ref">crash</span></div>
         <div class="loc">GameOfLife/Classes/GridView.swift:254–256 · GOL.PreferencesWindowController.xib:111–122</div>
@@ -368,9 +368,18 @@
                 <li>Keep the Xcode project and XIB in sync; build via Xcode and verify typing <code>0</code> into the field no longer crashes the running simulation.</li>
             </ul>
         </div>
-        <div class="field"><div class="label">Status</div><span class="pill st-notstarted">Not started</span></div>
-        <div class="field"><div class="label">Completed</div><p class="placeholder">—</p></div>
-        <div class="field"><div class="label">Implementation notes</div><p class="placeholder">(to be filled during implementation)</p></div>
+        <div class="field"><div class="label">Status</div><span class="pill st-completed">Completed</span></div>
+        <div class="field"><div class="label">Completed</div><p>2026-06-27</p></div>
+        <div class="field"><div class="label">Implementation notes</div>
+            <ul class="clean">
+                <li><b>Root cause (GridView.next).</b> <code>drawInterval</code> (<code>Preferences</code>, <code>UInt = 1</code>) is bound to the editable "Draw every" text field. Typing <code>0</code> made <code>self.grid.turns % UInt64( skip )</code> a modulo by zero, which traps once the simulation ticks.</li>
+                <li><b>Fix — defensive code guard.</b> Changed the modulo divisor to <code>UInt64( max( 1, skip ) )</code> at <code>GridView.swift:256</code>, so the simulation can never divide by zero regardless of how the preference got its value. A <code>0</code> now behaves like <code>1</code> (draw every generation).</li>
+                <li><b>Fix — XIB formatter minimum.</b> The editable field is <code>Hsr-LJ-JOa</code> and its number formatter <code>AOz-yQ-gkl</code> had no value floor (only <code>minimumIntegerDigits="0"</code>). Added a nested <code>&lt;real key="minimum" value="1"/&gt;</code> so the field itself rejects values below <code>1</code>, matching the companion slider's <code>minValue="1"</code>. Kept the change minimal — no <code>maximum</code> added, to avoid altering unrelated input behavior.</li>
+                <li><b>Decision.</b> Applied both the code guard and the XIB minimum (the review listed them as "and/or"). The formatter stops bad input at the UI; the <code>max( 1, … )</code> guard is the belt-and-suspenders that guarantees no crash even if the value arrives from elsewhere (e.g. a stale <code>UserDefaults</code> entry). Did not add a clamping <code>didSet</code> to the reflection-driven <code>Preferences</code> property, to avoid touching that machinery here (it is the subject of Milestone 5.2).</li>
+                <li><b>XIB serialization verified.</b> The full build's <code>CompileXIB</code> step ran <code>ibtool --errors --warnings --notices</code> on <code>GOL.PreferencesWindowController.xib</code> and compiled it to a nib with no diagnostics, confirming the <code>&lt;real key="minimum"&gt;</code> serialization is valid and recognized (not silently dropped).</li>
+                <li><b>Verification.</b> Built <code>Game Of Life - Debug</code> via <code>xcodebuild</code> → <b>BUILD SUCCEEDED</b>. The "typing 0 no longer crashes / field rejects 0" behavior is reasoned from the code and the clean ibtool compile; not exercised in the running Preferences window here.</li>
+            </ul>
+        </div>
         <div class="field"><div class="label">Review comments</div><p class="placeholder">(to be filled during review)</p></div>
     </div>
 
