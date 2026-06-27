@@ -170,32 +170,26 @@ class LibraryItem: NSObject, NSCopying, NSPasteboardWriting, NSPasteboardReading
         return ret
     }
     
-    public func prepareRotations( done: @escaping () -> Void )
+    public func prepareRotations( done: () -> Void = {} )
     {
         if( self.rotations.count > 0 )
         {
             return
         }
-        
-        DispatchQueue.global( qos: .default ).async
+
+        var rotations = [ [ String ] ]()
+        var cells     = self.cells
+
+        for _ in 0 ... 2
         {
-            var rotations = [ [ String ] ]()
-            var cells     = self.cells
-            
-            for _ in 0 ... 2
-            {
-                cells = self.rotate( cells: cells )
-                
-                rotations.append( cells )
-            }
-            
-            self.rotations = rotations
-            
-            DispatchQueue.main.sync
-            {
-                done()
-            }
+            cells = self.rotate( cells: cells )
+
+            rotations.append( cells )
         }
+
+        self.rotations = rotations
+
+        done()
     }
     
     // MARK: - NSCopying

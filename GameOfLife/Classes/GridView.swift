@@ -630,9 +630,13 @@ class GridView: NSView
         }
         else
         {
-            while item.rotations.count < self.draggedRotation
-            {}
-            
+            item.prepareRotations()
+
+            guard self.draggedRotation <= item.rotations.count else
+            {
+                return false
+            }
+
             cells = item.rotations[ self.draggedRotation - 1 ]
         }
         

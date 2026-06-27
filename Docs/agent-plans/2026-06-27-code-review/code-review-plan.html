@@ -213,7 +213,7 @@
     <div class="milestone" id="m1-2">
         <div class="milestone-head">
             <h3>Milestone 1.2 — Fix main-thread busy-wait and data race on pattern drop</h3>
-            <span class="pill st-notstarted">Not started</span>
+            <span class="pill st-completed">Completed</span>
         </div>
         <div class="refs"><span class="ref">H3</span><span class="ref">concurrency</span><span class="ref">performance</span><span class="ref">hang</span></div>
         <div class="loc">GameOfLife/Classes/GridView.swift:632–637 · LibraryItem.swift:173–199</div>
@@ -230,9 +230,17 @@
                 <li>Build via Xcode and verify: dragging and dropping a rotated pattern works with no UI freeze and no CPU spin.</li>
             </ul>
         </div>
-        <div class="field"><div class="label">Status</div><span class="pill st-notstarted">Not started</span></div>
-        <div class="field"><div class="label">Completed</div><p class="placeholder">—</p></div>
-        <div class="field"><div class="label">Implementation notes</div><p class="placeholder">(to be filled during implementation)</p></div>
+        <div class="field"><div class="label">Status</div><span class="pill st-completed">Completed</span></div>
+        <div class="field"><div class="label">Completed</div><p>2026-06-27</p></div>
+        <div class="field"><div class="label">Implementation notes</div>
+            <ul class="clean">
+                <li><b>Root cause.</b> <code>LibraryItem.prepareRotations</code> computed the three rotations on a background global queue and wrote <code>self.rotations</code> there, while <code>performDragOperation</code> (drop) and <code>drawItem</code> (live preview) read <code>item.rotations</code> from the main thread. The drop spun an empty <code>while item.rotations.count &lt; self.draggedRotation {}</code> busy-wait pinning a CPU core on the main thread (H3 hang), and the cross-thread unsynchronized read/write of the <code>rotations</code> array was a data race (potential crash via buffer refcount race), not merely a stale read.</li>
+                <li><b>Fix — make rotation preparation synchronous.</b> Every caller (<code>draggingEntered</code>), every reader (<code>drawItem</code>, <code>performDragOperation</code>), and the <code>draw</code> pass all run on the main thread, and rotating a small library pattern three times is cheap. Removed the <code>DispatchQueue.global(...).async</code> / <code>DispatchQueue.main.sync</code> wrapper from <code>prepareRotations</code> so it computes inline and calls <code>done()</code> directly. <code>rotations</code> is now only ever touched on the main thread, which serializes all access inherently — no lock or queue needed, and the race is removed at its source. Dropped <code>@escaping</code> from <code>done</code> and gave it a default <code>{}</code> so it can be called as a no-op to force preparation.</li>
+                <li><b>Fix — remove the busy-wait (GridView.performDragOperation).</b> Replaced the empty <code>while</code> spin with <code>item.prepareRotations()</code> (a no-op if already prepared, otherwise computes synchronously) followed by a bounds <code>guard self.draggedRotation &lt;= item.rotations.count else { return false }</code> and a direct read of <code>item.rotations[ self.draggedRotation - 1 ]</code>. The correct rotation index is now applied deterministically on the same thread that prepared it, never relying on a write becoming visible by chance.</li>
+                <li><b>Scope note.</b> Considered computing the rotation synchronously at drop only (leaving <code>prepareRotations</code> async), but that would leave the <code>drawItem</code> preview read still racing the background writer. Making <code>prepareRotations</code> synchronous fixes the drop, the preview, and the busy-wait together with the smallest change, and matches the review's first suggested option. The <code>rotations</code> property, its pasteboard encode/decode, and <code>copy(with:)</code> are otherwise unchanged.</li>
+                <li><b>Verification.</b> Built <code>Game Of Life - Debug</code> via <code>xcodebuild</code> → <b>BUILD SUCCEEDED</b>. Runtime drag-drop behavior (no freeze / no CPU spin when dropping a rotated pattern) is reasoned from the code; not exercised in a launched app here.</li>
+            </ul>
+        </div>
         <div class="field"><div class="label">Review comments</div><p class="placeholder">(to be filled during review)</p></div>
     </div>
 
