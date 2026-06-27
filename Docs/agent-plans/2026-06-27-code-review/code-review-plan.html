@@ -417,7 +417,7 @@
     <div class="milestone" id="m3-3">
         <div class="milestone-head">
             <h3>Milestone 3.3 — Remove the duplicated ruler-view assignment</h3>
-            <span class="pill st-notstarted">Not started</span>
+            <span class="pill st-completed">Completed</span>
         </div>
         <div class="refs"><span class="ref">L4</span><span class="ref">correctness</span><span class="ref">dead code</span></div>
         <div class="loc">GameOfLife/Classes/LibraryEditorWindowController.swift:40–44</div>
@@ -432,9 +432,16 @@
                 <li>Build via Xcode and verify the editor's vertical ruler still appears and tracks the text view.</li>
             </ul>
         </div>
-        <div class="field"><div class="label">Status</div><span class="pill st-notstarted">Not started</span></div>
-        <div class="field"><div class="label">Completed</div><p class="placeholder">—</p></div>
-        <div class="field"><div class="label">Implementation notes</div><p class="placeholder">(to be filled during implementation)</p></div>
+        <div class="field"><div class="label">Status</div><span class="pill st-completed">Completed</span></div>
+        <div class="field"><div class="label">Completed</div><p>2026-06-27</p></div>
+        <div class="field"><div class="label">Implementation notes</div>
+            <ul class="clean">
+                <li><b>Root cause (LibraryEditorWindowController.windowDidLoad).</b> <code>let ruler = RulerView()</code> was created and assigned to <code>verticalRulerView</code>, then the very next line overwrote it with a second, anonymous <code>RulerView()</code> — discarding the first instance. <code>clientView</code> was then set via the <code>verticalRulerView?</code> outlet, so the installed ruler was the throwaway instance and the named <code>ruler</code> was dead.</li>
+                <li><b>Fix.</b> Kept the single named instance: set <code>ruler.clientView = self.textView</code> and assigned <code>ruler</code> once as <code>verticalRulerView</code>. Removed the discarded second <code>RulerView()</code> and the indirect <code>verticalRulerView?.clientView</code> assignment, so the installed ruler is now explicit and unambiguous. <code>hasVerticalRuler</code>/<code>rulersVisible</code> are set as before.</li>
+                <li><b>Behavior.</b> Pure cleanup — functionally equivalent (a single <code>RulerView</code> installed with its <code>clientView</code> set to the text view), just without the confusing create-then-replace.</li>
+                <li><b>Verification.</b> Built <code>Game Of Life - Debug</code> via <code>xcodebuild</code> → <b>BUILD SUCCEEDED</b>. The "vertical ruler still appears and tracks the text view" behavior is reasoned from the code; not exercised in the live editor here.</li>
+            </ul>
+        </div>
         <div class="field"><div class="label">Review comments</div><p class="placeholder">(to be filled during review)</p></div>
     </div>
 

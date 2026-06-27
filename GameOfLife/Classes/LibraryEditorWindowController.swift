@@ -38,12 +38,12 @@ class LibraryEditorWindowController: NSWindowController
     override func windowDidLoad()
     {
         let ruler = RulerView()
-        
-        self.textView?.enclosingScrollView?.verticalRulerView             = ruler
-        self.textView?.enclosingScrollView?.verticalRulerView             = RulerView()
-        self.textView?.enclosingScrollView?.verticalRulerView?.clientView = self.textView
-        self.textView?.enclosingScrollView?.hasVerticalRuler              = true
-        self.textView?.enclosingScrollView?.rulersVisible                 = true
+
+        ruler.clientView = self.textView
+
+        self.textView?.enclosingScrollView?.verticalRulerView = ruler
+        self.textView?.enclosingScrollView?.hasVerticalRuler  = true
+        self.textView?.enclosingScrollView?.rulersVisible     = true
         
         self.textView?.isAutomaticQuoteSubstitutionEnabled = false
         self.textView?.textColor                           = NSColor.init( hex: 0xB2B2B2 )
