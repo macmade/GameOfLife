@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Game Of Life — Code Review</title>
+<style>
+    :root {
+        --bg:        #15191e;
+        --bg-alt:    #1c2128;
+        --bg-card:   #21262d;
+        --border:    #30363d;
+        --text:      #d6dde6;
+        --text-dim:  #9aa6b2;
+        --text-faint:#6c7682;
+        --accent:    #58a6ff;
+        --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    }
+    * { box-sizing: border-box; }
+    body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+        font-size: 16px;
+    }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 48px 24px 96px; }
+    h1 { font-size: 2rem; margin: 0 0 4px; letter-spacing: -0.02em; }
+    h2 {
+        font-size: 1.35rem;
+        margin: 56px 0 18px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--border);
+        letter-spacing: -0.01em;
+    }
+    h3 { font-size: 1.05rem; margin: 0 0 10px; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    p { margin: 0 0 14px; }
+    code {
+        font-family: var(--mono);
+        font-size: 0.86em;
+        background: var(--bg-alt);
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        padding: 1px 6px;
+        color: #e6c07b;
+        word-break: break-word;
+    }
+    .meta-grid {
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        gap: 4px 18px;
+        margin: 20px 0 8px;
+        color: var(--text-dim);
+        font-size: 0.95rem;
+    }
+    .meta-grid dt { color: var(--text-faint); }
+    .meta-grid dd { margin: 0; }
+    .summary {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--accent);
+        border-radius: 8px;
+        padding: 18px 22px;
+        margin-top: 24px;
+    }
+    .counts { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    .count-pill {
+        display: inline-flex; align-items: baseline; gap: 7px;
+        background: var(--bg-alt);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 4px 13px;
+        font-size: 0.85rem;
+        color: var(--text-dim);
+    }
+    .count-pill b { color: var(--text); font-size: 0.95rem; }
+    .pill {
+        display: inline-block;
+        border-radius: 999px;
+        padding: 2px 11px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+    .sev-critical { background: #f8514955; color: #ffb1a8; border: 1px solid #f85149; }
+    .sev-high     { background: #db6d2855; color: #ffc49b; border: 1px solid #db6d28; }
+    .sev-medium   { background: #d2992255; color: #f2d08a; border: 1px solid #d29922; }
+    .sev-low      { background: #388bfd44; color: #a9d1ff; border: 1px solid #388bfd; }
+    .sev-info     { background: #6e768166; color: #c9d1d9; border: 1px solid #6e7681; }
+    .dot-critical { color:#f85149; } .dot-high{ color:#db6d28; } .dot-medium{ color:#d29922; }
+    .dot-low{ color:#388bfd; } .dot-info{ color:#8b949e; }
+    .finding {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 18px 22px;
+        margin: 16px 0;
+    }
+    .finding-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 6px; }
+    .finding-head h3 { margin: 0; flex: 1 1 auto; min-width: 240px; }
+    .tags { font-size: 0.8rem; color: var(--text-faint); margin-bottom: 12px; }
+    .tags .cat {
+        display:inline-block; background: var(--bg-alt); border:1px solid var(--border);
+        border-radius: 5px; padding: 1px 8px; margin-right: 6px; color: var(--text-dim);
+    }
+    .tags .reg {
+        display:inline-block; background:#f8514922; border:1px solid #f85149;
+        border-radius:5px; padding:1px 8px; color:#ffb1a8; font-weight:600;
+    }
+    .loc { font-family: var(--mono); font-size: 0.82rem; color: var(--text-faint); margin-bottom: 12px; word-break: break-all; }
+    .rec {
+        margin-top: 12px;
+        background: var(--bg-alt);
+        border-radius: 6px;
+        padding: 10px 14px;
+        font-size: 0.95rem;
+    }
+    .rec b { color: #7ee787; }
+    pre {
+        background: #0d1117;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        padding: 12px 14px;
+        overflow-x: auto;
+        font-family: var(--mono);
+        font-size: 0.82rem;
+        line-height: 1.5;
+        margin: 10px 0;
+    }
+    pre code { background: none; border: none; padding: 0; color: #c9d1d9; }
+    ul.clean { margin: 8px 0; padding-left: 22px; }
+    ul.clean li { margin-bottom: 6px; }
+    .toc { columns: 2; column-gap: 28px; font-size: 0.9rem; }
+    .toc a { display: block; padding: 2px 0; color: var(--text-dim); }
+    .toc a:hover { color: var(--accent); }
+    @media (max-width: 620px) { .toc { columns: 1; } .wrap { padding: 32px 16px 64px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+    <h1>Game Of Life — Code Review</h1>
+    <p style="color:var(--text-faint); margin-top:2px;">macOS Conway's Game of Life — full-repository review</p>
+
+    <dl class="meta-grid">
+        <dt>Generated</dt><dd>2026-06-27</dd>
+        <dt>Scope</dt><dd>Whole repository (all Swift sources under <code>GameOfLife/Classes</code>, plus relevant resources)</dd>
+        <dt>Reviewer</dt><dd>Automated in-depth review</dd>
+        <dt>Version</dt><dd>1.0.2 (build 182)</dd>
+    </dl>
+
+    <div class="summary">
+        <p style="margin-bottom:10px;">Overall this is a small, well-organized AppKit application with a clear separation between the simulation core (<code>Grid</code>), the rendering/interaction layer (<code>GridView</code>), the document/format readers and writers, and the preferences/library UI. The simulation engine itself is sound: it double-buffers each generation, recomputes population correctly, and supports configurable born/survive rule sets and cell aging for the color display.</p>
+        <p style="margin-bottom:10px;">The most serious problems are concentrated in two areas: <b>concurrency</b> in the library loading path (an unbalanced dispatch group that can hang library loading, and unsynchronized array mutation from multiple threads), and <b>untrusted input handling</b> when opening <code>.gol</code> and <code>.rle</code> files (overflow/huge-allocation crashes, a logically-inverted magic-number check, a divide-by-zero from a zero cell size, and a range crash in the RLE decoder). There is also a hot-loop busy-wait on the main thread during pattern drag-and-drop, and two genuine latent bugs (a 16-vs-32 bit shift in <code>readUInt64</code>, and a missing <code>S</code> prefix that silently drops the "Day &amp; Night" rule). None of these block normal use of the core simulation, but several are reachable from ordinary user actions (opening a file, dragging a pattern, editing the "draw every" field).</p>
+        <div class="counts">
+            <span class="count-pill"><span class="dot-critical">●</span> Critical <b>0</b></span>
+            <span class="count-pill"><span class="dot-high">●</span> High <b>3</b></span>
+            <span class="count-pill"><span class="dot-medium">●</span> Medium <b>6</b></span>
+            <span class="count-pill"><span class="dot-low">●</span> Low <b>6</b></span>
+            <span class="count-pill"><span class="dot-info">●</span> Info <b>3</b></span>
+        </div>
+    </div>
+
+    <h2>Notes</h2>
+    <ul class="clean">
+        <li><b>Key components reviewed:</b> <code>Grid</code> (simulation + <code>.gol</code> load/save), <code>GridView</code> (rendering, timers, mouse/drag), <code>RLEReader</code>/<code>CellReader</code>/<code>RLEWriter</code> (pattern formats), <code>LibraryReader</code> + <code>LibraryViewController</code> (library loading), <code>LibraryItem</code> (model + pasteboard/secure coding), <code>Preferences</code> (KVO-backed defaults), <code>Data</code> (binary helpers + compression), and the assorted window controllers and views.</li>
+        <li><b>Conventions observed:</b> the code consistently uses C-style parenthesized conditions, explicit indexing loops, and aligned assignments. This is a deliberate, uniform style throughout, so it is not flagged as a defect. Findings focus on correctness, stability, security, and concurrency.</li>
+        <li><b>Untrusted input matters here:</b> the app registers <code>gol</code>, <code>rle</code>, and <code>cells</code> document types (see <code>MainWindowController.openDocument</code> and <code>ApplicationDelegate.application(_:openFile:)</code>), so these files can be opened directly from Finder. Parsing robustness is therefore a security/stability concern, not a theoretical one.</li>
+        <li><b>Not covered in depth:</b> the XIB/NIB layouts (inspected only where relevant to a finding, e.g. the draw-interval field), the bundled RLE pattern library contents, image assets, and the build configuration / submodule (<code>Submodules</code>, <code>xcconfig</code>).</li>
+        <li>Where behavior was ambiguous I read the surrounding code and resource files to confirm; remaining uncertainty is called out explicitly in the affected findings.</li>
+    </ul>
+
+    <h2>Findings</h2>
+    <div class="toc">
+        <a href="#f1">H1 · Library load can hang permanently (unbalanced DispatchGroup)</a>
+        <a href="#f2">H2 · Data race: concurrent array mutation during library load</a>
+        <a href="#f3">H3 · Main-thread busy-wait + data race in pattern drop</a>
+        <a href="#f4">M1 · Opening a crafted .gol file can crash (overflow / huge alloc)</a>
+        <a href="#f5">M2 · Inverted magic-number check in Grid.load</a>
+        <a href="#f6">M3 · cellSize 0 from a .gol file → divide-by-zero crash</a>
+        <a href="#f7">M4 · RLE decoder crashes on a zero/over-large run count</a>
+        <a href="#f8">M5 · "Draw every" field accepts 0 → modulo-by-zero crash</a>
+        <a href="#f9">M6 · "Day &amp; Night" rule silently dropped (missing S)</a>
+        <a href="#f10">L1 · readUInt64 shifts by 16 instead of 32</a>
+        <a href="#f11">L2 · RulerView can spin in an infinite loop</a>
+        <a href="#f12">L3 · RLEWriter force-unwrap crash on zero-width grid</a>
+        <a href="#f13">L4 · LibraryEditor sets the ruler view twice</a>
+        <a href="#f14">L5 · Grid.next allocates a buffer it may immediately discard</a>
+        <a href="#f15">L6 · add() can under-count population for aged-dead cells</a>
+        <a href="#f16">I1 · Duplicate rule definition (Replicator / Fredkin)</a>
+        <a href="#f17">I2 · Significant duplicated code</a>
+        <a href="#f18">I3 · Fragile Preferences reflection / forced casts</a>
+    </div>
+
+    <!-- HIGH -->
+
+    <div class="finding" id="f1">
+        <div class="finding-head">
+            <h3>H1 — Library load can hang permanently on a failed entry</h3>
+            <span class="pill sev-high">High</span>
+        </div>
+        <div class="tags"><span class="cat">concurrency</span><span class="cat">stability</span><span class="cat">hang</span></div>
+        <div class="loc">GameOfLife/Classes/LibraryReader.swift:56–74</div>
+        <p>Each library entry calls <code>dispatch.enter()</code> and dispatches work asynchronously, but the worker returns early on failure <em>without</em> calling <code>dispatch.leave()</code>. <code>dispatch.wait()</code> then blocks forever for that group.</p>
+        <pre><code>for i in p.value {
+    dispatch.enter()
+    DispatchQueue.global( qos: .userInitiated ).async {
+        guard let items = self.load( object: i ) else {
+            return                       // &lt;-- leaves the group unbalanced
+        }
+        group.allChildren.append( contentsOf: items )
+        group.children.append( contentsOf: items )
+        dispatch.leave()
+    }
+}
+dispatch.wait()                          // &lt;-- never returns if any entry failed</code></pre>
+        <p><code>load(object:)</code> returns <code>nil</code> for any malformed entry, or any <code>include:</code>/<code>patterns:</code> reference that fails to resolve. Because <code>reload()</code> in <code>LibraryViewController</code> runs this on a background queue and only sets <code>loading = false</code> after <code>read()</code> returns, a single bad entry leaves the spinner running indefinitely and the library never appears. A user editing <code>Library.json</code> via the built-in editor can trigger this directly.</p>
+        <div class="rec"><b>Recommendation:</b> Ensure <code>leave()</code> is always balanced with <code>enter()</code> — e.g. <code>defer { dispatch.leave() }</code> as the first statement inside the closure, or restructure with <code>dispatch.notify</code> instead of a blocking <code>wait()</code>.</div>
+    </div>
+
+    <div class="finding" id="f2">
+        <div class="finding-head">
+            <h3>H2 — Data race: concurrent mutation of the same arrays during library load</h3>
+            <span class="pill sev-high">High</span>
+        </div>
+        <div class="tags"><span class="cat">concurrency</span><span class="cat">undefined behavior</span><span class="cat">crash</span></div>
+        <div class="loc">GameOfLife/Classes/LibraryReader.swift:60–72</div>
+        <p>Multiple closures are dispatched concurrently to a global (concurrent) queue, and each one appends to the <em>same</em> <code>group.allChildren</code> and <code>group.children</code> Swift arrays:</p>
+        <pre><code>DispatchQueue.global( qos: .userInitiated ).async {
+    ...
+    group.allChildren.append( contentsOf: items )   // unsynchronized
+    group.children.append( contentsOf: items )      // unsynchronized
+    dispatch.leave()
+}</code></pre>
+        <p><code>Array</code> is not thread-safe. Concurrent <code>append</code> from several threads is undefined behavior — it can corrupt the array's backing storage and crash anywhere in the process. This path runs at startup (library view is shown by default), so it is exercised on essentially every launch; it likely "works" most of the time only because contention is low.</p>
+        <div class="rec"><b>Recommendation:</b> Collect each worker's result into a thread-local value and merge on a serial queue, or guard the appends with a lock / serial queue, or use <code>concurrentPerform</code> writing into pre-sized index slots. Combine the fix with H1.</div>
+    </div>
+
+    <div class="finding" id="f3">
+        <div class="finding-head">
+            <h3>H3 — Main-thread busy-wait and data race when dropping a pattern</h3>
+            <span class="pill sev-high">High</span>
+        </div>
+        <div class="tags"><span class="cat">concurrency</span><span class="cat">performance</span><span class="cat">hang</span></div>
+        <div class="loc">GameOfLife/Classes/GridView.swift:632–637 · LibraryItem.swift:173–199</div>
+        <p><code>performDragOperation</code> spins in an empty <code>while</code> loop on the main thread, waiting for rotations that are computed asynchronously on a background queue:</p>
+        <pre><code>while item.rotations.count < self.draggedRotation
+{}                                  // busy-wait on the main thread
+
+cells = item.rotations[ self.draggedRotation - 1 ]</code></pre>
+        <p>Two problems: (1) <code>item.rotations</code> is written on a background queue in <code>prepareRotations</code> with no synchronization, so this is a data race; without a memory barrier the loop is not even guaranteed to observe the updated count, and it pins a CPU core at 100% while it waits. (2) <code>prepareRotations</code> finishes by calling <code>DispatchQueue.main.sync</code>; if rotation computation is still in flight while the main thread is spinning here, the design relies on the unsynchronized write becoming visible to break the loop — fragile and, in the worst case, a hang.</p>
+        <div class="rec"><b>Recommendation:</b> Make rotation preparation synchronous at drop time, or have <code>prepareRotations</code> hand the finished rotations back through a completion handler / thread-safe accessor and perform the drop from that callback. Never busy-wait on the main thread.</div>
+    </div>
+
+    <!-- MEDIUM -->
+
+    <div class="finding" id="f4">
+        <div class="finding-head">
+            <h3>M1 — A crafted .gol file can crash the app (integer overflow / huge allocation)</h3>
+            <span class="pill sev-medium">Medium</span>
+        </div>
+        <div class="tags"><span class="cat">security</span><span class="cat">stability</span><span class="cat">crash</span></div>
+        <div class="loc">GameOfLife/Classes/Grid.swift:283–353</div>
+        <p><code>load(data:)</code> reads <code>width</code> and <code>height</code> as 64-bit values straight from the file and uses them to size allocations without bounds checking:</p>
+        <pre><code>cells.reserveCapacity( Int( width * height ) )
+...
+data.advanced( by: 44 ).decompress( with: COMPRESSION_LZFSE,
+                                     bufferSize: Int( width * height ) )</code></pre>
+        <p><code>width * height</code> is an unchecked <code>UInt64</code> multiplication that traps on overflow, and <code>Int(width * height)</code> traps if the product exceeds <code>Int.max</code>. Even short of overflow, a moderately large product drives <code>UnsafeMutablePointer.allocate</code> / <code>reserveCapacity</code> to allocate gigabytes, causing an OOM crash. Since <code>.gol</code> files can be opened directly from Finder, a malformed or hostile file crashes the app on open.</p>
+        <div class="rec"><b>Recommendation:</b> Validate <code>width</code> and <code>height</code> against sane maxima (and against the actual payload size) before multiplying or allocating; use overflow-checked arithmetic (<code>multipliedReportingOverflow(by:)</code>) and bail out with a clean failure.</div>
+    </div>
+
+    <div class="finding" id="f5">
+        <div class="finding-head">
+            <h3>M2 — Inverted boolean logic in the .gol magic-number check</h3>
+            <span class="pill sev-medium">Medium</span>
+        </div>
+        <div class="tags"><span class="cat">correctness</span><span class="cat">security</span></div>
+        <div class="loc">GameOfLife/Classes/Grid.swift:290</div>
+        <p>The header signature check uses <code>&amp;&amp;</code> where it must use <code>||</code>:</p>
+        <pre><code>if( data[ 0 ] != 71 && data[ 1 ] != 79 && data[ 2 ] != 76 && data[ 3 ] != 49 )
+{
+    return false
+}</code></pre>
+        <p>The intent is to reject the file unless the first four bytes are exactly <code>"GOL1"</code> (71, 79, 76, 49). As written, the file is rejected only if <em>all four</em> bytes are wrong; any file that matches even one byte (e.g. starts with <code>G</code>) passes validation and proceeds into parsing. This weakens the guard and lets clearly-invalid files reach the allocation logic in M1.</p>
+        <div class="rec"><b>Recommendation:</b> Use <code>||</code> so the check rejects the file if <em>any</em> signature byte differs from the expected value.</div>
+    </div>
+
+    <div class="finding" id="f6">
+        <div class="finding-head">
+            <h3>M3 — A .gol file with cellSize 0 causes a divide-by-zero crash</h3>
+            <span class="pill sev-medium">Medium</span>
+        </div>
+        <div class="tags"><span class="cat">stability</span><span class="cat">crash</span></div>
+        <div class="loc">GameOfLife/Classes/Grid.swift:301,345 · GridView.swift:60,123–124,339–341</div>
+        <p><code>load(data:)</code> only rejects a stored cell size greater than 10 (<code>if size &gt; 10 { return false }</code>) and then writes it straight into preferences: <code>Preferences.shared.cellSize = UInt( size )</code>. A size of <code>0</code> is accepted. Every place that derives grid dimensions then divides by <code>cellSize</code>:</p>
+        <pre><code>var width  = size_t( self.frame.size.width  / self.cellSize )   // cellSize == 0
+var height = size_t( self.frame.size.height / self.cellSize )</code></pre>
+        <p>With <code>cellSize == 0</code> this yields infinity, and converting a non-finite <code>CGFloat</code> to <code>size_t</code> traps. The same division happens in <code>GridView.init</code> and the drawing loop, so the app crashes shortly after opening such a file.</p>
+        <div class="rec"><b>Recommendation:</b> Reject (or clamp) a stored cell size of <code>0</code> in <code>load(data:)</code>, and defensively guard the divisions in <code>GridView</code> against a zero cell size.</div>
+    </div>
+
+    <div class="finding" id="f7">
+        <div class="finding-head">
+            <h3>M4 — RLE decoder crashes on a zero or over-large run count</h3>
+            <span class="pill sev-medium">Medium</span>
+        </div>
+        <div class="tags"><span class="cat">stability</span><span class="cat">crash</span></div>
+        <div class="loc">GameOfLife/Classes/RLEReader.swift:216–231</div>
+        <p>When handling a row terminator (<code>$</code>), the decoder builds a half-open range from the run count minus one:</p>
+        <pre><code>let i = ( n == "" ) ? 1 : Int( n ) ?? 0
+for _ in 0 ..< i - 1 { lines.append( "" ) }</code></pre>
+        <p>If the run count is <code>0</code> (an explicit <code>"0$"</code>) or fails to parse — for example an extremely long digit string where <code>Int(n)</code> overflows to <code>nil</code> and falls back to <code>0</code> — then <code>i == 0</code> and the expression becomes <code>0 ..< -1</code>. Forming a <code>Range</code> with <code>upperBound &lt; lowerBound</code> traps at runtime. As <code>.rle</code> files are an opened document type, a malformed pattern crashes the import.</p>
+        <div class="rec"><b>Recommendation:</b> Validate the parsed count (treat <code>0</code>/overflow as <code>1</code> or skip), and guard the loop with <code>if i &gt; 1</code> before constructing the range.</div>
+    </div>
+
+    <div class="finding" id="f8">
+        <div class="finding-head">
+            <h3>M5 — "Draw every N generations" field accepts 0 → modulo-by-zero crash</h3>
+            <span class="pill sev-medium">Medium</span>
+        </div>
+        <div class="tags"><span class="cat">stability</span><span class="cat">crash</span></div>
+        <div class="loc">GameOfLife/Classes/GridView.swift:254–256 · GOL.PreferencesWindowController.xib:111–122</div>
+        <p>The animation timer computes whether to redraw with a modulo on the draw interval:</p>
+        <pre><code>let skip = Preferences.shared.drawInterval
+if( self.paused || self.grid.turns % UInt64( skip ) == 0 ) { self.display() }</code></pre>
+        <p>If <code>drawInterval</code> is <code>0</code>, <code>turns % 0</code> traps. While the slider in the preferences XIB enforces a minimum of 1, the bound text field ("Draw every: [ ] Generation") uses a number formatter with <em>no</em> minimum (<code>minimumIntegerDigits="0"</code>, no <code>minimum</code>), so a user can type <code>0</code> directly into the field. Once the simulation is running, this crashes the app.</p>
+        <div class="rec"><b>Recommendation:</b> Clamp <code>drawInterval</code> to a minimum of 1 in the setter / binding (or set a formatter minimum), and guard the modulo with <code>max(1, skip)</code>.</div>
+    </div>
+
+    <div class="finding" id="f9">
+        <div class="finding-head">
+            <h3>M6 — "Day &amp; Night" rule is silently dropped (missing "S" prefix)</h3>
+            <span class="pill sev-medium">Medium</span>
+        </div>
+        <div class="tags"><span class="cat">correctness</span></div>
+        <div class="loc">GameOfLife/Classes/Rule.swift:51</div>
+        <p>The rule string is missing the <code>S</code> before the survive digits:</p>
+        <pre><code>Rule( name: "B3678/34678",  title: "Day &amp; Night", predefined: true ),  // should be B3678/S34678</code></pre>
+        <p>The failable initializer requires the second component to begin with <code>"S"</code> (<code>Rule.swift:92</code>); since <code>"34678"</code> begins with <code>3</code>, the initializer returns <code>nil</code> and <code>availableRules()</code> filters it out. The "Day &amp; Night" rule therefore never appears in the rule list, contrary to intent.</p>
+        <div class="rec"><b>Recommendation:</b> Fix the literal to <code>"B3678/S34678"</code>.</div>
+    </div>
+
+    <!-- LOW -->
+
+    <div class="finding" id="f10">
+        <div class="finding-head">
+            <h3>L1 — readUInt64 shifts the high word by 16 instead of 32</h3>
+            <span class="pill sev-low">Low</span>
+        </div>
+        <div class="tags"><span class="cat">correctness</span><span class="cat">latent bug</span></div>
+        <div class="loc">GameOfLife/Classes/Data.swift:58–61</div>
+        <p>The 64-bit reader combines its two 32-bit halves with the wrong shift:</p>
+        <pre><code>public func readUInt64( at: Int ) -> UInt64 {
+    return UInt64( self.readUInt32( at: at ) ) << 16     // should be << 32
+         | UInt64( self.readUInt32( at: at + 4 ) )
+}</code></pre>
+        <p>The high 32 bits must be shifted left by 32, not 16, to sit above the low word. This is currently masked because every value written to a <code>.gol</code> header (version, width, height, cell size, compression flag) fits in 32 bits, so the high word is always <code>0</code> and the result happens to be correct. It is nonetheless a real bug that would corrupt any value ≥ 2³². Note the sibling <code>readUInt32</code> is correct (it shifts its high half by 16).</p>
+        <div class="rec"><b>Recommendation:</b> Change the shift to <code>&lt;&lt; 32</code>.</div>
+    </div>
+
+    <div class="finding" id="f11">
+        <div class="finding-head">
+            <h3>L2 — RulerView can spin in an infinite loop</h3>
+            <span class="pill sev-low">Low</span>
+        </div>
+        <div class="tags"><span class="cat">stability</span><span class="cat">hang</span></div>
+        <div class="loc">GameOfLife/Classes/RulerView.swift:127–154</div>
+        <p>Inside the line-numbering loop, two <code>continue</code> branches skip the statements that advance <code>range.location</code>:</p>
+        <pre><code>guard let rectArray = layoutManager.rectArray( ... ) else { continue }  // range not advanced
+if( rectCount == 0 ) { continue }                                      // range not advanced</code></pre>
+        <p>If either condition holds, the loop condition is unchanged and it never terminates, hanging the UI while editing the library JSON. These cases are uncommon (they require the layout manager to return no rects for a glyph range) but are reachable for certain text states.</p>
+        <div class="rec"><b>Recommendation:</b> Advance <code>range.location</code> (e.g. to <code>end</code>) before <code>continue</code>, or restructure so the loop always makes progress.</div>
+    </div>
+
+    <div class="finding" id="f12">
+        <div class="finding-head">
+            <h3>L3 — RLEWriter force-unwrap crashes on a zero-width grid</h3>
+            <span class="pill sev-low">Low</span>
+        </div>
+        <div class="tags"><span class="cat">stability</span><span class="cat">crash</span></div>
+        <div class="loc">GameOfLife/Classes/RLEWriter.swift:111</div>
+        <p>After the inner column loop, the writer force-unwraps <code>old</code>:</p>
+        <pre><code>rle += ( ( n > 1 ) ? String( describing: n ) : "" ) + ( ( old! & 1 == 1 ) ? "o" : "b" )</code></pre>
+        <p>If <code>grid.width == 0</code> while <code>grid.height &gt; 0</code>, the inner loop never executes, <code>old</code> stays <code>nil</code>, and this force-unwrap traps. A zero-width grid is unusual but can arise from the default <code>Grid(width: 0, height: 0)</code> path or odd resize states, and "Save As… (RLE)" would then crash.</p>
+        <div class="rec"><b>Recommendation:</b> Guard against an empty grid up front, or handle the <code>old == nil</code> case instead of force-unwrapping.</div>
+    </div>
+
+    <div class="finding" id="f13">
+        <div class="finding-head">
+            <h3>L4 — Library editor assigns the vertical ruler view twice</h3>
+            <span class="pill sev-low">Low</span>
+        </div>
+        <div class="tags"><span class="cat">correctness</span><span class="cat">dead code</span></div>
+        <div class="loc">GameOfLife/Classes/LibraryEditorWindowController.swift:40–44</div>
+        <p>A <code>RulerView</code> is created and assigned, then immediately overwritten by a second, different instance:</p>
+        <pre><code>let ruler = RulerView()
+self.textView?.enclosingScrollView?.verticalRulerView = ruler
+self.textView?.enclosingScrollView?.verticalRulerView = RulerView()   // discards `ruler`
+self.textView?.enclosingScrollView?.verticalRulerView?.clientView = self.textView</code></pre>
+        <p>The local <code>ruler</code> is wasted, and the intent (which instance should be installed) is unclear. Harmless at runtime but confusing.</p>
+        <div class="rec"><b>Recommendation:</b> Keep a single instance — assign <code>ruler</code> once and set its <code>clientView</code>.</div>
+    </div>
+
+    <div class="finding" id="f14">
+        <div class="finding-head">
+            <h3>L5 — Grid.next allocates a buffer it may immediately discard</h3>
+            <span class="pill sev-low">Low</span>
+        </div>
+        <div class="tags"><span class="cat">performance</span></div>
+        <div class="loc">GameOfLife/Classes/Grid.swift:108–115</div>
+        <p>The new generation buffer is grown before the <code>turns == UInt64.max</code> guard, so on the (admittedly unreachable in practice) saturation case the work is wasted:</p>
+        <pre><code>cells.grow( self.cells.count ) { Cell() }
+if( self.turns == UInt64.max ) { return }</code></pre>
+        <p>Minor; reorder so the early-return precedes the allocation. Also note that on saturation the simulation silently freezes with no user feedback.</p>
+        <div class="rec"><b>Recommendation:</b> Move the <code>turns == UInt64.max</code> check above the allocation.</div>
+    </div>
+
+    <div class="finding" id="f15">
+        <div class="finding-head">
+            <h3>L6 — add() can under-count population for aged-but-dead cells</h3>
+            <span class="pill sev-low">Low</span>
+        </div>
+        <div class="tags"><span class="cat">correctness</span></div>
+        <div class="loc">GameOfLife/Classes/Grid.swift:430–438</div>
+        <p>When stamping a pattern, population is incremented only when the target cell value is exactly <code>0</code>:</p>
+        <pre><code>if( self.cells[ i ] == 0 ) { self.population += 1 }
+self.cells[ i ] = 1</code></pre>
+        <p>A cell that is dead but still carries age bits in the high bits (value even and non-zero) is <em>not</em> equal to <code>0</code>, so the increment is skipped even though the cell transitions from dead to alive — under-counting <code>population</code>. After <code>next()</code> dead cells are always exactly <code>0</code>, so this is normally fine, but cells loaded from a raw <code>.gol</code> payload may carry such values.</p>
+        <div class="rec"><b>Recommendation:</b> Test the alive bit (<code>self.cells[ i ] &amp; 1 == 0</code>) rather than the whole byte when deciding to increment.</div>
+    </div>
+
+    <!-- INFO -->
+
+    <div class="finding" id="f16">
+        <div class="finding-head">
+            <h3>I1 — Duplicate rule definition (Replicator and Fredkin)</h3>
+            <span class="pill sev-info">Info</span>
+        </div>
+        <div class="tags"><span class="cat">correctness</span></div>
+        <div class="loc">GameOfLife/Classes/Rule.swift:41–42</div>
+        <p>"Replicator" and "Fredkin" are both defined as <code>B1357/S02468</code>. They are distinct named rules in the literature (Fredkin is typically <code>B1357/S02468</code> and Replicator <code>B1357/S1357</code>), so at least one name maps to the wrong rule set. Both will appear in the list with identical behavior.</p>
+        <div class="rec"><b>Recommendation:</b> Confirm the intended rule strings and correct one of the two entries.</div>
+    </div>
+
+    <div class="finding" id="f17">
+        <div class="finding-head">
+            <h3>I2 — Significant duplicated code</h3>
+            <span class="pill sev-info">Info</span>
+        </div>
+        <div class="tags"><span class="cat">maintainability</span></div>
+        <div class="loc">GridView.swift:56–90 · RLEReader.swift:29–58 / CellReader.swift:29–58 · Array.swift / ContiguousArray.swift</div>
+        <p>Several blocks are near-verbatim copies: the three <code>GridView</code> initializers repeat identical grid-creation/observer/registration setup; <code>RLEReader.read(directory:)</code> and <code>CellReader.read(directory:)</code> are identical except for the file-reader call; and <code>Array.grow</code> / <code>ContiguousArray.grow</code> are byte-identical. The drag-handling teardown in <code>draggingExited</code>/<code>draggingEnded</code> is also duplicated. This duplication invites divergent bug fixes over time.</p>
+        <div class="rec"><b>Recommendation:</b> Extract shared helpers (a common GridView setup method, a generic directory-scanning helper parameterized by the per-file reader, and a single generic <code>grow</code> on <code>RangeReplaceableCollection</code>).</div>
+    </div>
+
+    <div class="finding" id="f18">
+        <div class="finding-head">
+            <h3>I3 — Fragile reflection-driven Preferences and forced casts</h3>
+            <span class="pill sev-info">Info</span>
+        </div>
+        <div class="tags"><span class="cat">stability</span><span class="cat">maintainability</span></div>
+        <div class="loc">GameOfLife/Classes/Preferences.swift:58–67,103–108</div>
+        <p><code>Preferences.init</code> mirrors over its own stored properties and calls <code>setValue(_:forKey:)</code> with whatever <code>UserDefaults</code> returns. If a future non-optional property is added without a matching entry in <code>Defaults.plist</code>, <code>object(forKey:)</code> returns <code>nil</code> and KVC will crash trying to set a non-optional. Separately, <code>color(index:)</code> uses a forced cast <code>self.value(forKey:) as! UInt?</code> that would trap if the stored type ever differs. These work today (the plist covers all current keys) but are brittle.</p>
+        <div class="rec"><b>Recommendation:</b> Skip nil values when registering, or assert that each reflected key has a registered default; replace the forced cast with a safe <code>as?</code> and a fallback.</div>
+    </div>
+
+    <h2>Strengths</h2>
+    <ul class="clean">
+        <li><b>Clean simulation core.</b> <code>Grid.next()</code> correctly double-buffers (reads the old grid, writes a fresh one), recomputes population in the same pass, and cleanly factors the rule into <code>bornSet</code>/<code>surviveSet</code> so arbitrary B/S rules and the cell-aging color scheme drop out naturally.</li>
+        <li><b>Sensible persistence.</b> The <code>.gol</code> format carries a signature and an optional LZFSE-compressed payload with a graceful fallback to uncompressed when compression doesn't help (<code>Grid.data()</code>).</li>
+        <li><b>Good model hygiene.</b> <code>LibraryItem</code> implements <code>NSSecureCoding</code> with typed, guarded decoding and a proper pasteboard read/write path.</li>
+        <li><b>Consistent, readable style.</b> The whole codebase follows one formatting convention, with small focused types (mostly one per file) and clear separation of concerns between model, view, and controllers.</li>
+        <li><b>Defensive option handling at the UI edges.</b> Most controller code uses <code>guard let</code> with early returns rather than force-unwrapping outlets.</li>
+    </ul>
+
+    <h2>Appendix — Severity guide</h2>
+    <ul class="clean">
+        <li><span class="pill sev-critical">Critical</span> Exploitable or guaranteed data loss / crash on common paths.</li>
+        <li><span class="pill sev-high">High</span> Serious correctness/concurrency/stability defect reachable from ordinary use.</li>
+        <li><span class="pill sev-medium">Medium</span> Real bug with a meaningful but narrower trigger (often malformed input or a specific field).</li>
+        <li><span class="pill sev-low">Low</span> Minor or latent issue; limited impact or hard to trigger today.</li>
+        <li><span class="pill sev-info">Info</span> Maintainability / clarity observation, not a defect.</li>
+    </ul>
+
+</div>
+</body>
+</html>
