@@ -389,7 +389,7 @@
         <article class="milestone">
             <div class="ms-head">
                 <h4><span class="num">M5.</span>Design the chunked/tiled grid &amp; abstraction seam</h4>
-                <span class="capsule todo">Not started</span>
+                <span class="capsule prog">In progress</span>
             </div>
             <div class="field-label">Goal</div>
             <p class="goal">Settle the architecture before touching the migration: how live tiles are stored and allocated, how neighbor counting works across tile boundaries, and how persistence and rendering adapt — so the implementation milestones are mechanical.</p>
@@ -403,11 +403,26 @@
                 <li>Capture the chosen design (data structures, edge handling, format change, viewport model) in this milestone's implementation notes and get it reviewed before M6.</li>
             </ul>
             <div class="field-label">Status</div>
-            <p><span class="capsule todo">Not started</span> &nbsp; <span class="placeholder">Completed: —</span></p>
+            <p><span class="capsule done">Completed</span> &nbsp; <span class="completed-date">Completed: 2026-06-28</span></p>
             <div class="field-label">Implementation notes</div>
-            <p class="placeholder">To be filled in as work progresses (record the agreed design here).</p>
+            <div class="filled">
+                <ul class="notes">
+                    <li><strong>Decisions taken with the reviewer.</strong> (1) Navigation: <em>pan/scroll only</em> — the window is a movable viewport into the infinite plane at a fixed cell size; zoom is deferred to a possible later follow-up. (2) Save compatibility: <em>read old, write new</em> — keep reading existing fixed-size <code>.gol</code> files (importing their live cells), but always save in the new tiled format.</li>
+                    <li><strong>Tile model.</strong> Fixed <strong>32×32</strong> tiles, each a <code>ContiguousArray&lt;UInt8&gt;</code> of 1024 bytes; the cell encoding is unchanged (bit 0 alive, bits 1–7 age, cap 127). Tiles are allocated on demand (a cell set or born in a missing tile creates it) and reclaimed when they become all-dead, so memory tracks the live population rather than the explored area. Tile size is a single tunable constant to revisit against the M3 benchmark.</li>
+                    <li><strong>Coordinate system.</strong> World coordinates are signed <code>Int (x, y)</code>, unbounded. A cell maps to tile <code>(x.floorDiv(32), y.floorDiv(32))</code> at local <code>(x.mod(32), y.mod(32))</code> using <em>floored</em> div/mod so negative coordinates work. Populated tiles live in a <code>[TileKey: Tile]</code> dictionary keyed by the tile's <code>(col, row)</code>.</li>
+                    <li><strong>Neighbour counting &amp; generation.</strong> Each generation processes the <em>active set</em> = populated tiles ∪ their 8 neighbours (births can appear in an empty tile adjacent to live cells). Each active tile's next state is computed from its own 1024 cells plus a <strong>1-cell halo</strong> copied from the 8 neighbouring tiles (zeros where absent), keeping the inner loop local (no per-cell dictionary lookups). Considered and rejected: per-cell cross-tile lookups (simpler but slower at boundaries). Aging, <code>population</code>, <code>turns</code>, and the <code>turns == UInt64.max</code> no-op are preserved.</li>
+                    <li><strong>Abstraction seam.</strong> <code>Grid</code> stays the boundary type (still <code>NSObject</code> with KVO <code>turns</code>/<code>population</code>); only its internals change from <code>ContiguousArray&lt;Cell&gt;</code> to a tile store — a protocol would be overkill for one implementation. The leak to remove is <code>GridView</code> reading <code>grid.cells[...]</code> directly: replace with bounded query API — <code>cellAt</code>/<code>isAliveAt</code>/<code>setAliveAt</code> over signed coordinates plus an iteration method (e.g. <code>forEachLiveCell(in: worldRect)</code>) for rendering. <code>width</code>/<code>height</code> stop meaning "the playfield"; a live bounding box (computed from populated tiles) replaces them where UI needs extents, and the fixed-size <code>resize()</code>-to-screen logic is retired in M8.</li>
+                    <li><strong>Persistence (<code>.gol</code> v2).</strong> The current header already carries an unused <code>UInt64</code> version field at offset 4 (always 0 today); bump it to <strong>1</strong> for the tiled format — no new magic. Read: version 0 → parse the old fixed-size grid and import its live cells at world origin; version 1 → read sparse tiles. Write: always version 1 — <code>cellSize</code>, tile count, then each populated tile's <code>(col, row)</code> + bytes, LZFSE-compressed as today, with the existing malformed/oversized guards carried over. <code>add(cells:left:top:)</code>/<code>load(item:)</code>/RLE import place into the unbounded plane with no width/height clamping.</li>
+                    <li><strong>Viewport / rendering (pan only).</strong> <code>GridView</code> holds a viewport origin (world coords of the top-left visible cell) and <code>cellSize</code>; <code>draw()</code> iterates only the visible world rect through the grid API. Pan (drag/scroll) moves the origin; editing, library insertion and the ruler convert screen↔world through that origin. No zoom.</li>
+                    <li><strong>Downstream split.</strong> M6 = tile store + unbounded <code>next()</code> + accessors behind the seam (dense-grid tests updated, glider-travels-forever test added, benchmark re-run). M7 = <code>.gol</code> v2 read/write + old-file import + RLE/library placement. M8 = viewport rendering, pan navigation, retire <code>resize()</code>-to-screen, screen↔world mapping for editing/ruler.</li>
+                </ul>
+            </div>
             <div class="field-label">Review comments</div>
-            <p class="placeholder">Review feedback for this milestone.</p>
+            <div class="filled">
+                <ul class="notes">
+                    <li><strong>Design approved</strong> by the reviewer (pan-only navigation; read-old/write-new saves; 32×32 tiles with halo-based neighbour counting; <code>Grid</code> kept as the API seam; <code>.gol</code> version bump from 0 to 1).</li>
+                </ul>
+            </div>
         </article>
 
         <article class="milestone">
