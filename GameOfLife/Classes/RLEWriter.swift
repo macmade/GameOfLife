@@ -74,7 +74,14 @@ class RLEWriter
                    + ", rule = B3/S23"
         
         lines.append( coords )
-        
+
+        if( grid.width == 0 || grid.height == 0 )
+        {
+            lines.append( "!" )
+
+            return lines.joined( separator: "\n" ).data( using: .ascii )
+        }
+
         var old: Grid.Cell?
         var n   = 1
         var rle = ""

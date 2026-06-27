@@ -318,7 +318,7 @@
     <div class="milestone" id="m2-3">
         <div class="milestone-head">
             <h3>Milestone 2.3 — Fix RLE writer crash on a zero-width grid</h3>
-            <span class="pill st-notstarted">Not started</span>
+            <span class="pill st-completed">Completed</span>
         </div>
         <div class="refs"><span class="ref">L3</span><span class="ref">stability</span><span class="ref">crash</span></div>
         <div class="loc">GameOfLife/Classes/RLEWriter.swift:111</div>
@@ -333,9 +333,16 @@
                 <li>Build via Xcode and verify: exporting an empty/zero-width grid to RLE produces a sensible result (or a clean failure) rather than crashing.</li>
             </ul>
         </div>
-        <div class="field"><div class="label">Status</div><span class="pill st-notstarted">Not started</span></div>
-        <div class="field"><div class="label">Completed</div><p class="placeholder">—</p></div>
-        <div class="field"><div class="label">Implementation notes</div><p class="placeholder">(to be filled during implementation)</p></div>
+        <div class="field"><div class="label">Status</div><span class="pill st-completed">Completed</span></div>
+        <div class="field"><div class="label">Completed</div><p>2026-06-27</p></div>
+        <div class="field"><div class="label">Implementation notes</div>
+            <ul class="clean">
+                <li><b>Root cause (RLEWriter.data(for:…)).</b> <code>old</code> starts as <code>nil</code> and is only assigned inside the inner <code>for x in 0 ..&lt; grid.width</code> loop. When <code>grid.width == 0</code> that loop never runs, so the per-row line <code>rle += … + ( ( old! &amp; 1 == 1 ) ? "o" : "b" )</code> force-unwraps <code>nil</code> and traps, crashing "Save As… (RLE)".</li>
+                <li><b>Fix — up-front guard.</b> Added <code>if( grid.width == 0 || grid.height == 0 )</code> immediately after the <code>x = …, y = …</code> coordinate header. A grid with no cells has nothing to encode, so it appends a bare <code>"!"</code> (the RLE end-of-pattern marker, i.e. an empty pattern body) and returns the joined header — a valid, sensible RLE rather than a crash. The force-unwrap is never reached for an empty grid.</li>
+                <li><b>Decision.</b> Chose the up-front guard over merely handling <code>old == nil</code> at the force-unwrap: a zero-width row has no cell to emit, so emitting an <code>o</code>/<code>b</code> token there would be semantically wrong. Returning an empty-but-valid pattern is the correct "sensible result" the review asked for. Behavior for non-empty grids is unchanged.</li>
+                <li><b>Verification.</b> Built <code>Game Of Life - Debug</code> via <code>xcodebuild</code> → <b>BUILD SUCCEEDED</b>. The "empty/zero-width export no longer crashes" behavior is reasoned from the code; not exercised against a live zero-width grid here.</li>
+            </ul>
+        </div>
         <div class="field"><div class="label">Review comments</div><p class="placeholder">(to be filled during review)</p></div>
     </div>
 
