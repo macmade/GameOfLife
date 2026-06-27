@@ -114,15 +114,15 @@ class Grid: NSObject
     
     public func next()
     {
-        var cells = ContiguousArray< Cell >()
-        
-        cells.grow( self.cells.count ) { Cell() }
-        
         if( self.turns == UInt64.max )
         {
             return
         }
-        
+
+        var cells = ContiguousArray< Cell >()
+
+        cells.grow( self.cells.count ) { Cell() }
+
         self.turns += 1
         
         let width  = self.width
@@ -446,7 +446,7 @@ class Grid: NSObject
                 
                 if( i < self.cells.count )
                 {
-                    if( self.cells[ i ] == 0 )
+                    if( self.cells[ i ] & 1 == 0 )
                     {
                         self.population += 1
                     }

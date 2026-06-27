@@ -517,7 +517,7 @@
     <div class="milestone" id="m4-3">
         <div class="milestone-head">
             <h3>Milestone 4.3 — Grid correctness: <code>next()</code> guard order and <code>add()</code> population count</h3>
-            <span class="pill st-notstarted">Not started</span>
+            <span class="pill st-completed">Completed</span>
         </div>
         <div class="refs"><span class="ref">L5</span><span class="ref">L6</span><span class="ref">performance</span><span class="ref">correctness</span></div>
         <div class="loc">GameOfLife/Classes/Grid.swift:108–115 (L5) · Grid.swift:430–438 (L6)</div>
@@ -533,9 +533,16 @@
                 <li>Build via Xcode and verify normal simulation/population behavior is unchanged.</li>
             </ul>
         </div>
-        <div class="field"><div class="label">Status</div><span class="pill st-notstarted">Not started</span></div>
-        <div class="field"><div class="label">Completed</div><p class="placeholder">—</p></div>
-        <div class="field"><div class="label">Implementation notes</div><p class="placeholder">(to be filled during implementation)</p></div>
+        <div class="field"><div class="label">Status</div><span class="pill st-completed">Completed</span></div>
+        <div class="field"><div class="label">Completed</div><p>2026-06-27</p></div>
+        <div class="field"><div class="label">Implementation notes</div>
+            <ul class="clean">
+                <li><b>L5 — saturation guard order (Grid.next).</b> Moved <code>if( self.turns == UInt64.max ) { return }</code> above the <code>var cells = ContiguousArray&lt;Cell&gt;()</code> / <code>cells.grow( self.cells.count )</code> allocation. On the saturation case the method now returns before allocating a full-size cells buffer it would immediately discard. Behavior is otherwise identical — the guard still prevents <code>turns</code> from overflowing.</li>
+                <li><b>L6 — population under-count (Grid.add).</b> Changed the new-cell test from <code>self.cells[ i ] == 0</code> to <code>self.cells[ i ] &amp; 1 == 0</code>. A cell is alive iff bit 0 is set; the rest of the byte holds age. The old whole-byte test missed a <em>dead-but-aged</em> cell (alive bit clear, age bits non-zero, so byte ≠ 0) — such a cell could exist after loading a raw <code>.gol</code> payload — and failed to increment <code>population</code> when it was turned alive by <code>add()</code>. Testing the alive bit counts the dead→alive transition correctly regardless of age bits.</li>
+                <li><b>Behavior on normal grids.</b> For a freshly created/random grid where dead cells are byte <code>0</code>, both the old and new <code>add()</code> tests agree, so ordinary drag-drop population counts are unchanged; only the dead-but-aged edge case is corrected. The <code>next()</code> change is a pure micro-optimization with no functional difference.</li>
+                <li><b>Verification.</b> Built <code>Game Of Life - Debug</code> via <code>xcodebuild</code> → <b>BUILD SUCCEEDED</b>. Simulation/population behavior is reasoned from the code; not exercised in the running app here.</li>
+            </ul>
+        </div>
         <div class="field"><div class="label">Review comments</div><p class="placeholder">(to be filled during review)</p></div>
     </div>
 
