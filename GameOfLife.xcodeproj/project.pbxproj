@@ -59,6 +59,10 @@
 		05F05FE820899BBF00337CB6 /* GOL.LibraryEditorWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 05F05FE620899BBF00337CB6 /* GOL.LibraryEditorWindowController.xib */; };
 		05F05FEB2089AB1000337CB6 /* RulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05F05FEA2089AB1000337CB6 /* RulerView.swift */; };
 		05F1E0DEADBEEF00CAFE0002 /* DirectoryReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05F1E0DEADBEEF00CAFE0001 /* DirectoryReader.swift */; };
+		43CA9AC406C790BA410644B9 /* GridEvolutionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3655820EB8065CC6BCB070EF /* GridEvolutionTests.swift */; };
+		50ECDA66836B3A5EE2B60FDE /* GridAccessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6769ED6F94D9528BC82D09E /* GridAccessorTests.swift */; };
+		60F907363C9E627494710DCE /* GridTestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D7D6BC812DF0CC570474588 /* GridTestSupport.swift */; };
+		98CB8C95A11513EE8F01406A /* RuleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648F2743A399101DBE837134 /* RuleTests.swift */; };
 		C9B4D35E7D83808C7D68CBF0 /* WiringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B6605513C25ED0D49C40822 /* WiringTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -172,9 +176,13 @@
 		05F05FE720899BBF00337CB6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GOL.LibraryEditorWindowController.xib; sourceTree = "<group>"; };
 		05F05FEA2089AB1000337CB6 /* RulerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulerView.swift; sourceTree = "<group>"; };
 		05F1E0DEADBEEF00CAFE0001 /* DirectoryReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryReader.swift; sourceTree = "<group>"; };
+		3655820EB8065CC6BCB070EF /* GridEvolutionTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GridEvolutionTests.swift; sourceTree = "<group>"; };
+		3D7D6BC812DF0CC570474588 /* GridTestSupport.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GridTestSupport.swift; sourceTree = "<group>"; };
 		53C39347E897AA69E44F337F /* GameOfLifeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GameOfLifeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		648F2743A399101DBE837134 /* RuleTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = RuleTests.swift; sourceTree = "<group>"; };
 		7B6605513C25ED0D49C40822 /* WiringTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WiringTests.swift; sourceTree = "<group>"; };
 		DC4C7CCFBA40C04E58A693BB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.0.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		F6769ED6F94D9528BC82D09E /* GridAccessorTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = GridAccessorTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -425,13 +433,35 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		1D816C5B97CD40A73CDEDE74 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				3D7D6BC812DF0CC570474588 /* GridTestSupport.swift */,
+			);
+			name = Support;
+			path = Support;
+			sourceTree = "<group>";
+		};
 		673D308114A61902FBFBA7D5 /* GameOfLifeTests */ = {
 			isa = PBXGroup;
 			children = (
 				7B6605513C25ED0D49C40822 /* WiringTests.swift */,
+				1D816C5B97CD40A73CDEDE74 /* Support */,
+				E712E639D22562DC9144E194 /* Classes */,
 			);
 			name = GameOfLifeTests;
 			path = GameOfLifeTests;
+			sourceTree = "<group>";
+		};
+		E712E639D22562DC9144E194 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				648F2743A399101DBE837134 /* RuleTests.swift */,
+				3655820EB8065CC6BCB070EF /* GridEvolutionTests.swift */,
+				F6769ED6F94D9528BC82D09E /* GridAccessorTests.swift */,
+			);
+			name = Classes;
+			path = Classes;
 			sourceTree = "<group>";
 		};
 		E99B0DDF1586949F5AE124B2 /* OS X */ = {
@@ -626,6 +656,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9B4D35E7D83808C7D68CBF0 /* WiringTests.swift in Sources */,
+				60F907363C9E627494710DCE /* GridTestSupport.swift in Sources */,
+				98CB8C95A11513EE8F01406A /* RuleTests.swift in Sources */,
+				43CA9AC406C790BA410644B9 /* GridEvolutionTests.swift in Sources */,
+				50ECDA66836B3A5EE2B60FDE /* GridAccessorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

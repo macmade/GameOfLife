@@ -278,7 +278,7 @@
         <article class="milestone">
             <div class="ms-head">
                 <h4><span class="num">M2.</span>Core simulation tests — grid evolution &amp; rules</h4>
-                <span class="capsule todo">Not started</span>
+                <span class="capsule done">Completed</span>
             </div>
             <div class="field-label">Goal</div>
             <p class="goal">Lock down the correctness of the simulation core — the part most at risk during modernization and the infinite-grid rewrite — with focused, deterministic tests.</p>
@@ -293,9 +293,20 @@
                 <li>Test <code>cellAt</code>/<code>isAliveAt</code>/<code>setAliveAt</code> bounds behavior, and <code>resize()</code> preserving in-bounds cells and recomputing population.</li>
             </ul>
             <div class="field-label">Status</div>
-            <p><span class="capsule todo">Not started</span> &nbsp; <span class="placeholder">Completed: —</span></p>
+            <p><span class="capsule done">Completed</span> &nbsp; <span class="completed-date">Completed: 2026-06-27</span></p>
             <div class="field-label">Implementation notes</div>
-            <p class="placeholder">To be filled in as work progresses.</p>
+            <div class="filled">
+                <ul class="notes">
+                    <li><strong>Layout.</strong> Added tests under <code>GameOfLifeTests/Classes/</code> (mirroring <code>GameOfLife/Classes/</code>) plus a <code>GameOfLifeTests/Support/</code> group: <code>RuleTests.swift</code>, <code>GridEvolutionTests.swift</code>, <code>GridAccessorTests.swift</code>, and <code>GridTestSupport.swift</code>. Files were added to the target with the <code>xcodeproj</code> gem. Total suite is now <strong>22 tests in 4 suites, all green</strong> via <code>xcodebuild test … -scheme "Game Of Life - Debug"</code>.</li>
+                    <li><strong>Test support.</strong> <code>GridTestSupport</code> provides: <code>makeGrid([String])</code> building a blank grid from ASCII art (<code>"O"</code> = live), <code>render(Grid)</code> back to ASCII for readable diffs, <code>liveCoordinates(Grid)</code>, and <code>withActiveRule(_:_:)</code> which sets <code>Preferences.shared.rule</code> for the duration of a closure and restores it after.</li>
+                    <li><strong>Rule parsing (<code>RuleTests</code>).</strong> Valid <code>B/S</code> parsing (single- and multi-digit sets), <code>displayTitle</code>/<code>name</code> formation, the <code>predefined</code> flag, and a parameterized test that malformed strings (<code>""</code>, <code>"B3"</code>, <code>"B3/S2/3"</code>, <code>"X3/S23"</code>, <code>"B3/X23"</code>) fail the failable initializer. Predefined list checked for count (15), all-predefined, unique names, and spot-checked born/survive sets (Conway, Seeds, HighLife).</li>
+                    <li><strong>Evolution (<code>GridEvolutionTests</code>, <code>.serialized</code>).</strong> Because <code>Grid</code> reads its rule from <code>Preferences.shared.activeRule()</code> (there is no per-call rule parameter), every rule-dependent test drives the global rule via <code>withActiveRule</code>; the suite is <code>.serialized</code> so concurrent tests can't leak rules into each other. Covers Conway canonical results against independent ground truth — block (still life), blinker (period-2 oscillator), and a glider verified to translate by exactly (+1, +1) after four generations — plus <code>turns</code>/<code>population</code> bookkeeping, Seeds (<code>B2/S</code>) and HighLife (<code>B36/S23</code>, isolating the B6 birth that Conway lacks), and cell aging.</li>
+                    <li><strong>Accessors (<code>GridAccessorTests</code>).</strong> Bounds behavior of <code>cellAt</code>/<code>isAliveAt</code> (including negative coordinates), <code>setAliveAt</code> set/clear and out-of-bounds no-op, and <code>resize()</code> growing (cells + population preserved) and shrinking (out-of-bounds cells dropped, population recomputed). These run unserialized as they never call <code>next()</code>.</li>
+                    <li><strong><code>next()</code> overflow guard.</strong> <code>turns</code> has a private setter, so the "no-op once <code>turns == UInt64.max</code>" test forces it via KVC (<code>setValue(NSNumber(value: .max), forKey: "turns")</code> — it is an <code>@objc dynamic</code> property); confirmed the poke takes effect and a further <code>next()</code> neither advances <code>turns</code> nor changes the cells.</li>
+                    <li><strong>Aging semantics confirmed.</strong> A cell set via <code>setAliveAt</code> starts at age 0 (raw byte <code>1</code>); a surviving cell's raw byte is <code>1 | (age &lt;&lt; 1)</code>, incrementing each generation and saturating at age 127 (byte <code>255</code>) with the alive bit always set. The aging assertions were written to unwrap <code>cellAt</code> explicitly via <code>#require</code> and compare plain <code>UInt8</code> values: the optional-vs-literal form (<code>cellAt == 1 | (5 &lt;&lt; 1)</code>) produced a spurious failure under the full concurrent run; the unwrapped form is stable across the test run alone and 13 consecutive full-suite runs.</li>
+                    <li><strong>Findings (no production changes made — out of scope for a tests milestone).</strong> (1) <code>Rule</code> uppercases <code>self.name</code> but then parses the <em>original-case</em> input and checks the <code>B</code>/<code>S</code> prefixes case-sensitively, so a lowercase rule like <code>"b3/s23"</code> fails to parse and the uppercasing is effectively unobservable for valid rules. It is not a live bug because callers (<code>activeRule()</code>) uppercase before constructing, but it is an inconsistency worth a later look. (2) <code>setAliveAt</code> does not maintain <code>population</code> (only <code>next()</code>/<code>load</code>/<code>add</code>/<code>resize</code> do), so tests assert population only after evolution/resize. No bugs were found in <code>next()</code>, the rules, or aging — all canonical results matched.</li>
+                </ul>
+            </div>
             <div class="field-label">Review comments</div>
             <p class="placeholder">Review feedback for this milestone.</p>
         </article>
