@@ -41,10 +41,15 @@ class RLEWriter
         let shortVersion  = Bundle.main.object( forInfoDictionaryKey: "CFBundleShortVersionString" ) as? String
         let bundleVersion = Bundle.main.object( forInfoDictionaryKey: "CFBundleVersion" )            as? String
         
-        let fmt       = DateFormatter()
-        fmt.dateStyle = .long
-        fmt.timeStyle = .medium
-        
+        // RLE files are ASCII, and the whole document is encoded as ASCII below.
+        // A localized, style-based date can contain non-ASCII characters (e.g.
+        // U+202F before AM/PM on recent macOS), which would make that encoding
+        // fail and the writer return nil. Use a fixed en_US_POSIX format so the
+        // creator line is always ASCII.
+        let fmt        = DateFormatter()
+        fmt.locale     = Locale( identifier: "en_US_POSIX" )
+        fmt.dateFormat = "MMMM d, yyyy 'at' h:mm:ss a"
+
         var creator = fmt.string( from: Date() )
         
         if( bundleName != nil )
@@ -88,10 +93,16 @@ class RLEWriter
         
         for y in 0 ..< grid.height
         {
+            // Run-length state is per row: each row is encoded independently and
+            // terminated by "$" or "!". Reset here so a run never carries across
+            // the row boundary (which would inflate the next row's count).
+            old = nil
+            n   = 1
+
             for x in 0 ..< grid.width
             {
                 let cell = grid.cells[ x + ( y * grid.width ) ]
-                
+
                 if( old != nil )
                 {
                     if( cell & 1 == old! & 1 )
