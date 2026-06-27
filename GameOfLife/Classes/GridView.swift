@@ -358,7 +358,7 @@ class GridView: NSView
                     continue
                 }
                 
-                let cell = self.grid.cells[ x + ( y * self.grid.width ) ]
+                let cell = self.grid.cellAt( x: x, y: y ) ?? 0
                 
                 if( cell & 1 == 0 )
                 {

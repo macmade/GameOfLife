@@ -101,7 +101,7 @@ class RLEWriter
 
             for x in 0 ..< grid.width
             {
-                let cell = grid.cells[ x + ( y * grid.width ) ]
+                let cell = grid.cellAt( x: x, y: y ) ?? 0
 
                 if( old != nil )
                 {

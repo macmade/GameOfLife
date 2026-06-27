@@ -1,18 +1,18 @@
 /*******************************************************************************
  * The MIT License (MIT)
- * 
+ *
  * Copyright (c) 2018 Jean-David Gadina - www.xs-labs.com
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,10 +25,42 @@
 import Foundation
 import Compression
 
+/// The simulation core.
+///
+/// The world is an **unbounded** signed `(x, y)` plane. Live cells are stored
+/// sparsely as fixed-size square tiles (see ``Tile``), allocated on demand and
+/// reclaimed when they become empty, so memory tracks the live population rather
+/// than the explored area.
+///
+/// `Grid` is the abstraction seam for the rest of the app: callers query and
+/// mutate cells through its API rather than reaching into the storage. During
+/// the migration it also keeps a *windowed facade* — `width`/`height`/`cells`,
+/// `resize(width:height:)`, the bounds-checked `size_t` accessors and the v0
+/// `.gol` round-trip — so the renderer (M8) and persistence (M7) keep working
+/// unchanged against the legacy fixed playfield until their own milestones
+/// retire the facade.
 class Grid: NSObject
 {
     typealias Cell  = UInt8
-    typealias Array = ContiguousArray< Cell >
+
+    /// On-demand storage for one square block of the plane: `tileSize × tileSize`
+    /// cells in row-major order, each a ``Cell`` (bit 0 alive, bits 1–7 age).
+    private typealias Tile = ContiguousArray< Cell >
+
+    /// The tile coordinate of a populated block, i.e. world coordinates divided
+    /// (floored) by ``tileSize``.
+    private struct TileKey: Hashable
+    {
+        let col: Int
+        let row: Int
+    }
+
+    /// Edge length of a square tile. A single tunable constant to revisit against
+    /// the `next()` benchmark; 32 keeps each tile at 1 KiB.
+    private static let tileSize = 32
+
+    /// Number of cells in one tile (``tileSize`` squared).
+    private static let cellsPerTile = Grid.tileSize * Grid.tileSize
 
     /*
      * Upper bound on the number of cells accepted from a loaded `.gol` file.
@@ -41,77 +73,175 @@ class Grid: NSObject
 
     @objc dynamic public private( set ) var turns:      UInt64 = 0
     @objc dynamic public private( set ) var population: UInt64 = 0
-    
+
     public private( set ) var colors: Bool = true
     public private( set ) var width:  size_t
     public private( set ) var height: size_t
-    public private( set ) var cells:  ContiguousArray< Cell >
-    
+
+    /// Populated tiles keyed by tile coordinate. A tile is present only while it
+    /// holds at least one live cell; emptied tiles are removed.
+    private var tiles: [ TileKey: Tile ] = [:]
+
     private var observations: [ NSKeyValueObservation ] = []
-    
+
     private var rule = Preferences.shared.activeRule()
-    
+
     enum Kind
     {
         case Blank
         case Random
     }
-    
+
     public init( width: size_t, height: size_t, kind: Kind = .Random )
     {
         self.width  = width
         self.height = height
-        self.cells  = ContiguousArray< Cell >()
-        
-        self.cells.grow( width * height ) { Cell() }
-        
+
         super.init()
-        
+
         switch( kind )
         {
             case .Blank:  self.setupBlankGrid()
             case .Random: self.setupRandomGrid()
         }
-        
+
         let o1 = Preferences.shared.observe( \.rule )
         {
             ( o, c ) in self.rule = Preferences.shared.activeRule()
         }
-        
+
         self.observations.append( contentsOf: [ o1 ] )
     }
-    
-    public func resize( width: size_t, height: size_t )
+
+    // MARK: - Tile / world-coordinate helpers
+
+    /// The tile column or row owning a world coordinate, using *floored* division
+    /// so negative coordinates map correctly (e.g. `-1` lives in tile `-1`).
+    private static func tileIndex( _ coordinate: Int ) -> Int
     {
-        var cells = ContiguousArray< Cell >()
-        
-        cells.reserveCapacity( width * height )
-        
-        var n: UInt64 = 0
-        
-        for y in 0 ..< height
+        let quotient  = coordinate / Grid.tileSize
+        let remainder = coordinate % Grid.tileSize
+
+        return ( remainder < 0 ) ? quotient - 1 : quotient
+    }
+
+    /// The in-tile offset (0..<``tileSize``) of a world coordinate, using
+    /// *floored* modulo so it is always non-negative.
+    private static func localIndex( _ coordinate: Int ) -> Int
+    {
+        let remainder = coordinate % Grid.tileSize
+
+        return ( remainder < 0 ) ? remainder + Grid.tileSize : remainder
+    }
+
+    /// The raw cell byte at a world coordinate, or `0` (dead) when no tile is
+    /// allocated there.
+    private func cellValue( x: Int, y: Int ) -> Cell
+    {
+        let key = TileKey( col: Grid.tileIndex( x ), row: Grid.tileIndex( y ) )
+
+        guard let tile = self.tiles[ key ] else
         {
-            for x in 0 ..< width
+            return 0
+        }
+
+        return tile[ Grid.localIndex( y ) * Grid.tileSize + Grid.localIndex( x ) ]
+    }
+
+    /// Writes a raw cell byte at a world coordinate, allocating the owning tile on
+    /// demand and reclaiming it once it holds no live cells.
+    private func setCellValue( x: Int, y: Int, value: Cell )
+    {
+        let key   = TileKey( col: Grid.tileIndex( x ), row: Grid.tileIndex( y ) )
+        let index = Grid.localIndex( y ) * Grid.tileSize + Grid.localIndex( x )
+
+        if( value == 0 )
+        {
+            guard var tile = self.tiles[ key ] else
             {
-                guard let cell = self.cellAt( x: x, y: y ) else
+                return
+            }
+
+            tile[ index ]     = 0
+            self.tiles[ key ] = tile.contains { $0 != 0 } ? tile : nil
+
+            return
+        }
+
+        var tile = self.tiles[ key ] ?? Tile( repeating: 0, count: Grid.cellsPerTile )
+
+        tile[ index ]     = value
+        self.tiles[ key ] = tile
+    }
+
+    /// Calls `body` once for every live cell in the unbounded plane, passing its
+    /// signed world coordinates and raw byte.
+    ///
+    /// This is the rendering/iteration seam over the tile store: unlike the
+    /// windowed `size_t` accessors it sees the whole plane, including negative
+    /// coordinates and cells far outside the legacy `width`/`height` window.
+    ///
+    /// - Parameter body: Receives `(x, y, cell)` for each live cell.
+    public func forEachLiveCell( _ body: ( Int, Int, Cell ) -> Void )
+    {
+        let size = Grid.tileSize
+
+        for ( key, tile ) in self.tiles
+        {
+            let baseX = key.col * size
+            let baseY = key.row * size
+
+            for ly in 0 ..< size
+            {
+                for lx in 0 ..< size
                 {
-                    cells.append( Cell() )
-                    
-                    continue
+                    let cell = tile[ ly * size + lx ]
+
+                    if( cell & 1 == 1 )
+                    {
+                        body( baseX + lx, baseY + ly, cell )
+                    }
                 }
-                
-                n += ( cell & 1 == 1 ) ? 1 : 0
-                
-                cells.append( cell )
             }
         }
-        
-        self.population = n
-        self.cells      = cells
-        self.height     = height
-        self.width      = width
     }
-    
+
+    /// Reframes the legacy fixed playfield, keeping only the live cells inside the
+    /// new `width`/`height` window and recomputing the population.
+    ///
+    /// This preserves the dense model's destructive resize semantics for the
+    /// renderer; it is retired in M8 once the viewport replaces the fixed window.
+    public func resize( width: size_t, height: size_t )
+    {
+        var kept: [ ( Int, Int, Cell ) ] = []
+
+        self.forEachLiveCell
+        {
+            x, y, cell in
+
+            if( x >= 0 && y >= 0 && x < width && y < height )
+            {
+                kept.append( ( x, y, cell ) )
+            }
+        }
+
+        self.tiles  = [:]
+        self.width  = width
+        self.height = height
+
+        kept.forEach { self.setCellValue( x: $0.0, y: $0.1, value: $0.2 ) }
+
+        self.population = UInt64( kept.count )
+    }
+
+    /// Advances the simulation by one generation over the unbounded plane.
+    ///
+    /// Only the *active set* — every populated tile plus its eight neighbours, so
+    /// births can appear in an empty tile adjacent to live cells — is processed.
+    /// Each active tile's next state is computed from its own cells plus a 1-cell
+    /// halo copied from the eight neighbouring tiles (zero where absent), keeping
+    /// the inner loop local with no per-cell dictionary lookups. Aging,
+    /// `population`, `turns` and the `turns == UInt64.max` no-op are preserved.
     public func next()
     {
         if( self.turns == UInt64.max )
@@ -119,194 +249,252 @@ class Grid: NSObject
             return
         }
 
-        var cells = ContiguousArray< Cell >()
-
-        cells.grow( self.cells.count ) { Cell() }
-
         self.turns += 1
-        
-        let width  = self.width
-        let height = self.height
+
+        let size   = Grid.tileSize
+        let stride = size + 2
         let bs     = self.rule.bornSet
         let ss     = self.rule.surviveSet
-        
-        var n: UInt64 = 0
-        
-        for y in 0 ..< height
+
+        var active = Set< TileKey >()
+
+        for key in self.tiles.keys
         {
-            for x in 0 ..< width
+            for dr in -1 ... 1
             {
-                let old           = self.cells[ x + ( y * width ) ]
-                var new           = old
-                let alive: Bool   = old & 1 == 1
-                var count: UInt8  = 0
-                
-                if( y > 0 )
+                for dc in -1 ... 1
                 {
-                    if( x > 0 )
-                    {
-                        count += self.cells[ ( x - 1 ) + ( ( y - 1 ) * width ) ] & 1
-                    }
-                    
-                    count += self.cells[ x + ( ( y - 1 ) * width ) ] & 1
-                    
-                    if( x < width - 1 )
-                    {
-                        count += self.cells[ ( x + 1 ) + ( ( y - 1 ) * width ) ] & 1
-                    }
+                    active.insert( TileKey( col: key.col + dc, row: key.row + dr ) )
                 }
-                
-                if( x > 0 )
-                {
-                    count += self.cells[ ( x - 1 ) + ( y * width ) ] & 1
-                }
-                
-                if( x < width - 1 )
-                {
-                    count += self.cells[ ( x + 1 ) + ( y * width ) ] & 1
-                }
-                
-                if( y < height - 1 )
-                {
-                    if( x > 0 )
-                    {
-                        count += self.cells[ ( x - 1 ) + ( ( y + 1 ) * width ) ] & 1
-                    }
-                    
-                    count += self.cells[ x + ( ( y + 1 ) * width ) ] & 1
-                    
-                    if( x < width - 1 )
-                    {
-                        count += self.cells[ ( x + 1 ) + ( ( y + 1 ) * width ) ] & 1
-                    }
-                }
-                
-                if( alive && ss.contains( Int( count ) ) == false )
-                {
-                    new = 0
-                }
-                if( alive == false && bs.contains( Int( count ) ) )
-                {
-                    new = 1 | ( 1 << 1 )
-                }
-                
-                let age = old >> 1
-                
-                if( alive && new & 1 == 1 && age < ( Cell.max >> 1 ) )
-                {
-                    new &= 1
-                    new |= ( age + 1 ) << 1
-                }
-                
-                cells[ x + ( y * width ) ] = new
-                
-                n += ( new & 1 == 1 ) ? 1 : 0
             }
         }
-        
+
+        var next: [ TileKey: Tile ] = [:]
+        var n: UInt64               = 0
+
+        for key in active
+        {
+            // Fetch the 3×3 block of neighbouring tiles once (centre at index 4).
+            var neighbours = [ Tile? ]( repeating: nil, count: 9 )
+
+            for dr in -1 ... 1
+            {
+                for dc in -1 ... 1
+                {
+                    neighbours[ ( dr + 1 ) * 3 + ( dc + 1 ) ] = self.tiles[ TileKey( col: key.col + dc, row: key.row + dr ) ]
+                }
+            }
+
+            let center = neighbours[ 4 ]
+
+            // Build the (size+2)² halo of alive bits: the centre tile plus a
+            // 1-cell border drawn from the eight neighbours (zero where absent).
+            var pad = ContiguousArray< UInt8 >( repeating: 0, count: stride * stride )
+
+            for dr in -1 ... 1
+            {
+                for dc in -1 ... 1
+                {
+                    guard let tile = neighbours[ ( dr + 1 ) * 3 + ( dc + 1 ) ] else
+                    {
+                        continue
+                    }
+
+                    for ly in 0 ..< size
+                    {
+                        let gy = dr * size + ly
+
+                        if( gy < -1 || gy > size )
+                        {
+                            continue
+                        }
+
+                        for lx in 0 ..< size
+                        {
+                            let gx = dc * size + lx
+
+                            if( gx < -1 || gx > size )
+                            {
+                                continue
+                            }
+
+                            pad[ ( gy + 1 ) * stride + ( gx + 1 ) ] = tile[ ly * size + lx ] & 1
+                        }
+                    }
+                }
+            }
+
+            var out     = Tile( repeating: 0, count: Grid.cellsPerTile )
+            var hasLive = false
+
+            for ly in 0 ..< size
+            {
+                let r0 = ly * stride
+                let r1 = ( ly + 1 ) * stride
+                let r2 = ( ly + 2 ) * stride
+
+                for lx in 0 ..< size
+                {
+                    let count =   pad[ r0 + lx ] + pad[ r0 + lx + 1 ] + pad[ r0 + lx + 2 ]
+                                + pad[ r1 + lx ]                       + pad[ r1 + lx + 2 ]
+                                + pad[ r2 + lx ] + pad[ r2 + lx + 1 ] + pad[ r2 + lx + 2 ]
+
+                    let old         = center?[ ly * size + lx ] ?? 0
+                    var new         = old
+                    let alive: Bool = old & 1 == 1
+
+                    if( alive && ss.contains( Int( count ) ) == false )
+                    {
+                        new = 0
+                    }
+                    if( alive == false && bs.contains( Int( count ) ) )
+                    {
+                        new = 1 | ( 1 << 1 )
+                    }
+
+                    let age = old >> 1
+
+                    if( alive && new & 1 == 1 && age < ( Cell.max >> 1 ) )
+                    {
+                        new &= 1
+                        new |= ( age + 1 ) << 1
+                    }
+
+                    out[ ly * size + lx ] = new
+
+                    if( new & 1 == 1 )
+                    {
+                        hasLive = true
+                        n      += 1
+                    }
+                }
+            }
+
+            if( hasLive )
+            {
+                next[ key ] = out
+            }
+        }
+
         self.population = n
-        self.cells      = cells
+        self.tiles      = next
     }
-    
+
     public func cellAt( x: size_t, y: size_t ) -> Cell?
     {
         if( x < self.width && y < self.height && x >= 0 && y >= 0 )
         {
-            return self.cells[ x + ( y * self.width ) ];
+            return self.cellValue( x: x, y: y )
         }
-        
+
         return nil
     }
-    
+
     public func isAliveAt( x: size_t, y: size_t ) -> Bool
     {
         if( x < self.width && y < self.height && x >= 0 && y >= 0 )
         {
-            return self.cells[ x + ( y * self.width ) ] & 1 == 1
+            return self.cellValue( x: x, y: y ) & 1 == 1
         }
-        
+
         return false
     }
-    
+
     public func setAliveAt( x: size_t, y: size_t, value: Bool )
     {
         if( x < self.width && y < self.height && x >= 0 && y >= 0 )
         {
-            self.cells[ x + ( y * self.width ) ] = ( value ) ? 1 : 0
+            self.setCellValue( x: x, y: y, value: ( value ) ? 1 : 0 )
         }
     }
-    
+
+    /// A dense snapshot of the legacy `[0, width) × [0, height)` window in
+    /// row-major order — the windowed facade over the tile store, used by the v0
+    /// `.gol` writer and available to call sites still expecting a flat array. It
+    /// is materialized on access and removed in M8.
+    public var cells: ContiguousArray< Cell >
+    {
+        var out = ContiguousArray< Cell >()
+
+        out.reserveCapacity( self.width * self.height )
+
+        for y in 0 ..< self.height
+        {
+            for x in 0 ..< self.width
+            {
+                out.append( self.cellValue( x: x, y: y ) )
+            }
+        }
+
+        return out
+    }
+
     private func setupBlankGrid()
     {}
-    
+
     private func setupRandomGrid()
     {
         var n: UInt64 = 0
-        
+
         for y in 0 ..< self.height
         {
             for x in 0 ..< self.width
             {
                 let alive = arc4random() % 3 == 1
-                
+
                 self.setAliveAt( x: x, y: y, value: alive )
-                
+
                 n += ( alive ) ? 1 : 0
             }
         }
-        
+
         self.population = n
     }
-    
+
     public func data() -> Data
     {
         var data = Data()
-        
+
         data.append( contentsOf: [ 71, 79, 76, 49 ] )
         data.append( UInt64( 0 ) )
         data.append( UInt64( self.width ) )
         data.append( UInt64( self.height ) )
         data.append( UInt64( Preferences.shared.cellSize ) )
-        
-        var cells = Data()
-        
-        for cell in self.cells
-        {
-            cells.append( cell )
-        }
-        
+
+        let cells = Data( self.cells )
+
         guard let compressed = cells.compress( with: COMPRESSION_LZFSE ) else
         {
             data.append( UInt64( 0 ) )
             data.append( cells )
-            
+
             return data
         }
-        
+
         data.append( UInt64( 1 ) )
         data.append( compressed )
-        
+
         return data
     }
-    
+
     public func load( data: Data ) -> Bool
     {
         if( data.count < 44 )
         {
             return false
         }
-        
+
         if( data[ 0 ] != 71 || data[ 1 ] != 79 || data[ 2 ] != 76 || data[ 3 ] != 49 )
         {
             return false
         }
-        
+
         let _       = data.readUInt64( at: 4 )
         let width   = data.readUInt64( at: 12 )
         let height  = data.readUInt64( at: 20 )
         let size    = data.readUInt64( at: 28 )
         let lzfse   = data.readUInt64( at: 36 )
-        
+
         if( size < 1 || size > 10 )
         {
             return false
@@ -319,11 +507,10 @@ class Grid: NSObject
             return false
         }
 
-        let count     = Int( cellCount )
-        var cells     = Array()
-        var n: UInt64 = 0
+        let count    = Int( cellCount )
+        var bytes     = ContiguousArray< Cell >()
 
-        cells.reserveCapacity( count )
+        bytes.reserveCapacity( count )
 
         if( lzfse == 1 )
         {
@@ -337,12 +524,7 @@ class Grid: NSObject
                 return false
             }
 
-            for i in 0 ..< decompressed.count
-            {
-                n += ( decompressed[ i ] & 1 == 1 ) ? 1 : 0
-
-                cells.append( decompressed[ i ] )
-            }
+            bytes.append( contentsOf: decompressed )
         }
         else
         {
@@ -351,110 +533,118 @@ class Grid: NSObject
                 return false
             }
 
-            for i in 44 ..< data.count
-            {
-                n += ( data[ i ] & 1 == 1 ) ? 1 : 0
+            bytes.append( contentsOf: data.advanced( by: 44 ) )
+        }
 
-                cells.append( data[ i ] )
+        self.tiles  = [:]
+        self.width  = size_t( width )
+        self.height = size_t( height )
+
+        var n: UInt64 = 0
+
+        for i in 0 ..< count
+        {
+            let cell = bytes[ i ]
+
+            n += ( cell & 1 == 1 ) ? 1 : 0
+
+            if( cell != 0 )
+            {
+                self.setCellValue( x: i % Int( width ), y: i / Int( width ), value: cell )
             }
         }
-        
+
         Preferences.shared.cellSize = UInt( size )
-        
+
         self.population = n
-        self.cells      = cells
-        self.width      = size_t( width )
-        self.height     = size_t( height )
-        
+
         return true
     }
-    
+
     public func load( item: LibraryItem ) -> Bool
     {
         if( item.cells.count == 0 )
         {
             return false
         }
-        
+
         var width  = 0
         var height = item.cells.count
-        
+
         for s in item.cells
         {
             width = max( width, s.count )
         }
-        
+
         var xOffset = 0
         var yOffset = 0
-        
+
         if( width < self.width )
         {
             xOffset = ( self.width - width ) / 2
             width   = self.width
         }
-        
+
         if( height < self.height )
         {
             yOffset = ( self.height - height ) / 2
             height  = self.height
         }
-        
-        var cells = Array()
-        
-        cells.grow( width * height ) { Cell() }
-        
-        self.cells  = cells
+
+        self.tiles  = [:]
         self.width  = size_t( width )
         self.height = size_t( height )
-        
+
         self.add( item: item, left: xOffset, top: yOffset )
-        
+
         return true
     }
-    
+
     public func add( item: LibraryItem, left: Int, top: Int )
     {
         self.add( cells: item.cells, left: left, top: top )
     }
-    
+
     public func add( cells: [ String ], left: Int, top: Int )
     {
         if( cells.count == 0 )
         {
             return
         }
-        
+
         for y in 0 ..< cells.count
         {
             let s = cells[ y ]
-            
+
             for x in 0 ..< s.count
             {
                 let c = s[ String.Index( utf16Offset: x, in: s ) ]
-                
+
                 if( c == " " )
                 {
                     continue
                 }
-                
+
                 if( x + left >= self.width || y + top >= self.height )
                 {
                     continue
                 }
-                
-                let i = ( x + left ) + ( ( y + top ) * self.width )
-                
-                if( i < self.cells.count )
+
+                let wx = x + left
+                let wy = y + top
+
+                if( wx < 0 || wy < 0 )
                 {
-                    if( self.cells[ i ] & 1 == 0 )
-                    {
-                        self.population += 1
-                    }
-                    
-                    self.cells[ i ] = 1
+                    continue
                 }
+
+                if( self.cellValue( x: wx, y: wy ) & 1 == 0 )
+                {
+                    self.population += 1
+                }
+
+                self.setCellValue( x: wx, y: wy, value: 1 )
             }
         }
     }
 }
-

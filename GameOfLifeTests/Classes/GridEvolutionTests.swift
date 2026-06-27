@@ -125,6 +125,42 @@ struct GridEvolutionTests
         }
     }
 
+    /// On the unbounded grid a glider keeps travelling indefinitely without ever
+    /// hitting a boundary: after `4 * k` generations it is the original shape
+    /// translated by `(+k, +k)`, well past the old fixed window, and its
+    /// population is still 5.
+    ///
+    /// The window passed to `Grid(width:height:)` is only the legacy playfield
+    /// extent; on the old dense model the glider would have collided with the
+    /// edge of a 10×10 grid around generation 24 and disintegrated. This test
+    /// runs 40 generations (a `(+10, +10)` shift) and queries the live cells
+    /// through the unbounded `forEachLiveCell` seam rather than the windowed
+    /// accessors, so it sees cells far outside the original window.
+    @Test( "Conway: a glider travels far beyond the old fixed bounds" )
+    func gliderTravelsUnbounded()
+    {
+        GridTestSupport.withActiveRule( "B3/S23" )
+        {
+            let initialLive = [ [ 2, 1 ], [ 3, 2 ], [ 1, 3 ], [ 2, 3 ], [ 3, 3 ] ]
+            let steps       = 40
+            let shift       = steps / 4
+            let grid        = Grid( width: 10, height: 10, kind: .Blank )
+
+            initialLive.forEach { grid.setAliveAt( x: $0[ 0 ], y: $0[ 1 ], value: true ) }
+
+            ( 0 ..< steps ).forEach { _ in grid.next() }
+
+            var live = Set< [ Int ] >()
+
+            grid.forEachLiveCell { x, y, _ in live.insert( [ x, y ] ) }
+
+            let expectedLive = Set( initialLive.map { [ $0[ 0 ] + shift, $0[ 1 ] + shift ] } )
+
+            #expect( live == expectedLive )
+            #expect( grid.population == 5 )
+        }
+    }
+
     // MARK: - Population & turn bookkeeping
 
     /// `turns` increments on each generation and `population` is recomputed.
