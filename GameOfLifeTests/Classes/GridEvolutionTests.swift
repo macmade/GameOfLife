@@ -33,6 +33,7 @@ import Testing
 /// through `Preferences.shared`, which `Grid` reads; running them concurrently
 /// would let one test's rule leak into another's evolution.
 @Suite( "Grid evolution", .serialized )
+@MainActor
 struct GridEvolutionTests
 {
     // MARK: - Conway still lifes, oscillators, spaceships

@@ -31,6 +31,7 @@ import Testing
 /// These tests do not run `next()`, so they do not depend on the active rule and
 /// can run in parallel.
 @Suite( "Grid accessors & resize" )
+@MainActor
 struct GridAccessorTests
 {
     /// In-bounds reads return a value; out-of-bounds reads return `nil`/`false`.

@@ -27,7 +27,12 @@ import Testing
 
 /// Smoke tests proving the Swift Testing target is correctly wired to the app
 /// module, including `@testable` access to the app's `internal` types.
+/// Runs on the main actor: the host app's live `GridView` observes
+/// `Preferences` and animates on the main thread, so any test that creates a
+/// `Grid` (which registers a `Preferences` observer) must stay on the main
+/// thread to avoid racing the running UI.
 @Suite( "Test target wiring" )
+@MainActor
 struct WiringTests
 {
     /// The Swift Testing runtime is available and a trivial expectation passes.
