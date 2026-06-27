@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Game Of Life — Code Review Implementation Plan</title>
+<style>
+    :root {
+        --bg:        #15191e;
+        --bg-alt:    #1c2128;
+        --bg-card:   #21262d;
+        --border:    #30363d;
+        --text:      #d6dde6;
+        --text-dim:  #9aa6b2;
+        --text-faint:#6c7682;
+        --accent:    #58a6ff;
+        --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    }
+    * { box-sizing: border-box; }
+    body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+        font-size: 16px;
+    }
+    .wrap { max-width: 960px; margin: 0 auto; padding: 48px 24px 96px; }
+    h1 { font-size: 2rem; margin: 0 0 4px; letter-spacing: -0.02em; }
+    h2 {
+        font-size: 1.35rem;
+        margin: 56px 0 18px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--border);
+        letter-spacing: -0.01em;
+    }
+    h3 { font-size: 1.05rem; margin: 0 0 4px; }
+    .phase-title {
+        font-size: 1.15rem;
+        margin: 40px 0 10px;
+        color: var(--accent);
+        letter-spacing: -0.01em;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    p { margin: 0 0 14px; }
+    code {
+        font-family: var(--mono);
+        font-size: 0.86em;
+        background: var(--bg-alt);
+        border: 1px solid var(--border);
+        border-radius: 5px;
+        padding: 1px 6px;
+        color: #e6c07b;
+        word-break: break-word;
+    }
+    .meta-grid {
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        gap: 4px 18px;
+        margin: 20px 0 8px;
+        color: var(--text-dim);
+        font-size: 0.95rem;
+    }
+    .meta-grid dt { color: var(--text-faint); }
+    .meta-grid dd { margin: 0; }
+    .summary {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--accent);
+        border-radius: 8px;
+        padding: 18px 22px;
+        margin-top: 24px;
+    }
+    .milestone {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 18px 22px;
+        margin: 16px 0;
+    }
+    .milestone-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 8px; }
+    .milestone-head h3 { margin: 0; flex: 1 1 auto; min-width: 240px; }
+    .refs { font-size: 0.8rem; color: var(--text-faint); margin-bottom: 10px; }
+    .refs .ref {
+        display:inline-block; background: var(--bg-alt); border:1px solid var(--border);
+        border-radius: 5px; padding: 1px 8px; margin: 0 6px 4px 0; color: var(--text-dim);
+    }
+    .loc { font-family: var(--mono); font-size: 0.82rem; color: var(--text-faint); margin: 6px 0 12px; word-break: break-all; }
+    .pill {
+        display: inline-block;
+        border-radius: 999px;
+        padding: 3px 12px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+    .st-notstarted { background: #6e768133; color: #c9d1d9; border: 1px solid #6e7681; }
+    .st-inprogress { background: #d2992233; color: #f2d08a; border: 1px solid #d29922; }
+    .st-completed  { background: #2ea04333; color: #7ee787; border: 1px solid #2ea043; }
+    .field { margin: 12px 0; }
+    .field .label {
+        font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em;
+        color: var(--text-faint); font-weight: 700; margin-bottom: 4px;
+    }
+    .field .placeholder { color: var(--text-faint); font-style: italic; }
+    ul.clean { margin: 8px 0; padding-left: 22px; }
+    ul.clean li { margin-bottom: 6px; }
+    ul.tasks { list-style: none; margin: 8px 0; padding-left: 4px; }
+    ul.tasks li { margin-bottom: 6px; padding-left: 26px; position: relative; }
+    ul.tasks li::before {
+        content: "☐"; position: absolute; left: 0; top: 0;
+        color: var(--text-faint); font-size: 1.05rem;
+    }
+    .qa { margin: 10px 0 18px; }
+    .qa .q { color: var(--text); font-weight: 600; margin-bottom: 2px; }
+    .qa .a { color: var(--text-dim); margin: 0 0 12px; }
+    @media (max-width: 620px) { .wrap { padding: 32px 16px 64px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+    <h1>Game Of Life — Code Review Implementation Plan</h1>
+    <p style="color:var(--text-faint); margin-top:2px;">Milestone-based plan to address the full-repository code review</p>
+
+    <dl class="meta-grid">
+        <dt>Generated</dt><dd>2026-06-27</dd>
+        <dt>Source</dt><dd><code>Docs/agent-plans/2026-06-27-code-review/code-review.html</code></dd>
+        <dt>Scope</dt><dd>All 18 findings (3 High, 6 Medium, 6 Low, 3 Info)</dd>
+        <dt>Grouping</dt><dd>By theme — each milestone is a coherent, separately-committable unit</dd>
+        <dt>Version</dt><dd>1.0.2 (build 182)</dd>
+    </dl>
+
+    <div class="summary">
+        <p style="margin-bottom:10px;">This plan turns the 18 code-review findings into small, reviewable milestones grouped by theme rather than by severity, so each milestone touches a coherent set of files and can be committed on its own. The five phases move from the highest-impact, most-reachable defects (concurrency hangs and data races) through untrusted-file parsing hardening and UI input edge cases, then the remaining correctness/latent bugs, and finally the maintainability refactors.</p>
+        <p style="margin-bottom:0;">Per the project working agreement and the user's choices for this plan: no unit tests are added as part of these milestones (manual verification only), and nothing is committed or pushed automatically — each milestone is left for manual review and commit. Every fix should be verified by building through Xcode (<code>xcodebuild</code>) since an <code>.xcodeproj</code> is present, and by exercising the affected code path manually where practical.</p>
+    </div>
+
+    <h2>Questions &amp; answers</h2>
+    <div class="qa">
+        <p class="q">Q: What format should the plan file be written in?</p>
+        <p class="a">A: HTML (dark theme, status capsules), matching the source document's format.</p>
+
+        <p class="q">Q: Which findings should the plan cover?</p>
+        <p class="a">A: All 18 findings — High + Medium + Low + Info, including the maintainability/refactor items.</p>
+
+        <p class="q">Q: How should milestones be grouped?</p>
+        <p class="a">A: By theme (concurrency, untrusted-file parsing, UI edge cases, correctness/latent bugs, refactors), so each milestone is a coherent, separately-committable unit.</p>
+
+        <p class="q">Q: Should milestones include adding unit/regression tests for the fixes?</p>
+        <p class="a">A: No — fixes only; do not add or modify tests as part of this plan.</p>
+    </div>
+
+    <h2>Notes</h2>
+    <ul class="clean">
+        <li><b>Build &amp; verify through Xcode.</b> The repo contains an <code>.xcodeproj</code>; prefer <code>xcodebuild</code> over <code>swift build</code>/<code>swift test</code>. After each milestone, build and, where feasible, manually exercise the affected path (open a crafted file, drag a pattern, edit the draw-interval field, etc.).</li>
+        <li><b>Keep the existing style.</b> The codebase deliberately uses C-style parenthesized conditions, explicit indexing loops, and aligned assignments. Match it; do not reformat or restyle untouched code while fixing a finding (stay in scope).</li>
+        <li><b>Combine related concurrency fixes.</b> H1 and H2 live in the same loop in <code>LibraryReader.swift</code> and should be fixed together in one milestone, as the review recommends.</li>
+        <li><b>XIB edit required.</b> M5 needs a change to <code>GOL.PreferencesWindowController.xib</code> (number-formatter minimum) in addition to a code-side clamp. When an <code>.xcodeproj</code>/XIB pair exists, keep both in sync.</li>
+        <li><b>No automatic commits.</b> Per the working agreement, the implementer must not commit or push; each milestone pauses for manual review and commit.</li>
+    </ul>
+
+    <p style="color:var(--text-dim); margin-top:18px;"><b>Open question to confirm during implementation (Milestone 4.2 / I1):</b> The review notes "Replicator" and "Fredkin" are both defined as <code>B1357/S02468</code>. The literature commonly gives Fredkin as <code>B1357/S02468</code> and Replicator as <code>B1357/S1357</code>. Confirm the intended rule strings with the maintainer before correcting one of the two entries.</p>
+
+    <h2>Milestones</h2>
+
+    <!-- ============ PHASE 1 ============ -->
+    <h3 class="phase-title">Phase 1 — Concurrency &amp; hangs (High severity)</h3>
+
+    <div class="milestone" id="m1-1">
+        <div class="milestone-head">
+            <h3>Milestone 1.1 — Fix library load hang and data race</h3>
+            <span class="pill st-completed">Completed</span>
+        </div>
+        <div class="refs"><span class="ref">H1</span><span class="ref">H2</span><span class="ref">concurrency</span><span class="ref">hang</span><span class="ref">data race</span></div>
+        <div class="loc">GameOfLife/Classes/LibraryReader.swift:56–74 · LibraryViewController.swift (reload/loading flag)</div>
+        <div class="field">
+            <div class="label">Goal</div>
+            <p>Stop the library loader from hanging forever when an entry fails, and eliminate the undefined-behavior data race from concurrent unsynchronized appends. The library view is shown by default, so this path runs on essentially every launch.</p>
+        </div>
+        <div class="field">
+            <div class="label">Tasks</div>
+            <ul class="tasks">
+                <li>Guarantee <code>dispatch.leave()</code> is always balanced with <code>dispatch.enter()</code> — e.g. <code>defer { dispatch.leave() }</code> as the first statement inside the async closure, or restructure with <code>dispatch.notify</code> instead of a blocking <code>wait()</code> (H1).</li>
+                <li>Remove the data race on <code>group.allChildren</code>/<code>group.children</code>: collect each worker's result into thread-local storage and merge on a serial queue, guard the appends with a lock/serial queue, or use <code>concurrentPerform</code> writing into pre-sized index slots (H2).</li>
+                <li>Confirm <code>LibraryViewController.reload()</code> still clears <code>loading = false</code> on all paths once loading completes (including the all-entries-failed case).</li>
+                <li>Build via Xcode and verify: a malformed <code>Library.json</code> entry no longer leaves the spinner running; a valid library loads completely and in stable order.</li>
+            </ul>
+        </div>
+        <div class="field"><div class="label">Status</div><span class="pill st-completed">Completed</span></div>
+        <div class="field"><div class="label">Completed</div><p>2026-06-27</p></div>
+        <div class="field"><div class="label">Implementation notes</div>
+            <ul class="clean">
+                <li><b>H1 (hang).</b> In <code>LibraryReader.read(url:)</code>, the per-entry worker closure now calls <code>dispatch.leave()</code> from a <code>defer</code> block placed as the first statement, so the <code>guard let items = self.load(object: i) else { return }</code> early-return can no longer skip it. The <code>dispatch.enter()</code>/<code>leave()</code> pair is now always balanced and <code>dispatch.wait()</code> can no longer block forever when an entry fails to load.</li>
+                <li><b>H2 (data race).</b> Removed the concurrent unsynchronized appends to <code>group.allChildren</code>/<code>group.children</code>. Each worker now writes its result into a pre-sized, index-keyed slot (<code>results[index]</code>), keyed by the entry's position via <code>p.value.enumerated()</code>. The slot write is serialized through a dedicated serial <code>DispatchQueue</code>, defined once as a <code>private static let</code> (<code>LibraryReader.syncQueue</code>) and reused across all groups, so concurrent writes can never race. After <code>dispatch.wait()</code>, the slots are merged into the group on the calling thread in order. This eliminates the race and, as a bonus, makes the load order deterministic/stable (previously order depended on thread completion timing).</li>
+                <li><b>Loading flag (task 3).</b> Confirmed <code>LibraryViewController.reload()</code> already sets <code>self.loading = false</code> unconditionally on the main thread after <code>reader.read(...)</code> returns (including the empty/all-failed case, where <code>read</code> returns groups with empty children). No change needed there once the hang is fixed.</li>
+                <li><b>Decision.</b> Synchronize the pre-sized index-slot writes with a dedicated serial <code>DispatchQueue</code> rather than an <code>NSLock</code> (per reviewer preference, see Review comments). The queue is defined once as a <code>private static let</code> on <code>LibraryReader</code> instead of being instantiated per group iteration. This fixes the race and yields a stable ordering with minimal structural change, matching the existing code style (no new lock types, no new dependencies).</li>
+                <li><b>Verification.</b> Built <code>Game Of Life - Debug</code> via <code>xcodebuild</code> → <b>BUILD SUCCEEDED</b>. (SourceKit flagged isolated-file resolution warnings for project types such as <code>CellReader</code>/<code>RLEReader</code>; these are false positives — the full build compiles cleanly.)</li>
+            </ul>
+        </div>
+        <div class="field"><div class="label">Review comments</div>
+            <ul class="clean">
+                <li><b>2026-06-27.</b> Reviewer dislikes the use of <code>NSLock</code> to synchronize the result writes — prefers a dedicated (serial) dispatch queue instead.</li>
+                <li><b>2026-06-27.</b> Reviewer prefers the synchronization queue to be defined once as a <code>private static let</code> rather than instantiated per group iteration.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="milestone" id="m1-2">
+        <div class="milestone-head">
+            <h3>Milestone 1.2 — Fix main-thread busy-wait and data race on pattern drop</h3>
+            <span class="pill st-notstarted">Not started</span>
+        </div>
+        <div class="refs"><span class="ref">H3</span><span class="ref">concurrency</span><span class="ref">performance</span><span class="ref">hang</span></div>
+        <div class="loc">GameOfLife/Classes/GridView.swift:632–637 · LibraryItem.swift:173–199</div>
+        <div class="field">
+            <div class="label">Goal</div>
+            <p>Remove the empty <code>while</code> busy-wait that pins a CPU core on the main thread waiting for asynchronously-computed rotations, and remove the unsynchronized read/write of <code>item.rotations</code>.</p>
+        </div>
+        <div class="field">
+            <div class="label">Tasks</div>
+            <ul class="tasks">
+                <li>Replace the busy-wait in <code>performDragOperation</code> with a correct hand-off: either make rotation preparation synchronous at drop time, or have <code>prepareRotations</code> deliver finished rotations via a completion handler / thread-safe accessor and perform the drop from that callback.</li>
+                <li>Synchronize access to <code>item.rotations</code> so the writer in <code>prepareRotations</code> and the reader at drop time cannot race (serial queue, lock, or completion-based hand-off).</li>
+                <li>Ensure the drop applies the correct rotation index (<code>draggedRotation</code>) without relying on a write becoming visible by chance.</li>
+                <li>Build via Xcode and verify: dragging and dropping a rotated pattern works with no UI freeze and no CPU spin.</li>
+            </ul>
+        </div>
+        <div class="field"><div class="label">Status</div><span class="pill st-notstarted">Not started</span></div>
+        <div class="field"><div class="label">Completed</div><p class="placeholder">—</p></div>
+        <div class="field"><div class="label">Implementation notes</div><p class="placeholder">(to be filled during implementation)</p></div>
+        <div class="field"><div class="label">Review comments</div><p class="placeholder">(to be filled during review)</p></div>
+    </div>
+
+    <!-- ============ PHASE 2 ============ -->
+    <h3 class="phase-title">Phase 2 — Untrusted-file parsing hardening</h3>
+
+    <div class="milestone" id="m2-1">
+        <div class="milestone-head">
+            <h3>Milestone 2.1 — Harden <code>.gol</code> file loading</h3>
+            <span class="pill st-notstarted">Not started</span>
+        </div>
+        <div class="refs"><span class="ref">M1</span><span class="ref">M2</span><span class="ref">M3</span><span class="ref">security</span><span class="ref">stability</span><span class="ref">crash</span></div>
+        <div class="loc">GameOfLife/Classes/Grid.swift:283–353 (290, 301, 345) · GridView.swift:60,123–124,339–341</div>
+        <div class="field">
+            <div class="label">Goal</div>
+            <p>Make <code>Grid.load(data:)</code> robust against malformed or hostile <code>.gol</code> files (openable directly from Finder): no overflow/huge-allocation crash, a correct signature guard, and no divide-by-zero from a zero cell size.</p>
+        </div>
+        <div class="field">
+            <div class="label">Tasks</div>
+            <ul class="tasks">
+                <li>M1: Validate <code>width</code> and <code>height</code> against sane maxima and against the actual payload size before multiplying or allocating; use overflow-checked arithmetic (<code>multipliedReportingOverflow(by:)</code>) and bail out with a clean failure instead of trapping or allocating gigabytes.</li>
+                <li>M2: Fix the inverted magic-number check at <code>Grid.swift:290</code> — use <code>||</code> so the file is rejected if <em>any</em> of the four signature bytes differs from <code>"GOL1"</code> (71, 79, 76, 49).</li>
+                <li>M3: Reject (or clamp) a stored <code>cellSize</code> of <code>0</code> in <code>load(data:)</code>, and defensively guard the <code>frame / cellSize</code> divisions in <code>GridView</code> (init, drawing loop) against a zero cell size.</li>
+                <li>Build via Xcode and verify: a crafted file with huge dimensions, a wrong signature, or <code>cellSize == 0</code> fails to open gracefully instead of crashing.</li>
+            </ul>
+        </div>
+        <div class="field"><div class="label">Status</div><span class="pill st-notstarted">Not started</span></div>
+        <div class="field"><div class="label">Completed</div><p class="placeholder">—</p></div>
+        <div class="field"><div class="label">Implementation notes</div><p class="placeholder">(to be filled during implementation)</p></div>
+        <div class="field"><div class="label">Review comments</div><p class="placeholder">(to be filled during review)</p></div>
+    </div>
+
+    <div class="milestone" id="m2-2">
+        <div class="milestone-head">
+            <h3>Milestone 2.2 — Harden the RLE decoder</h3>
+            <span class="pill st-notstarted">Not started</span>
+        </div>
+        <div class="refs"><span class="ref">M4</span><span class="ref">stability</span><span class="ref">crash</span></div>
+        <div class="loc">GameOfLife/Classes/RLEReader.swift:216–231</div>
+        <div class="field">
+            <div class="label">Goal</div>
+            <p>Stop the RLE decoder from trapping on a zero or unparseable/over-large run count at a row terminator (<code>$</code>), which crashes import of malformed <code>.rle</code> files.</p>
+        </div>
+        <div class="field">
+            <div class="label">Tasks</div>
+            <ul class="tasks">
+                <li>Validate the parsed run count: treat <code>0</code> and overflow/parse-failure (currently falling back to <code>0</code>) as <code>1</code>, or skip the iteration.</li>
+                <li>Guard the loop with <code>if i &gt; 1</code> before constructing the <code>0 ..< i - 1</code> range, so a <code>Range</code> with <code>upperBound &lt; lowerBound</code> can never form.</li>
+                <li>Build via Xcode and verify: importing a pattern containing <code>"0$"</code> or an extremely long digit run no longer crashes.</li>
+            </ul>
+        </div>
+        <div class="field"><div class="label">Status</div><span class="pill st-notstarted">Not started</span></div>
+        <div class="field"><div class="label">Completed</div><p class="placeholder">—</p></div>
+        <div class="field"><div class="label">Implementation notes</div><p class="placeholder">(to be filled during implementation)</p></div>
+        <div class="field"><div class="label">Review comments</div><p class="placeholder">(to be filled during review)</p></div>
+    </div>
+
+    <div class="milestone" id="m2-3">
+        <div class="milestone-head">
+            <h3>Milestone 2.3 — Fix RLE writer crash on a zero-width grid</h3>
+            <span class="pill st-notstarted">Not started</span>
+        </div>
+        <div class="refs"><span class="ref">L3</span><span class="ref">stability</span><span class="ref">crash</span></div>
+        <div class="loc">GameOfLife/Classes/RLEWriter.swift:111</div>
+        <div class="field">
+            <div class="label">Goal</div>
+            <p>Prevent the force-unwrap of <code>old</code> from trapping when <code>grid.width == 0</code> (inner column loop never runs), which would crash "Save As… (RLE)".</p>
+        </div>
+        <div class="field">
+            <div class="label">Tasks</div>
+            <ul class="tasks">
+                <li>Guard against an empty/zero-width grid up front, or handle the <code>old == nil</code> case explicitly instead of force-unwrapping.</li>
+                <li>Build via Xcode and verify: exporting an empty/zero-width grid to RLE produces a sensible result (or a clean failure) rather than crashing.</li>
+            </ul>
+        </div>
+        <div class="field"><div class="label">Status</div><span class="pill st-notstarted">Not started</span></div>
+        <div class="field"><div class="label">Completed</div><p class="placeholder">—</p></div>
+        <div class="field"><div class="label">Implementation notes</div><p class="placeholder">(to be filled during implementation)</p></div>
+        <div class="field"><div class="label">Review comments</div><p class="placeholder">(to be filled during review)</p></div>
+    </div>
+
+    <!-- ============ PHASE 3 ============ -->
+    <h3 class="phase-title">Phase 3 — UI input edge cases</h3>
+
+    <div class="milestone" id="m3-1">
+        <div class="milestone-head">
+            <h3>Milestone 3.1 — Clamp the "Draw every N generations" interval</h3>
+            <span class="pill st-notstarted">Not started</span>
+        </div>
+        <div class="refs"><span class="ref">M5</span><span class="ref">stability</span><span class="ref">crash</span></div>
+        <div class="loc">GameOfLife/Classes/GridView.swift:254–256 · GOL.PreferencesWindowController.xib:111–122</div>
+        <div class="field">
+            <div class="label">Goal</div>
+            <p>Prevent a <code>drawInterval</code> of <code>0</code> (typeable into the bound text field) from causing a <code>turns % 0</code> modulo-by-zero trap once the simulation runs.</p>
+        </div>
+        <div class="field">
+            <div class="label">Tasks</div>
+            <ul class="tasks">
+                <li>Clamp <code>drawInterval</code> to a minimum of 1 in the setter/binding, and/or set a formatter <code>minimum</code> on the "Draw every" text field in <code>GOL.PreferencesWindowController.xib</code> (currently <code>minimumIntegerDigits="0"</code> with no minimum).</li>
+                <li>Defensively guard the modulo with <code>max(1, skip)</code> at <code>GridView.swift:254–256</code>.</li>
+                <li>Keep the Xcode project and XIB in sync; build via Xcode and verify typing <code>0</code> into the field no longer crashes the running simulation.</li>
+            </ul>
+        </div>
+        <div class="field"><div class="label">Status</div><span class="pill st-notstarted">Not started</span></div>
+        <div class="field"><div class="label">Completed</div><p class="placeholder">—</p></div>
+        <div class="field"><div class="label">Implementation notes</div><p class="placeholder">(to be filled during implementation)</p></div>
+        <div class="field"><div class="label">Review comments</div><p class="placeholder">(to be filled during review)</p></div>
+    </div>
+
+    <div class="milestone" id="m3-2">
+        <div class="milestone-head">
+            <h3>Milestone 3.2 — Fix the RulerView infinite loop</h3>
+            <span class="pill st-notstarted">Not started</span>
+        </div>
+        <div class="refs"><span class="ref">L2</span><span class="ref">stability</span><span class="ref">hang</span></div>
+        <div class="loc">GameOfLife/Classes/RulerView.swift:127–154</div>
+        <div class="field">
+            <div class="label">Goal</div>
+            <p>Ensure the line-numbering loop always makes progress so it cannot hang the UI when the layout manager returns no rects for a glyph range.</p>
+        </div>
+        <div class="field">
+            <div class="label">Tasks</div>
+            <ul class="tasks">
+                <li>Advance <code>range.location</code> (e.g. to <code>end</code>) before the two <code>continue</code> branches (the <code>guard let rectArray …</code> failure and the <code>rectCount == 0</code> case), or restructure the loop so the iteration variable always advances.</li>
+                <li>Build via Xcode and verify the library JSON editor ruler renders normally and does not hang on edge text states.</li>
+            </ul>
+        </div>
+        <div class="field"><div class="label">Status</div><span class="pill st-notstarted">Not started</span></div>
+        <div class="field"><div class="label">Completed</div><p class="placeholder">—</p></div>
+        <div class="field"><div class="label">Implementation notes</div><p class="placeholder">(to be filled during implementation)</p></div>
+        <div class="field"><div class="label">Review comments</div><p class="placeholder">(to be filled during review)</p></div>
+    </div>
+
+    <div class="milestone" id="m3-3">
+        <div class="milestone-head">
+            <h3>Milestone 3.3 — Remove the duplicated ruler-view assignment</h3>
+            <span class="pill st-notstarted">Not started</span>
+        </div>
+        <div class="refs"><span class="ref">L4</span><span class="ref">correctness</span><span class="ref">dead code</span></div>
+        <div class="loc">GameOfLife/Classes/LibraryEditorWindowController.swift:40–44</div>
+        <div class="field">
+            <div class="label">Goal</div>
+            <p>Eliminate the confusing double assignment where a created <code>RulerView</code> is immediately overwritten by a second instance, making the installed instance explicit.</p>
+        </div>
+        <div class="field">
+            <div class="label">Tasks</div>
+            <ul class="tasks">
+                <li>Keep a single <code>RulerView</code> instance: assign <code>ruler</code> once as the <code>verticalRulerView</code> and set its <code>clientView</code> to the text view; remove the discarded second instance.</li>
+                <li>Build via Xcode and verify the editor's vertical ruler still appears and tracks the text view.</li>
+            </ul>
+        </div>
+        <div class="field"><div class="label">Status</div><span class="pill st-notstarted">Not started</span></div>
+        <div class="field"><div class="label">Completed</div><p class="placeholder">—</p></div>
+        <div class="field"><div class="label">Implementation notes</div><p class="placeholder">(to be filled during implementation)</p></div>
+        <div class="field"><div class="label">Review comments</div><p class="placeholder">(to be filled during review)</p></div>
+    </div>
+
+    <!-- ============ PHASE 4 ============ -->
+    <h3 class="phase-title">Phase 4 — Correctness &amp; latent bugs</h3>
+
+    <div class="milestone" id="m4-1">
+        <div class="milestone-head">
+            <h3>Milestone 4.1 — Fix the <code>readUInt64</code> shift</h3>
+            <span class="pill st-notstarted">Not started</span>
+        </div>
+        <div class="refs"><span class="ref">L1</span><span class="ref">correctness</span><span class="ref">latent bug</span></div>
+        <div class="loc">GameOfLife/Classes/Data.swift:58–61</div>
+        <div class="field">
+            <div class="label">Goal</div>
+            <p>Correct the 64-bit reader so the high 32-bit word is placed above the low word. Currently masked because all written header values fit in 32 bits, but it would corrupt any value ≥ 2³².</p>
+        </div>
+        <div class="field">
+            <div class="label">Tasks</div>
+            <ul class="tasks">
+                <li>Change the high-word shift in <code>readUInt64</code> from <code>&lt;&lt; 16</code> to <code>&lt;&lt; 32</code>.</li>
+                <li>Build via Xcode and sanity-check that existing <code>.gol</code> files still load (header values are unaffected since they fit in 32 bits).</li>
+            </ul>
+        </div>
+        <div class="field"><div class="label">Status</div><span class="pill st-notstarted">Not started</span></div>
+        <div class="field"><div class="label">Completed</div><p class="placeholder">—</p></div>
+        <div class="field"><div class="label">Implementation notes</div><p class="placeholder">(to be filled during implementation)</p></div>
+        <div class="field"><div class="label">Review comments</div><p class="placeholder">(to be filled during review)</p></div>
+    </div>
+
+    <div class="milestone" id="m4-2">
+        <div class="milestone-head">
+            <h3>Milestone 4.2 — Fix rule definitions (Day &amp; Night, Replicator/Fredkin)</h3>
+            <span class="pill st-notstarted">Not started</span>
+        </div>
+        <div class="refs"><span class="ref">M6</span><span class="ref">I1</span><span class="ref">correctness</span></div>
+        <div class="loc">GameOfLife/Classes/Rule.swift:51 (M6) · Rule.swift:41–42 (I1)</div>
+        <div class="field">
+            <div class="label">Goal</div>
+            <p>Restore the "Day &amp; Night" rule, which is silently filtered out, and resolve the duplicate <code>B1357/S02468</code> definition shared by "Replicator" and "Fredkin".</p>
+        </div>
+        <div class="field">
+            <div class="label">Tasks</div>
+            <ul class="tasks">
+                <li>M6: Fix the rule literal at <code>Rule.swift:51</code> to <code>"B3678/S34678"</code> (add the missing <code>S</code> prefix) so the failable initializer no longer returns <code>nil</code> and the rule appears in the list.</li>
+                <li>I1: Confirm the intended rule strings with the maintainer (see open question), then correct the wrong entry — commonly Replicator is <code>B1357/S1357</code> and Fredkin is <code>B1357/S02468</code>.</li>
+                <li>Build via Xcode and verify "Day &amp; Night" now appears in the rule list and the two rules are distinct.</li>
+            </ul>
+        </div>
+        <div class="field"><div class="label">Status</div><span class="pill st-notstarted">Not started</span></div>
+        <div class="field"><div class="label">Completed</div><p class="placeholder">—</p></div>
+        <div class="field"><div class="label">Implementation notes</div><p class="placeholder">(to be filled during implementation)</p></div>
+        <div class="field"><div class="label">Review comments</div><p class="placeholder">(to be filled during review)</p></div>
+    </div>
+
+    <div class="milestone" id="m4-3">
+        <div class="milestone-head">
+            <h3>Milestone 4.3 — Grid correctness: <code>next()</code> guard order and <code>add()</code> population count</h3>
+            <span class="pill st-notstarted">Not started</span>
+        </div>
+        <div class="refs"><span class="ref">L5</span><span class="ref">L6</span><span class="ref">performance</span><span class="ref">correctness</span></div>
+        <div class="loc">GameOfLife/Classes/Grid.swift:108–115 (L5) · Grid.swift:430–438 (L6)</div>
+        <div class="field">
+            <div class="label">Goal</div>
+            <p>Avoid wasted allocation on the <code>turns == UInt64.max</code> saturation case, and stop <code>add()</code> from under-counting population for cells that are dead but still carry age bits (possible from a raw <code>.gol</code> payload).</p>
+        </div>
+        <div class="field">
+            <div class="label">Tasks</div>
+            <ul class="tasks">
+                <li>L5: Move the <code>if self.turns == UInt64.max { return }</code> check above the <code>cells.grow(…)</code> allocation in <code>Grid.next()</code>.</li>
+                <li>L6: In <code>add()</code>, test the alive bit (<code>self.cells[i] &amp; 1 == 0</code>) rather than the whole byte (<code>== 0</code>) before incrementing <code>population</code>, so a dead-but-aged cell transitioning to alive is counted.</li>
+                <li>Build via Xcode and verify normal simulation/population behavior is unchanged.</li>
+            </ul>
+        </div>
+        <div class="field"><div class="label">Status</div><span class="pill st-notstarted">Not started</span></div>
+        <div class="field"><div class="label">Completed</div><p class="placeholder">—</p></div>
+        <div class="field"><div class="label">Implementation notes</div><p class="placeholder">(to be filled during implementation)</p></div>
+        <div class="field"><div class="label">Review comments</div><p class="placeholder">(to be filled during review)</p></div>
+    </div>
+
+    <!-- ============ PHASE 5 ============ -->
+    <h3 class="phase-title">Phase 5 — Maintainability refactors (Info)</h3>
+
+    <div class="milestone" id="m5-1">
+        <div class="milestone-head">
+            <h3>Milestone 5.1 — De-duplicate repeated code</h3>
+            <span class="pill st-notstarted">Not started</span>
+        </div>
+        <div class="refs"><span class="ref">I2</span><span class="ref">maintainability</span></div>
+        <div class="loc">GridView.swift:56–90 · RLEReader.swift:29–58 / CellReader.swift:29–58 · Array.swift / ContiguousArray.swift</div>
+        <div class="field">
+            <div class="label">Goal</div>
+            <p>Remove near-verbatim duplicated blocks that invite divergent bug fixes over time, without changing behavior.</p>
+        </div>
+        <div class="field">
+            <div class="label">Tasks</div>
+            <ul class="tasks">
+                <li>Extract a shared GridView setup method used by the three initializers (grid creation, observers, registration).</li>
+                <li>Introduce a generic directory-scanning helper parameterized by the per-file reader, shared by <code>RLEReader.read(directory:)</code> and <code>CellReader.read(directory:)</code>.</li>
+                <li>Collapse the byte-identical <code>Array.grow</code> / <code>ContiguousArray.grow</code> into a single generic <code>grow</code> on <code>RangeReplaceableCollection</code>.</li>
+                <li>De-duplicate the drag-handling teardown shared by <code>draggingExited</code>/<code>draggingEnded</code>.</li>
+                <li>Build via Xcode and verify all affected paths behave identically (this is a pure refactor — no behavior change).</li>
+            </ul>
+        </div>
+        <div class="field"><div class="label">Status</div><span class="pill st-notstarted">Not started</span></div>
+        <div class="field"><div class="label">Completed</div><p class="placeholder">—</p></div>
+        <div class="field"><div class="label">Implementation notes</div><p class="placeholder">(to be filled during implementation)</p></div>
+        <div class="field"><div class="label">Review comments</div><p class="placeholder">(to be filled during review)</p></div>
+    </div>
+
+    <div class="milestone" id="m5-2">
+        <div class="milestone-head">
+            <h3>Milestone 5.2 — Harden the reflection-driven Preferences and forced casts</h3>
+            <span class="pill st-notstarted">Not started</span>
+        </div>
+        <div class="refs"><span class="ref">I3</span><span class="ref">stability</span><span class="ref">maintainability</span></div>
+        <div class="loc">GameOfLife/Classes/Preferences.swift:58–67,103–108</div>
+        <div class="field">
+            <div class="label">Goal</div>
+            <p>Make <code>Preferences</code> resilient to a future property that lacks a matching <code>Defaults.plist</code> entry (currently a latent KVC crash) and remove the forced cast in <code>color(index:)</code>.</p>
+        </div>
+        <div class="field">
+            <div class="label">Tasks</div>
+            <ul class="tasks">
+                <li>In <code>Preferences.init</code>, skip <code>nil</code> values when registering via <code>setValue(_:forKey:)</code>, or assert that each reflected key has a registered default in <code>Defaults.plist</code>.</li>
+                <li>Replace the forced cast <code>self.value(forKey:) as! UInt?</code> in <code>color(index:)</code> with a safe <code>as?</code> and a sensible fallback.</li>
+                <li>Build via Xcode and verify preferences load and colors resolve correctly with the current plist.</li>
+            </ul>
+        </div>
+        <div class="field"><div class="label">Status</div><span class="pill st-notstarted">Not started</span></div>
+        <div class="field"><div class="label">Completed</div><p class="placeholder">—</p></div>
+        <div class="field"><div class="label">Implementation notes</div><p class="placeholder">(to be filled during implementation)</p></div>
+        <div class="field"><div class="label">Review comments</div><p class="placeholder">(to be filled during review)</p></div>
+    </div>
+
+    <h2>Appendix — Finding-to-milestone map</h2>
+    <ul class="clean">
+        <li><b>Phase 1 — Concurrency &amp; hangs:</b> H1, H2 → Milestone 1.1 · H3 → Milestone 1.2</li>
+        <li><b>Phase 2 — Untrusted-file parsing:</b> M1, M2, M3 → Milestone 2.1 · M4 → Milestone 2.2 · L3 → Milestone 2.3</li>
+        <li><b>Phase 3 — UI input edge cases:</b> M5 → Milestone 3.1 · L2 → Milestone 3.2 · L4 → Milestone 3.3</li>
+        <li><b>Phase 4 — Correctness &amp; latent bugs:</b> L1 → Milestone 4.1 · M6, I1 → Milestone 4.2 · L5, L6 → Milestone 4.3</li>
+        <li><b>Phase 5 — Maintainability refactors:</b> I2 → Milestone 5.1 · I3 → Milestone 5.2</li>
+    </ul>
+
+</div>
+</body>
+</html>

@@ -27,7 +27,9 @@ import Cocoa
 class LibraryReader
 {
     typealias LibraryType = [ String: [ Any ] ]
-    
+
+    private static let syncQueue = DispatchQueue( label: "com.xs-labs.GOL.LibraryReader" )
+
     public func read( url: URL ) -> [ LibraryItem ]?
     {
         let dispatch = DispatchGroup()
@@ -51,28 +53,41 @@ class LibraryReader
         
         for p in lib
         {
-            let group = LibraryItem( title: p.key )
-            
-                for i in p.value
+            let group   = LibraryItem( title: p.key )
+            var results = [ [ LibraryItem ] ]( repeating: [], count: p.value.count )
+
+            for ( index, i ) in p.value.enumerated()
+            {
+                dispatch.enter()
+
+                DispatchQueue.global( qos: .userInitiated ).async
                 {
-                    dispatch.enter()
-                    
-                    DispatchQueue.global( qos: .userInitiated ).async
+                    defer
                     {
-                        guard let items = self.load( object: i ) else
-                        {
-                            return
-                        }
-                        
-                        group.allChildren.append( contentsOf: items )
-                        group.children.append( contentsOf: items )
-                        
                         dispatch.leave()
                     }
+
+                    guard let items = self.load( object: i ) else
+                    {
+                        return
+                    }
+
+                    LibraryReader.syncQueue.sync
+                    {
+                        results[ index ] = items
+                    }
                 }
-                
-                dispatch.wait()
-                library.append( group )
+            }
+
+            dispatch.wait()
+
+            results.forEach
+            {
+                group.allChildren.append( contentsOf: $0 )
+                group.children.append( contentsOf: $0 )
+            }
+
+            library.append( group )
         }
         
         return library
