@@ -1,0 +1,18 @@
+name: ci-mac
+on:   [push]
+jobs:
+    ci:
+        runs-on: macos-15
+        strategy:
+            matrix:
+                run-config:
+                    - { scheme: 'Game Of Life - Debug',    configuration: 'Debug',   project: 'GameOfLife.xcodeproj', build: 1, analyze: 1, test: 0, info: 1, destination: 'platform=macOS' }
+                    - { scheme: 'Game Of Life - Release',  configuration: 'Release', project: 'GameOfLife.xcodeproj', build: 1, analyze: 1, test: 0, info: 1, destination: 'platform=macOS' }
+                    - { scheme: 'Game Of Life - AppStore', configuration: 'Release', project: 'GameOfLife.xcodeproj', build: 1, analyze: 1, test: 0, info: 1, destination: 'platform=macOS' }
+        steps:
+            
+            - uses: actions/checkout@v6
+              with:
+                submodules: 'recursive'
+                
+            - uses: macmade/action-xcodebuild@v1.0.0
