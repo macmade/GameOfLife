@@ -56,34 +56,47 @@ class GridView: NSView
     init( frame rect: NSRect, kind: Grid.Kind )
     {
         super.init( frame: rect )
-        
-        self.grid = Grid( width: size_t( rect.size.width / CGFloat( max( 1, Preferences.shared.cellSize ) ) ), height: size_t( rect.size.height / CGFloat( max( 1, Preferences.shared.cellSize ) ) ), kind: kind )
-        
-        self.observations.append( Preferences.shared.observe( \Preferences.speed    ) { ( c, o ) in self.restartTimer() } )
-        self.observations.append( Preferences.shared.observe( \Preferences.cellSize ) { ( c, o ) in self.resizeGrid() } )
-        self.registerForDraggedTypes( [ LibraryItem.PasteboardType ] )
-        self.updateDimensions()
+
+        let size  = GridView.gridSize( for: rect.size )
+        self.grid = Grid( width: size.width, height: size.height, kind: kind )
+
+        self.setup()
     }
-    
+
     override init( frame rect: NSRect )
     {
         super.init( frame: rect )
-        
-        self.grid = Grid( width: size_t( rect.size.width / CGFloat( max( 1, Preferences.shared.cellSize ) ) ), height: size_t( rect.size.height / CGFloat( max( 1, Preferences.shared.cellSize ) ) ) )
-        
-        self.observations.append( Preferences.shared.observe( \Preferences.speed ) { ( c, o ) in self.restartTimer() } )
-        self.observations.append( Preferences.shared.observe( \Preferences.cellSize ) { ( c, o ) in self.resizeGrid() } )
-        self.registerForDraggedTypes( [ LibraryItem.PasteboardType ] )
-        self.updateDimensions()
+
+        let size  = GridView.gridSize( for: rect.size )
+        self.grid = Grid( width: size.width, height: size.height )
+
+        self.setup()
     }
-    
+
     required init?( coder decoder: NSCoder )
     {
         super.init( coder: decoder )
-        
-        self.grid = Grid( width: size_t( self.frame.size.width / CGFloat( max( 1, Preferences.shared.cellSize ) ) ), height: size_t( self.frame.size.height / CGFloat( max( 1, Preferences.shared.cellSize ) ) ) )
-        
-        self.observations.append( Preferences.shared.observe( \Preferences.speed ) { ( c, o ) in self.restartTimer() } )
+
+        let size  = GridView.gridSize( for: self.frame.size )
+        self.grid = Grid( width: size.width, height: size.height )
+
+        self.setup()
+    }
+
+    /// Computes the grid dimensions that fit the given view size at the current
+    /// (clamped) cell size.
+    private static func gridSize( for size: NSSize ) -> ( width: size_t, height: size_t )
+    {
+        let cellSize = CGFloat( max( 1, Preferences.shared.cellSize ) )
+
+        return ( size_t( size.width / cellSize ), size_t( size.height / cellSize ) )
+    }
+
+    /// Shared initializer setup: preference observers, drag registration and the
+    /// initial dimension update. Used by every initializer.
+    private func setup()
+    {
+        self.observations.append( Preferences.shared.observe( \Preferences.speed    ) { ( c, o ) in self.restartTimer() } )
         self.observations.append( Preferences.shared.observe( \Preferences.cellSize ) { ( c, o ) in self.resizeGrid() } )
         self.registerForDraggedTypes( [ LibraryItem.PasteboardType ] )
         self.updateDimensions()
@@ -580,39 +593,34 @@ class GridView: NSView
     
     override func draggingExited( _ sender: NSDraggingInfo? )
     {
-        self.draggedItem     = nil
-        self.draggedPoint    = nil
-        self.dragOperation   = nil
-        self.dragging        = false
-        self.draggedRotation = 0
-        
-        if( self.resumeAfterOperation )
-        {
-            self.resume( nil )
-        }
-        
-        self.resumeAfterOperation = false
-        
-        self.setNeedsDisplay( self.bounds )
+        self.endDrag()
     }
-    
+
     override func draggingEnded( _ sender: NSDraggingInfo )
+    {
+        self.endDrag()
+        self.window?.makeFirstResponder( self )
+    }
+
+    /// Clears the in-progress drag state, resumes the simulation if it was only
+    /// paused for the drag, and requests a redraw. Shared by the drag-exit and
+    /// drag-end handlers.
+    private func endDrag()
     {
         self.draggedItem     = nil
         self.draggedPoint    = nil
         self.dragOperation   = nil
         self.dragging        = false
         self.draggedRotation = 0
-        
+
         if( self.resumeAfterOperation )
         {
             self.resume( nil )
         }
-        
+
         self.resumeAfterOperation = false
-        
+
         self.setNeedsDisplay( self.bounds )
-        self.window?.makeFirstResponder( self )
     }
     
     override func performDragOperation( _ sender: NSDraggingInfo ) -> Bool

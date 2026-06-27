@@ -24,39 +24,8 @@
 
 import Cocoa
 
-class RLEReader
+class RLEReader: DirectoryReader
 {
-    public func read( directory: URL ) -> [ LibraryItem ]?
-    {
-        var isDir = ObjCBool( booleanLiteral: false )
-        
-        if( FileManager.default.fileExists( atPath: directory.path, isDirectory: &isDir ) == false || isDir.boolValue == false )
-        {
-            return nil
-        }
-        
-        var items = [ LibraryItem ]()
-        
-        do
-        {
-            for p in try FileManager.default.contentsOfDirectory( atPath: directory.path )
-            {
-                let file = ( directory.path as NSString ).appendingPathComponent( p )
-                
-                guard let item = self.read( url: URL( fileURLWithPath: file ) ) else
-                {
-                    continue
-                }
-                
-                items.append( item )
-            }
-        }
-        catch
-        {}
-        
-        return items
-    }
-    
     public func read( url: URL ) -> LibraryItem?
     {
         let file = url.path

@@ -24,7 +24,7 @@
 
 import Foundation
 
-extension Array
+extension RangeReplaceableCollection
 {
     public mutating func grow( _ s: Int, newElement: () -> Element )
     {

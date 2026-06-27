@@ -552,7 +552,7 @@
     <div class="milestone" id="m5-1">
         <div class="milestone-head">
             <h3>Milestone 5.1 — De-duplicate repeated code</h3>
-            <span class="pill st-notstarted">Not started</span>
+            <span class="pill st-completed">Completed</span>
         </div>
         <div class="refs"><span class="ref">I2</span><span class="ref">maintainability</span></div>
         <div class="loc">GridView.swift:56–90 · RLEReader.swift:29–58 / CellReader.swift:29–58 · Array.swift / ContiguousArray.swift</div>
@@ -570,10 +570,24 @@
                 <li>Build via Xcode and verify all affected paths behave identically (this is a pure refactor — no behavior change).</li>
             </ul>
         </div>
-        <div class="field"><div class="label">Status</div><span class="pill st-notstarted">Not started</span></div>
-        <div class="field"><div class="label">Completed</div><p class="placeholder">—</p></div>
-        <div class="field"><div class="label">Implementation notes</div><p class="placeholder">(to be filled during implementation)</p></div>
-        <div class="field"><div class="label">Review comments</div><p class="placeholder">(to be filled during review)</p></div>
+        <div class="field"><div class="label">Status</div><span class="pill st-completed">Completed</span></div>
+        <div class="field"><div class="label">Completed</div><p>2026-06-27</p></div>
+        <div class="field"><div class="label">Implementation notes</div>
+            <ul class="clean">
+                <li><b>GridView initializers.</b> The three initializers shared four identical lines (two preference observers, drag-type registration, <code>updateDimensions()</code>) and a triplicated grid-size computation. Extracted a private <code>setup()</code> for the common tail and a private <code>static func gridSize( for: NSSize )</code> that returns the <code>(width, height)</code> tuple from a view size at the clamped cell size. Each initializer now computes <code>grid</code> from that helper (passing <code>kind</code> only in the kind variant) and calls <code>setup()</code>. No behavior change.</li>
+                <li><b>Drag teardown.</b> <code>draggingExited</code> and <code>draggingEnded</code> shared an identical eight-line teardown. Extracted a private <code>endDrag()</code>; <code>draggingExited</code> just calls it, and <code>draggingEnded</code> calls it then adds its extra <code>makeFirstResponder(self)</code>. No behavior change.</li>
+                <li><b>Generic <code>grow</code>.</b> Per the maintainer's choice, repurposed <code>Array.swift</code> to host a single <code>extension RangeReplaceableCollection</code> with the byte-identical <code>grow(_:newElement:)</code>, and removed <code>ContiguousArray.swift</code>. Both <code>Array</code> and <code>ContiguousArray</code> conform to <code>RangeReplaceableCollection</code> (and <code>count</code>/<code>reserveCapacity</code>/<code>append</code> are all available there), so every existing call site keeps working from one definition.</li>
+                <li><b>Directory scanner.</b> Per the maintainer's choice, added a new <code>DirectoryReader.swift</code> defining a <code>DirectoryReader</code> protocol (requirement: <code>read(url:) -&gt; LibraryItem?</code>) with a default <code>read(directory:)</code> implementation holding the previously-duplicated scan. <code>RLEReader</code> and <code>CellReader</code> now declare conformance and their identical <code>read(directory:)</code> bodies were deleted, inheriting the shared one.</li>
+                <li><b>Project file maintenance.</b> Since the project uses explicit <code>project.pbxproj</code> references (no synchronized folders), updated all four reference sections by hand: removed the <code>ContiguousArray.swift</code> entries (PBXBuildFile, PBXFileReference, group children, Sources phase) and added matching <code>DirectoryReader.swift</code> entries with two fresh, collision-checked UUIDs. Verified afterwards: <code>0</code> remaining <code>ContiguousArray</code> references, <code>4</code> <code>DirectoryReader</code> references, and <code>plutil -lint</code> reports the pbxproj <code>OK</code>.</li>
+                <li><b>Access-level iteration.</b> First declared <code>DirectoryReader</code> <code>public</code>, which failed to build ("method cannot be declared public because its result uses an internal type") because <code>LibraryItem</code> and the readers are <code>internal</code>. Made the protocol and its extension <code>internal</code> (the codebase default for this app target) to match, after which it built.</li>
+                <li><b>Verification.</b> Built <code>Game Of Life - Debug</code> via <code>xcodebuild</code> → <b>BUILD SUCCEEDED</b> (a prior <code>clean build</code> surfaced the access-level error across the whole module; rebuilt clean after the fix). This is a pure refactor — all affected call sites compile against the consolidated definitions with no behavior change; runtime paths were not exercised in a launched app here.</li>
+            </ul>
+        </div>
+        <div class="field"><div class="label">Review comments</div>
+            <ul class="clean">
+                <li><b>2026-06-27.</b> Maintainer chose the file strategy: repurpose <code>Array.swift</code> for the generic <code>grow</code> and remove <code>ContiguousArray.swift</code> from disk + pbxproj; put the shared directory scan in a new <code>DirectoryReader.swift</code> protocol file.</li>
+            </ul>
+        </div>
     </div>
 
     <div class="milestone" id="m5-2">
