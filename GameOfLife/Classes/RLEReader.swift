@@ -216,17 +216,20 @@ class RLEReader
             else if( c == "$" )
             {
                 lines.append( cur )
-                
-                let i = ( n == "" ) ? 1 : Int( n ) ?? 0
-                
-                for _ in 0 ..< i - 1
+
+                let i = ( n == "" ) ? 1 : ( Int( n ) ?? 1 )
+
+                if( i > 1 )
                 {
-                    lines.append( "" )
+                    for _ in 0 ..< i - 1
+                    {
+                        lines.append( "" )
+                    }
                 }
-                
+
                 cur = ""
                 n   = ""
-                
+
                 continue
             }
             else if( c == "b" || c == "o" )

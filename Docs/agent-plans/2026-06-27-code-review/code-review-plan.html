@@ -285,7 +285,7 @@
     <div class="milestone" id="m2-2">
         <div class="milestone-head">
             <h3>Milestone 2.2 — Harden the RLE decoder</h3>
-            <span class="pill st-notstarted">Not started</span>
+            <span class="pill st-completed">Completed</span>
         </div>
         <div class="refs"><span class="ref">M4</span><span class="ref">stability</span><span class="ref">crash</span></div>
         <div class="loc">GameOfLife/Classes/RLEReader.swift:216–231</div>
@@ -301,9 +301,17 @@
                 <li>Build via Xcode and verify: importing a pattern containing <code>"0$"</code> or an extremely long digit run no longer crashes.</li>
             </ul>
         </div>
-        <div class="field"><div class="label">Status</div><span class="pill st-notstarted">Not started</span></div>
-        <div class="field"><div class="label">Completed</div><p class="placeholder">—</p></div>
-        <div class="field"><div class="label">Implementation notes</div><p class="placeholder">(to be filled during implementation)</p></div>
+        <div class="field"><div class="label">Status</div><span class="pill st-completed">Completed</span></div>
+        <div class="field"><div class="label">Completed</div><p>2026-06-27</p></div>
+        <div class="field"><div class="label">Implementation notes</div>
+            <ul class="clean">
+                <li><b>Root cause (RLEReader.decode, <code>$</code> branch).</b> The run count was <code>let i = ( n == "" ) ? 1 : Int( n ) ?? 0</code>, so an explicit <code>"0$"</code> gave <code>i == 0</code> and an over-large/unparseable digit run gave <code>Int(n) == nil → 0</code>. The following <code>for _ in 0 ..&lt; i - 1</code> then formed <code>0 ..&lt; -1</code> (<code>upperBound &lt; lowerBound</code>), which traps and crashes import of a malformed <code>.rle</code> file.</li>
+                <li><b>Fix — parse fallback.</b> Changed the fallback to <code>1</code>: <code>let i = ( n == "" ) ? 1 : ( Int( n ) ?? 1 )</code>. An over-large or otherwise unparseable count (overflowing <code>Int</code>) now degrades to a single row advance instead of <code>0</code>, so no giant allocation and no reversed range.</li>
+                <li><b>Fix — range guard.</b> Wrapped the blank-row loop in <code>if( i &gt; 1 )</code> before constructing <code>0 ..&lt; i - 1</code>, so even an explicit <code>"0$"</code> (which still parses to <code>0</code>) can never form a range with <code>upperBound &lt; lowerBound</code>. Semantically <code>"0$"</code> now behaves like <code>"1$"</code> (terminate the current row, add no blank rows), the sane interpretation of a malformed count.</li>
+                <li><b>Scope note.</b> The <code>b</code>/<code>o</code> cell-run branch uses the same <code>Int( n ) ?? 0</code> idiom but iterates <code>0 ..&lt; i</code> (not <code>i - 1</code>), so <code>i == 0</code> yields an empty loop and cannot trap. Left it unchanged to stay within the finding's scope (the <code>$</code> row terminator, M4).</li>
+                <li><b>Verification.</b> Built <code>Game Of Life - Debug</code> via <code>xcodebuild</code> → <b>BUILD SUCCEEDED</b>. The "<code>0$</code> / long digit run no longer crashes" behavior is reasoned from the code; not exercised against a real crafted <code>.rle</code> here.</li>
+            </ul>
+        </div>
         <div class="field"><div class="label">Review comments</div><p class="placeholder">(to be filled during review)</p></div>
     </div>
 
