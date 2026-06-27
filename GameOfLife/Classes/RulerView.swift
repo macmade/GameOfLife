@@ -127,28 +127,21 @@ class RulerView: NSRulerView
         while( range.location + range.length <= text.length )
         {
             text.getLineStart( &start, end: &end, contentsEnd: &contentsEnd, for: range )
-            
+
             var rectCount = 0
-            
-            guard let rectArray = layoutManager.rectArray( forGlyphRange: range, withinSelectedGlyphRange: selectedRange, in: textContainer, rectCount: &rectCount ) else
+
+            if let rectArray = layoutManager.rectArray( forGlyphRange: range, withinSelectedGlyphRange: selectedRange, in: textContainer, rectCount: &rectCount ), rectCount > 0
             {
-                continue
+                var lineRect         = rectArray[ 0 ]
+                lineRect.origin.x    = 5
+                lineRect.origin.y   -= visibleRect.origin.y
+                lineRect.origin.y   += t.textContainerInset.height / 2
+                lineRect.size.width  = rect.size.width - 5
+                lineRect.size.height = rect.size.height
+
+                ( String( describing: line + 1 ) as NSString ).draw( in: lineRect, withAttributes: attr )
             }
-            
-            if( rectCount == 0 )
-            {
-                continue
-            }
-            
-            var lineRect         = rectArray[ 0 ]
-            lineRect.origin.x    = 5
-            lineRect.origin.y   -= visibleRect.origin.y
-            lineRect.origin.y   += t.textContainerInset.height / 2
-            lineRect.size.width  = rect.size.width - 5
-            lineRect.size.height = rect.size.height
-            
-            ( String( describing: line + 1 ) as NSString ).draw( in: lineRect, withAttributes: attr )
-            
+
             range.location = end
             line          += 1
         }

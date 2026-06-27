@@ -386,7 +386,7 @@
     <div class="milestone" id="m3-2">
         <div class="milestone-head">
             <h3>Milestone 3.2 — Fix the RulerView infinite loop</h3>
-            <span class="pill st-notstarted">Not started</span>
+            <span class="pill st-completed">Completed</span>
         </div>
         <div class="refs"><span class="ref">L2</span><span class="ref">stability</span><span class="ref">hang</span></div>
         <div class="loc">GameOfLife/Classes/RulerView.swift:127–154</div>
@@ -401,9 +401,16 @@
                 <li>Build via Xcode and verify the library JSON editor ruler renders normally and does not hang on edge text states.</li>
             </ul>
         </div>
-        <div class="field"><div class="label">Status</div><span class="pill st-notstarted">Not started</span></div>
-        <div class="field"><div class="label">Completed</div><p class="placeholder">—</p></div>
-        <div class="field"><div class="label">Implementation notes</div><p class="placeholder">(to be filled during implementation)</p></div>
+        <div class="field"><div class="label">Status</div><span class="pill st-completed">Completed</span></div>
+        <div class="field"><div class="label">Completed</div><p>2026-06-27</p></div>
+        <div class="field"><div class="label">Implementation notes</div>
+            <ul class="clean">
+                <li><b>Root cause (RulerView line-numbering loop).</b> The <code>while( range.location + range.length &lt;= text.length )</code> loop advanced its iteration variable only at the very bottom (<code>range.location = end</code>). The two early <code>continue</code> paths — the <code>guard let rectArray … else { continue }</code> failure and the <code>if( rectCount == 0 ) { continue }</code> case — skipped that advancement, so whenever the layout manager returned no rects for a glyph range, <code>range.location</code> never moved and the loop spun forever, hanging the UI.</li>
+                <li><b>Fix — restructure so the loop always advances.</b> Replaced the two <code>guard</code>/<code>if … continue</code> early-outs with a single positive condition: <code>if let rectArray = layoutManager.rectArray( … ), rectCount &gt; 0 { …draw… }</code>. The line-number drawing now happens only when a rect is available, and the advancement <code>range.location = end; line += 1</code> moved to the bottom of the loop body where it runs unconditionally on every iteration. Progress is therefore guaranteed and the loop must terminate (<code>end</code> is the next line start, strictly greater than the current valid <code>range.location</code>, until the bound is reached).</li>
+                <li><b>Decision.</b> Chose the restructure over inserting <code>range.location = end</code> before each <code>continue</code> (the review's other option) because it removes the triplicated advancement logic and reads more clearly. Drawing behavior on the normal path is unchanged (same <code>end</code> advance and <code>line</code> increment); only the previously-infinite skip path now also advances.</li>
+                <li><b>Verification.</b> Built <code>Game Of Life - Debug</code> via <code>xcodebuild</code> → <b>BUILD SUCCEEDED</b>. The "ruler renders and no longer hangs on edge text states" behavior is reasoned from the code; not exercised in the live library JSON editor here.</li>
+            </ul>
+        </div>
         <div class="field"><div class="label">Review comments</div><p class="placeholder">(to be filled during review)</p></div>
     </div>
 
