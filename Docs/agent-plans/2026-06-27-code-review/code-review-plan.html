@@ -451,7 +451,7 @@
     <div class="milestone" id="m4-1">
         <div class="milestone-head">
             <h3>Milestone 4.1 — Fix the <code>readUInt64</code> shift</h3>
-            <span class="pill st-notstarted">Not started</span>
+            <span class="pill st-completed">Completed</span>
         </div>
         <div class="refs"><span class="ref">L1</span><span class="ref">correctness</span><span class="ref">latent bug</span></div>
         <div class="loc">GameOfLife/Classes/Data.swift:58–61</div>
@@ -466,9 +466,15 @@
                 <li>Build via Xcode and sanity-check that existing <code>.gol</code> files still load (header values are unaffected since they fit in 32 bits).</li>
             </ul>
         </div>
-        <div class="field"><div class="label">Status</div><span class="pill st-notstarted">Not started</span></div>
-        <div class="field"><div class="label">Completed</div><p class="placeholder">—</p></div>
-        <div class="field"><div class="label">Implementation notes</div><p class="placeholder">(to be filled during implementation)</p></div>
+        <div class="field"><div class="label">Status</div><span class="pill st-completed">Completed</span></div>
+        <div class="field"><div class="label">Completed</div><p>2026-06-27</p></div>
+        <div class="field"><div class="label">Implementation notes</div>
+            <ul class="clean">
+                <li><b>Fix (Data.readUInt64).</b> Changed the high-word shift from <code>&lt;&lt; 16</code> to <code>&lt;&lt; 32</code>, so the high 32-bit word read at <code>at</code> is placed above the low word read at <code>at + 4</code>. This now mirrors the writer <code>append(_ value: UInt64)</code> (Data.swift:42–46), which stores <code>(value &gt;&gt; 32) &amp; 0xFFFFFFFF</code> as the high word followed by the low 32 bits, and matches the pattern of <code>readUInt16</code> (<code>&lt;&lt; 8</code>) and <code>readUInt32</code> (<code>&lt;&lt; 16</code>).</li>
+                <li><b>Backward compatibility (reasoned).</b> Every value written into a <code>.gol</code> header (the reserved <code>0</code>, <code>width</code>, <code>height</code>, <code>cellSize</code>, the LZFSE flag) fits in 32 bits, so its high word is always <code>0</code>. With a zero high word, both the old <code>0 &lt;&lt; 16 | low</code> and the new <code>0 &lt;&lt; 32 | low</code> evaluate to <code>low</code> — identical. Existing files therefore load exactly as before; the correction only affects values ≥ 2³², which were never produced by the writer.</li>
+                <li><b>Verification.</b> Built <code>Game Of Life - Debug</code> via <code>xcodebuild</code> → <b>BUILD SUCCEEDED</b>. The equivalence for in-range header values is established by the argument above rather than by loading a real file here.</li>
+            </ul>
+        </div>
         <div class="field"><div class="label">Review comments</div><p class="placeholder">(to be filled during review)</p></div>
     </div>
 

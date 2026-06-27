@@ -57,7 +57,7 @@ extension Data
     
     public func readUInt64( at: Int ) -> UInt64
     {
-        return UInt64( self.readUInt32( at: at ) ) << 16 | UInt64( self.readUInt32( at: at + 4 ) )
+        return UInt64( self.readUInt32( at: at ) ) << 32 | UInt64( self.readUInt32( at: at + 4 ) )
     }
     
     public func compress( with algorithm: compression_algorithm ) -> Data?
