@@ -593,7 +593,7 @@
     <div class="milestone" id="m5-2">
         <div class="milestone-head">
             <h3>Milestone 5.2 — Harden the reflection-driven Preferences and forced casts</h3>
-            <span class="pill st-notstarted">Not started</span>
+            <span class="pill st-completed">Completed</span>
         </div>
         <div class="refs"><span class="ref">I3</span><span class="ref">stability</span><span class="ref">maintainability</span></div>
         <div class="loc">GameOfLife/Classes/Preferences.swift:58–67,103–108</div>
@@ -609,9 +609,16 @@
                 <li>Build via Xcode and verify preferences load and colors resolve correctly with the current plist.</li>
             </ul>
         </div>
-        <div class="field"><div class="label">Status</div><span class="pill st-notstarted">Not started</span></div>
-        <div class="field"><div class="label">Completed</div><p class="placeholder">—</p></div>
-        <div class="field"><div class="label">Implementation notes</div><p class="placeholder">(to be filled during implementation)</p></div>
+        <div class="field"><div class="label">Status</div><span class="pill st-completed">Completed</span></div>
+        <div class="field"><div class="label">Completed</div><p>2026-06-27</p></div>
+        <div class="field"><div class="label">Implementation notes</div>
+            <ul class="clean">
+                <li><b>I3 — KVC nil crash in Preferences.init.</b> The init reflected over every property and unconditionally called <code>self.setValue( UserDefaults.standard.object( forKey: key ), forKey: key )</code>. A property with no matching <code>Defaults.plist</code> entry yields <code>nil</code> from <code>object(forKey:)</code>, and setting <code>nil</code> via KVC on a non-optional property (e.g. <code>drawInterval: UInt</code>) traps. Wrapped the assignment in <code>if let value = UserDefaults.standard.object( forKey: key ) { self.setValue( value, forKey: key ) }</code>, so a missing default is skipped (the property keeps its Swift default) instead of crashing. The KVO <code>addObserver</code> still runs for every key unconditionally, preserving observation behavior.</li>
+                <li><b>I3 — forced cast in color(index:).</b> Replaced <code>self.value( forKey: … ) as! UInt?</code> with <code>as? UInt</code>. The <code>colorNRGB</code> properties are <code>UInt</code>, so a valid value still unwraps to the same result; an unexpected/absent value now yields <code>nil</code> and falls through to the existing <code>return NSColor.black</code> fallback instead of trapping.</li>
+                <li><b>Decision.</b> Chose to <em>skip</em> nil defaults rather than assert each key has a registered default (the review's other option): skipping is resilient in release builds and keeps the property at its declared Swift default, which is a sensible value in every case here.</li>
+                <li><b>Verification.</b> Built <code>Game Of Life - Debug</code> via <code>xcodebuild</code> → <b>BUILD SUCCEEDED</b>. Preferences load and color resolution with the current plist are reasoned from the code (all keys still have plist defaults, so the registration path is unchanged in practice); not exercised in a launched app here.</li>
+            </ul>
+        </div>
         <div class="field"><div class="label">Review comments</div><p class="placeholder">(to be filled during review)</p></div>
     </div>
 

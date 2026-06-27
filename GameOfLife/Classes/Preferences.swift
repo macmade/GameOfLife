@@ -61,8 +61,12 @@ import Cocoa
             {
                 continue
             }
-            
-            self.setValue( UserDefaults.standard.object( forKey: key ), forKey: key )
+
+            if let value = UserDefaults.standard.object( forKey: key )
+            {
+                self.setValue( value, forKey: key )
+            }
+
             self.addObserver( self, forKeyPath: key, options: .new, context: nil )
         }
     }
@@ -102,7 +106,7 @@ import Cocoa
     
     private func color( index: UInt ) -> NSColor
     {
-        guard let rgb = self.value( forKey: "color" + String( index ) + "RGB" ) as! UInt? else
+        guard let rgb = self.value( forKey: "color" + String( index ) + "RGB" ) as? UInt else
         {
             return NSColor.black
         }
