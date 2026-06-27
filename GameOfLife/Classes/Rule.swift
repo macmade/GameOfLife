@@ -38,7 +38,7 @@ import Foundation
         let rules = [
             Rule( name: "B3/S23",        title: "Conway's Life", predefined: true ),
             Rule( name: "B36/S23",       title: "HighLife", predefined: true ),
-            Rule( name: "B1357/S02468",  title: "Replicator", predefined: true ),
+            Rule( name: "B1357/S1357",   title: "Replicator", predefined: true ),
             Rule( name: "B1357/S02468",  title: "Fredkin", predefined: true ),
             Rule( name: "B2/S",          title: "Seeds", predefined: true ),
             Rule( name: "B2/S0",         title: "Live Free or Die", predefined: true ),
@@ -48,7 +48,7 @@ import Foundation
             Rule( name: "B3/S12345",     title: "Maze", predefined: true ),
             Rule( name: "B36/S125",      title: "2x2", predefined: true ),
             Rule( name: "B368/S245",     title: "Move", predefined: true ),
-            Rule( name: "B3678/34678",   title: "Day & Night", predefined: true ),
+            Rule( name: "B3678/S34678",  title: "Day & Night", predefined: true ),
             Rule( name: "B37/S23",       title: "DryLife", predefined: true ),
             Rule( name: "B38/S23",       title: "Pedestrian Life", predefined: true ),
         ]

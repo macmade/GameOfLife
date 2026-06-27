@@ -481,7 +481,7 @@
     <div class="milestone" id="m4-2">
         <div class="milestone-head">
             <h3>Milestone 4.2 — Fix rule definitions (Day &amp; Night, Replicator/Fredkin)</h3>
-            <span class="pill st-notstarted">Not started</span>
+            <span class="pill st-completed">Completed</span>
         </div>
         <div class="refs"><span class="ref">M6</span><span class="ref">I1</span><span class="ref">correctness</span></div>
         <div class="loc">GameOfLife/Classes/Rule.swift:51 (M6) · Rule.swift:41–42 (I1)</div>
@@ -497,10 +497,21 @@
                 <li>Build via Xcode and verify "Day &amp; Night" now appears in the rule list and the two rules are distinct.</li>
             </ul>
         </div>
-        <div class="field"><div class="label">Status</div><span class="pill st-notstarted">Not started</span></div>
-        <div class="field"><div class="label">Completed</div><p class="placeholder">—</p></div>
-        <div class="field"><div class="label">Implementation notes</div><p class="placeholder">(to be filled during implementation)</p></div>
-        <div class="field"><div class="label">Review comments</div><p class="placeholder">(to be filled during review)</p></div>
+        <div class="field"><div class="label">Status</div><span class="pill st-completed">Completed</span></div>
+        <div class="field"><div class="label">Completed</div><p>2026-06-27</p></div>
+        <div class="field"><div class="label">Implementation notes</div>
+            <ul class="clean">
+                <li><b>M6 — Day &amp; Night restored (Rule.swift:51).</b> The literal was <code>"B3678/34678"</code>, missing the <code>S</code> prefix on the survive part. The failable <code>init?</code> rejects any rule whose second component doesn't start with <code>"S"</code> (Rule.swift:92), so <code>availableRules()</code> silently dropped the <code>nil</code> at its filter and "Day &amp; Night" never appeared. Corrected to <code>"B3678/S34678"</code>.</li>
+                <li><b>I1 — Replicator/Fredkin duplicate resolved.</b> Both entries were <code>B1357/S02468</code>. Verified the canonical strings against LifeWiki: Replicator = <code>B1357/S1357</code> (born/survive on an odd neighbour count, 8 copies); Fredkin = <code>B1357/S02468</code> (born on odd, survive on even, 9 copies). Fredkin was therefore already correct; changed the <b>Replicator</b> entry (Rule.swift:41) to <code>"B1357/S1357"</code>. The two rules are now distinct.</li>
+                <li><b>Maintainer decision.</b> Per the plan's open question, confirmed the intended strings with the maintainer before changing anything (the literature values were presented and the "Replicator → B1357/S1357" option was chosen). See Review comments.</li>
+                <li><b>Verification.</b> Built <code>Game Of Life - Debug</code> via <code>xcodebuild</code> → <b>BUILD SUCCEEDED</b>. "Day &amp; Night" now passes the initializer (so it is no longer filtered out) and the two parity rules carry distinct definitions; the rule-list contents are reasoned from the code, not inspected in the running app here.</li>
+            </ul>
+        </div>
+        <div class="field"><div class="label">Review comments</div>
+            <ul class="clean">
+                <li><b>2026-06-27.</b> Maintainer confirmed I1: resolve the duplicate by setting Replicator to <code>B1357/S1357</code> and leaving Fredkin at <code>B1357/S02468</code> (matching the LifeWiki definitions).</li>
+            </ul>
+        </div>
     </div>
 
     <div class="milestone" id="m4-3">
