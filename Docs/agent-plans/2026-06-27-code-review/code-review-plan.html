@@ -250,7 +250,7 @@
     <div class="milestone" id="m2-1">
         <div class="milestone-head">
             <h3>Milestone 2.1 — Harden <code>.gol</code> file loading</h3>
-            <span class="pill st-notstarted">Not started</span>
+            <span class="pill st-completed">Completed</span>
         </div>
         <div class="refs"><span class="ref">M1</span><span class="ref">M2</span><span class="ref">M3</span><span class="ref">security</span><span class="ref">stability</span><span class="ref">crash</span></div>
         <div class="loc">GameOfLife/Classes/Grid.swift:283–353 (290, 301, 345) · GridView.swift:60,123–124,339–341</div>
@@ -267,9 +267,18 @@
                 <li>Build via Xcode and verify: a crafted file with huge dimensions, a wrong signature, or <code>cellSize == 0</code> fails to open gracefully instead of crashing.</li>
             </ul>
         </div>
-        <div class="field"><div class="label">Status</div><span class="pill st-notstarted">Not started</span></div>
-        <div class="field"><div class="label">Completed</div><p class="placeholder">—</p></div>
-        <div class="field"><div class="label">Implementation notes</div><p class="placeholder">(to be filled during implementation)</p></div>
+        <div class="field"><div class="label">Status</div><span class="pill st-completed">Completed</span></div>
+        <div class="field"><div class="label">Completed</div><p>2026-06-27</p></div>
+        <div class="field"><div class="label">Implementation notes</div>
+            <ul class="clean">
+                <li><b>M2 — inverted signature check (Grid.swift:290).</b> Changed the four byte comparisons from <code>&amp;&amp;</code> to <code>||</code>, so the file is now rejected if <em>any</em> of the <code>"GOL1"</code> signature bytes (71, 79, 76, 49) differs. Previously the file was only rejected when <em>all four</em> bytes were wrong, letting almost any file through the guard.</li>
+                <li><b>M1 — overflow / huge allocation (Grid.load(data:)).</b> Before any allocation, <code>width</code> and <code>height</code> (both <code>UInt64</code>) are multiplied with <code>width.multipliedReportingOverflow( by: height )</code>; the load bails out cleanly on overflow or when the product exceeds a new cap, <code>Grid.maxCellCount = 1 &lt;&lt; 28</code> (268,435,456 cells = 256&nbsp;MiB, since cells are one byte). The validated product is converted to <code>Int count</code> once and reused for <code>reserveCapacity</code>, the LZFSE <code>decompress(bufferSize:)</code> allocation, and the payload-size equality checks — so a hostile file can no longer trap on overflow nor drive a gigabyte-scale <code>UnsafeMutablePointer.allocate</code> in <code>decompress</code>. Switching the equality checks to the <code>Int count</code> also removes the prior mixed <code>Int</code>/<code>UInt64</code> comparisons.</li>
+                <li><b>M3 — zero cell size.</b> (1) In <code>load(data:)</code> the cell-size guard is now <code>if( size &lt; 1 || size &gt; 10 )</code>, rejecting a stored <code>cellSize</code> of <code>0</code> (it previously only rejected <code>&gt; 10</code>) before it could reach <code>Preferences.shared.cellSize</code>. (2) Defensively, every <code>GridView</code> divisor that derives from the preference now reads <code>CGFloat( max( 1, Preferences.shared.cellSize ) )</code> — this covers the three initializers and the two <code>self.cellSize</code> assignments (<code>resizeGrid</code>/<code>updateDimensions</code>), which in turn feed the drawing-loop and layout divisions. Clamping at the source guarantees no <code>frame / cellSize</code> division can be by zero (which would produce a non-finite value and trap when converted to <code>size_t</code>).</li>
+                <li><b>Decision — the 256&nbsp;MiB cap.</b> The review asked for "sane maxima" without a number. <code>1 &lt;&lt; 28</code> cells is well above any realistic grid (screen size ÷ minimum cell size) yet bounds a single load allocation to 256&nbsp;MiB. Flagging it here so you can adjust the constant if you'd prefer a tighter or looser bound.</li>
+                <li><b>Scope note.</b> Left the <code>readUInt64</code> shift bug (L1) alone — it is Milestone 4.1. It does not affect this path because the written <code>width</code>/<code>height</code>/<code>cellSize</code> all fit in 32 bits (their high word is 0), so they read back correctly today.</li>
+                <li><b>Verification.</b> Built <code>Game Of Life - Debug</code> via <code>xcodebuild</code> → <b>BUILD SUCCEEDED</b>. Behavior against crafted files (huge dimensions / wrong signature / <code>cellSize == 0</code> failing gracefully) is reasoned from the code; not exercised against real crafted files here.</li>
+            </ul>
+        </div>
         <div class="field"><div class="label">Review comments</div><p class="placeholder">(to be filled during review)</p></div>
     </div>
 

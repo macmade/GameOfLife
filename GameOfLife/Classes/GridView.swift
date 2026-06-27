@@ -57,7 +57,7 @@ class GridView: NSView
     {
         super.init( frame: rect )
         
-        self.grid = Grid( width: size_t( rect.size.width / CGFloat( Preferences.shared.cellSize ) ), height: size_t( rect.size.height / CGFloat( Preferences.shared.cellSize ) ), kind: kind )
+        self.grid = Grid( width: size_t( rect.size.width / CGFloat( max( 1, Preferences.shared.cellSize ) ) ), height: size_t( rect.size.height / CGFloat( max( 1, Preferences.shared.cellSize ) ) ), kind: kind )
         
         self.observations.append( Preferences.shared.observe( \Preferences.speed    ) { ( c, o ) in self.restartTimer() } )
         self.observations.append( Preferences.shared.observe( \Preferences.cellSize ) { ( c, o ) in self.resizeGrid() } )
@@ -69,7 +69,7 @@ class GridView: NSView
     {
         super.init( frame: rect )
         
-        self.grid = Grid( width: size_t( rect.size.width / CGFloat( Preferences.shared.cellSize ) ), height: size_t( rect.size.height / CGFloat( Preferences.shared.cellSize ) ) )
+        self.grid = Grid( width: size_t( rect.size.width / CGFloat( max( 1, Preferences.shared.cellSize ) ) ), height: size_t( rect.size.height / CGFloat( max( 1, Preferences.shared.cellSize ) ) ) )
         
         self.observations.append( Preferences.shared.observe( \Preferences.speed ) { ( c, o ) in self.restartTimer() } )
         self.observations.append( Preferences.shared.observe( \Preferences.cellSize ) { ( c, o ) in self.resizeGrid() } )
@@ -81,7 +81,7 @@ class GridView: NSView
     {
         super.init( coder: decoder )
         
-        self.grid = Grid( width: size_t( self.frame.size.width / CGFloat( Preferences.shared.cellSize ) ), height: size_t( self.frame.size.height / CGFloat( Preferences.shared.cellSize ) ) )
+        self.grid = Grid( width: size_t( self.frame.size.width / CGFloat( max( 1, Preferences.shared.cellSize ) ) ), height: size_t( self.frame.size.height / CGFloat( max( 1, Preferences.shared.cellSize ) ) ) )
         
         self.observations.append( Preferences.shared.observe( \Preferences.speed ) { ( c, o ) in self.restartTimer() } )
         self.observations.append( Preferences.shared.observe( \Preferences.cellSize ) { ( c, o ) in self.resizeGrid() } )
@@ -118,7 +118,7 @@ class GridView: NSView
     
     private func resizeGrid()
     {
-        self.cellSize = CGFloat( Preferences.shared.cellSize )
+        self.cellSize = CGFloat( max( 1, Preferences.shared.cellSize ) )
         
         var width  = size_t( self.frame.size.width  / self.cellSize )
         var height = size_t( self.frame.size.height / self.cellSize )
@@ -143,7 +143,7 @@ class GridView: NSView
     
     public func updateDimensions()
     {
-        self.cellSize = CGFloat( Preferences.shared.cellSize )
+        self.cellSize = CGFloat( max( 1, Preferences.shared.cellSize ) )
         
         let s1 = String( describing: self.grid.width )
         let s2 = String( describing: self.grid.height )

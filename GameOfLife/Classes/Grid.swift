@@ -29,7 +29,16 @@ class Grid: NSObject
 {
     typealias Cell  = UInt8
     typealias Array = ContiguousArray< Cell >
-    
+
+    /*
+     * Upper bound on the number of cells accepted from a loaded `.gol` file.
+     * Cells are one byte each, so this caps a single load allocation at 256 MiB,
+     * comfortably above any real grid (bounded by the screen size divided by the
+     * minimum cell size), while preventing both arithmetic overflow and
+     * gigabyte-scale allocations from a malformed or hostile file.
+     */
+    private static let maxCellCount: UInt64 = 1 << 28
+
     @objc dynamic public private( set ) var turns:      UInt64 = 0
     @objc dynamic public private( set ) var population: UInt64 = 0
     
@@ -287,7 +296,7 @@ class Grid: NSObject
             return false
         }
         
-        if( data[ 0 ] != 71 && data[ 1 ] != 79 && data[ 2 ] != 76 && data[ 3 ] != 49 )
+        if( data[ 0 ] != 71 || data[ 1 ] != 79 || data[ 2 ] != 76 || data[ 3 ] != 49 )
         {
             return false
         }
@@ -298,46 +307,54 @@ class Grid: NSObject
         let size    = data.readUInt64( at: 28 )
         let lzfse   = data.readUInt64( at: 36 )
         
-        if( size > 10 )
+        if( size < 1 || size > 10 )
         {
             return false
         }
-        
+
+        let ( cellCount, overflow ) = width.multipliedReportingOverflow( by: height )
+
+        if( overflow || cellCount > Grid.maxCellCount )
+        {
+            return false
+        }
+
+        let count     = Int( cellCount )
         var cells     = Array()
         var n: UInt64 = 0
-        
-        cells.reserveCapacity( Int( width * height ) )
-        
+
+        cells.reserveCapacity( count )
+
         if( lzfse == 1 )
         {
-            guard let decompressed = data.advanced( by: 44 ).decompress( with: COMPRESSION_LZFSE, bufferSize: Int( width * height ) ) else
+            guard let decompressed = data.advanced( by: 44 ).decompress( with: COMPRESSION_LZFSE, bufferSize: count ) else
             {
                 return false
             }
-            
-            if( decompressed.count != width * height )
+
+            if( decompressed.count != count )
             {
                 return false
             }
-            
+
             for i in 0 ..< decompressed.count
             {
                 n += ( decompressed[ i ] & 1 == 1 ) ? 1 : 0
-                
+
                 cells.append( decompressed[ i ] )
             }
         }
         else
         {
-            if( data.count - 44 != width * height )
+            if( data.count - 44 != count )
             {
                 return false
             }
-            
+
             for i in 44 ..< data.count
             {
                 n += ( data[ i ] & 1 == 1 ) ? 1 : 0
-                
+
                 cells.append( data[ i ] )
             }
         }
