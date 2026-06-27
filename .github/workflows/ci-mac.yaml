@@ -6,7 +6,7 @@ jobs:
         strategy:
             matrix:
                 run-config:
-                    - { scheme: 'Game Of Life - Debug',    configuration: 'Debug',   project: 'GameOfLife.xcodeproj', build: 1, analyze: 1, test: 0, info: 1, destination: 'platform=macOS' }
+                    - { scheme: 'Game Of Life - Debug',    configuration: 'Debug',   project: 'GameOfLife.xcodeproj', build: 1, analyze: 1, test: 1, info: 1, destination: 'platform=macOS' }
                     - { scheme: 'Game Of Life - Release',  configuration: 'Release', project: 'GameOfLife.xcodeproj', build: 1, analyze: 1, test: 0, info: 1, destination: 'platform=macOS' }
                     - { scheme: 'Game Of Life - AppStore', configuration: 'Release', project: 'GameOfLife.xcodeproj', build: 1, analyze: 1, test: 0, info: 1, destination: 'platform=macOS' }
         steps:

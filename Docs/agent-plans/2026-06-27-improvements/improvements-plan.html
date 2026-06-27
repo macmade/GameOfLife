@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Improvements — Implementation Plan</title>
+    <style>
+        :root {
+            --bg:            #0d1117;
+            --surface:       #161b22;
+            --surface-2:     #1c2230;
+            --border:        #30363d;
+            --text:          #e6edf3;
+            --muted:         #9da7b3;
+            --accent:        #58a6ff;
+            --code:          #ffa657;
+
+            --cap-todo-bg:   #21262d;
+            --cap-todo-fg:   #9da7b3;
+            --cap-prog-bg:   #3a2d00;
+            --cap-prog-fg:   #f0c000;
+            --cap-done-bg:   #0f2f1a;
+            --cap-done-fg:   #3fb950;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin:           0;
+            padding:          2.5rem 1.25rem 4rem;
+            background:       var(--bg);
+            color:            var(--text);
+            font-family:      -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height:      1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        main { max-width: 880px; margin: 0 auto; }
+
+        header.doc {
+            border-bottom:  1px solid var(--border);
+            padding-bottom: 1.5rem;
+            margin-bottom:  2rem;
+        }
+
+        h1 {
+            font-size:      2.25rem;
+            margin:         0 0 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .meta { color: var(--muted); font-size: 0.9rem; margin: 0.15rem 0; }
+        .meta code { color: var(--code); }
+
+        h2 {
+            font-size:      1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color:          var(--muted);
+            margin:         2.75rem 0 1rem;
+            border-bottom:  1px solid var(--border);
+            padding-bottom: 0.4rem;
+        }
+
+        h3.phase {
+            font-size:    1.35rem;
+            margin:       2.25rem 0 1rem;
+            color:        var(--accent);
+            letter-spacing: -0.01em;
+        }
+
+        p { margin: 0 0 1rem; }
+        code {
+            font-family: "SF Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size:   0.86em;
+            color:       var(--code);
+            background:  rgba(110,118,129,0.12);
+            padding:     0.1em 0.35em;
+            border-radius: 5px;
+        }
+
+        a { color: var(--accent); }
+
+        dl.qa { margin: 0; }
+        dl.qa dt { font-weight: 600; margin-top: 1rem; }
+        dl.qa dd { margin: 0.2rem 0 0; color: var(--muted); }
+        dl.qa dd::before { content: "→ "; color: var(--accent); }
+
+        ul.notes { padding-left: 1.2rem; }
+        ul.notes li { margin-bottom: 0.6rem; color: var(--muted); }
+        ul.notes li strong { color: var(--text); }
+
+        article.milestone {
+            background:    var(--surface);
+            border:        1px solid var(--border);
+            border-radius: 12px;
+            padding:       1.4rem 1.6rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .ms-head {
+            display:        flex;
+            align-items:    center;
+            justify-content:space-between;
+            gap:            1rem;
+            margin-bottom:  0.6rem;
+        }
+
+        .ms-head h4 {
+            margin:    0;
+            font-size: 1.2rem;
+        }
+        .ms-head h4 .num {
+            color:        var(--accent);
+            font-variant-numeric: tabular-nums;
+            margin-right: 0.4rem;
+        }
+
+        .capsule {
+            display:        inline-block;
+            padding:        0.2rem 0.7rem;
+            border-radius:  999px;
+            font-size:      0.75rem;
+            font-weight:    700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space:    nowrap;
+        }
+        .capsule.todo { background: var(--cap-todo-bg); color: var(--cap-todo-fg); }
+        .capsule.prog { background: var(--cap-prog-bg); color: var(--cap-prog-fg); }
+        .capsule.done { background: var(--cap-done-bg); color: var(--cap-done-fg); }
+
+        .field-label {
+            font-size:      0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color:          var(--muted);
+            margin:         1rem 0 0.35rem;
+            font-weight:    700;
+        }
+
+        .goal { margin: 0 0 0.4rem; }
+
+        ul.tasks { list-style: none; padding-left: 0; margin: 0; }
+        ul.tasks li {
+            margin:        0.3rem 0;
+            padding-left:  1.7rem;
+            position:      relative;
+        }
+        ul.tasks li::before {
+            content:     "\2610";
+            position:    absolute;
+            left:        0;
+            color:       var(--muted);
+            font-size:   1.05rem;
+            line-height: 1.5;
+        }
+        ul.tasks li.done::before { content: "\2611"; color: var(--cap-done-fg); }
+
+        .placeholder {
+            color:       var(--muted);
+            font-style:  italic;
+        }
+        .filled {
+            background:    var(--surface-2);
+            border-left:   3px solid var(--border);
+            border-radius: 6px;
+            padding:       0.6rem 0.9rem;
+            margin:        0.35rem 0 0;
+        }
+
+        .completed-date { color: var(--cap-done-fg); font-weight: 600; }
+
+        hr.ms-sep { border: none; border-top: 1px solid var(--border); margin: 1rem 0 0; }
+    </style>
+</head>
+<body>
+    <main>
+        <header class="doc">
+            <h1>Improvements — Implementation Plan</h1>
+            <p class="meta"><strong>Generated:</strong> 2026-06-27</p>
+            <p class="meta"><strong>Source:</strong> <code>Docs/agent-plans/2026-06-27-improvements/improvements.html</code></p>
+        </header>
+
+        <h2>Overview</h2>
+        <p>
+            This plan turns the five-item <em>Improvements</em> roadmap into small, individually
+            reviewable and committable milestones for the <strong>Game Of Life</strong> macOS app.
+            The work spans the whole stack: it introduces an automated test safety net where there is
+            none today, fixes a real rendering regression caused by the modern <code>NSView</code>
+            clipping default, re-architects the simulation core from a fixed-size dense array into an
+            unbounded chunked/tiled grid, modernizes the codebase into idiomatic Swift, and finally
+            documents the resulting API with DocC comments.
+        </p>
+        <p>
+            The milestones are deliberately ordered to minimize wasted effort. Tests come first so they
+            can guard every later change. The isolated drawing bug is fixed early. The largest and most
+            architectural change — the infinite grid — is performed <em>before</em> the broad
+            modernization and documentation passes, so that those polishing passes apply to the final
+            architecture rather than to code that is about to be rewritten. Each milestone carries its
+            own status, completion date, implementation notes, and review comments, and is updated in
+            place as work proceeds (the <code>/xs:implement</code> command edits this file milestone by
+            milestone).
+        </p>
+
+        <h2>Questions &amp; answers</h2>
+        <dl class="qa">
+            <dt>Which testing framework should the new unit-test target use?</dt>
+            <dd>Swift Testing (Apple's modern <code>@Test</code>/<code>#expect</code> framework), reaching internal types via <code>@testable import</code>.</dd>
+
+            <dt>How should the plan handle the Infinite Grid item, given it is the largest, most architectural change?</dt>
+            <dd>Full implementation, broken into several phased milestones within this plan.</dd>
+
+            <dt>Which unbounded-grid representation should the infinite-grid work target?</dt>
+            <dd>A chunked/tiled grid (fixed-size live tiles allocated on demand) — a good balance of speed, memory, and migration cost from the current dense array.</dd>
+
+            <dt>How should the performance-critical hot loop in <code>Grid.next()</code> be treated during modernization?</dt>
+            <dd>Modernize everywhere, including <code>next()</code>, accepting a possible performance cost in exchange for consistency. The test target includes a <code>next()</code> benchmark so any regression is at least measured and visible.</dd>
+
+            <dt>Should the Documentation Comments item also set up generated DocC reference output?</dt>
+            <dd>Comments only. Add <code>///</code> doc comments across public and private API; treat a generated DocC reference as a possible future follow-up, not part of this plan.</dd>
+        </dl>
+
+        <h2>Notes</h2>
+        <ul class="notes">
+            <li><strong>Build &amp; test tooling.</strong> The project is an Xcode project (<code>GameOfLife.xcodeproj</code>, single app target <em>Game Of Life</em>, schemes <em>Debug</em>/<em>Release</em>/<em>AppStore</em>) with no Swift package. Per the working agreement, build and run tests through <code>xcodebuild</code>, and keep the Xcode project the source of truth for target/membership changes.</li>
+            <li><strong>Coding conventions.</strong> Follow the repository's working agreement: prefer <code>let</code> over <code>var</code>; never force-unwrap; prefer functional constructs over raw loops; early returns; one type per file, organized into subfolders; explicit <code>public</code>/<code>open</code> for API; document public <em>and</em> private members; align consecutive <code>=</code>; separate calls from assignments with a blank line.</li>
+            <li><strong>Key simulation files.</strong> <code>Grid.swift</code> (dense <code>ContiguousArray&lt;UInt8&gt;</code> core, <code>next()</code> evolution, <code>.gol</code> <code>data()</code>/<code>load()</code> persistence, library/pattern <code>add()</code>), <code>Rule.swift</code> (B/S rule parsing and the predefined rule list), <code>RLEReader.swift</code>/<code>RLEWriter.swift</code>/<code>CellReader.swift</code> (pattern I/O), <code>Data.swift</code> (binary read helpers).</li>
+            <li><strong>Key rendering files.</strong> <code>GridView.swift</code> (overrides <code>draw(_:)</code> and <code>isFlipped</code>), plus other custom-drawing views: <code>ColorView</code>, <code>BorderView</code>, <code>ColorWell</code>, <code>ProgressIndicator</code>, <code>RulerView</code>, <code>LibraryItemView</code>, <code>LibraryItemDetailView</code>. The clipping regression centers on these.</li>
+            <li><strong>Cell encoding.</strong> A cell is one <code>UInt8</code>: bit 0 is alive/dead, the remaining high bits store the cell's age (used for color/aging). Any new grid representation must preserve this so colors and the <code>.gol</code> format keep working.</li>
+            <li><strong>Milestone ordering deviates from the source order</strong> (which listed Infinite Grid second and Drawing last). The rationale above (don't polish or document code that is about to be rewritten; ship the isolated bug fix early; tests first) drives the reordering. If you prefer the original order, say so and the plan can be resequenced.</li>
+            <li><strong>Relationship to the existing code review.</strong> A separate <code>code-review-plan.html</code> exists alongside the source under <code>Docs/agent-plans/2026-06-27-code-review/</code>. Recent commits already address several review findings (grid <code>next()</code> guard order, <code>readUInt64</code> high-word shift, rule de-duplication, KVC hardening). This plan focuses on the roadmap improvements; where a milestone touches the same code, avoid re-litigating already-fixed review items and check the latest state of the file first.</li>
+            <li><strong>Risk — infinite grid is invasive.</strong> It changes the in-memory model, the on-disk <code>.gol</code> format, pattern import, and rendering/scrolling simultaneously. The design milestone (M5) must settle the representation, the persistence-format strategy (versioning vs. new magic), and the rendering/viewport model before the migration milestones begin. Tests written in M2/M3 against the dense grid will partly need revision afterward; the rule-application and RLE-format tests remain valid because they are independent of the internal representation.</li>
+        </ul>
+
+        <h2>Milestones</h2>
+
+        <h3 class="phase">Phase 1 — Test foundation</h3>
+
+        <article class="milestone">
+            <div class="ms-head">
+                <h4><span class="num">M1.</span>Create the Swift Testing unit-test target</h4>
+                <span class="capsule done">Completed</span>
+            </div>
+            <div class="field-label">Goal</div>
+            <p class="goal">Stand up the missing test infrastructure so every later milestone has a place to land tests, runnable from Xcode and the command line.</p>
+            <div class="field-label">Tasks</div>
+            <ul class="tasks">
+                <li>Add a new unit-test target (e.g. <code>GameOfLifeTests</code>) to <code>GameOfLife.xcodeproj</code>, hosted by the <em>Game Of Life</em> app target.</li>
+                <li>Configure it for Swift Testing (Xcode&nbsp;16+); add a trivial passing <code>@Test</code> to prove the wiring.</li>
+                <li>Use <code>@testable import</code> so tests can reach <code>internal</code> types such as <code>Grid</code> and <code>Rule</code>.</li>
+                <li>Add a test scheme (or enable testing on an existing scheme) and confirm <code>xcodebuild test</code> runs green.</li>
+                <li>Wire the test run into CI (<code>.travis.yml</code> / GitHub Actions under <code>.github/</code>) if practical.</li>
+                <li>Organize the test target into subfolders mirroring the source layout.</li>
+            </ul>
+            <div class="field-label">Status</div>
+            <p><span class="capsule done">Completed</span> &nbsp; <span class="completed-date">Completed: 2026-06-27</span></p>
+            <div class="field-label">Implementation notes</div>
+            <div class="filled">
+                <ul class="notes">
+                    <li><strong>Target.</strong> Added a <code>GameOfLifeTests</code> unit-test bundle to <code>GameOfLife.xcodeproj</code>, hosted by the <em>Game Of Life</em> app target (<code>TEST_HOST</code>/<code>BUNDLE_LOADER</code> set, <code>TestTargetID</code> attribute pointing at the app, and a target dependency on the app). The target was created with the <code>xcodeproj</code> Ruby gem (1.27.0) rather than by hand-editing <code>project.pbxproj</code>, to keep the cross-referenced objects consistent. The gem only added objects and re-sorted entries alphabetically (e.g. <code>DirectoryReader.swift</code> moved line position but all four of its references remain intact); existing app settings such as <code>PRODUCT_MODULE_NAME = GOL</code> and <code>IBC_MODULE = GOL</code> are preserved.</li>
+                    <li><strong>Three configurations.</strong> The target has <code>Debug</code>, <code>Release</code> and <code>AppStore</code> build configurations to match the project. Per-config settings: <code>SWIFT_VERSION = 5.0</code> (matching the app's xcconfig), <code>MACOSX_DEPLOYMENT_TARGET = 10.15</code>, <code>GENERATE_INFOPLIST_FILE = YES</code> (no separate Info.plist), <code>PRODUCT_BUNDLE_IDENTIFIER = com.xs-labs.GameOfLifeTests</code>, and <code>CODE_SIGN_STYLE = Automatic</code>.</li>
+                    <li><strong>Swift Testing + <code>@testable</code>.</strong> The smoke test (<code>GameOfLifeTests/WiringTests.swift</code>) uses Swift Testing (<code>import Testing</code>, <code>@Suite</code>/<code>@Test</code>/<code>#expect</code>). It imports the app module as <code>@testable import GOL</code> — note the module name is <code>GOL</code>, not <code>GameOfLife</code> — and exercises the <code>internal</code> <code>Grid</code> type (constructing a <code>4×4</code> grid with the internal <code>Kind.Blank</code> and asserting <code>width</code>/<code>height</code>/<code>population</code>), proving both the wiring and that later milestones can reach internal types.</li>
+                    <li><strong>Scheme.</strong> Rather than add a new scheme, testing was enabled on the existing shared <em>Game Of Life - Debug</em> scheme: the test target was added to the <code>&lt;Testables&gt;</code> of its <code>TestAction</code> and as a <code>buildForTesting</code>-only <code>BuildActionEntry</code>. The other two shared schemes (Release, AppStore) were left untouched.</li>
+                    <li><strong>Verification.</strong> <code>xcodebuild test -project GameOfLife.xcodeproj -scheme "Game Of Life - Debug" -destination 'platform=macOS'</code> runs green — <code>** TEST SUCCEEDED **</code>, 2 tests in 1 suite passing (Testing Library 1501). The test bundle signed and ran via Automatic signing. <code>xcodebuild build</code> of the <em>Release</em> scheme still succeeds, confirming the app target was not disturbed.</li>
+                    <li><strong>CI.</strong> The live GitHub Actions workflow (<code>.github/workflows/ci-mac.yaml</code>) had its <em>Debug</em> matrix entry flipped from <code>test: 0</code> to <code>test: 1</code> so the test suite runs in CI. <em>This change is unverified from the local environment</em> — whether the test job passes depends on how <code>macmade/action-xcodebuild@v1.0.0</code> handles code-signing of the test host in CI (no certificates available there). The legacy <code>.travis.yml</code> (Xcode 12.2) was left as-is, since the GitHub Actions workflow is the active CI.</li>
+                    <li><strong>Subfolders.</strong> M1 ships only the single wiring test at the <code>GameOfLifeTests/</code> root. The source-mirroring subfolder layout will be introduced in M2/M3 as the real tests (grid/rules, readers/persistence) land, where the structure becomes meaningful.</li>
+                </ul>
+            </div>
+            <div class="field-label">Review comments</div>
+            <div class="filled">
+                <ul class="notes">
+                    <li><strong>Q: The other two schemes (Release, AppStore) don't run tests — do they need to?</strong> Investigated empirically by running <code>xcodebuild test … -configuration Release</code>. Tests cannot run under the Release/AppStore configs for two independent reasons: (1) <code>SWIFT_ENABLE_TESTABILITY</code> defaults to <code>NO</code> there (it is <code>YES</code> only in Debug), so <code>@testable import GOL</code> fails to build — <em>"Unable to find module dependency: 'GOL' … swiftmodule built without '-enable-testing'"</em>; and (2) <code>ENABLE_HARDENED_RUNTIME = YES</code> in those configs would block injecting the test bundle into the host via library validation. Enabling tests there would mean turning on testability (disabling release optimizations) and weakening the distribution build's runtime hardening — undesirable, especially for the App Store build. <strong>Resolution:</strong> the reviewer agreed tests stay on the <em>Debug</em> scheme only; this is the intentional, conventional setup, not an omission.</li>
+                </ul>
+            </div>
+        </article>
+
+        <article class="milestone">
+            <div class="ms-head">
+                <h4><span class="num">M2.</span>Core simulation tests — grid evolution &amp; rules</h4>
+                <span class="capsule todo">Not started</span>
+            </div>
+            <div class="field-label">Goal</div>
+            <p class="goal">Lock down the correctness of the simulation core — the part most at risk during modernization and the infinite-grid rewrite — with focused, deterministic tests.</p>
+            <div class="field-label">Tasks</div>
+            <ul class="tasks">
+                <li>Test <code>Rule</code> parsing: valid <code>B/S</code> strings produce the right born/survive sets; malformed strings fail the failable initializer; <code>name</code> is uppercased and <code>displayTitle</code> is formed correctly.</li>
+                <li>Cover the predefined rule list from <code>availableRules()</code> (count, uniqueness, a few spot-checked born/survive sets).</li>
+                <li>Test <code>Grid.next()</code> against known Conway results on a blank grid: still lifes (block), oscillators (blinker period 2), and a glider's displacement after four generations.</li>
+                <li>Verify <code>population</code> and <code>turns</code> are accurate after evolution, and that <code>next()</code> is a no-op once <code>turns</code> reaches <code>UInt64.max</code>.</li>
+                <li>Test alternate rules (e.g. <em>Seeds</em>, <em>HighLife</em>) on small hand-computed boards.</li>
+                <li>Test cell aging: a long-lived cell's age bits increment and saturate at the cap without affecting the alive bit.</li>
+                <li>Test <code>cellAt</code>/<code>isAliveAt</code>/<code>setAliveAt</code> bounds behavior, and <code>resize()</code> preserving in-bounds cells and recomputing population.</li>
+            </ul>
+            <div class="field-label">Status</div>
+            <p><span class="capsule todo">Not started</span> &nbsp; <span class="placeholder">Completed: —</span></p>
+            <div class="field-label">Implementation notes</div>
+            <p class="placeholder">To be filled in as work progresses.</p>
+            <div class="field-label">Review comments</div>
+            <p class="placeholder">Review feedback for this milestone.</p>
+        </article>
+
+        <article class="milestone">
+            <div class="ms-head">
+                <h4><span class="num">M3.</span>Reader/writer &amp; persistence tests + <code>next()</code> benchmark</h4>
+                <span class="capsule todo">Not started</span>
+            </div>
+            <div class="field-label">Goal</div>
+            <p class="goal">Cover the I/O surfaces (RLE, cell reader, <code>.gol</code> persistence) and establish a performance baseline for <code>next()</code> so the later "modernize everywhere" pass can be evaluated against evidence rather than guesswork.</p>
+            <div class="field-label">Tasks</div>
+            <ul class="tasks">
+                <li>Round-trip tests for <code>RLEReader</code>/<code>RLEWriter</code> (parse a known pattern, re-emit, parse again; verify dimensions and live cells), including run counts and end-of-line/end-of-pattern tokens.</li>
+                <li>Reader robustness tests: malformed RLE and truncated input fail gracefully without crashing.</li>
+                <li>Test <code>CellReader</code> and <code>Data.swift</code> binary helpers (e.g. <code>readUInt64</code>) for correct byte/word handling.</li>
+                <li>Round-trip <code>Grid.data()</code> → <code>Grid.load(data:)</code>, covering both the compressed (LZFSE) and uncompressed branches, and assert that malformed/oversized headers are rejected (magic, size bounds, overflow, <code>maxCellCount</code>).</li>
+                <li>Test <code>load(item:)</code>/<code>add(cells:left:top:)</code> placement and population accounting for library patterns.</li>
+                <li>Add a Swift Testing performance benchmark for <code>next()</code> on a representative grid size; record the baseline figure in this milestone's implementation notes.</li>
+            </ul>
+            <div class="field-label">Status</div>
+            <p><span class="capsule todo">Not started</span> &nbsp; <span class="placeholder">Completed: —</span></p>
+            <div class="field-label">Implementation notes</div>
+            <p class="placeholder">To be filled in as work progresses (record the <code>next()</code> baseline here).</p>
+            <div class="field-label">Review comments</div>
+            <p class="placeholder">Review feedback for this milestone.</p>
+        </article>
+
+        <h3 class="phase">Phase 2 — Rendering correctness</h3>
+
+        <article class="milestone">
+            <div class="ms-head">
+                <h4><span class="num">M4.</span>Audit &amp; fix custom-drawing clipping</h4>
+                <span class="capsule todo">Not started</span>
+            </div>
+            <div class="field-label">Goal</div>
+            <p class="goal">Restore correct rendering on recent macOS, where <code>NSView.clipsToBounds</code> now defaults to <code>false</code> and custom drawing can spill outside a view's bounds.</p>
+            <div class="field-label">Tasks</div>
+            <ul class="tasks">
+                <li>Audit every custom-drawing view (<code>GridView</code>, <code>ColorView</code>, <code>BorderView</code>, <code>ColorWell</code>, <code>ProgressIndicator</code>, <code>RulerView</code>, <code>LibraryItemView</code>, <code>LibraryItemDetailView</code>) to determine which actually need their content clipped to bounds.</li>
+                <li>Restore correct clipping where needed — set <code>clipsToBounds = true</code> on the affected views (or clip explicitly within <code>draw(_:)</code>), prioritizing the grid.</li>
+                <li>Verify visually that drawing no longer spills outside view frames (grid edges, ruler, library thumbnails, progress indicator).</li>
+                <li>Confirm the fix is correct on the project's deployment target and on the current macOS; note any version-specific handling.</li>
+                <li>Add a brief code comment at each fix explaining the <code>clipsToBounds</code> default change so the intent is clear.</li>
+            </ul>
+            <div class="field-label">Status</div>
+            <p><span class="capsule todo">Not started</span> &nbsp; <span class="placeholder">Completed: —</span></p>
+            <div class="field-label">Implementation notes</div>
+            <p class="placeholder">To be filled in as work progresses.</p>
+            <div class="field-label">Review comments</div>
+            <p class="placeholder">Review feedback for this milestone.</p>
+        </article>
+
+        <h3 class="phase">Phase 3 — Infinite grid (chunked/tiled)</h3>
+
+        <article class="milestone">
+            <div class="ms-head">
+                <h4><span class="num">M5.</span>Design the chunked/tiled grid &amp; abstraction seam</h4>
+                <span class="capsule todo">Not started</span>
+            </div>
+            <div class="field-label">Goal</div>
+            <p class="goal">Settle the architecture before touching the migration: how live tiles are stored and allocated, how neighbor counting works across tile boundaries, and how persistence and rendering adapt — so the implementation milestones are mechanical.</p>
+            <div class="field-label">Tasks</div>
+            <ul class="tasks">
+                <li>Specify the tile model: fixed tile dimensions, the <code>UInt8</code> cell layout (alive bit + age) preserved per cell, on-demand allocation, and reclamation of empty tiles.</li>
+                <li>Define the coordinate system for an unbounded plane (signed coordinates, tile keying) and how the visible viewport maps onto it.</li>
+                <li>Design neighbor counting across tile edges/corners (halo/ghost cells or neighbor-tile lookups) and the generation step over only populated tiles.</li>
+                <li>Define an abstraction seam (protocol or clear API boundary) so call sites — <code>GridView</code>, controllers, persistence — depend on grid behavior, not on the dense array.</li>
+                <li>Decide the <code>.gol</code> persistence strategy for unbounded grids (bump the format version / new magic vs. extend the header) and how RLE/library import maps into the new model.</li>
+                <li>Capture the chosen design (data structures, edge handling, format change, viewport model) in this milestone's implementation notes and get it reviewed before M6.</li>
+            </ul>
+            <div class="field-label">Status</div>
+            <p><span class="capsule todo">Not started</span> &nbsp; <span class="placeholder">Completed: —</span></p>
+            <div class="field-label">Implementation notes</div>
+            <p class="placeholder">To be filled in as work progresses (record the agreed design here).</p>
+            <div class="field-label">Review comments</div>
+            <p class="placeholder">Review feedback for this milestone.</p>
+        </article>
+
+        <article class="milestone">
+            <div class="ms-head">
+                <h4><span class="num">M6.</span>Migrate the simulation core to the chunked grid</h4>
+                <span class="capsule todo">Not started</span>
+            </div>
+            <div class="field-label">Goal</div>
+            <p class="goal">Replace the fixed-size dense array with the chunked/tiled representation so the simulation grows without edges, while keeping behavior identical for patterns that fit the old bounds.</p>
+            <div class="field-label">Tasks</div>
+            <ul class="tasks">
+                <li>Implement the tile store and the unbounded <code>next()</code> generation step, expanding the active region as patterns grow.</li>
+                <li>Re-implement <code>cellAt</code>/<code>isAliveAt</code>/<code>setAliveAt</code>, <code>population</code>, and <code>turns</code> against the new model.</li>
+                <li>Preserve cell aging semantics (age bits increment and saturate) in the new step.</li>
+                <li>Keep or adapt the existing public API behind the M5 seam so non-rendering call sites compile with minimal change.</li>
+                <li>Update the M2 evolution tests to the unbounded model and add tests proving a glider travels indefinitely without hitting a boundary.</li>
+                <li>Re-run the M3 <code>next()</code> benchmark and record the chunked-grid figure against the dense baseline.</li>
+            </ul>
+            <div class="field-label">Status</div>
+            <p><span class="capsule todo">Not started</span> &nbsp; <span class="placeholder">Completed: —</span></p>
+            <div class="field-label">Implementation notes</div>
+            <p class="placeholder">To be filled in as work progresses.</p>
+            <div class="field-label">Review comments</div>
+            <p class="placeholder">Review feedback for this milestone.</p>
+        </article>
+
+        <article class="milestone">
+            <div class="ms-head">
+                <h4><span class="num">M7.</span>Persistence &amp; pattern import for the unbounded grid</h4>
+                <span class="capsule todo">Not started</span>
+            </div>
+            <div class="field-label">Goal</div>
+            <p class="goal">Make saving, loading, and importing patterns work with the unbounded grid, with a clear and safe story for existing <code>.gol</code> files.</p>
+            <div class="field-label">Tasks</div>
+            <ul class="tasks">
+                <li>Implement the M5 <code>.gol</code> format change (version/magic), writing only populated tiles and keeping LZFSE compression.</li>
+                <li>Read existing <code>.gol</code> files: either migrate old fixed-size files into the new model or reject them cleanly with a clear path; preserve the malformed/oversized-input guards.</li>
+                <li>Update <code>load(item:)</code> and <code>add(cells:left:top:)</code> so library patterns and RLE imports place into the unbounded plane without the old width/height clamping.</li>
+                <li>Update <code>RLEReader</code>/<code>RLEWriter</code> usage as needed so import/export round-trips on the new model.</li>
+                <li>Extend M3 persistence tests to cover the new format round-trip and (if supported) old-file migration.</li>
+            </ul>
+            <div class="field-label">Status</div>
+            <p><span class="capsule todo">Not started</span> &nbsp; <span class="placeholder">Completed: —</span></p>
+            <div class="field-label">Implementation notes</div>
+            <p class="placeholder">To be filled in as work progresses.</p>
+            <div class="field-label">Review comments</div>
+            <p class="placeholder">Review feedback for this milestone.</p>
+        </article>
+
+        <article class="milestone">
+            <div class="ms-head">
+                <h4><span class="num">M8.</span>Rendering &amp; navigation for the unbounded grid</h4>
+                <span class="capsule todo">Not started</span>
+            </div>
+            <div class="field-label">Goal</div>
+            <p class="goal">Let the user see and move around an unbounded world: <code>GridView</code> renders the visible viewport efficiently and supports scrolling/panning (and ideally zoom) instead of assuming a fixed playfield.</p>
+            <div class="field-label">Tasks</div>
+            <ul class="tasks">
+                <li>Update <code>GridView.draw(_:)</code> to render only the visible viewport over the unbounded plane, querying the grid through the M5 seam.</li>
+                <li>Add navigation: scroll/pan to move the viewport (and zoom if in scope), keeping the M4 clipping correct.</li>
+                <li>Reconcile or remove the old <code>resize()</code>-to-screen behavior and any UI that assumed fixed width/height.</li>
+                <li>Verify editing (toggling cells), library insertion, and the ruler all map correctly to unbounded coordinates.</li>
+                <li>Manually verify long-running patterns (glider, Gosper gun) render and scroll smoothly without edge artifacts.</li>
+            </ul>
+            <div class="field-label">Status</div>
+            <p><span class="capsule todo">Not started</span> &nbsp; <span class="placeholder">Completed: —</span></p>
+            <div class="field-label">Implementation notes</div>
+            <p class="placeholder">To be filled in as work progresses.</p>
+            <div class="field-label">Review comments</div>
+            <p class="placeholder">Review feedback for this milestone.</p>
+        </article>
+
+        <h3 class="phase">Phase 4 — Modernization</h3>
+
+        <article class="milestone">
+            <div class="ms-head">
+                <h4><span class="num">M9.</span>Modernize the codebase into idiomatic Swift</h4>
+                <span class="capsule todo">Not started</span>
+            </div>
+            <div class="field-label">Goal</div>
+            <p class="goal">Bring the (now final) architecture up to idiomatic, modern Swift — favouring declarative, functional constructs and current conventions — for clearer, more maintainable code, guarded by the test suite.</p>
+            <div class="field-label">Tasks</div>
+            <ul class="tasks">
+                <li>Replace raw <code>for</code>/<code>while</code> loops with <code>map</code>/<code>filter</code>/<code>reduce</code>/<code>forEach</code> throughout, <em>including</em> the <code>next()</code> hot loop (per the agreed decision), and use the M3/M6 benchmark to record the resulting cost.</li>
+                <li>Remove force-unwraps and dead/awkward patterns — e.g. rewrite <code>Rule.availableRules()</code>'s "build optionals then loop-and-unwrap" into a single <code>compactMap</code>.</li>
+                <li>Prefer <code>let</code> over <code>var</code>, early returns, and value semantics where appropriate.</li>
+                <li>Apply the project's API-visibility convention: explicit <code>public</code>/<code>open</code> for intended API, <code>internal</code>/<code>private</code> for implementation details.</li>
+                <li>Enforce one-type-per-file and subfolder organization where files currently violate it.</li>
+                <li>Adopt other current language features/conventions where they clearly improve readability, without changing behavior.</li>
+                <li>Keep the full test suite green after each focused change; record the final <code>next()</code> benchmark vs. the M3 baseline.</li>
+            </ul>
+            <div class="field-label">Status</div>
+            <p><span class="capsule todo">Not started</span> &nbsp; <span class="placeholder">Completed: —</span></p>
+            <div class="field-label">Implementation notes</div>
+            <p class="placeholder">To be filled in as work progresses.</p>
+            <div class="field-label">Review comments</div>
+            <p class="placeholder">Review feedback for this milestone.</p>
+        </article>
+
+        <h3 class="phase">Phase 5 — Documentation</h3>
+
+        <article class="milestone">
+            <div class="ms-head">
+                <h4><span class="num">M10.</span>Add DocC documentation comments</h4>
+                <span class="capsule todo">Not started</span>
+            </div>
+            <div class="field-label">Goal</div>
+            <p class="goal">Document intent directly in the source — across public <em>and</em> private types and members — so it surfaces in Xcode Quick Help and lays the groundwork for a future generated DocC reference.</p>
+            <div class="field-label">Tasks</div>
+            <ul class="tasks">
+                <li>Add <code>///</code> DocC comments to all types and members, public and private, describing purpose, parameters, returns, and important invariants (e.g. the cell bit layout, the <code>.gol</code> format, tile semantics).</li>
+                <li>Document the simulation core first (<code>Grid</code>, <code>Rule</code>, tile types), then I/O (readers/writers, persistence), then UI and utilities.</li>
+                <li>Use the work as a final review of names and signatures; flag anything confusing for a small follow-up rather than silently reworking it.</li>
+                <li>Verify comments render correctly in Xcode Quick Help; keep a generated DocC reference noted as a possible future follow-up (out of scope here).</li>
+            </ul>
+            <div class="field-label">Status</div>
+            <p><span class="capsule todo">Not started</span> &nbsp; <span class="placeholder">Completed: —</span></p>
+            <div class="field-label">Implementation notes</div>
+            <p class="placeholder">To be filled in as work progresses.</p>
+            <div class="field-label">Review comments</div>
+            <p class="placeholder">Review feedback for this milestone.</p>
+        </article>
+
+        <h2>Appendix</h2>
+        <ul class="notes">
+            <li><strong>Status legend.</strong>
+                <span class="capsule todo">Not started</span>
+                <span class="capsule prog">In progress</span>
+                <span class="capsule done">Completed</span>
+                — update each milestone's capsule (and the one in its Status line) as work moves forward, filling in the completion date when done.</li>
+            <li><strong>Source roadmap items → milestones.</strong> Unit Tests → M1–M3; Review Custom Drawing → M4; Infinite Grid → M5–M8; Modernize Swift → M9; Documentation Comments → M10.</li>
+            <li><strong>Suggested commit boundaries.</strong> Each milestone is sized to be a single reviewable commit. The infinite-grid phase (M5–M8) is the exception to watch: although split into four milestones, the core migration (M6), persistence (M7), and rendering (M8) are interdependent and may need to land close together to keep the app runnable.</li>
+        </ul>
+    </main>
+</body>
+</html>

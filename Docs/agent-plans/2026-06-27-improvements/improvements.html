@@ -150,6 +150,17 @@
                     lays the groundwork for generating a browsable DocC reference.
                 </p>
             </li>
+            <li>
+                <h3>Review Custom Drawing</h3>
+                <p>
+                    Custom drawing is broken on recent macOS versions because <code>NSView</code> no
+                    longer clips its content to its bounds by default (<code>clipsToBounds</code> now
+                    defaults to <code>false</code>). Drawing that previously stayed within a
+                    view&rsquo;s frame can now spill outside it. Audit the custom-drawing views
+                    &mdash; the grid in particular &mdash; and restore correct clipping where needed
+                    so rendering is contained within the intended bounds again.
+                </p>
+            </li>
         </ol>
     </main>
 </body>
