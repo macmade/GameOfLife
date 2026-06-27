@@ -55,8 +55,12 @@ class RulerView: NSRulerView
     
     override func drawHashMarksAndLabels( in rect: NSRect )
     {
+        // Draw the whole ruler: the passed rect is only the dirty region and is no
+        // longer guaranteed to equal the bounds, so use self.bounds.
+        let bounds = self.bounds
+
         NSColor( hex: 0x242C31 ).setFill()
-        rect.fill()
+        bounds.fill()
         
         guard let t = self.textView else
         {
@@ -136,8 +140,8 @@ class RulerView: NSRulerView
                 lineRect.origin.x    = 5
                 lineRect.origin.y   -= visibleRect.origin.y
                 lineRect.origin.y   += t.textContainerInset.height / 2
-                lineRect.size.width  = rect.size.width - 5
-                lineRect.size.height = rect.size.height
+                lineRect.size.width  = bounds.size.width - 5
+                lineRect.size.height = bounds.size.height
 
                 ( String( describing: line + 1 ) as NSString ).draw( in: lineRect, withAttributes: attr )
             }

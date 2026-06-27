@@ -31,8 +31,10 @@ class ColorWell: NSColorWell
     
     public override func draw( _ rect: NSRect )
     {
-        let path = NSBezierPath( roundedRect: rect, xRadius: self.cornerRadius, yRadius: self.cornerRadius )
-        
+        // Draw the whole view: the passed rect is only the dirty region and is no
+        // longer guaranteed to equal the bounds, so use self.bounds.
+        let path = NSBezierPath( roundedRect: self.bounds, xRadius: self.cornerRadius, yRadius: self.cornerRadius )
+
         self.color.setFill()
         path.fill()
     }

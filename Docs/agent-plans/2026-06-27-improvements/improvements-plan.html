@@ -352,7 +352,7 @@
         <article class="milestone">
             <div class="ms-head">
                 <h4><span class="num">M4.</span>Audit &amp; fix custom-drawing clipping</h4>
-                <span class="capsule todo">Not started</span>
+                <span class="capsule done">Completed</span>
             </div>
             <div class="field-label">Goal</div>
             <p class="goal">Restore correct rendering on recent macOS, where <code>NSView.clipsToBounds</code> now defaults to <code>false</code> and custom drawing can spill outside a view's bounds.</p>
@@ -365,11 +365,23 @@
                 <li>Add a brief code comment at each fix explaining the <code>clipsToBounds</code> default change so the intent is clear.</li>
             </ul>
             <div class="field-label">Status</div>
-            <p><span class="capsule todo">Not started</span> &nbsp; <span class="placeholder">Completed: —</span></p>
+            <p><span class="capsule done">Completed</span> &nbsp; <span class="completed-date">Completed: 2026-06-28</span></p>
             <div class="field-label">Implementation notes</div>
-            <p class="placeholder">To be filled in as work progresses.</p>
+            <div class="filled">
+                <ul class="notes">
+                    <li><strong>Corrected root cause.</strong> The regression is <em>not</em> about <code>clipsToBounds</code>. On recent macOS the <code>rect</code> passed to a view's drawing method is only the dirty region and is no longer guaranteed to equal <code>self.bounds</code> (previously it effectively did). Views that drew using that passed <code>rect</code> for their geometry now paint only part of themselves. The fix is to draw against <code>self.bounds</code> and ignore the passed <code>rect</code> — no <code>clipsToBounds</code> changes.</li>
+                    <li><strong>Audit result.</strong> Of the eight custom-drawing views, only two used the passed rect: <code>ColorWell.draw(_:)</code> (<code>NSBezierPath(roundedRect: rect, …)</code>) and <code>RulerView.drawHashMarksAndLabels(in:)</code> (the background <code>rect.fill()</code> and the label width/height from <code>rect.size</code>). Both now use <code>self.bounds</code>. The others already drew against <code>self.bounds</code> (<code>ColorView</code>, <code>BorderView</code>, <code>LibraryItemView</code>, <code>LibraryItemDetailView</code>), a local copy of bounds (<code>ProgressIndicator</code>), or <code>self.frame</code> and never the passed rect (<code>GridView</code>) — so they were left unchanged.</li>
+                    <li><strong>Tests (<code>DrawingBoundsTests</code>, <code>@MainActor</code>).</strong> Each view is rendered into an offscreen bitmap with a tiny corner dirty rect, then a far corner pixel is checked to confirm it was still painted. These failed before the fix (far corner alpha 0.0 — only the dirty rect drawn) and pass after (whole bounds drawn). 54 tests in 10 suites all green.</li>
+                    <li><strong>Note on the milestone's original premise.</strong> The milestone was written around the macOS 14 <code>clipsToBounds</code> default change; the actual on-device symptom here was the dirty-rect/bounds mismatch instead, so the fix and its code comments reflect that rather than setting <code>clipsToBounds</code>.</li>
+                    <li><strong>Preferences colors table margins.</strong> A separate new-macOS rendering regression: the colors <code>NSTableView</code> in <code>GOL.PreferencesWindowController.xib</code> had no explicit style, so it defaulted to <code>.automatic</code>, which now resolves to the inset style and indented the rows from the table's left/right edges. Fixed in the xib by setting <code>tableStyle="fullWidth"</code> (with <code>selectionHighlightStyle="none"</code>) to restore edge-to-edge rows.</li>
+                </ul>
+            </div>
             <div class="field-label">Review comments</div>
-            <p class="placeholder">Review feedback for this milestone.</p>
+            <div class="filled">
+                <ul class="notes">
+                    <li><strong>Reviewer correction.</strong> An initial attempt set <code>clipsToBounds = true</code> on several views; the reviewer clarified that the real issue is the passed <code>rect</code> no longer equalling <code>self.bounds</code>, and that the fix is simply to draw using <code>self.bounds</code> and ignore the passed rect (no <code>clipsToBounds</code>). That attempt was fully reverted and the milestone redone accordingly.</li>
+                </ul>
+            </div>
         </article>
 
         <h3 class="phase">Phase 3 — Infinite grid (chunked/tiled)</h3>
