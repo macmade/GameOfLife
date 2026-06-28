@@ -25,37 +25,38 @@
 import Testing
 @testable import GOL
 
-/// Tests for `Grid`'s cell accessors (`cellAt`/`isAliveAt`/`setAliveAt`) and for
-/// `resize()` preserving in-bounds cells and recomputing the population.
+/// Tests for `Grid`'s unbounded cell accessors (`cellAt`/`isAliveAt`/
+/// `setAliveAt`), which operate over the whole signed plane.
 ///
 /// These tests do not run `next()`, so they do not depend on the active rule and
 /// can run in parallel.
-@Suite( "Grid accessors & resize" )
+@Suite( "Grid accessors" )
 @MainActor
 struct GridAccessorTests
 {
-    /// In-bounds reads return a value; out-of-bounds reads return `nil`/`false`.
-    @Test( "cellAt and isAliveAt are bounds-checked" )
-    func accessorsAreBoundsChecked()
+    /// Cells can be read and written anywhere on the plane — inside the initial
+    /// extent, far beyond it, and at negative coordinates — and never-set cells
+    /// read back dead.
+    @Test( "accessors read and write at arbitrary world coordinates" )
+    func accessorsAreUnbounded()
     {
         let grid = Grid( width: 3, height: 3, kind: .Blank )
 
-        grid.setAliveAt( x: 1, y: 1, value: true )
+        grid.setAliveAt( x: 1,    y: 1,   value: true )
+        grid.setAliveAt( x: 1000, y: 500, value: true )
+        grid.setAliveAt( x: -7,   y: -3,  value: true )
 
+        #expect( grid.isAliveAt( x: 1,    y: 1 ) )
+        #expect( grid.isAliveAt( x: 1000, y: 500 ) )
+        #expect( grid.isAliveAt( x: -7,   y: -3 ) )
         #expect( grid.cellAt( x: 1, y: 1 ) == 1 )
-        #expect( grid.isAliveAt( x: 1, y: 1 ) )
 
-        // Out of bounds in every direction.
-        #expect( grid.cellAt( x: 3, y: 0 ) == nil )
-        #expect( grid.cellAt( x: 0, y: 3 ) == nil )
-        #expect( grid.cellAt( x: -1, y: 0 ) == nil )
-        #expect( grid.cellAt( x: 0, y: -1 ) == nil )
-
-        #expect( grid.isAliveAt( x: 3, y: 0 ) == false )
-        #expect( grid.isAliveAt( x: -1, y: -1 ) == false )
+        // A never-set cell reads back dead (zero), not as an out-of-bounds value.
+        #expect( grid.isAliveAt( x: 2, y: 2 ) == false )
+        #expect( grid.cellAt( x: 2, y: 2 ) == 0 )
     }
 
-    /// `setAliveAt` toggles a cell and clears it; it never sets the age bits.
+    /// `setAliveAt` toggles a cell on and off; clearing it sets the byte to zero.
     @Test( "setAliveAt sets and clears a cell" )
     func setAliveAtSetsAndClears()
     {
@@ -71,52 +72,22 @@ struct GridAccessorTests
         #expect( grid.isAliveAt( x: 2, y: 2 ) == false )
     }
 
-    /// `setAliveAt` out of bounds is a silent no-op (no crash, no change).
-    @Test( "setAliveAt out of bounds does nothing" )
-    func setAliveAtOutOfBoundsIsNoOp()
-    {
-        let grid = Grid( width: 3, height: 3, kind: .Blank )
-
-        grid.setAliveAt( x: 5, y: 5, value: true )
-        grid.setAliveAt( x: -1, y: 0, value: true )
-
-        #expect( GridTestSupport.liveCoordinates( grid ).isEmpty )
-    }
-
-    /// Growing the grid preserves in-bounds cells and keeps the population.
-    @Test( "resize to a larger grid preserves cells and population" )
-    func resizeLargerPreservesCells()
+    /// `forEachLiveCell(inMinX:minY:maxX:maxY:)` yields only the live cells whose
+    /// world coordinates fall inside the inclusive rectangle.
+    @Test( "forEachLiveCell(in:) is restricted to the rectangle" )
+    func liveCellsInRectangle()
     {
         let grid = Grid( width: 4, height: 4, kind: .Blank )
 
-        grid.setAliveAt( x: 0, y: 0, value: true )
-        grid.setAliveAt( x: 3, y: 3, value: true )
+        grid.setAliveAt( x:  0, y: 0, value: true ) // inside
+        grid.setAliveAt( x:  3, y: 3, value: true ) // inside (corner)
+        grid.setAliveAt( x:  5, y: 5, value: true ) // outside (beyond max)
+        grid.setAliveAt( x: -2, y: 1, value: true ) // outside (negative x)
 
-        grid.resize( width: 6, height: 6 )
+        var found = Set< [ Int ] >()
 
-        #expect( grid.width      == 6 )
-        #expect( grid.height     == 6 )
-        #expect( grid.population == 2 )
-        #expect( grid.isAliveAt( x: 0, y: 0 ) )
-        #expect( grid.isAliveAt( x: 3, y: 3 ) )
-        #expect( grid.isAliveAt( x: 5, y: 5 ) == false )
-    }
+        grid.forEachLiveCell( inMinX: 0, minY: 0, maxX: 3, maxY: 3 ) { x, y, _ in found.insert( [ x, y ] ) }
 
-    /// Shrinking the grid drops out-of-bounds cells and recomputes the population.
-    @Test( "resize to a smaller grid drops cells and recomputes population" )
-    func resizeSmallerDropsCells()
-    {
-        let grid = Grid( width: 4, height: 4, kind: .Blank )
-
-        grid.setAliveAt( x: 0, y: 0, value: true )
-        grid.setAliveAt( x: 3, y: 3, value: true )
-
-        grid.resize( width: 2, height: 2 )
-
-        #expect( grid.width      == 2 )
-        #expect( grid.height     == 2 )
-        #expect( grid.population == 1 )
-        #expect( grid.isAliveAt( x: 0, y: 0 ) )
-        #expect( grid.cellAt( x: 3, y: 3 ) == nil )
+        #expect( found == [ [ 0, 0 ], [ 3, 3 ] ] )
     }
 }

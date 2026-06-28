@@ -499,7 +499,7 @@
         <article class="milestone">
             <div class="ms-head">
                 <h4><span class="num">M8.</span>Rendering &amp; navigation for the unbounded grid</h4>
-                <span class="capsule todo">Not started</span>
+                <span class="capsule done">Completed</span>
             </div>
             <div class="field-label">Goal</div>
             <p class="goal">Let the user see and move around an unbounded world: <code>GridView</code> renders the visible viewport efficiently and supports scrolling/panning (and ideally zoom) instead of assuming a fixed playfield.</p>
@@ -512,9 +512,17 @@
                 <li>Manually verify long-running patterns (glider, Gosper gun) render and scroll smoothly without edge artifacts.</li>
             </ul>
             <div class="field-label">Status</div>
-            <p><span class="capsule todo">Not started</span> &nbsp; <span class="placeholder">Completed: —</span></p>
+            <p><span class="capsule done">Completed</span> &nbsp; <span class="completed-date">Completed: 2026-06-28</span></p>
             <div class="field-label">Implementation notes</div>
-            <p class="placeholder">To be filled in as work progresses.</p>
+            <div class="filled">
+                <ul class="notes">
+                    <li><strong>Decisions (confirmed with the reviewer).</strong> (1) Pan-only, <em>no zoom</em> — the cmd+scroll zoom was removed (deferred per M5). (2) The viewport lives on <code>Grid</code>, since the v1 scene block (M7) already persists origin + extent: <code>Grid</code> gained real <code>originX</code>/<code>originY</code> and <code>width</code>/<code>height</code> are repurposed as the visible extent. (3) The leftover fixed-rectangle code was deleted now (not left as dead code). (4) Panning is <em>⌥-drag</em> (a held modifier + drag), since plain drag edits cells; no scroll-to-pan and no arrow keys, per the chosen option. (5) The "ruler" task is moot — <code>RulerView</code> is the library editor's text line-number ruler, not a grid ruler, so there was nothing to map to world coordinates.</li>
+                    <li><strong>Grid (TDD).</strong> <code>cellAt</code>/<code>isAliveAt</code>/<code>setAliveAt</code> are now <em>unbounded</em> signed-coordinate accessors (no window check; <code>cellAt</code> returns a non-optional <code>Cell</code>, 0 where unset). Added <code>originX</code>/<code>originY</code> + a non-pruning <code>setViewport(originX:originY:width:height:)</code>, and a viewport-restricted <code>forEachLiveCell(inMinX:minY:maxX:maxY:)</code> that visits only the tiles intersecting the rect. The v1 scene origin is now written from <code>self.originX</code>/<code>originY</code> and read back in <code>loadVersion1</code> (v0 loads reset it to 0). Deleted the vestigial <code>cells</code> computed property and the <code>resize()</code> playfield-reframe.</li>
+                    <li><strong>GridView.</strong> <code>draw(_:)</code> renders only the live cells in the visible world rect (<code>forEachLiveCell(in:)</code>), mapping each world coordinate to screen via the viewport origin and <code>cellSize</code>. Removed <code>scale</code>, the cmd/option <code>scrollWheel</code> zoom, and all <code>setBoundsOrigin</code>/<code>setBoundsSize</code>/<code>scaleUnitSquare</code>/<code>translateOrigin</code> bounds hacks. <code>resize()</code>-to-screen is retired: on view/cell-size change the viewport <em>extent</em> is resynced (no pruning) via <code>updateViewportExtent()</code>. Editing maps screen→world through the origin; ⌥-drag pans by translating the origin; library drop places at world coordinates. <code>gridDimensions</code> now reports the live pattern's bounding-box size (0x0 when empty). The <code>preserveGridSize</code> preference is now a no-op for the unbounded grid (its UI remains; could be removed in a later pass).</li>
+                    <li><strong>Tests.</strong> Rewrote <code>GridAccessorTests</code> for the unbounded model (arbitrary/negative coordinates; removed the windowed-bounds and <code>resize</code> tests); fixed the aging test's <code>cellAt</code> usage (now non-optional); added a viewport-origin persistence round-trip and a <code>forEachLiveCell(in:)</code> rectangle test. Full suite: <strong>59 tests in 10 suites, all green</strong>.</li>
+                    <li><strong>Manual verification (partial — see caveat).</strong> Built and launched the app: the unbounded viewport <em>renders live cells and the simulation evolves</em> (observed Generation 104, Population 1247, FPS ~7.4, status "Grid: 143x72" = the live bounding box), confirming the rendering rewrite and the per-frame draw loop. <strong>Caveat:</strong> the interactive paths — ⌥-drag pan, click/drag cell editing, library drag-drop placement, and File ▸ Save/Open scene restore — could <em>not</em> be machine-driven: this environment denies scripted input the <em>Accessibility</em> permission (<code>osascript is not allowed assistive access</code>), which only the user can grant, so synthesizing clicks/drags/menus is blocked. Their coordinate math and the persistence/scene round-trip are covered by unit tests. <strong>The user then verified ⌥-drag pan, click/drag cell editing, library drag-drop placement, and File ▸ Save/Open scene restore by hand — all working.</strong></li>
+                </ul>
+            </div>
             <div class="field-label">Review comments</div>
             <p class="placeholder">Review feedback for this milestone.</p>
         </article>

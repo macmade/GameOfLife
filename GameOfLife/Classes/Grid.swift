@@ -78,6 +78,13 @@ class Grid: NSObject
     public private( set ) var width:  size_t
     public private( set ) var height: size_t
 
+    /// The viewport: the world coordinate of the top-left visible cell. With
+    /// `width`/`height` (the visible extent in cells) this is the on-screen
+    /// window into the unbounded plane; it is driven by `GridView` and persisted
+    /// in the `.gol` scene block.
+    public private( set ) var originX: Int = 0
+    public private( set ) var originY: Int = 0
+
     /// Populated tiles keyed by tile coordinate. A tile is present only while it
     /// holds at least one live cell; emptied tiles are removed.
     private var tiles: [ TileKey: Tile ] = [:]
@@ -206,6 +213,74 @@ class Grid: NSObject
         }
     }
 
+    /// Calls `body` once for every live cell whose world coordinates fall inside
+    /// the inclusive rectangle `[minX, maxX] × [minY, maxY]`.
+    ///
+    /// Only the tiles intersecting the rectangle are visited, so this stays cheap
+    /// for a small viewport over a large plane. Used by the renderer to draw just
+    /// the visible cells.
+    ///
+    /// - Parameters:
+    ///   - minX/minY/maxX/maxY: The inclusive world-coordinate bounds.
+    ///   - body: Receives `(x, y, cell)` for each live cell in range.
+    public func forEachLiveCell( inMinX minX: Int, minY: Int, maxX: Int, maxY: Int, _ body: ( Int, Int, Cell ) -> Void )
+    {
+        if( maxX < minX || maxY < minY )
+        {
+            return
+        }
+
+        let size   = Grid.tileSize
+        let colMin = Grid.tileIndex( minX )
+        let colMax = Grid.tileIndex( maxX )
+        let rowMin = Grid.tileIndex( minY )
+        let rowMax = Grid.tileIndex( maxY )
+
+        for row in rowMin ... rowMax
+        {
+            for col in colMin ... colMax
+            {
+                guard let tile = self.tiles[ TileKey( col: col, row: row ) ] else
+                {
+                    continue
+                }
+
+                let baseX   = col * size
+                let baseY   = row * size
+                let lxStart = max( 0, minX - baseX )
+                let lxEnd   = min( size - 1, maxX - baseX )
+                let lyStart = max( 0, minY - baseY )
+                let lyEnd   = min( size - 1, maxY - baseY )
+
+                for ly in lyStart ... lyEnd
+                {
+                    for lx in lxStart ... lxEnd
+                    {
+                        let cell = tile[ ly * size + lx ]
+
+                        if( cell & 1 == 1 )
+                        {
+                            body( baseX + lx, baseY + ly, cell )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /// Sets the viewport: the world coordinate of the top-left visible cell
+    /// (`originX`/`originY`) and the visible extent in cells (`width`/`height`).
+    ///
+    /// Unlike `resize`, this never touches the cells — it only reframes the
+    /// on-screen window over the unbounded plane.
+    public func setViewport( originX: Int, originY: Int, width: size_t, height: size_t )
+    {
+        self.originX = originX
+        self.originY = originY
+        self.width   = width
+        self.height  = height
+    }
+
     /// The bounding box of every live cell on the plane, or `nil` when the grid
     /// is empty. Used to export and frame the populated region independently of
     /// the legacy window.
@@ -234,34 +309,6 @@ class Grid: NSObject
         }
 
         return bounds
-    }
-
-    /// Reframes the legacy fixed playfield, keeping only the live cells inside the
-    /// new `width`/`height` window and recomputing the population.
-    ///
-    /// This preserves the dense model's destructive resize semantics for the
-    /// renderer; it is retired in M8 once the viewport replaces the fixed window.
-    public func resize( width: size_t, height: size_t )
-    {
-        var kept: [ ( Int, Int, Cell ) ] = []
-
-        self.forEachLiveCell
-        {
-            x, y, cell in
-
-            if( x >= 0 && y >= 0 && x < width && y < height )
-            {
-                kept.append( ( x, y, cell ) )
-            }
-        }
-
-        self.tiles  = [:]
-        self.width  = width
-        self.height = height
-
-        kept.forEach { self.setCellValue( x: $0.0, y: $0.1, value: $0.2 ) }
-
-        self.population = UInt64( kept.count )
     }
 
     /// Advances the simulation by one generation over the unbounded plane.
@@ -410,53 +457,25 @@ class Grid: NSObject
         self.tiles      = next
     }
 
-    public func cellAt( x: size_t, y: size_t ) -> Cell?
+    /// The raw cell byte at a world coordinate, or `0` (dead) where unset.
+    ///
+    /// The plane is unbounded, so every coordinate is valid — there is no
+    /// "out of bounds" and the result is never `nil`.
+    public func cellAt( x: Int, y: Int ) -> Cell
     {
-        if( x < self.width && y < self.height && x >= 0 && y >= 0 )
-        {
-            return self.cellValue( x: x, y: y )
-        }
-
-        return nil
+        self.cellValue( x: x, y: y )
     }
 
-    public func isAliveAt( x: size_t, y: size_t ) -> Bool
+    /// Whether the cell at a world coordinate is alive.
+    public func isAliveAt( x: Int, y: Int ) -> Bool
     {
-        if( x < self.width && y < self.height && x >= 0 && y >= 0 )
-        {
-            return self.cellValue( x: x, y: y ) & 1 == 1
-        }
-
-        return false
+        self.cellValue( x: x, y: y ) & 1 == 1
     }
 
-    public func setAliveAt( x: size_t, y: size_t, value: Bool )
+    /// Sets the cell at a world coordinate alive or dead, clearing its age.
+    public func setAliveAt( x: Int, y: Int, value: Bool )
     {
-        if( x < self.width && y < self.height && x >= 0 && y >= 0 )
-        {
-            self.setCellValue( x: x, y: y, value: ( value ) ? 1 : 0 )
-        }
-    }
-
-    /// A dense snapshot of the legacy `[0, width) × [0, height)` window in
-    /// row-major order — the windowed facade over the tile store, used by the v0
-    /// `.gol` writer and available to call sites still expecting a flat array. It
-    /// is materialized on access and removed in M8.
-    public var cells: ContiguousArray< Cell >
-    {
-        var out = ContiguousArray< Cell >()
-
-        out.reserveCapacity( self.width * self.height )
-
-        for y in 0 ..< self.height
-        {
-            for x in 0 ..< self.width
-            {
-                out.append( self.cellValue( x: x, y: y ) )
-            }
-        }
-
-        return out
+        self.setCellValue( x: x, y: y, value: ( value ) ? 1 : 0 )
     }
 
     private func setupBlankGrid()
@@ -493,15 +512,25 @@ class Grid: NSObject
     {
         var data = Data()
 
-        data.append( contentsOf: [ 71, 79, 76, 49 ] )        // "GOL1"
-        data.append( UInt64( 1 ) )                           // format version
-        data.append( UInt64( Preferences.shared.cellSize ) ) // cell size
-        data.append( UInt64( Grid.tileSize ) )               // tile size
-        data.append( UInt64( bitPattern: Int64( 0 ) ) )      // scene origin X (M8)
-        data.append( UInt64( bitPattern: Int64( 0 ) ) )      // scene origin Y (M8)
-        data.append( UInt64( self.width ) )                  // scene / view width
-        data.append( UInt64( self.height ) )                 // scene / view height
-        data.append( UInt64( self.tiles.count ) )            // tile count
+        let magic     = Data( [ 71, 79, 76, 49 ] )
+        let version   = UInt64( 1 )
+        let cellSize  = UInt64( Preferences.shared.cellSize )
+        let tileSize  = UInt64( Grid.tileSize )
+        let originX   = UInt64( bitPattern: Int64( self.originX ) )
+        let originY   = UInt64( bitPattern: Int64( self.originY ) )
+        let viewW     = UInt64( self.width )
+        let viewH     = UInt64( self.height )
+        let tileCount = UInt64( self.tiles.count )
+
+        data.append( magic )     // "GOL1"
+        data.append( version )   // format version
+        data.append( cellSize )  // cell size
+        data.append( tileSize )  // tile size
+        data.append( originX )   // scene origin X
+        data.append( originY )   // scene origin Y
+        data.append( viewW )     // scene / view width
+        data.append( viewH )     // scene / view height
+        data.append( tileCount ) // tile count
 
         var payload = Data()
 
@@ -606,9 +635,11 @@ class Grid: NSObject
             bytes.append( contentsOf: data.advanced( by: 44 ) )
         }
 
-        self.tiles  = [:]
-        self.width  = size_t( width )
-        self.height = size_t( height )
+        self.tiles   = [:]
+        self.width   = size_t( width )
+        self.height  = size_t( height )
+        self.originX = 0
+        self.originY = 0
 
         var n: UInt64 = 0
 
@@ -642,6 +673,8 @@ class Grid: NSObject
 
         let size      = data.readUInt64( at: 12 )
         let tileSize  = data.readUInt64( at: 20 )
+        let originX   = Int( Int64( bitPattern: data.readUInt64( at: 28 ) ) )
+        let originY   = Int( Int64( bitPattern: data.readUInt64( at: 36 ) ) )
         let sceneW    = data.readUInt64( at: 44 )
         let sceneH    = data.readUInt64( at: 52 )
         let tileCount = data.readUInt64( at: 60 )
@@ -705,9 +738,11 @@ class Grid: NSObject
             payload = Data( Array( data.dropFirst( 76 ) ) )
         }
 
-        self.tiles  = [:]
-        self.width  = size_t( sceneW )
-        self.height = size_t( sceneH )
+        self.tiles   = [:]
+        self.width   = size_t( sceneW )
+        self.height  = size_t( sceneH )
+        self.originX = originX
+        self.originY = originY
 
         let edge      = Int( tileSize )
         var n: UInt64 = 0

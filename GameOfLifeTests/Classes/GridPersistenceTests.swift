@@ -189,6 +189,30 @@ struct GridPersistenceTests
         #expect( Preferences.shared.cellSize == 6 )
     }
 
+    /// The v1 format round-trips the viewport: origin and view extent survive a
+    /// `data()` → `load(data:)` cycle.
+    @Test( "v1 round-trips the viewport origin and extent" )
+    func tiledRoundTripsViewport()
+    {
+        let previousSize = Preferences.shared.cellSize
+
+        defer { Preferences.shared.cellSize = previousSize }
+
+        let grid = Grid( width: 8, height: 6, kind: .Blank )
+
+        grid.setAliveAt( x: 2, y: 2, value: true )
+        grid.setViewport( originX: -40, originY: 17, width: 8, height: 6 )
+
+        let data     = grid.data()
+        let restored = Grid( width: 1, height: 1, kind: .Blank )
+
+        #expect( restored.load( data: data ) )
+        #expect( restored.originX == -40 )
+        #expect( restored.originY == 17 )
+        #expect( restored.width   == 8 )
+        #expect( restored.height  == 6 )
+    }
+
     /// `load(data:)` reads a hand-built uncompressed (`lzfse == 0`) stream.
     @Test( "load() reads the uncompressed branch" )
     func uncompressedLoad()

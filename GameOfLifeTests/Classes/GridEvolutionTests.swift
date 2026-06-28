@@ -297,9 +297,9 @@ struct GridEvolutionTests
     /// A long-lived cell's age bits increment each generation and saturate at
     /// the cap (127) without ever clearing the alive bit.
     @Test( "Aging: a stable cell's age increments then saturates at 127" )
-    func cellAgingSaturates() throws
+    func cellAgingSaturates()
     {
-        try GridTestSupport.withActiveRule( "B3/S23" )
+        GridTestSupport.withActiveRule( "B3/S23" )
         {
             let grid = GridTestSupport.makeGrid(
                 [
@@ -311,14 +311,14 @@ struct GridEvolutionTests
             )
 
             // A cell set alive via setAliveAt starts at age 0 (raw byte 1).
-            let initial = try #require( grid.cellAt( x: 1, y: 1 ) )
+            let initial = grid.cellAt( x: 1, y: 1 )
 
             #expect( initial == UInt8( 1 ) )
 
             // After k survivals the raw byte is `1 | (k << 1)` while age < 127.
             ( 0 ..< 5 ).forEach { _ in grid.next() }
 
-            let afterFive = try #require( grid.cellAt( x: 1, y: 1 ) )
+            let afterFive = grid.cellAt( x: 1, y: 1 )
 
             #expect( afterFive == UInt8( 11 ) )
             #expect( grid.isAliveAt( x: 1, y: 1 ) )
@@ -327,7 +327,7 @@ struct GridEvolutionTests
             // 1 | (127 << 1) == 255, and the cell is still alive.
             ( 0 ..< 200 ).forEach { _ in grid.next() }
 
-            let saturated = try #require( grid.cellAt( x: 1, y: 1 ) )
+            let saturated = grid.cellAt( x: 1, y: 1 )
 
             #expect( saturated == UInt8( 255 ) )
             #expect( grid.isAliveAt( x: 1, y: 1 ) )

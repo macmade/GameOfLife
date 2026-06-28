@@ -31,7 +31,6 @@ class GridView: NSView
     @objc dynamic public var resumeAfterOperation: Bool    = false
     @objc dynamic public var drawSetAlive:         Bool    = false
     @objc dynamic public var dragging:             Bool    = false
-    @objc dynamic public var scale:                Int     = 0
     @objc dynamic public var cellSize:             CGFloat = 0
     @objc dynamic public var gridDimensions:       String  = ""
     
@@ -47,6 +46,10 @@ class GridView: NSView
     private var draggedItem:     LibraryItem?
     private var draggedPoint:    NSPoint?
     private var dragOperation:   NSDragOperation?
+
+    private var panning        = false
+    private var panStartPoint  = NSPoint.zero
+    private var panStartOrigin = ( x: 0, y: 0 )
     
     override var acceptsFirstResponder: Bool
     {
@@ -97,7 +100,7 @@ class GridView: NSView
     private func setup()
     {
         self.observations.append( Preferences.shared.observe( \Preferences.speed    ) { ( c, o ) in self.restartTimer() } )
-        self.observations.append( Preferences.shared.observe( \Preferences.cellSize ) { ( c, o ) in self.resizeGrid() } )
+        self.observations.append( Preferences.shared.observe( \Preferences.cellSize ) { ( c, o ) in self.updateViewportExtent() } )
         self.registerForDraggedTypes( [ LibraryItem.PasteboardType ] )
         self.updateDimensions()
     }
@@ -117,8 +120,8 @@ class GridView: NSView
     
     override func viewDidEndLiveResize()
     {
-        self.resizeGrid()
-        
+        self.updateViewportExtent()
+
         if( self.resumeAfterOperation )
         {
             self.resume( nil )
@@ -129,38 +132,38 @@ class GridView: NSView
         
     }
     
-    private func resizeGrid()
+    /// Resyncs the viewport's visible extent to the current view and cell size,
+    /// then redraws. The cells are untouched — only the on-screen window over the
+    /// unbounded plane changes (no pruning, no bounds manipulation).
+    private func updateViewportExtent()
     {
         self.cellSize = CGFloat( max( 1, Preferences.shared.cellSize ) )
-        
-        var width  = size_t( self.frame.size.width  / self.cellSize )
-        var height = size_t( self.frame.size.height / self.cellSize )
-        
-        if( Preferences.shared.preserveGridSize )
-        {
-            width  = ( width  > self.grid.width  ) ? width  : self.grid.width
-            height = ( height > self.grid.height ) ? height : self.grid.height
-        }
-        
-        self.grid.resize( width: width, height: height )
-        
-        if( width >= self.grid.width && height >= self.grid.height )
-        {
-            self.setBoundsOrigin( NSMakePoint( 0, 0 ) )
-            self.setBoundsSize( NSMakeSize( 0, 0 ) )
-        }
-        
+
+        let width  = size_t( ceil( self.frame.size.width  / self.cellSize ) )
+        let height = size_t( ceil( self.frame.size.height / self.cellSize ) )
+
+        self.grid.setViewport( originX: self.grid.originX, originY: self.grid.originY, width: width, height: height )
+
         self.setNeedsDisplay( self.bounds )
         self.updateDimensions()
     }
-    
+
     public func updateDimensions()
     {
         self.cellSize = CGFloat( max( 1, Preferences.shared.cellSize ) )
-        
-        let s1 = String( describing: self.grid.width )
-        let s2 = String( describing: self.grid.height )
-        
+
+        // The plane is unbounded, so report the live pattern's bounding-box size
+        // rather than a fixed playfield; empty grids read as 0x0.
+        guard let bounds = self.grid.liveBounds() else
+        {
+            self.gridDimensions = "0x0"
+
+            return
+        }
+
+        let s1 = String( describing: bounds.maxX - bounds.minX + 1 )
+        let s2 = String( describing: bounds.maxY - bounds.minY + 1 )
+
         self.gridDimensions = s1 + "x" + s2
     }
     
@@ -285,45 +288,81 @@ class GridView: NSView
         }
     }
     
+    /// Maps a point in this view's (flipped) coordinates to a world cell, through
+    /// the current viewport origin.
+    private func worldCell( at point: NSPoint ) -> ( x: Int, y: Int )
+    {
+        let x = self.grid.originX + Int( floor( point.x / self.cellSize ) )
+        let y = self.grid.originY + Int( floor( point.y / self.cellSize ) )
+
+        return ( x, y )
+    }
+
     override func mouseDown( with event: NSEvent )
     {
-        self.mouseUpResume = self.paused == false
-        
-        self.pause( nil )
-        
         guard let point = self.window?.contentView?.convert( event.locationInWindow, to: self ) else
         {
             return
         }
-        
-        let x = size_t( point.x / self.cellSize )
-        let y = size_t( point.y / self.cellSize )
-        
-        self.drawSetAlive = self.grid.isAliveAt( x: x, y: y ) == false
-        
-        self.grid.setAliveAt( x: x, y: y, value: self.drawSetAlive )
+
+        // Holding Option turns a drag into a viewport pan instead of editing.
+        if( event.modifierFlags.contains( .option ) )
+        {
+            self.panning        = true
+            self.panStartPoint  = point
+            self.panStartOrigin = ( self.grid.originX, self.grid.originY )
+
+            return
+        }
+
+        self.mouseUpResume = self.paused == false
+
+        self.pause( nil )
+
+        let cell = self.worldCell( at: point )
+
+        self.drawSetAlive = self.grid.isAliveAt( x: cell.x, y: cell.y ) == false
+
+        self.grid.setAliveAt( x: cell.x, y: cell.y, value: self.drawSetAlive )
         self.setNeedsDisplay( self.bounds )
     }
-    
+
     override func mouseUp( with event: NSEvent )
     {
+        if( self.panning )
+        {
+            self.panning = false
+
+            return
+        }
+
         if( self.mouseUpResume )
         {
             self.resume( nil )
         }
     }
-    
+
     override func mouseDragged( with event: NSEvent )
     {
         guard let point = self.window?.contentView?.convert( event.locationInWindow, to: self ) else
         {
             return
         }
-        
-        let x = size_t( point.x / self.cellSize )
-        let y = size_t( point.y / self.cellSize )
-        
-        self.grid.setAliveAt( x: x, y: y, value: self.drawSetAlive )
+
+        if( self.panning )
+        {
+            let dx = Int( ( ( point.x - self.panStartPoint.x ) / self.cellSize ).rounded() )
+            let dy = Int( ( ( point.y - self.panStartPoint.y ) / self.cellSize ).rounded() )
+
+            self.grid.setViewport( originX: self.panStartOrigin.x - dx, originY: self.panStartOrigin.y - dy, width: self.grid.width, height: self.grid.height )
+            self.setNeedsDisplay( self.bounds )
+
+            return
+        }
+
+        let cell = self.worldCell( at: point )
+
+        self.grid.setAliveAt( x: cell.x, y: cell.y, value: self.drawSetAlive )
         self.setNeedsDisplay( self.bounds )
     }
     
@@ -349,52 +388,47 @@ class GridView: NSView
                             Preferences.shared.color6()
                         ]
         
-        for x in 0 ..< size_t( self.frame.size.width / self.cellSize )
+        // Render only the live cells inside the visible world rect, mapping each
+        // world coordinate to a screen position through the viewport origin. The
+        // bounds run one cell past the view to cover partially-visible edges.
+        let originX = self.grid.originX
+        let originY = self.grid.originY
+        let cols    = Int( ceil( self.frame.size.width  / cellSize ) )
+        let rows    = Int( ceil( self.frame.size.height / cellSize ) )
+
+        self.grid.forEachLiveCell( inMinX: originX, minY: originY, maxX: originX + cols, maxY: originY + rows )
         {
-            for y in 0 ..< size_t( self.frame.size.height / self.cellSize )
+            worldX, worldY, cell in
+
+            if( hasColors )
             {
-                if( x >= self.grid.width || y >= self.grid.height )
+                let age = Int( cell >> 1 )
+
+                if( age >= colors.count )
                 {
-                    continue
-                }
-                
-                let cell = self.grid.cellAt( x: x, y: y ) ?? 0
-                
-                if( cell & 1 == 0 )
-                {
-                    continue
-                }
-                
-                if( hasColors )
-                {
-                    let age = cell >> 1
-                    
-                    if( age >= colors.count )
-                    {
-                        colors.last?.setFill()
-                    }
-                    else
-                    {
-                        colors[ size_t( age ) ].setFill()
-                    }
+                    colors.last?.setFill()
                 }
                 else
                 {
-                    NSColor.white.setFill()
+                    colors[ age ].setFill()
                 }
-                
-                let rect = NSRect( x: cellSize * CGFloat( x ), y: cellSize * CGFloat( y ), width: cellSize, height: cellSize )
-                
-                if( squares || cellSize < 2 )
-                {
-                    rect.fill()
-                }
-                else
-                {
-                    let path = NSBezierPath( roundedRect: rect, xRadius: cellSize / 2, yRadius: cellSize / 2 )
-                    
-                    path.fill()
-                }
+            }
+            else
+            {
+                NSColor.white.setFill()
+            }
+
+            let rect = NSRect( x: cellSize * CGFloat( worldX - originX ), y: cellSize * CGFloat( worldY - originY ), width: cellSize, height: cellSize )
+
+            if( squares || cellSize < 2 )
+            {
+                rect.fill()
+            }
+            else
+            {
+                let path = NSBezierPath( roundedRect: rect, xRadius: cellSize / 2, yRadius: cellSize / 2 )
+
+                path.fill()
             }
         }
         
@@ -477,60 +511,6 @@ class GridView: NSView
                     let path = NSBezierPath( roundedRect: rect, xRadius: cellSize / 2, yRadius: cellSize / 2 )
                     
                     path.fill()
-                }
-            }
-        }
-    }
-    
-    override func scrollWheel( with event: NSEvent )
-    {
-        if( event.modifierFlags.contains( NSEvent.ModifierFlags.option ) )
-        {
-            self.setBoundsOrigin( NSMakePoint( 0, 0 ) )
-            self.setBoundsSize( NSMakeSize( 0, 0 ) )
-            
-            self.scale = 0
-        }
-        else if( event.modifierFlags.contains( NSEvent.ModifierFlags.command ) )
-        {
-            if( event.deltaY < 0 )
-            {
-                self.scaleUnitSquare( to: NSMakeSize( 1.1, 1.1 ) )
-                
-                self.scale += 1
-            }
-            else if ( event.deltaY > 0 && self.scale > 0 )
-            {
-                self.scaleUnitSquare( to: NSMakeSize( 0.9, 0.9 ) )
-                
-                self.scale -= 1
-            }
-            else if( self.scale == 0 )
-            {
-                self.setBoundsOrigin( NSMakePoint( 0, 0 ) )
-                self.setBoundsSize( NSMakeSize( 0, 0 ) )
-            }
-        }
-        else
-        {
-            if( self.scale > 0 )
-            {
-                if( event.deltaY > 0 )
-                {
-                    self.translateOrigin( to: NSMakePoint( 0, 10 ) )
-                }
-                else if ( event.deltaY < 0 )
-                {
-                    self.translateOrigin( to: NSMakePoint( 0, -10 ) )
-                }
-                
-                if( event.deltaX > 0 )
-                {
-                    self.translateOrigin( to: NSMakePoint( 10, 0 ) )
-                }
-                else if ( event.deltaX < 0 )
-                {
-                    self.translateOrigin( to: NSMakePoint( -10, 0 ) )
                 }
             }
         }
@@ -650,10 +630,11 @@ class GridView: NSView
         
         let point     = self.convert( sender.draggingLocation, from: self.window?.contentView )
         let cellSize  = self.cellSize
-        
-        let offsetX = Int( ceil( point.x / cellSize ) );
-        let offsetY = Int( ceil( point.y / cellSize ) );
-        
+
+        // Drop into world coordinates, through the viewport origin.
+        let offsetX = self.grid.originX + Int( ceil( point.x / cellSize ) )
+        let offsetY = self.grid.originY + Int( ceil( point.y / cellSize ) )
+
         self.grid.add( cells: cells, left: offsetX, top: offsetY )
         
         self.setNeedsDisplay( self.bounds )
