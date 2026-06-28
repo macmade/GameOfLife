@@ -72,26 +72,36 @@ class RLEWriter
         
         lines.append( "#O " + creator )
         
+        // The plane is unbounded, so export the live bounding box rather than the
+        // legacy window; this keeps cells outside the window from being lost.
+        let bounds = grid.liveBounds()
+        let width  = bounds.map { $0.maxX - $0.minX + 1 } ?? 0
+        let height = bounds.map { $0.maxY - $0.minY + 1 } ?? 0
+
         let coords = "x = "
-                   + String( describing: grid.width )
+                   + String( describing: width )
                    + ", y = "
-                   + String( describing: grid.height )
+                   + String( describing: height )
                    + ", rule = B3/S23"
-        
+
         lines.append( coords )
 
-        if( grid.width == 0 || grid.height == 0 )
+        guard let bounds = bounds else
         {
             lines.append( "!" )
 
             return lines.joined( separator: "\n" ).data( using: .ascii )
         }
 
+        var live = Set< [ Int ] >()
+
+        grid.forEachLiveCell { x, y, _ in live.insert( [ x, y ] ) }
+
         var old: Grid.Cell?
         var n   = 1
         var rle = ""
-        
-        for y in 0 ..< grid.height
+
+        for y in bounds.minY ... bounds.maxY
         {
             // Run-length state is per row: each row is encoded independently and
             // terminated by "$" or "!". Reset here so a run never carries across
@@ -99,45 +109,45 @@ class RLEWriter
             old = nil
             n   = 1
 
-            for x in 0 ..< grid.width
+            for x in bounds.minX ... bounds.maxX
             {
-                let cell = grid.cellAt( x: x, y: y ) ?? 0
+                let cell: Grid.Cell = live.contains( [ x, y ] ) ? 1 : 0
 
                 if( old != nil )
                 {
                     if( cell & 1 == old! & 1 )
                     {
                         n += 1
-                        
+
                         continue
                     }
-                    
+
                     rle += ( ( n > 1 ) ? String( describing: n ) : "" ) + ( ( old! & 1 == 1 ) ? "o" : "b" )
                     n    = 1
-                    
+
                     if( rle.count > 70 )
                     {
                         lines.append( rle )
-                        
+
                         rle = ""
                     }
                 }
-                
+
                 old = cell
             }
-            
+
             rle += ( ( n > 1 ) ? String( describing: n ) : "" ) + ( ( old! & 1 == 1 ) ? "o" : "b" )
             n    = 1
-            rle += ( y == grid.height - 1 ) ? "!" : "$"
-            
+            rle += ( y == bounds.maxY ) ? "!" : "$"
+
             if( rle.count > 70 )
             {
                 lines.append( rle )
-                
+
                 rle = ""
             }
         }
-        
+
         lines.append( rle )
         
         return lines.joined( separator: "\n" ).data( using: .ascii )

@@ -465,7 +465,7 @@
         <article class="milestone">
             <div class="ms-head">
                 <h4><span class="num">M7.</span>Persistence &amp; pattern import for the unbounded grid</h4>
-                <span class="capsule todo">Not started</span>
+                <span class="capsule done">Completed</span>
             </div>
             <div class="field-label">Goal</div>
             <p class="goal">Make saving, loading, and importing patterns work with the unbounded grid, with a clear and safe story for existing <code>.gol</code> files.</p>
@@ -478,9 +478,20 @@
                 <li>Extend M3 persistence tests to cover the new format round-trip and (if supported) old-file migration.</li>
             </ul>
             <div class="field-label">Status</div>
-            <p><span class="capsule todo">Not started</span> &nbsp; <span class="placeholder">Completed: —</span></p>
+            <p><span class="capsule done">Completed</span> &nbsp; <span class="completed-date">Completed: 2026-06-28</span></p>
             <div class="field-label">Implementation notes</div>
-            <p class="placeholder">To be filled in as work progresses.</p>
+            <div class="filled">
+                <ul class="notes">
+                    <li><strong>Format design (decided with the reviewer, extends the M5 spec).</strong> The reviewer asked to also persist the <em>scene/viewport</em>, so v1 carries a scene block beyond the M5 "cellSize + tiles" sketch. We store the <em>logical</em> viewport (origin + extent in world cells), not the macOS window geometry, which is screen-dependent and belongs to AppKit state restoration. The fields are reserved now (filled with sensible defaults) and become fully live in M8 — so M8 needs no further format bump.</li>
+                    <li><strong><code>.gol</code> v1 layout (big-endian, 76-byte header).</strong> magic <code>"GOL1"</code> (unchanged, no new magic); <code>UInt64</code> version = <strong>1</strong>; <code>UInt64</code> cellSize; <code>UInt64</code> tileSize; scene block = <code>Int64</code> originX, <code>Int64</code> originY, <code>UInt64</code> viewWidth, <code>UInt64</code> viewHeight; <code>UInt64</code> tileCount; <code>UInt64</code> LZFSE flag. Payload (LZFSE-compressed as before): one record per <em>populated</em> tile = <code>Int64 col</code> + <code>Int64 row</code> + <code>tileSize²</code> cell bytes. Signed coordinates are written via <code>UInt64(bitPattern:)</code> (no new <code>Data</code> helpers needed). For M7 the scene origin is written as <code>(0, 0)</code> and viewWidth/Height as the current <code>width</code>/<code>height</code> window; M8 will write the real viewport.</li>
+                    <li><strong>Read dispatch &amp; migration.</strong> <code>load(data:)</code> validates magic, reads the version, and dispatches: <strong>version 0</strong> → the legacy fixed-size reader (<code>loadVersion0</code>), importing its live cells into the plane at the world origin and setting the window to the file's width/height — so existing <code>.gol</code> files still open; <strong>version 1</strong> → <code>loadVersion1</code>; any other version → reject. Writing is always v1 (read-old / write-new, per M5).</li>
+                    <li><strong>Tile-size independence.</strong> v1 read places cells by <em>world coordinate</em> using the <em>file's</em> tileSize (<code>world = col*tileSize + lx</code>), then re-tiles through <code>setCellValue</code> into the build's current tiles. So a file written with one tile size still loads correctly if the build's tile size ever changes. Verified by a hand-built test using tileSize 2.</li>
+                    <li><strong>Guards (carried over and extended).</strong> cellSize ∈ 1…10; tileSize ∈ 1…2¹⁶; <code>tileCount · tileSize² ≤ 2²⁸</code> (the existing max-cell cap) checked with overflow-reporting multiplies; the payload length must equal <code>tileCount · (tileSize² + 16)</code> (post-decompress for LZFSE, exact for raw). Truncated/oversized/malformed streams are rejected before allocation, mirroring the v0 guards.</li>
+                    <li><strong>Unbounded placement.</strong> <code>add(cells:left:top:)</code> no longer clamps to <code>width</code>/<code>height</code> nor skips negative coordinates — patterns place at their world coordinate anywhere on the plane (drag-drop near an edge keeps the overflow instead of destroying it; visible after M8 pan). <code>load(item:)</code> is unchanged: it still centers/grows within the current view, which is the right "place it where the scene is" behavior and generalizes to M8's viewport.</li>
+                    <li><strong>RLE export over the live region.</strong> <code>RLEWriter</code> now walks the live <em>bounding box</em> (via a new <code>Grid.liveBounds()</code>) instead of the legacy window, so a pattern entirely outside the window is still exported; the run-length logic is otherwise unchanged. <code>RLEReader</code> needed no change (it builds a <code>LibraryItem</code> placed through the now-unbounded <code>add</code>/<code>load(item:)</code>).</li>
+                    <li><strong>Tests (TDD, RED→GREEN).</strong> Added: unbounded <code>add</code> placement outside the window and at negative coordinates (<code>LibraryPlacementTests</code>, replacing the old "clamps cells outside the grid" test); v1 round-trip preserving cells outside the window and at negative coords, a hand-built uncompressed v1 read (tileSize 2), and a truncated-payload reject (<code>GridPersistenceTests</code>); RLE export of cells outside the window (<code>PatternReaderTests</code>). Updated <code>compressedRoundTrip</code> to read the LZFSE flag at its new v1 offset (68). A test-support helper <code>liveWorldCoordinates</code> reads the whole plane via <code>forEachLiveCell</code>. The pre-existing v0 hand-built tests now double as old-file migration coverage. Full suite: <strong>60 tests in 10 suites, all green</strong>.</li>
+                </ul>
+            </div>
             <div class="field-label">Review comments</div>
             <p class="placeholder">Review feedback for this milestone.</p>
         </article>

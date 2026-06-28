@@ -64,17 +64,37 @@ struct LibraryPlacementTests
         #expect( grid.isAliveAt( x: 1, y: 1 ) )
     }
 
-    /// Cells placed outside the grid bounds are clamped away without crashing.
-    @Test( "add(cells:left:top:) clamps cells outside the grid" )
-    func addClampsOutOfBounds()
+    /// Cells placed outside the legacy `width`/`height` window are kept on the
+    /// unbounded plane rather than clamped away.
+    @Test( "add(cells:left:top:) places cells outside the window onto the plane" )
+    func addPlacesOutsideWindow()
     {
         let grid = Grid( width: 3, height: 3, kind: .Blank )
 
         grid.add( cells: [ "oooo", "oooo" ], left: 2, top: 2 )
 
-        // Only (2, 2) falls inside a 3×3 grid.
-        #expect( grid.population == 1 )
-        #expect( grid.isAliveAt( x: 2, y: 2 ) )
+        // All eight cells are placed, even though only (2, 2) is inside the 3×3
+        // window; the rest live beyond it on the unbounded plane.
+        let expected = Set(
+            ( 0 ..< 2 ).flatMap { dy in ( 0 ..< 4 ).map { dx in [ 2 + dx, 2 + dy ] } }
+        )
+
+        #expect( grid.population == 8 )
+        #expect( GridTestSupport.liveWorldCoordinates( grid ) == expected )
+    }
+
+    /// Cells placed at negative offsets land at negative world coordinates.
+    @Test( "add(cells:left:top:) places cells at negative coordinates" )
+    func addPlacesNegativeCoordinates()
+    {
+        let grid = Grid( width: 3, height: 3, kind: .Blank )
+
+        grid.add( cells: [ "oo", "oo" ], left: -5, top: -5 )
+
+        let expected: Set< [ Int ] > = [ [ -5, -5 ], [ -4, -5 ], [ -5, -4 ], [ -4, -4 ] ]
+
+        #expect( grid.population == 4 )
+        #expect( GridTestSupport.liveWorldCoordinates( grid ) == expected )
     }
 
     /// `load(item:)` centers a smaller pattern in the grid and sets the population.

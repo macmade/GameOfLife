@@ -177,6 +177,20 @@ struct PatternReaderTests
         #expect( item.cells.filter { $0.isEmpty == false } == [ "oo", "oo" ] )
     }
 
+    /// A pattern living entirely outside the legacy `width`/`height` window is
+    /// still exported: the writer walks the live bounding box, not the window.
+    @Test( "RLE export captures cells outside the window" )
+    func exportsCellsOutsideWindow() throws
+    {
+        let grid = Grid( width: 3, height: 3, kind: .Blank )
+
+        grid.add( cells: [ "oo", "oo" ], left: 50, top: 50 )
+
+        let item = try #require( try self.roundTrip( grid ) )
+
+        #expect( item.cells.filter { $0.isEmpty == false } == [ "oo", "oo" ] )
+    }
+
     // MARK: - CellReader
 
     /// A `.cells` pattern decodes with its name, author and cells.

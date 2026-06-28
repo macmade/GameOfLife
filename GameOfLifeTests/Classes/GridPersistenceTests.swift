@@ -51,6 +51,76 @@ struct GridPersistenceTests
         return data
     }
 
+    /// Builds a v1 (tiled) `.gol` byte stream by hand for the tiled read tests.
+    private func golV1Data( cellSize: UInt64, tileSize: UInt64, sceneWidth: UInt64, sceneHeight: UInt64, lzfse: UInt64, tiles: [ ( col: Int64, row: Int64, bytes: [ UInt8 ] ) ] ) -> Data
+    {
+        var data = Data()
+
+        data.append( contentsOf: [ 71, 79, 76, 49 ] ) // "GOL1"
+        data.append( UInt64( 1 ) )                    // version
+        data.append( cellSize )
+        data.append( tileSize )
+        data.append( UInt64( bitPattern: 0 ) )        // scene origin X
+        data.append( UInt64( bitPattern: 0 ) )        // scene origin Y
+        data.append( sceneWidth )
+        data.append( sceneHeight )
+        data.append( UInt64( tiles.count ) )          // tile count
+        data.append( lzfse )
+
+        tiles.forEach
+        {
+            data.append( UInt64( bitPattern: $0.col ) )
+            data.append( UInt64( bitPattern: $0.row ) )
+            data.append( contentsOf: $0.bytes )
+        }
+
+        return data
+    }
+
+    /// `load(data:)` reads a hand-built uncompressed v1 (tiled) stream, placing
+    /// cells by world coordinate using the *file's* tile size — independent of the
+    /// build's tile size — and at negative tile coordinates.
+    @Test( "load() reads a hand-built uncompressed v1 (tiled) stream" )
+    func tiledUncompressedLoad()
+    {
+        let previousSize = Preferences.shared.cellSize
+
+        defer { Preferences.shared.cellSize = previousSize }
+
+        // A 2×2 tile (deliberately not the build's tile size) at tile (-1, 3),
+        // with its local cell (0, 1) alive.
+        var tile           = [ UInt8 ]( repeating: 0, count: 4 )
+        tile[ 1 * 2 + 0 ]  = 1
+
+        let data = self.golV1Data( cellSize: 5, tileSize: 2, sceneWidth: 0, sceneHeight: 0, lzfse: 0, tiles: [ ( -1, 3, tile ) ] )
+        let grid = Grid( width: 1, height: 1, kind: .Blank )
+
+        #expect( grid.load( data: data ) )
+
+        // World coordinate = (col * tileSize + lx, row * tileSize + ly)
+        //                  = (-1 * 2 + 0, 3 * 2 + 1) = (-2, 7).
+        #expect( GridTestSupport.liveWorldCoordinates( grid ) == [ [ -2, 7 ] ] )
+        #expect( grid.population == 1 )
+        #expect( Preferences.shared.cellSize == 5 )
+    }
+
+    /// A v1 stream whose payload length does not match the declared tile count is
+    /// rejected.
+    @Test( "load() rejects a v1 stream with a truncated payload" )
+    func tiledRejectsTruncatedPayload()
+    {
+        var tile  = [ UInt8 ]( repeating: 0, count: 4 )
+        tile[ 0 ] = 1
+
+        var data = self.golV1Data( cellSize: 5, tileSize: 2, sceneWidth: 0, sceneHeight: 0, lzfse: 0, tiles: [ ( 0, 0, tile ) ] )
+
+        data.removeLast()
+
+        let grid = Grid( width: 1, height: 1, kind: .Blank )
+
+        #expect( grid.load( data: data ) == false )
+    }
+
     /// A populated grid survives a `data()` → `load(data:)` round-trip through the
     /// compressed (LZFSE) branch, preserving dimensions, cells and population.
     @Test( "data() then load() round-trips through the compressed branch" )
@@ -74,7 +144,8 @@ struct GridPersistenceTests
         let before = GridTestSupport.render( grid )
         let data   = grid.data()
 
-        #expect( data.readUInt64( at: 36 ) == 1 )
+        // In the v1 (tiled) format the LZFSE flag is at offset 68.
+        #expect( data.readUInt64( at: 68 ) == 1 )
 
         let restored = Grid( width: 1, height: 1, kind: .Blank )
 
@@ -83,6 +154,39 @@ struct GridPersistenceTests
         #expect( restored.height == 24 )
         #expect( restored.population == 5 )
         #expect( GridTestSupport.render( restored ) == before )
+    }
+
+    /// A grid with live cells outside the legacy window and at negative
+    /// coordinates survives a `data()` → `load(data:)` round-trip through the new
+    /// tiled (v1) format, which writes only populated tiles.
+    @Test( "v1 round-trips cells outside the window and at negative coordinates" )
+    func tiledRoundTripUnbounded()
+    {
+        let previousSize = Preferences.shared.cellSize
+
+        Preferences.shared.cellSize = 6
+
+        defer { Preferences.shared.cellSize = previousSize }
+
+        let grid = Grid( width: 4, height: 4, kind: .Blank )
+
+        grid.add( cells: [ "o" ],          left:   1, top:  1 ) // inside the window
+        grid.add( cells: [ "ooo", "o o" ], left: 100, top: 80 ) // far outside it
+        grid.add( cells: [ "oo", "oo" ],   left: -10, top: -7 ) // negative coords
+
+        let before = GridTestSupport.liveWorldCoordinates( grid )
+        let pop    = grid.population
+        let data   = grid.data()
+
+        // Version field at offset 4 is bumped to 1 for the tiled format.
+        #expect( data.readUInt64( at: 4 ) == 1 )
+
+        let restored = Grid( width: 1, height: 1, kind: .Blank )
+
+        #expect( restored.load( data: data ) )
+        #expect( GridTestSupport.liveWorldCoordinates( restored ) == before )
+        #expect( restored.population == pop )
+        #expect( Preferences.shared.cellSize == 6 )
     }
 
     /// `load(data:)` reads a hand-built uncompressed (`lzfse == 0`) stream.

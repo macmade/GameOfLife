@@ -117,4 +117,21 @@ enum GridTestSupport
 
         return Set( coordinates )
     }
+
+    /// Returns the set of live cell coordinates as `[x, y]` pairs over the whole
+    /// unbounded plane, via the `forEachLiveCell` seam.
+    ///
+    /// Unlike ``liveCoordinates(_:)`` this sees cells outside the legacy
+    /// `width`/`height` window and at negative coordinates.
+    ///
+    /// - Parameter grid: The grid to inspect.
+    /// - Returns: A set of `[x, y]` coordinates for every live cell on the plane.
+    static func liveWorldCoordinates( _ grid: Grid ) -> Set< [ Int ] >
+    {
+        var coordinates = Set< [ Int ] >()
+
+        grid.forEachLiveCell { x, y, _ in coordinates.insert( [ x, y ] ) }
+
+        return coordinates
+    }
 }

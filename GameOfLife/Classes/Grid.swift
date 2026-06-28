@@ -206,6 +206,36 @@ class Grid: NSObject
         }
     }
 
+    /// The bounding box of every live cell on the plane, or `nil` when the grid
+    /// is empty. Used to export and frame the populated region independently of
+    /// the legacy window.
+    ///
+    /// - Returns: The inclusive `(minX, minY, maxX, maxY)` extent of live cells.
+    public func liveBounds() -> ( minX: Int, minY: Int, maxX: Int, maxY: Int )?
+    {
+        var bounds: ( minX: Int, minY: Int, maxX: Int, maxY: Int )?
+
+        self.forEachLiveCell
+        {
+            x, y, _ in
+
+            guard var current = bounds else
+            {
+                bounds = ( x, y, x, y )
+
+                return
+            }
+
+            current.minX = min( current.minX, x )
+            current.minY = min( current.minY, y )
+            current.maxX = max( current.maxX, x )
+            current.maxY = max( current.maxY, y )
+            bounds       = current
+        }
+
+        return bounds
+    }
+
     /// Reframes the legacy fixed playfield, keeping only the live cells inside the
     /// new `width`/`height` window and recomputing the population.
     ///
@@ -451,35 +481,59 @@ class Grid: NSObject
         self.population = n
     }
 
+    /// Serializes the grid to the tiled v1 `.gol` format.
+    ///
+    /// Layout (big-endian, 76-byte header): magic `"GOL1"`, `UInt64` version (1),
+    /// `cellSize`, `tileSize`, a scene block (`Int64` origin X/Y, `UInt64`
+    /// view width/height — the viewport, reserved for M8 and filled with the
+    /// current window for now), `tileCount`, and an LZFSE flag; then the payload,
+    /// one record per populated tile: `Int64 col`, `Int64 row`, `tileSize²` cell
+    /// bytes. Only populated tiles are written.
     public func data() -> Data
     {
         var data = Data()
 
-        data.append( contentsOf: [ 71, 79, 76, 49 ] )
-        data.append( UInt64( 0 ) )
-        data.append( UInt64( self.width ) )
-        data.append( UInt64( self.height ) )
-        data.append( UInt64( Preferences.shared.cellSize ) )
+        data.append( contentsOf: [ 71, 79, 76, 49 ] )        // "GOL1"
+        data.append( UInt64( 1 ) )                           // format version
+        data.append( UInt64( Preferences.shared.cellSize ) ) // cell size
+        data.append( UInt64( Grid.tileSize ) )               // tile size
+        data.append( UInt64( bitPattern: Int64( 0 ) ) )      // scene origin X (M8)
+        data.append( UInt64( bitPattern: Int64( 0 ) ) )      // scene origin Y (M8)
+        data.append( UInt64( self.width ) )                  // scene / view width
+        data.append( UInt64( self.height ) )                 // scene / view height
+        data.append( UInt64( self.tiles.count ) )            // tile count
 
-        let cells = Data( self.cells )
+        var payload = Data()
 
-        guard let compressed = cells.compress( with: COMPRESSION_LZFSE ) else
+        self.tiles.forEach
         {
-            data.append( UInt64( 0 ) )
-            data.append( cells )
+            key, tile in
+
+            payload.append( UInt64( bitPattern: Int64( key.col ) ) )
+            payload.append( UInt64( bitPattern: Int64( key.row ) ) )
+            payload.append( contentsOf: tile )
+        }
+
+        guard let compressed = payload.compress( with: COMPRESSION_LZFSE ) else
+        {
+            data.append( UInt64( 0 ) ) // LZFSE flag
+            data.append( payload )
 
             return data
         }
 
-        data.append( UInt64( 1 ) )
+        data.append( UInt64( 1 ) ) // LZFSE flag
         data.append( compressed )
 
         return data
     }
 
+    /// Loads a `.gol` file, dispatching on the version field: version 0 is the
+    /// legacy fixed-size format (migrated into the plane at the world origin) and
+    /// version 1 is the tiled format. Any other version is rejected.
     public func load( data: Data ) -> Bool
     {
-        if( data.count < 44 )
+        if( data.count < 12 )
         {
             return false
         }
@@ -489,7 +543,23 @@ class Grid: NSObject
             return false
         }
 
-        let _       = data.readUInt64( at: 4 )
+        switch( data.readUInt64( at: 4 ) )
+        {
+            case 0:  return self.loadVersion0( data: data )
+            case 1:  return self.loadVersion1( data: data )
+            default: return false
+        }
+    }
+
+    /// Reads the legacy fixed-size (v0) format, importing its live cells into the
+    /// plane at the world origin. Kept so existing `.gol` files still open.
+    private func loadVersion0( data: Data ) -> Bool
+    {
+        if( data.count < 44 )
+        {
+            return false
+        }
+
         let width   = data.readUInt64( at: 12 )
         let height  = data.readUInt64( at: 20 )
         let size    = data.readUInt64( at: 28 )
@@ -507,8 +577,8 @@ class Grid: NSObject
             return false
         }
 
-        let count    = Int( cellCount )
-        var bytes     = ContiguousArray< Cell >()
+        let count = Int( cellCount )
+        var bytes = ContiguousArray< Cell >()
 
         bytes.reserveCapacity( count )
 
@@ -555,8 +625,119 @@ class Grid: NSObject
         }
 
         Preferences.shared.cellSize = UInt( size )
+        self.population             = n
 
-        self.population = n
+        return true
+    }
+
+    /// Reads the tiled (v1) format. Cells are placed by world coordinate using the
+    /// *file's* tile size, so the format survives a change to the build's tile
+    /// size.
+    private func loadVersion1( data: Data ) -> Bool
+    {
+        if( data.count < 76 )
+        {
+            return false
+        }
+
+        let size      = data.readUInt64( at: 12 )
+        let tileSize  = data.readUInt64( at: 20 )
+        let sceneW    = data.readUInt64( at: 44 )
+        let sceneH    = data.readUInt64( at: 52 )
+        let tileCount = data.readUInt64( at: 60 )
+        let lzfse     = data.readUInt64( at: 68 )
+
+        if( size < 1 || size > 10 )
+        {
+            return false
+        }
+
+        if( tileSize < 1 || tileSize > ( 1 << 16 ) )
+        {
+            return false
+        }
+
+        let ( cellsPerTile, overflow1 ) = tileSize.multipliedReportingOverflow( by: tileSize )
+
+        if( overflow1 )
+        {
+            return false
+        }
+
+        let ( totalCells, overflow2 ) = tileCount.multipliedReportingOverflow( by: cellsPerTile )
+
+        if( overflow2 || totalCells > Grid.maxCellCount )
+        {
+            return false
+        }
+
+        let recordSize                = Int( cellsPerTile ) + 16
+        let ( payloadSize, overflow3 ) = Int( tileCount ).multipliedReportingOverflow( by: recordSize )
+
+        if( overflow3 )
+        {
+            return false
+        }
+
+        let payload: Data
+
+        if( lzfse == 1 )
+        {
+            guard let decompressed = data.advanced( by: 76 ).decompress( with: COMPRESSION_LZFSE, bufferSize: payloadSize ) else
+            {
+                return false
+            }
+
+            if( decompressed.count != payloadSize )
+            {
+                return false
+            }
+
+            payload = decompressed
+        }
+        else
+        {
+            if( data.count - 76 != payloadSize )
+            {
+                return false
+            }
+
+            payload = Data( Array( data.dropFirst( 76 ) ) )
+        }
+
+        self.tiles  = [:]
+        self.width  = size_t( sceneW )
+        self.height = size_t( sceneH )
+
+        let edge      = Int( tileSize )
+        var n: UInt64 = 0
+
+        for t in 0 ..< Int( tileCount )
+        {
+            let base = t * recordSize
+            let col  = Int( Int64( bitPattern: payload.readUInt64( at: base ) ) )
+            let row  = Int( Int64( bitPattern: payload.readUInt64( at: base + 8 ) ) )
+
+            for ly in 0 ..< edge
+            {
+                for lx in 0 ..< edge
+                {
+                    let cell = payload[ base + 16 + ly * edge + lx ]
+
+                    if( cell == 0 )
+                    {
+                        continue
+                    }
+
+                    n += ( cell & 1 == 1 ) ? 1 : 0
+
+                    self.setCellValue( x: col * edge + lx, y: row * edge + ly, value: cell )
+                }
+            }
+        }
+
+        Preferences.shared.cellSize = UInt( size )
+        self.population             = n
 
         return true
     }
@@ -625,18 +806,10 @@ class Grid: NSObject
                     continue
                 }
 
-                if( x + left >= self.width || y + top >= self.height )
-                {
-                    continue
-                }
-
+                // The plane is unbounded: cells place at their world coordinate
+                // with no width/height clamping, including negative coordinates.
                 let wx = x + left
                 let wy = y + top
-
-                if( wx < 0 || wy < 0 )
-                {
-                    continue
-                }
 
                 if( self.cellValue( x: wx, y: wy ) & 1 == 0 )
                 {
