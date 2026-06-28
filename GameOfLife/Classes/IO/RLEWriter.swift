@@ -1,0 +1,158 @@
+/*******************************************************************************
+ * The MIT License (MIT)
+ * 
+ * Copyright (c) 2018 Jean-David Gadina - www.xs-labs.com
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ ******************************************************************************/
+
+import Foundation
+
+public class RLEWriter
+{
+    public func data( for grid: Grid, name: String, comments: [ String ]? ) -> Data?
+    {
+        var lines = [ String ]()
+        
+        lines.append( "#N " + name )
+
+        ( comments ?? [] ).forEach { lines.append( "#C " + $0 ) }
+        
+        let bundleName    = Bundle.main.object( forInfoDictionaryKey: "CFBundleName" )               as? String
+        let shortVersion  = Bundle.main.object( forInfoDictionaryKey: "CFBundleShortVersionString" ) as? String
+        let bundleVersion = Bundle.main.object( forInfoDictionaryKey: "CFBundleVersion" )            as? String
+        
+        // RLE files are ASCII, and the whole document is encoded as ASCII below.
+        // A localized, style-based date can contain non-ASCII characters (e.g.
+        // U+202F before AM/PM on recent macOS), which would make that encoding
+        // fail and the writer return nil. Use a fixed en_US_POSIX format so the
+        // creator line is always ASCII.
+        let fmt        = DateFormatter()
+        fmt.locale     = Locale( identifier: "en_US_POSIX" )
+        fmt.dateFormat = "MMMM d, yyyy 'at' h:mm:ss a"
+
+        var creator = fmt.string( from: Date() )
+        
+        if let bundleName = bundleName
+        {
+            creator += ", " + bundleName
+        }
+
+        if let shortVersion = shortVersion, let bundleVersion = bundleVersion
+        {
+            creator += ", " + shortVersion + " (" + bundleVersion + ")"
+        }
+        else if let shortVersion = shortVersion
+        {
+            creator += ", " + shortVersion
+        }
+        else if let bundleVersion = bundleVersion
+        {
+            creator += ", " + bundleVersion
+        }
+        
+        lines.append( "#O " + creator )
+        
+        // The plane is unbounded, so export the live bounding box rather than the
+        // legacy window; this keeps cells outside the window from being lost.
+        let bounds = grid.liveBounds()
+        let width  = bounds.map { $0.maxX - $0.minX + 1 } ?? 0
+        let height = bounds.map { $0.maxY - $0.minY + 1 } ?? 0
+
+        let coords = "x = "
+                   + String( describing: width )
+                   + ", y = "
+                   + String( describing: height )
+                   + ", rule = B3/S23"
+
+        lines.append( coords )
+
+        guard let bounds = bounds else
+        {
+            lines.append( "!" )
+
+            return lines.joined( separator: "\n" ).data( using: .ascii )
+        }
+
+        var live = Set< [ Int ] >()
+
+        grid.forEachLiveCell { x, y, _ in live.insert( [ x, y ] ) }
+
+        // The run-length token for `count` cells of the given state.
+        func token( count: Int, alive: Bool ) -> String
+        {
+            ( ( count > 1 ) ? String( count ) : "" ) + ( alive ? "o" : "b" )
+        }
+
+        var rle = ""
+
+        for y in bounds.minY ... bounds.maxY
+        {
+            // Run-length state is per row: each row is encoded independently and
+            // terminated by "$" or "!", so a run never carries across rows.
+            var old: Grid.Cell?
+            var n = 1
+
+            for x in bounds.minX ... bounds.maxX
+            {
+                let cell: Grid.Cell = live.contains( [ x, y ] ) ? 1 : 0
+
+                if let previous = old
+                {
+                    if( cell & 1 == previous & 1 )
+                    {
+                        n += 1
+
+                        continue
+                    }
+
+                    rle += token( count: n, alive: previous & 1 == 1 )
+                    n    = 1
+
+                    if( rle.count > 70 )
+                    {
+                        lines.append( rle )
+
+                        rle = ""
+                    }
+                }
+
+                old = cell
+            }
+
+            if let previous = old
+            {
+                rle += token( count: n, alive: previous & 1 == 1 )
+            }
+
+            rle += ( y == bounds.maxY ) ? "!" : "$"
+
+            if( rle.count > 70 )
+            {
+                lines.append( rle )
+
+                rle = ""
+            }
+        }
+
+        lines.append( rle )
+        
+        return lines.joined( separator: "\n" ).data( using: .ascii )
+    }
+}
